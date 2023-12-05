@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  Workk
+
+  Created by Krzysztof Kogut on 05/12/2023.
+  
+*/
+
+"Day" = "Day";
+"Save" = "Save";
+"Save time" = "Save time";
+"Select" = "Select";
+"Reset" = "Reset";
+"Plan done in:" = "Plan done in:";
+"Paid" = "Paid";
+"Unpaid" = "Unpaid";
+"Start timer" = "Start timer";
+"Money earned" = "Money earned";

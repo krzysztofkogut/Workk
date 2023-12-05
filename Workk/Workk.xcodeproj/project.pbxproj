@@ -59,6 +59,7 @@
 		A2B0AE552AE59A8100F535F3 /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0AE542AE59A8100F535F3 /* MoreView.swift */; };
 		A2B0AE572AE59A9200F535F3 /* MoreRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0AE562AE59A9200F535F3 /* MoreRowView.swift */; };
 		A2B0AE592AE5A87A00F535F3 /* PeriodFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0AE582AE5A87A00F535F3 /* PeriodFilter.swift */; };
+		A2FD64352B1FCA2B00E3BDFF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A2FD64372B1FCA2B00E3BDFF /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +135,8 @@
 		A2B0AE542AE59A8100F535F3 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
 		A2B0AE562AE59A9200F535F3 /* MoreRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreRowView.swift; sourceTree = "<group>"; };
 		A2B0AE582AE5A87A00F535F3 /* PeriodFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodFilter.swift; sourceTree = "<group>"; };
+		A2FD64362B1FCA2B00E3BDFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A2FD64382B1FCA2D00E3BDFF /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +220,7 @@
 		A29577FF2AE1865000206D9B /* Workk */ = {
 			isa = PBXGroup;
 			children = (
+				A2FD64322B1FC63900E3BDFF /* Resources */,
 				A2B0AE502AE5944E00F535F3 /* Info.plist */,
 				A295783A2AE1C4EE00206D9B /* Theme */,
 				A295782C2AE1868700206D9B /* DependencyInjection */,
@@ -431,6 +435,14 @@
 			path = MoreView;
 			sourceTree = "<group>";
 		};
+		A2FD64322B1FC63900E3BDFF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A2FD64372B1FCA2B00E3BDFF /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -520,6 +532,7 @@
 			knownRegions = (
 				en,
 				Base,
+				pl,
 			);
 			mainGroup = A29577F42AE1865000206D9B;
 			packageReferences = (
@@ -544,6 +557,7 @@
 				A216377F2AEC5FB9006F05E7 /* Nunito-SemiBold.ttf in Resources */,
 				A216377D2AEC5F9F006F05E7 /* Lato-Bold.ttf in Resources */,
 				A21637792AEC5F71006F05E7 /* Lato-Light.ttf in Resources */,
+				A2FD64352B1FCA2B00E3BDFF /* Localizable.strings in Resources */,
 				A216377B2AEC5F7C006F05E7 /* Lato-Regular.ttf in Resources */,
 				A21637852AEC5FF0006F05E7 /* Nunito-Light.ttf in Resources */,
 				A21637832AEC5FDA006F05E7 /* Nunito-Medium.ttf in Resources */,
@@ -647,6 +661,18 @@
 			targetProxy = A29578182AE1865200206D9B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A2FD64372B1FCA2B00E3BDFF /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A2FD64362B1FCA2B00E3BDFF /* en */,
+				A2FD64382B1FCA2D00E3BDFF /* pl */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		A295781F2AE1865200206D9B /* Debug */ = {

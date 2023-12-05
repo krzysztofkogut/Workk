@@ -10,14 +10,11 @@ import SwiftUI
 
 @main
 struct WorkkApp: App {
-//    @ObservedObject var router: AppRouter = Resolver.resolve()
     
     var body: some Scene {
         WindowGroup {
-//            NavigationStack(path: $router.path) {
                 MainTabView()
-//                    .withHomeRoutes()
-//            }
+                    .environment(\.locale, .init(identifier: "pl"))
         }
     }
 }
