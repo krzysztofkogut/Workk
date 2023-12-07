@@ -14,7 +14,7 @@ struct HomeView: View {
     @State private var showSubscriptionPlan = false
     @State private var countWorkTime = false
     @State private var pauseTimer = false
-    @State private var toggleDynamicIsland: Bool = true
+    @State private var toggleDynamicIsland: Bool = false
     @State var selection: String? = nil
     @ObservedObject private var appRouter: AppRouter = Resolver.resolve()
     @ObservedObject private var viewModel: HomeViewModel = Resolver.resolve()
@@ -109,27 +109,35 @@ extension HomeView {
             if countWorkTime {
                 Button {
                     UIApplication.shared.inAppNotification(adaptForDynamicIsland: toggleDynamicIsland, timeout: 4, swipeToClose: true) { isDynamicIslandEnabled in
-                        HStack {
-                            VStack(alignment: .leading, spacing: 2, content: {
-                                Text("Saved your work time")
-                                    .font(.latoBold(size: 18))
-                                    .foregroundStyle(.white)
-                                
-                                Text(viewModel.currentDateString)
-                                    .font(.latoRegular(size: 14))
-                                    .foregroundStyle(.gray)
-                            })
-                            .padding(.top, isDynamicIslandEnabled ? 20 : 0)
-                            
-                            Spacer(minLength: 0)
-                            
-                            Text(viewModel.workTime.timeString)
-                                .font(.latoBold(size: 22))
-                                .foregroundStyle(.gray)
+                        VStack(spacing: 0) {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2, content: {
+                                    Text("Saved your work time")
+                                        .font(.latoBold(size: 18))
+                                        .foregroundStyle(.white)
+                                    
+                                    Text(viewModel.currentDateString)
+                                        .font(.latoRegular(size: 14))
+                                        .foregroundStyle(.gray)
+                                })
                                 .padding(.top, isDynamicIslandEnabled ? 20 : 0)
+                                
+                                Spacer(minLength: 0)
+                                
+                                Text(viewModel.workTime.timeString)
+                                    .font(.latoBold(size: 22))
+                                    .foregroundStyle(.gray)
+                                    .padding(.top, isDynamicIslandEnabled ? 20 : 0)
+                            }
+                            .padding(.horizontal, 36)
+                            .padding(.vertical, 16)
+
+                            Rectangle()
+                                .frame(width: 40, height: 4)
+                                .cornerRadius(2)
+                                .foregroundColor(.athensGray)
+                                .padding(.bottom, 8)
                         }
-                        .padding(.horizontal, 36)
-                        .padding(.vertical, 16)
                         .background {
                             RoundedRectangle(cornerRadius: 15)
                                 .fill(.black)
