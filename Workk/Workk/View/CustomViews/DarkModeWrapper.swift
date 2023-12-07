@@ -24,7 +24,7 @@ struct DarkModeWrapper<Content: View>: View {
                     }
                 }
             })
-            .onChange(of: activateDarkMode, initial: true) { oldValue, newValue in
+            .onChange(of: activateDarkMode) { newValue in
                 if let keyWindow = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first(where: { $0.isKeyWindow }) {
                     keyWindow.overrideUserInterfaceStyle = newValue ? .dark : .light
                 }

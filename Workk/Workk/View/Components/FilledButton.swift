@@ -12,6 +12,5 @@ struct FilledButton: ViewModifier {
         content
             .font(.latoBold(size: 16))
             .foregroundColor(.white)
-            .background(.black)
     }
 }

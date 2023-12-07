@@ -57,9 +57,9 @@ final class HomeViewModel: HomeViewModelProtocol {
     }
     
     func updateWorkTime() {
-        let hour = workTimeInSeconds / 360
-        let min = workTimeInSeconds / 60
-        let sec = workTimeInSeconds - (hour * 360) - (min * 60)
+        let hour = workTimeInSeconds / 3600
+        let min = (workTimeInSeconds % 3600) / 60
+        let sec = (workTimeInSeconds  % 3600) % 60
         
         workTime = Time(hour: hour, min: min, sec: sec)
     }

@@ -58,9 +58,8 @@ struct StatsView: View {
                 }
                 .padding()
                 .background {
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(.white)
-                        .northWestShadow()
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(.wildSand)
                 }
                 Spacer()
             }

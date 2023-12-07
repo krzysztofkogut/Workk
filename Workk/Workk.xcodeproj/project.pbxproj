@@ -60,6 +60,11 @@
 		A2B0AE572AE59A9200F535F3 /* MoreRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0AE562AE59A9200F535F3 /* MoreRowView.swift */; };
 		A2B0AE592AE5A87A00F535F3 /* PeriodFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0AE582AE5A87A00F535F3 /* PeriodFilter.swift */; };
 		A2FD64352B1FCA2B00E3BDFF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A2FD64372B1FCA2B00E3BDFF /* Localizable.strings */; };
+		A2FD643C2B20F8D500E3BDFF /* SizeKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FD643B2B20F8D500E3BDFF /* SizeKey.swift */; };
+		A2FD643E2B20F92B00E3BDFF /* UIApplication+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FD643D2B20F92B00E3BDFF /* UIApplication+Ext.swift */; };
+		A2FD64402B20F96000E3BDFF /* AnimatedNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FD643F2B20F96000E3BDFF /* AnimatedNotificationView.swift */; };
+		A2FD64432B20F9E400E3BDFF /* StatusBarBasedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FD64422B20F9E400E3BDFF /* StatusBarBasedController.swift */; };
+		A2FD64452B20FA0900E3BDFF /* PassThroughWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FD64442B20FA0900E3BDFF /* PassThroughWindow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +142,11 @@
 		A2B0AE582AE5A87A00F535F3 /* PeriodFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodFilter.swift; sourceTree = "<group>"; };
 		A2FD64362B1FCA2B00E3BDFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A2FD64382B1FCA2D00E3BDFF /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A2FD643B2B20F8D500E3BDFF /* SizeKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeKey.swift; sourceTree = "<group>"; };
+		A2FD643D2B20F92B00E3BDFF /* UIApplication+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Ext.swift"; sourceTree = "<group>"; };
+		A2FD643F2B20F96000E3BDFF /* AnimatedNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedNotificationView.swift; sourceTree = "<group>"; };
+		A2FD64422B20F9E400E3BDFF /* StatusBarBasedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarBasedController.swift; sourceTree = "<group>"; };
+		A2FD64442B20FA0900E3BDFF /* PassThroughWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughWindow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +178,7 @@
 		A216378A2AECFC16006F05E7 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				A2FD643F2B20F96000E3BDFF /* AnimatedNotificationView.swift */,
 				A2B0AE3B2AE2D4B500F535F3 /* CalendarView.swift */,
 				A285D1E42B10096100070835 /* CircleProgressBar.swift */,
 				A289924D2B1BF105004DEA9D /* DropdownPicker.swift */,
@@ -186,14 +197,6 @@
 				A242B4542AE97DB6006123B6 /* SubscriptionPlanViewModel.swift */,
 			);
 			path = SubscriptionPlanView;
-			sourceTree = "<group>";
-		};
-		A289924F2B1CC579004DEA9D /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				A28992502B1CC592004DEA9D /* RectKey.swift */,
-			);
-			path = Helpers;
 			sourceTree = "<group>";
 		};
 		A29577F42AE1865000206D9B = {
@@ -220,6 +223,7 @@
 		A29577FF2AE1865000206D9B /* Workk */ = {
 			isa = PBXGroup;
 			children = (
+				A2FD64412B20F9D400E3BDFF /* Helpers */,
 				A2FD64322B1FC63900E3BDFF /* Resources */,
 				A2B0AE502AE5944E00F535F3 /* Info.plist */,
 				A295783A2AE1C4EE00206D9B /* Theme */,
@@ -231,7 +235,6 @@
 				A295782E2AE186A200206D9B /* Network */,
 				A295782A2AE1866300206D9B /* View */,
 				A29578002AE1865000206D9B /* WorkkApp.swift */,
-				A29578042AE1865200206D9B /* Assets.xcassets */,
 				A29578062AE1865200206D9B /* Preview Content */,
 			);
 			path = Workk;
@@ -267,7 +270,6 @@
 			children = (
 				A2B0AE432AE55B1600F535F3 /* Components */,
 				A216378A2AECFC16006F05E7 /* CustomViews */,
-				A289924F2B1CC579004DEA9D /* Helpers */,
 				A2B0AE402AE5455300F535F3 /* HomeView */,
 				A2B0AE512AE59A1600F535F3 /* MoreView */,
 				A2B0AE3D2AE2D73500F535F3 /* ScheduleView */,
@@ -283,6 +285,7 @@
 			children = (
 				A2A375102B004BB500ED51E9 /* Font+Ext.swift */,
 				A2689A352AE1CEAF00445350 /* View+Ext.swift */,
+				A2FD643D2B20F92B00E3BDFF /* UIApplication+Ext.swift */,
 				A28992522B1CCE79004DEA9D /* UIView+Ext.swift */,
 			);
 			path = Extensions;
@@ -324,6 +327,8 @@
 				A29578352AE18BCC00206D9B /* SiteView.swift */,
 				A221D0CB2AF8248200A492F1 /* Time.swift */,
 				A2B0AE582AE5A87A00F535F3 /* PeriodFilter.swift */,
+				A2FD643B2B20F8D500E3BDFF /* SizeKey.swift */,
+				A28992502B1CC592004DEA9D /* RectKey.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -438,9 +443,19 @@
 		A2FD64322B1FC63900E3BDFF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A29578042AE1865200206D9B /* Assets.xcassets */,
 				A2FD64372B1FCA2B00E3BDFF /* Localizable.strings */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		A2FD64412B20F9D400E3BDFF /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				A2FD64422B20F9E400E3BDFF /* StatusBarBasedController.swift */,
+				A2FD64442B20FA0900E3BDFF /* PassThroughWindow.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -607,11 +622,13 @@
 				A289924E2B1BF105004DEA9D /* DropdownPicker.swift in Sources */,
 				A289925B2B1E87E3004DEA9D /* ProgressBar.swift in Sources */,
 				A28F1F422B06D8A500D7CA1E /* FilledButton.swift in Sources */,
+				A2FD643E2B20F92B00E3BDFF /* UIApplication+Ext.swift in Sources */,
 				A2B0AE552AE59A8100F535F3 /* MoreView.swift in Sources */,
 				A29578392AE18DB200206D9B /* StatsView.swift in Sources */,
 				A2A375182B019CF100ED51E9 /* ModuleRoutable.swift in Sources */,
 				A29578362AE18BCC00206D9B /* SiteView.swift in Sources */,
 				A2B0AE3F2AE2D74A00F535F3 /* ScheduleView.swift in Sources */,
+				A2FD643C2B20F8D500E3BDFF /* SizeKey.swift in Sources */,
 				A2A375112B004BB500ED51E9 /* Font+Ext.swift in Sources */,
 				A29578012AE1865000206D9B /* WorkkApp.swift in Sources */,
 				A29578312AE1870B00206D9B /* MainTabView.swift in Sources */,
@@ -620,8 +637,11 @@
 				A28992532B1CCE79004DEA9D /* UIView+Ext.swift in Sources */,
 				A2A3751B2B019D2B00ED51E9 /* HomeRouter.swift in Sources */,
 				A242B4552AE97DB6006123B6 /* SubscriptionPlanViewModel.swift in Sources */,
+				A2FD64432B20F9E400E3BDFF /* StatusBarBasedController.swift in Sources */,
 				A2B0AE4B2AE562EC00F535F3 /* FontManager.swift in Sources */,
 				A2B0AE532AE59A7400F535F3 /* MoreViewModel.swift in Sources */,
+				A2FD64402B20F96000E3BDFF /* AnimatedNotificationView.swift in Sources */,
+				A2FD64452B20FA0900E3BDFF /* PassThroughWindow.swift in Sources */,
 				A221D0CE2AF835E700A492F1 /* HomeViewModel.swift in Sources */,
 				A2B0AE4D2AE562FA00F535F3 /* FontNameManager.swift in Sources */,
 				A242B4532AE97B12006123B6 /* SubscriptionPlanView.swift in Sources */,
@@ -810,7 +830,6 @@
 				INFOPLIST_FILE = Workk/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -841,7 +860,6 @@
 				INFOPLIST_FILE = Workk/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;

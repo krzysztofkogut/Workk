@@ -14,6 +14,7 @@ struct HomeView: View {
     @State private var showSubscriptionPlan = false
     @State private var countWorkTime = false
     @State private var pauseTimer = false
+    @State private var toggleDynamicIsland: Bool = true
     @State var selection: String? = nil
     @ObservedObject private var appRouter: AppRouter = Resolver.resolve()
     @ObservedObject private var viewModel: HomeViewModel = Resolver.resolve()
@@ -22,7 +23,7 @@ struct HomeView: View {
         NavigationStack(path: $appRouter.path) {
             VStack(spacing: 0) {
                 HStack {
-                    DropDownPicker(selection: $selection, hint: "Select", options: ["itCraft", "DAZN"])
+                    DropDownPicker(selection: $selection, hint: "Select", options: ["DAZN"])
                     Spacer()
                 }
                 .padding(.horizontal, 16)
@@ -102,11 +103,44 @@ extension HomeView {
                     .frame(width: countWorkTime ? 80 : 120, height: 44)
             }
             .modifier(FilledButton())
+            .background(.black)
             .cornerRadius(6)
             
             if countWorkTime {
                 Button {
-                    showSubscriptionPlan.toggle()
+                    UIApplication.shared.inAppNotification(adaptForDynamicIsland: toggleDynamicIsland, timeout: 4, swipeToClose: true) { isDynamicIslandEnabled in
+                        HStack {
+                            VStack(alignment: .leading, spacing: 2, content: {
+                                Text("Saved your work time")
+                                    .font(.latoBold(size: 18))
+                                    .foregroundStyle(.white)
+                                
+                                Text(viewModel.currentDateString)
+                                    .font(.latoRegular(size: 14))
+                                    .foregroundStyle(.gray)
+                            })
+                            .padding(.top, isDynamicIslandEnabled ? 20 : 0)
+                            
+                            Spacer(minLength: 0)
+                            
+                            Text(viewModel.workTime.timeString)
+                                .font(.latoBold(size: 22))
+                                .foregroundStyle(.gray)
+                                .padding(.top, isDynamicIslandEnabled ? 20 : 0)
+                        }
+                        .padding(.horizontal, 36)
+                        .padding(.vertical, 16)
+                        .background {
+                            RoundedRectangle(cornerRadius: 15)
+                                .fill(.black)
+                        }
+                    }
+                    
+                    withAnimation(.easeInOut(duration: 0.6)) {
+                        viewModel.resetWorkTimeInSeconds()
+                        countWorkTime = false
+                        pauseTimer = false
+                    }
                 } label : {
                     Text("Save")
                         .frame(width: 80, height: 44)

@@ -51,3 +51,21 @@ extension View {
             }
     }
 }
+
+extension View {
+    @ViewBuilder
+    func size(value: @escaping (CGSize) -> ()) -> some View {
+        self
+            .overlay {
+                GeometryReader(content: { geometry in
+                    let size = geometry.size
+                    
+                    Color.clear
+                        .preference(key: SizeKey.self, value: size)
+                        .onPreferenceChange(SizeKey.self, perform: {
+                            value($0)
+                        })
+                })
+            }
+    }
+}

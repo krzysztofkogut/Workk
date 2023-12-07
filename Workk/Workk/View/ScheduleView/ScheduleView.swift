@@ -34,18 +34,6 @@ struct ScheduleView: View {
                 .ignoresSafeArea()
             ScrollView(showsIndicators: false){
                 VStack(spacing: 24) {
-                    ZStack {
-                        Image(.calendarIcon)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 100.0, height: 110.0)
-                        Text("21")
-        //                    .font(.system(size: 24))
-                            .font(FontManager.headline_2)
-                            .padding(.bottom, 12)
-                            .padding(.trailing, 6)
-                    }
-                    
                     CalendarView(
                         calendar: calendar,
                         date: $selectedDate,
