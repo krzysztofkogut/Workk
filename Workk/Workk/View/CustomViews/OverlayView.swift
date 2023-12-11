@@ -40,9 +40,11 @@ struct OverlayView: View {
                 .task {
                     guard !maskAnimation else { return }
                     
-                    withAnimation(.easeInOut(duration: 0.9), completionCriteria: .logicallyComplete) {
+                    withAnimation(.easeInOut(duration: 0.9)) {
                         maskAnimation = true
-                    } completion: {
+                    }
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
                         self.previousImage = nil
                         self.currentImage = nil
                         maskAnimation = false

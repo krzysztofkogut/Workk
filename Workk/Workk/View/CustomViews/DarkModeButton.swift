@@ -19,7 +19,6 @@ struct DarkModeButton: View {
             Image(systemName: toggleDarkMode ? "sun.max.fill" : "moon.fill")
                 .font(.title2)
                 .foregroundStyle(Color.primary)
-                .symbolEffect(.bounce, value: toggleDarkMode)
                 .frame(width: 40, height: 40)
         })
         .buttonStyle(.plain)

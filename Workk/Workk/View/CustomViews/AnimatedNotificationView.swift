@@ -58,9 +58,11 @@ struct AnimatedNotificationView<Content: View>: View {
                 DragGesture()
                     .onEnded({ value in
                         if -value.translation.height > 50 && swipeToClose {
-                            withAnimation(.smooth, completionCriteria: .logicallyComplete) {
+                            withAnimation(.smooth) {
                                 animateNotification = false
-                            } completion: {
+                            }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 removeNotificationViewFromWindow()
                             }
                         }
@@ -78,9 +80,11 @@ struct AnimatedNotificationView<Content: View>: View {
                     
                     guard animateNotification else { return }
                     
-                    withAnimation(.smooth, completionCriteria: .logicallyComplete) {
+                    withAnimation(.smooth) {
                         animateNotification = false
-                    } completion: {
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         removeNotificationViewFromWindow()
                     }
                 }
