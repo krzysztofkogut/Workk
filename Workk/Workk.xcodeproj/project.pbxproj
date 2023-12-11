@@ -23,6 +23,17 @@
 		A242B4532AE97B12006123B6 /* SubscriptionPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A242B4522AE97B11006123B6 /* SubscriptionPlanView.swift */; };
 		A242B4552AE97DB6006123B6 /* SubscriptionPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A242B4542AE97DB6006123B6 /* SubscriptionPlanViewModel.swift */; };
 		A2689A362AE1CEAF00445350 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2689A352AE1CEAF00445350 /* View+Ext.swift */; };
+		A272C3362B27BC8E00536B60 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A272C3352B27BC8E00536B60 /* WidgetKit.framework */; };
+		A272C3382B27BC8E00536B60 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A272C3372B27BC8E00536B60 /* SwiftUI.framework */; };
+		A272C33B2B27BC8E00536B60 /* WorkTimeStatusBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A272C33A2B27BC8E00536B60 /* WorkTimeStatusBundle.swift */; };
+		A272C33D2B27BC8E00536B60 /* WorkTimeStatusLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A272C33C2B27BC8E00536B60 /* WorkTimeStatusLiveActivity.swift */; };
+		A272C33F2B27BC8E00536B60 /* WorkTimeStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A272C33E2B27BC8E00536B60 /* WorkTimeStatus.swift */; };
+		A272C3412B27BC8E00536B60 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A272C3402B27BC8E00536B60 /* AppIntent.swift */; };
+		A272C3432B27BC9000536B60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A272C3422B27BC9000536B60 /* Assets.xcassets */; };
+		A272C3472B27BC9000536B60 /* WorkTimeStatusExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A272C3342B27BC8E00536B60 /* WorkTimeStatusExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A272C34F2B27C16700536B60 /* WorkTimeStatusAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A272C34E2B27C16700536B60 /* WorkTimeStatusAttributes.swift */; };
+		A272C3502B27C16700536B60 /* WorkTimeStatusAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A272C34E2B27C16700536B60 /* WorkTimeStatusAttributes.swift */; };
+		A272C3512B27C41200536B60 /* Font+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A375102B004BB500ED51E9 /* Font+Ext.swift */; };
 		A285D1E52B10096100070835 /* CircleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A285D1E42B10096100070835 /* CircleProgressBar.swift */; };
 		A289924E2B1BF105004DEA9D /* DropdownPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A289924D2B1BF105004DEA9D /* DropdownPicker.swift */; };
 		A28992512B1CC592004DEA9D /* RectKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28992502B1CC592004DEA9D /* RectKey.swift */; };
@@ -68,6 +79,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A272C3452B27BC9000536B60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A29577F52AE1865000206D9B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A272C3332B27BC8E00536B60;
+			remoteInfo = WorkTimeStatusExtension;
+		};
 		A295780E2AE1865200206D9B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A29577F52AE1865000206D9B /* Project object */;
@@ -83,6 +101,20 @@
 			remoteInfo = Workk;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A272C34B2B27BC9000536B60 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A272C3472B27BC9000536B60 /* WorkTimeStatusExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A21637762AEC5F61006F05E7 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
@@ -101,6 +133,16 @@
 		A242B4522AE97B11006123B6 /* SubscriptionPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanView.swift; sourceTree = "<group>"; };
 		A242B4542AE97DB6006123B6 /* SubscriptionPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanViewModel.swift; sourceTree = "<group>"; };
 		A2689A352AE1CEAF00445350 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
+		A272C3342B27BC8E00536B60 /* WorkTimeStatusExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WorkTimeStatusExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A272C3352B27BC8E00536B60 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		A272C3372B27BC8E00536B60 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		A272C33A2B27BC8E00536B60 /* WorkTimeStatusBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTimeStatusBundle.swift; sourceTree = "<group>"; };
+		A272C33C2B27BC8E00536B60 /* WorkTimeStatusLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTimeStatusLiveActivity.swift; sourceTree = "<group>"; };
+		A272C33E2B27BC8E00536B60 /* WorkTimeStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTimeStatus.swift; sourceTree = "<group>"; };
+		A272C3402B27BC8E00536B60 /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
+		A272C3422B27BC9000536B60 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A272C3442B27BC9000536B60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A272C34E2B27C16700536B60 /* WorkTimeStatusAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTimeStatusAttributes.swift; sourceTree = "<group>"; };
 		A285D1E42B10096100070835 /* CircleProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressBar.swift; sourceTree = "<group>"; };
 		A289924D2B1BF105004DEA9D /* DropdownPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownPicker.swift; sourceTree = "<group>"; };
 		A28992502B1CC592004DEA9D /* RectKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectKey.swift; sourceTree = "<group>"; };
@@ -150,6 +192,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A272C3312B27BC8E00536B60 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A272C3382B27BC8E00536B60 /* SwiftUI.framework in Frameworks */,
+				A272C3362B27BC8E00536B60 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A295780A2AE1865200206D9B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -199,12 +250,34 @@
 			path = SubscriptionPlanView;
 			sourceTree = "<group>";
 		};
+		A272C3392B27BC8E00536B60 /* WorkTimeStatus */ = {
+			isa = PBXGroup;
+			children = (
+				A272C33A2B27BC8E00536B60 /* WorkTimeStatusBundle.swift */,
+				A272C33C2B27BC8E00536B60 /* WorkTimeStatusLiveActivity.swift */,
+				A272C33E2B27BC8E00536B60 /* WorkTimeStatus.swift */,
+				A272C3402B27BC8E00536B60 /* AppIntent.swift */,
+				A272C3422B27BC9000536B60 /* Assets.xcassets */,
+				A272C3442B27BC9000536B60 /* Info.plist */,
+			);
+			path = WorkTimeStatus;
+			sourceTree = "<group>";
+		};
+		A272C34D2B27C13400536B60 /* LiveActivity */ = {
+			isa = PBXGroup;
+			children = (
+				A272C34E2B27C16700536B60 /* WorkTimeStatusAttributes.swift */,
+			);
+			path = LiveActivity;
+			sourceTree = "<group>";
+		};
 		A29577F42AE1865000206D9B = {
 			isa = PBXGroup;
 			children = (
 				A29577FF2AE1865000206D9B /* Workk */,
 				A29578102AE1865200206D9B /* WorkkTests */,
 				A295781A2AE1865200206D9B /* WorkkUITests */,
+				A272C3392B27BC8E00536B60 /* WorkTimeStatus */,
 				A29577FE2AE1865000206D9B /* Products */,
 				A2A8CA2B2B191D2800A23B43 /* Frameworks */,
 			);
@@ -216,6 +289,7 @@
 				A29577FD2AE1865000206D9B /* Workk.app */,
 				A295780D2AE1865200206D9B /* WorkkTests.xctest */,
 				A29578172AE1865200206D9B /* WorkkUITests.xctest */,
+				A272C3342B27BC8E00536B60 /* WorkTimeStatusExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -324,6 +398,7 @@
 		A29578322AE18AD100206D9B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A272C34D2B27C13400536B60 /* LiveActivity */,
 				A29578352AE18BCC00206D9B /* SiteView.swift */,
 				A221D0CB2AF8248200A492F1 /* Time.swift */,
 				A2B0AE582AE5A87A00F535F3 /* PeriodFilter.swift */,
@@ -370,6 +445,8 @@
 		A2A8CA2B2B191D2800A23B43 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A272C3352B27BC8E00536B60 /* WidgetKit.framework */,
+				A272C3372B27BC8E00536B60 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -461,6 +538,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A272C3332B27BC8E00536B60 /* WorkTimeStatusExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A272C3482B27BC9000536B60 /* Build configuration list for PBXNativeTarget "WorkTimeStatusExtension" */;
+			buildPhases = (
+				A272C3302B27BC8E00536B60 /* Sources */,
+				A272C3312B27BC8E00536B60 /* Frameworks */,
+				A272C3322B27BC8E00536B60 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WorkTimeStatusExtension;
+			productName = WorkTimeStatusExtension;
+			productReference = A272C3342B27BC8E00536B60 /* WorkTimeStatusExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		A29577FC2AE1865000206D9B /* Workk */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A29578212AE1865200206D9B /* Build configuration list for PBXNativeTarget "Workk" */;
@@ -468,10 +562,12 @@
 				A29577F92AE1865000206D9B /* Sources */,
 				A29577FB2AE1865000206D9B /* Resources */,
 				A2A8CA2A2B191D2200A23B43 /* Frameworks */,
+				A272C34B2B27BC9000536B60 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A272C3462B27BC9000536B60 /* PBXTargetDependency */,
 			);
 			name = Workk;
 			packageProductDependencies = (
@@ -527,6 +623,9 @@
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					A272C3332B27BC8E00536B60 = {
+						CreatedOnToolsVersion = 15.0;
+					};
 					A29577FC2AE1865000206D9B = {
 						CreatedOnToolsVersion = 15.0;
 					};
@@ -560,11 +659,20 @@
 				A29577FC2AE1865000206D9B /* Workk */,
 				A295780C2AE1865200206D9B /* WorkkTests */,
 				A29578162AE1865200206D9B /* WorkkUITests */,
+				A272C3332B27BC8E00536B60 /* WorkTimeStatusExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A272C3322B27BC8E00536B60 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A272C3432B27BC9000536B60 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A29577FB2AE1865000206D9B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -603,6 +711,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A272C3302B27BC8E00536B60 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A272C33F2B27BC8E00536B60 /* WorkTimeStatus.swift in Sources */,
+				A272C3412B27BC8E00536B60 /* AppIntent.swift in Sources */,
+				A272C3512B27C41200536B60 /* Font+Ext.swift in Sources */,
+				A272C3502B27C16700536B60 /* WorkTimeStatusAttributes.swift in Sources */,
+				A272C33D2B27BC8E00536B60 /* WorkTimeStatusLiveActivity.swift in Sources */,
+				A272C33B2B27BC8E00536B60 /* WorkTimeStatusBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A29577F92AE1865000206D9B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -612,6 +733,7 @@
 				A21637912AEEAA46006F05E7 /* Resolver.swift in Sources */,
 				A28F1F402B06D89100D7CA1E /* BorderedRoundedButton.swift in Sources */,
 				A28992592B1CD6E4004DEA9D /* DarkModeButton.swift in Sources */,
+				A272C34F2B27C16700536B60 /* WorkTimeStatusAttributes.swift in Sources */,
 				A2B0AE3C2AE2D4B500F535F3 /* CalendarView.swift in Sources */,
 				A285D1E52B10096100070835 /* CircleProgressBar.swift in Sources */,
 				A2B0AE592AE5A87A00F535F3 /* PeriodFilter.swift in Sources */,
@@ -670,6 +792,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A272C3462B27BC9000536B60 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A272C3332B27BC8E00536B60 /* WorkTimeStatusExtension */;
+			targetProxy = A272C3452B27BC9000536B60 /* PBXContainerItemProxy */;
+		};
 		A295780F2AE1865200206D9B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A29577FC2AE1865000206D9B /* Workk */;
@@ -695,6 +822,62 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A272C3492B27BC9000536B60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 94UC5J8424;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WorkTimeStatus/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WorkTimeStatus;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.Workk.WorkTimeStatus";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A272C34A2B27BC9000536B60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 94UC5J8424;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WorkTimeStatus/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WorkTimeStatus;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.Workk.WorkTimeStatus";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		A295781F2AE1865200206D9B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -819,6 +1002,7 @@
 		A29578222AE1865200206D9B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -828,6 +1012,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Workk/Info.plist;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -849,6 +1035,7 @@
 		A29578232AE1865200206D9B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -858,6 +1045,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Workk/Info.plist;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -951,6 +1140,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A272C3482B27BC9000536B60 /* Build configuration list for PBXNativeTarget "WorkTimeStatusExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A272C3492B27BC9000536B60 /* Debug */,
+				A272C34A2B27BC9000536B60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A29577F82AE1865000206D9B /* Build configuration list for PBXProject "Workk" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

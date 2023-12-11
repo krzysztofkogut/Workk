@@ -5,10 +5,12 @@
 //  Created by Krzysztof Kogut on 22/10/2023.
 //
 
+import ActivityKit
 import Resolver
 import SwiftUI
 
 struct HomeView: View {
+    @State private var activity: Activity<WorkTimeStatusAttributes>? = nil
     @State var progressValue: CGFloat = 0
     @State private var timeReciver = Timer.publish(every: 1, on: .current, in: .default).autoconnect()
     @State private var showSubscriptionPlan = false
@@ -93,10 +95,13 @@ extension HomeView {
             Button {
                 if countWorkTime {
                     pauseTimer.toggle()
+                    pauseTimer ? startLiveActivityTimer() : stopLiveActivityTimer()
                 } else {
                     withAnimation(.easeInOut(duration: 0.6)) {
                         countWorkTime.toggle()
                     }
+                    
+                    startLiveActivityTimer()
                 }
             } label: {
                 Text(countWorkTime ? (pauseTimer ? "Start" : "Stop") : "Start timer")
@@ -149,6 +154,8 @@ extension HomeView {
                         countWorkTime = false
                         pauseTimer = false
                     }
+                    
+                    stopLiveActivityTimer()
                 } label : {
                     Text("Save")
                         .frame(width: 80, height: 44)
@@ -168,6 +175,8 @@ extension HomeView {
                         countWorkTime = false
                         pauseTimer = false
                     }
+                    
+                    stopLiveActivityTimer()
                 } else {
                     showSubscriptionPlan.toggle()
                 }
@@ -336,6 +345,21 @@ extension HomeView {
         }
         .padding(.top, 8)
         .padding(.horizontal, 8)
+    }
+}
+
+extension HomeView {
+    func startLiveActivityTimer() {
+        let attributes = WorkTimeStatusAttributes(workName: "DAZN")
+        let state = WorkTimeStatusAttributes.ContentState(workTime: Date(), emoji: "clock.circle.fill")
+        
+        activity = try? Activity<WorkTimeStatusAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
+    }
+    
+    func stopLiveActivityTimer() {
+        Task {
+            await activity?.end(using: activity?.contentState, dismissalPolicy: .immediate)
+        }
     }
 }
 
