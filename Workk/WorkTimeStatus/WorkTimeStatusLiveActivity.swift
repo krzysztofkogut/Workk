@@ -30,35 +30,67 @@ struct WorkTimeStatusLiveActivity: Widget {
         ActivityConfiguration(for: WorkTimeStatusAttributes.self) { context in
             // Lock screen/banner UI goes here
             WorkTimeActivityView(context: context)
-
+            
         } dynamicIsland: { context in
             DynamicIsland {
                 // Expanded UI goes here.  Compose the expanded UI through
                 // various regions, like leading/trailing/center/bottom
                 DynamicIslandExpandedRegion(.leading) {
-                    Text(Date(timeInterval: Date().timeIntervalSinceNow, since: context.state.workTime), style: .timer)
-                        .font(.latoRegular(size: 14))
-                        .foregroundColor(.gray)
+                    VStack(alignment: .leading) {
+                        Text("Work time")
+                            .font(.caption)
+                        
+                        Text(Date(timeInterval: Date().timeIntervalSinceNow, since: context.state.workTime), style: .timer)
+                            .font(.title)
+                            .foregroundColor(.gray)
+                    }
+                    .padding(.horizontal, 6)
+                    .multilineTextAlignment(.leading)
+                }
+                DynamicIslandExpandedRegion(.center) {
+                    // This App Don't Require Any Content on Center
+                    // But You Can use it in your App
+                    HStack {
+                        Button {
+                            print("test")
+                        } label: {
+                            Image(systemName: "pause.fill")
+                                .frame(width: 24, height: 24)
+                        }
+                        
+                        Button {
+                            print("test")
+                        } label: {
+                            Image(systemName: "stop.fill")
+                                .frame(width: 24, height: 24)
+                        }
+                    }
+                    .foregroundColor(.gray)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    Text("Trailing")
+                    Spacer()
+                    Text(context.attributes.workName)
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .padding(.horizontal, 6)
+                    Spacer()
                 }
-//                DynamicIslandExpandedRegion(.bottom) {
-//                    Text("Bottom \(context.state.emoji)")
-//                    // more content
-//                }
             } compactLeading: {
                 Text(Date(timeInterval: Date().timeIntervalSinceNow, since: context.state.workTime), style: .timer)
-                    .font(.latoRegular(size: 14))
+                    .font(.caption)
                     .foregroundColor(.gray)
+                    .frame(maxWidth: 50)
+                    .minimumScaleFactor(0.7)
             } compactTrailing: {
-                Text("Work time")
+                Text(context.attributes.workName)
+                    .font(.subheadline)
+                    .frame(maxWidth: 50)
+                    .minimumScaleFactor(0.8)
             } minimal: {
                 Text(Date(timeInterval: Date().timeIntervalSinceNow, since: context.state.workTime), style: .timer)
-                    .font(.latoRegular(size: 14))
+                    .font(.subheadline)
                     .foregroundColor(.gray)
             }
-            .widgetURL(URL(string: "http://www.apple.com"))
             .keylineTint(Color.red)
         }
     }
