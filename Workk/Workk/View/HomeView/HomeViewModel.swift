@@ -20,8 +20,8 @@ protocol HomeViewModelProtocol where Self: ObservableObject {
 final class HomeViewModel: HomeViewModelProtocol {
     @Published var selectedFilter: PeriodFilter = .day
     @Published var currentTime = Time(hour: 0, min: 0, sec: 0)
-    @Published var workTime = Time(hour: 0, min: 0, sec: 0)
     @Published var timeReciver = Timer.publish(every: 1, on: .current, in: .default).autoconnect()
+    @Published var stopwatch: Stopwatch = Stopwatch()
     
     private let router: HomeRouter
     
@@ -44,24 +44,6 @@ final class HomeViewModel: HomeViewModelProtocol {
         let sec = calendar.component(.second, from: Date())
         
         currentTime = Time(hour: hour, min: min, sec: sec)
-    }
-    
-    func resetWorkTimeInSeconds() {
-        workTimeInSeconds = 0
-        workTime = Time(hour: 0, min: 0, sec: 0)
-    }
-    
-    func incrementWorkTimeInSeconds() {
-        workTimeInSeconds += 1
-        updateWorkTime()
-    }
-    
-    func updateWorkTime() {
-        let hour = workTimeInSeconds / 3600
-        let min = (workTimeInSeconds % 3600) / 60
-        let sec = (workTimeInSeconds  % 3600) % 60
-        
-        workTime = Time(hour: hour, min: min, sec: sec)
     }
     
     func showSubscriptionPlan() {

@@ -11,13 +11,13 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var activity: Activity<WorkTimeStatusAttributes>? = nil
-    @State var progressValue: CGFloat = 0
-    @State private var timeReciver = Timer.publish(every: 1, on: .current, in: .default).autoconnect()
+    @State private var progressValue: CGFloat = 0
+    @State private var timeReciver = Timer.publish(every: 0.5, on: .current, in: .common).autoconnect()
     @State private var showSubscriptionPlan = false
     @State private var countWorkTime = false
     @State private var pauseTimer = false
     @State private var toggleDynamicIsland: Bool = false
-    @State var selection: String? = nil
+    @State private var selectedWorkName: String? = nil
     @ObservedObject private var appRouter: AppRouter = Resolver.resolve()
     @ObservedObject private var viewModel: HomeViewModel = Resolver.resolve()
     
@@ -25,7 +25,7 @@ struct HomeView: View {
         NavigationStack(path: $appRouter.path) {
             VStack(spacing: 0) {
                 HStack {
-                    DropDownPicker(selection: $selection, hint: "Select", options: ["DAZN"])
+                    DropDownPicker(selection: $selectedWorkName, hint: "Select", options: ["DAZN"])
                     Spacer()
                 }
                 .padding(.horizontal, 16)
@@ -43,9 +43,6 @@ struct HomeView: View {
             .onAppear(perform: {
                 withAnimation(.linear(duration: 0.01)) {
                     self.viewModel.updateCurrentTime()
-                    if countWorkTime, !pauseTimer {
-                        self.viewModel.incrementWorkTimeInSeconds()
-                    }
                 }
                 
                 self.progressValue = 0.9
@@ -53,9 +50,6 @@ struct HomeView: View {
             .onReceive(timeReciver) { _ in
                 withAnimation(Animation.linear(duration: 0.01)) {
                     self.viewModel.updateCurrentTime()
-                    if countWorkTime, !pauseTimer {
-                        self.viewModel.incrementWorkTimeInSeconds()
-                    }
                 }
             }
             .withHomeRoutes()
@@ -70,10 +64,10 @@ extension HomeView {
     var headerActionsView: some View {
         VStack(alignment: .center) {
             HStack(alignment: .firstTextBaseline, spacing: 2) {
-                Text(countWorkTime ? viewModel.workTime.hourMinString : viewModel.currentTime.hourMinString)
+                Text(countWorkTime ? viewModel.stopwatch.elapsedTime.hourMinString : viewModel.currentTime.hourMinString)
                     .font(.latoBold(size: 56))
                     .padding(.leading, 24)
-                Text(countWorkTime ? viewModel.workTime.secString : viewModel.currentTime.secString)
+                Text(countWorkTime ? viewModel.stopwatch.elapsedTime.secString : viewModel.currentTime.secString)
                     .font(.latoLight(size: 16))
             }
             .transition(.opacity)
@@ -95,13 +89,15 @@ extension HomeView {
             Button {
                 if countWorkTime {
                     pauseTimer.toggle()
-                    pauseTimer ? startLiveActivityTimer() : stopLiveActivityTimer()
+                    viewModel.stopwatch.isRunning.toggle()
+                    pauseTimer ? stopLiveActivityTimer() : startLiveActivityTimer(elapsedTime: viewModel.stopwatch.elapsedTime)
                 } else {
                     withAnimation(.easeInOut(duration: 0.6)) {
                         countWorkTime.toggle()
                     }
                     
-                    startLiveActivityTimer()
+                    viewModel.stopwatch.isRunning = true
+                    startLiveActivityTimer(elapsedTime: viewModel.stopwatch.elapsedTime)
                 }
             } label: {
                 Text(countWorkTime ? (pauseTimer ? "Start" : "Stop") : "Start timer")
@@ -129,7 +125,7 @@ extension HomeView {
                                 
                                 Spacer(minLength: 0)
                                 
-                                Text(viewModel.workTime.timeString)
+                                Text(viewModel.stopwatch.elapsedTime.timeString)
                                     .font(.latoBold(size: 22))
                                     .foregroundStyle(.gray)
                                     .padding(.top, isDynamicIslandEnabled ? 20 : 0)
@@ -149,13 +145,13 @@ extension HomeView {
                         }
                     }
                     
+                    viewModel.stopwatch.reset()
+                    stopLiveActivityTimer()
+                    
                     withAnimation(.easeInOut(duration: 0.6)) {
-                        viewModel.resetWorkTimeInSeconds()
                         countWorkTime = false
                         pauseTimer = false
                     }
-                    
-                    stopLiveActivityTimer()
                 } label : {
                     Text("Save")
                         .frame(width: 80, height: 44)
@@ -170,16 +166,17 @@ extension HomeView {
             
             Button {
                 if countWorkTime {
+                    stopLiveActivityTimer()
+                    
                     withAnimation(.easeInOut(duration: 0.6)) {
-                        viewModel.resetWorkTimeInSeconds()
                         countWorkTime = false
                         pauseTimer = false
                     }
-                    
-                    stopLiveActivityTimer()
                 } else {
                     showSubscriptionPlan.toggle()
                 }
+                
+                viewModel.stopwatch.reset()
             } label: {
                 Text(countWorkTime ? "Reset" : "Save time")
                     .frame(width: countWorkTime ? 80 : 120, height: 44)
@@ -349,14 +346,18 @@ extension HomeView {
 }
 
 extension HomeView {
-    func startLiveActivityTimer() {
-        let attributes = WorkTimeStatusAttributes(workName: "DAZN")
-        let state = WorkTimeStatusAttributes.ContentState(workTime: Date(), emoji: "clock.circle.fill")
+    private func startLiveActivityTimer(elapsedTime: TimeInterval) {
+        guard let selectedWorkName else {
+            return
+        }
+        
+        let attributes = WorkTimeStatusAttributes(workName: selectedWorkName)
+        let state = WorkTimeStatusAttributes.ContentState(workTimeInterval: elapsedTime)
         
         activity = try? Activity<WorkTimeStatusAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
     }
     
-    func stopLiveActivityTimer() {
+    private func stopLiveActivityTimer() {
         Task {
             await activity?.end(using: activity?.contentState, dismissalPolicy: .immediate)
         }

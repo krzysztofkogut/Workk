@@ -13,15 +13,20 @@ struct WorkTimeActivityView: View {
     let context: ActivityViewContext<WorkTimeStatusAttributes>
     
     var body: some View {
-        VStack {
-            Text(context.attributes.workName)
-                .font(.latoBold(size: 18))
+        HStack {
+            VStack(alignment: .leading) {
+                Text("Work time")
+                    .font(.caption)
+                
+                Text(Date(timeInterval: Date().timeIntervalSinceNow, since: context.state.workStartTime), style: .timer)
+                    .font(.headline)
+                    .foregroundColor(.gray)
+            }
             
-            Text(Date(timeInterval: Date().timeIntervalSinceNow, since: context.state.workTime), style: .timer)
-                .font(.latoRegular(size: 14))
-                .foregroundColor(.gray)
+            Text(context.attributes.workName)
+                .font(.title2)
         }
-        .padding(.horizontal)
+        .padding()
     }
 }
 
@@ -40,7 +45,7 @@ struct WorkTimeStatusLiveActivity: Widget {
                         Text("Work time")
                             .font(.caption)
                         
-                        Text(Date(timeInterval: Date().timeIntervalSinceNow, since: context.state.workTime), style: .timer)
+                        Text(Date(timeInterval: Date().timeIntervalSinceNow, since: context.state.workStartTime), style: .timer)
                             .font(.title)
                             .foregroundColor(.gray)
                     }
@@ -50,22 +55,6 @@ struct WorkTimeStatusLiveActivity: Widget {
                 DynamicIslandExpandedRegion(.center) {
                     // This App Don't Require Any Content on Center
                     // But You Can use it in your App
-                    HStack {
-                        Button {
-                            print("test")
-                        } label: {
-                            Image(systemName: "pause.fill")
-                                .frame(width: 24, height: 24)
-                        }
-                        
-                        Button {
-                            print("test")
-                        } label: {
-                            Image(systemName: "stop.fill")
-                                .frame(width: 24, height: 24)
-                        }
-                    }
-                    .foregroundColor(.gray)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     Spacer()
@@ -76,7 +65,7 @@ struct WorkTimeStatusLiveActivity: Widget {
                     Spacer()
                 }
             } compactLeading: {
-                Text(Date(timeInterval: Date().timeIntervalSinceNow, since: context.state.workTime), style: .timer)
+                Text(Date(timeInterval: Date().timeIntervalSinceNow, since: context.state.workStartTime), style: .timer)
                     .font(.caption)
                     .foregroundColor(.gray)
                     .frame(maxWidth: 50)
@@ -87,11 +76,11 @@ struct WorkTimeStatusLiveActivity: Widget {
                     .frame(maxWidth: 50)
                     .minimumScaleFactor(0.8)
             } minimal: {
-                Text(Date(timeInterval: Date().timeIntervalSinceNow, since: context.state.workTime), style: .timer)
+                Text(Date(timeInterval: Date().timeIntervalSinceNow, since: context.state.workStartTime), style: .timer)
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
-            .keylineTint(Color.red)
+            .keylineTint(Color.white)
         }
     }
 }

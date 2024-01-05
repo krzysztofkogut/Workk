@@ -10,8 +10,13 @@ import SwiftUI
 
 struct WorkTimeStatusAttributes: ActivityAttributes {
     struct ContentState: Codable, Hashable {
-        var workTime: Date
-        var emoji: String
+        var workStartTime: Date {
+            Calendar.current.date(
+                byAdding: .second,
+                value: -Int(workTimeInterval),
+              to: Date()) ?? Date()
+        }
+        var workTimeInterval: TimeInterval = 0
     }
     
     var workName: String
