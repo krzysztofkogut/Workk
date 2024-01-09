@@ -27,6 +27,7 @@ struct MainTabView: View {
                     Image(systemName: "chart.bar")
                     Text("Stats")
                 }
+            
             DarkModeWrapper {
                 MoreView()
             }

@@ -25,11 +25,36 @@ final class HomeViewModel: HomeViewModelProtocol {
     
     private let router: HomeRouter
     
-    private let fullFormatter = DateFormatter(dateFormat: "dd MMMM, yyyy", calendar: Calendar.current)
-    private var workTimeInSeconds: Int = 0
+    private let currentDateFormatter = DateFormatter(dateFormat: "dd MMMM, yyyy", calendar: Calendar.current)
+    private let currentDayFormatter = DateFormatter(dateFormat: "EEEE", calendar: Calendar.current)
+    private let currentWeekFormatter = DateFormatter(dateFormat: "dd MMMM", calendar: Calendar.current)
+    private let currentMonthFormatter = DateFormatter(dateFormat: "MMMM", calendar: Calendar.current)
+    private let currentYearFormatter = DateFormatter(dateFormat: "yyyy", calendar: Calendar.current)
 
     var currentDateString: String {
-        fullFormatter.string(from: Date())
+        currentDateFormatter.string(from: Date())
+    }
+    
+    var currentDayString: String {
+        currentDayFormatter.string(from: Date())
+    }
+    
+    var currentWeekString: String {
+        guard let weekBoundry = Calendar(identifier: .iso8601).currentWeekBoundary(),
+              let startOfWeek = weekBoundry.startOfWeek,
+              let endOfWeek = weekBoundry.endOfWeek else {
+            return ""
+        }
+        
+        return currentWeekFormatter.string(from: startOfWeek) + " - " + currentWeekFormatter.string(from: endOfWeek)
+    }
+    
+    var currentMonthString: String {
+        currentMonthFormatter.string(from: Date())
+    }
+    
+    var currentYearString: String {
+        currentYearFormatter.string(from: Date())
     }
     
     init(router: HomeRouter) {

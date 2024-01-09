@@ -10,6 +10,12 @@ import Resolver
 import SwiftUI
 
 struct HomeView: View {
+    @Namespace var filterAnimation
+    
+    @ObservedObject private var appRouter: AppRouter = Resolver.resolve()
+    @ObservedObject private var viewModel: HomeViewModel = Resolver.resolve()
+    
+    @State private var selectedFilter: PeriodFilter = .day
     @State private var activity: Activity<WorkTimeStatusAttributes>? = nil
     @State private var progressValue: CGFloat = 0
     @State private var timeReciver = Timer.publish(every: 0.5, on: .current, in: .common).autoconnect()
@@ -18,8 +24,6 @@ struct HomeView: View {
     @State private var pauseTimer = false
     @State private var toggleDynamicIsland: Bool = false
     @State private var selectedWorkName: String? = nil
-    @ObservedObject private var appRouter: AppRouter = Resolver.resolve()
-    @ObservedObject private var viewModel: HomeViewModel = Resolver.resolve()
     
     var body: some View {
         NavigationStack(path: $appRouter.path) {
@@ -77,8 +81,6 @@ extension HomeView {
                 .padding(.bottom, 16)
             
             addWorkTimeButtons
-            
-            //            periodCircleFilterBar
         }
         .background(.white)
         .padding(.bottom, 16)
@@ -223,13 +225,35 @@ extension HomeView {
         VStack(spacing: 0) {
             periodFilterBar
             
+            TabView(selection: $selectedFilter) {
+                dayDetailsView
+                    .tag(PeriodFilter.day)
+                
+                weekDetailsView
+                    .tag(PeriodFilter.week)
+                
+                monthDetailsView
+                    .tag(PeriodFilter.month)
+                
+                yearDetailsView
+                    .tag(PeriodFilter.year)
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .animation(.easeOut(duration: 0.4), value: selectedFilter)
+        }
+        .background(.wildSand)
+        .clipShape(RoundedShape(corners: [.topLeft, .topRight]))
+    }
+    
+    var dayDetailsView: some View {
+        ScrollView(showsIndicators: false) {
             VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(viewModel.selectedFilter.statsTitle + " you earned")
+                        Text(PeriodFilter.day.statsTitle + " you earned")
                             .font(.latoBold(size: 16))
                         
-                        Text("23 November, 2023")
+                        Text(viewModel.currentDayString)
                             .font(.latoRegular(size: 12))
                             .foregroundColor(.gray)
                     }
@@ -261,11 +285,11 @@ extension HomeView {
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
-            .padding(.bottom, 16)
+            .padding(.bottom, 8)
             
             VStack {
                 HStack {
-                    Text(viewModel.selectedFilter.statsTitle + " you worked")
+                    Text(PeriodFilter.day.statsTitle + " you worked")
                         .font(.latoBold(size: 16))
                     Spacer()
                     Text("36h / 40h")
@@ -304,12 +328,273 @@ extension HomeView {
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
-            .padding(.bottom, 32)
             
-            Spacer()
+            Spacer(minLength: 60)
         }
-        .background(.wildSand)
-        .clipShape(RoundedShape(corners: [.topLeft, .topRight]))
+    }
+    
+    var weekDetailsView: some View {
+        ScrollView(showsIndicators: false) {
+            VStack {
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(PeriodFilter.week.statsTitle + " you earned")
+                            .font(.latoBold(size: 16))
+                        
+                        Text(viewModel.currentWeekString)
+                            .font(.latoRegular(size: 12))
+                            .foregroundColor(.gray)
+                    }
+                    
+                    Spacer()
+                }
+                .padding(16)
+                
+                VStack(spacing: 8) {
+                    HStack {
+                        Text("Paid")
+                            .font(.nunitoSemiBold(size: 16))
+                        Spacer()
+                        Text("120 PLN")
+                            .font(.latoBold(size: 18))
+                    }
+                    
+                    HStack {
+                        Text("Unpaid")
+                            .font(.nunitoSemiBold(size: 16))
+                        Spacer()
+                        Text("250 PLN")
+                            .font(.latoBold(size: 18))
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 16)
+            }
+            .background(.white)
+            .cornerRadius(12)
+            .padding(.horizontal, 24)
+            .padding(.bottom, 8)
+            
+            VStack {
+                HStack {
+                    Text(PeriodFilter.week.statsTitle + " you worked")
+                        .font(.latoBold(size: 16))
+                    Spacer()
+                    Text("36h / 40h")
+                        .font(.latoRegular(size: 16))
+                }
+                .padding(16)
+                
+                ProgressBar(percent: $progressValue)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                
+                HStack(spacing: 6) {
+                    Text("Plan done in:")
+                        .font(.latoRegular(size: 16))
+                        .foregroundColor(.gray)
+                    Text(String(format: "%0.f", self.progressValue * 100) + "%")
+                        .font(.nunitoSemiBold(size: 16))
+                        .foregroundColor(.black)
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 2)
+                
+                HStack(spacing: 6) {
+                    Text("Left to be done:")
+                        .font(.latoRegular(size: 16))
+                        .foregroundColor(.gray)
+                    Text("4h")
+                        .font(.nunitoSemiBold(size: 16))
+                        .foregroundColor(.black)
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 16)
+            }
+            .background(.white)
+            .cornerRadius(12)
+            .padding(.horizontal, 24)
+            
+            Spacer(minLength: 60)
+        }
+    }
+    
+    var monthDetailsView: some View {
+        ScrollView(showsIndicators: false) {
+            VStack {
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(PeriodFilter.month.statsTitle + " you earned")
+                            .font(.latoBold(size: 16))
+                        
+                        Text(viewModel.currentMonthString)
+                            .font(.latoRegular(size: 12))
+                            .foregroundColor(.gray)
+                    }
+                    
+                    Spacer()
+                }
+                .padding(16)
+                
+                VStack(spacing: 8) {
+                    HStack {
+                        Text("Paid")
+                            .font(.nunitoSemiBold(size: 16))
+                        Spacer()
+                        Text("120 PLN")
+                            .font(.latoBold(size: 18))
+                    }
+                    
+                    HStack {
+                        Text("Unpaid")
+                            .font(.nunitoSemiBold(size: 16))
+                        Spacer()
+                        Text("250 PLN")
+                            .font(.latoBold(size: 18))
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 16)
+            }
+            .background(.white)
+            .cornerRadius(12)
+            .padding(.horizontal, 24)
+            .padding(.bottom, 8)
+            
+            VStack {
+                HStack {
+                    Text(PeriodFilter.month.statsTitle + " you worked")
+                        .font(.latoBold(size: 16))
+                    Spacer()
+                    Text("36h / 40h")
+                        .font(.latoRegular(size: 16))
+                }
+                .padding(16)
+                
+                ProgressBar(percent: $progressValue)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                
+                HStack(spacing: 6) {
+                    Text("Plan done in:")
+                        .font(.latoRegular(size: 16))
+                        .foregroundColor(.gray)
+                    Text(String(format: "%0.f", self.progressValue * 100) + "%")
+                        .font(.nunitoSemiBold(size: 16))
+                        .foregroundColor(.black)
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 2)
+                
+                HStack(spacing: 6) {
+                    Text("Left to be done:")
+                        .font(.latoRegular(size: 16))
+                        .foregroundColor(.gray)
+                    Text("4h")
+                        .font(.nunitoSemiBold(size: 16))
+                        .foregroundColor(.black)
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 16)
+            }
+            .background(.white)
+            .cornerRadius(12)
+            .padding(.horizontal, 24)
+            
+            Spacer(minLength: 60)
+        }
+    }
+    
+    var yearDetailsView: some View {
+        ScrollView(showsIndicators: false) {
+            VStack {
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(PeriodFilter.year.statsTitle + " you earned")
+                            .font(.latoBold(size: 16))
+                        
+                        Text(viewModel.currentYearString)
+                            .font(.latoRegular(size: 12))
+                            .foregroundColor(.gray)
+                    }
+                    
+                    Spacer()
+                }
+                .padding(16)
+                
+                VStack(spacing: 8) {
+                    HStack {
+                        Text("Paid")
+                            .font(.nunitoSemiBold(size: 16))
+                        Spacer()
+                        Text("120 PLN")
+                            .font(.latoBold(size: 18))
+                    }
+                    
+                    HStack {
+                        Text("Unpaid")
+                            .font(.nunitoSemiBold(size: 16))
+                        Spacer()
+                        Text("250 PLN")
+                            .font(.latoBold(size: 18))
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 16)
+            }
+            .background(.white)
+            .cornerRadius(12)
+            .padding(.horizontal, 24)
+            .padding(.bottom, 8)
+            
+            VStack {
+                HStack {
+                    Text(PeriodFilter.year.statsTitle + " you worked")
+                        .font(.latoBold(size: 16))
+                    Spacer()
+                    Text("36h / 40h")
+                        .font(.latoRegular(size: 16))
+                }
+                .padding(16)
+                
+                ProgressBar(percent: $progressValue)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                
+                HStack(spacing: 6) {
+                    Text("Plan done in:")
+                        .font(.latoRegular(size: 16))
+                        .foregroundColor(.gray)
+                    Text(String(format: "%0.f", self.progressValue * 100) + "%")
+                        .font(.nunitoSemiBold(size: 16))
+                        .foregroundColor(.black)
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 2)
+                
+                HStack(spacing: 6) {
+                    Text("Left to be done:")
+                        .font(.latoRegular(size: 16))
+                        .foregroundColor(.gray)
+                    Text("4h")
+                        .font(.nunitoSemiBold(size: 16))
+                        .foregroundColor(.black)
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 16)
+            }
+            .background(.white)
+            .cornerRadius(12)
+            .padding(.horizontal, 24)
+            
+            Spacer(minLength: 60)
+        }
     }
     
     var periodFilterBar: some View {
@@ -317,14 +602,15 @@ extension HomeView {
             ForEach(PeriodFilter.allCases, id: \.rawValue) { item in
                 VStack {
                     Text(item.title)
-                        .font(viewModel.selectedFilter == item ? .latoBold(size: 16) : .latoRegular(size: 16))
-                        .foregroundColor(viewModel.selectedFilter == item ? .black : .gray)
+                        .font(selectedFilter == item ? .latoBold(size: 16) : .latoRegular(size: 16))
+                        .foregroundColor(selectedFilter == item ? .black : .gray)
                     
-                    if viewModel.selectedFilter == item {
+                    if selectedFilter == item {
                         Rectangle()
                             .frame(height: 2)
                             .cornerRadius(3)
                             .foregroundColor(.persianBlue)
+                            .matchedGeometryEffect(id: "periodFilter", in: filterAnimation)
                     } else {
                         Rectangle()
                             .frame(height: 2)
@@ -333,9 +619,10 @@ extension HomeView {
                     }
                 }
                 .padding()
+                .animation(.easeOut(duration: 0.4), value: selectedFilter)
                 .onTapGesture {
-                    withAnimation(.easeOut) {
-                        self.viewModel.selectedFilter = item
+                    withAnimation(.easeOut(duration: 0.4)) {
+                        self.selectedFilter = item
                     }
                 }
             }

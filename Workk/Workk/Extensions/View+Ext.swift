@@ -8,30 +8,30 @@
 import SwiftUI
 
 extension View {
-  func northWestShadow(
-    color: Color = .highlight,
-    radius: CGFloat = 16,
-    offset: CGFloat = 6
-  ) -> some View {
-    return self
-      .shadow(
-        color: color, radius: radius, x: -offset,
-          y: -offset)
-      .shadow(
-        color: .shadow, radius: radius, x: offset, y: offset)
-  }
-
-  func southEastShadow(
-    color: Color = .highlight,
-    radius: CGFloat = 16,
-    offset: CGFloat = 6
-  ) -> some View {
-    return self
-      .shadow(
-        color: .shadow, radius: radius, x: -offset, y: -offset)
-      .shadow(
-        color: color, radius: radius, x: offset, y: offset)
-  }
+    func northWestShadow(
+        color: Color = .highlight,
+        radius: CGFloat = 16,
+        offset: CGFloat = 6
+    ) -> some View {
+        return self
+            .shadow(
+                color: color, radius: radius, x: -offset,
+                y: -offset)
+            .shadow(
+                color: .shadow, radius: radius, x: offset, y: offset)
+    }
+    
+    func southEastShadow(
+        color: Color = .highlight,
+        radius: CGFloat = 16,
+        offset: CGFloat = 6
+    ) -> some View {
+        return self
+            .shadow(
+                color: .shadow, radius: radius, x: -offset, y: -offset)
+            .shadow(
+                color: color, radius: radius, x: offset, y: offset)
+    }
 }
 
 extension View {
@@ -50,9 +50,7 @@ extension View {
                 }
             }
     }
-}
-
-extension View {
+    
     @ViewBuilder
     func size(value: @escaping (CGSize) -> ()) -> some View {
         self

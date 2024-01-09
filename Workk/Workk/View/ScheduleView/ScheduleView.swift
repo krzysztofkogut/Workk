@@ -32,7 +32,7 @@ struct ScheduleView: View {
             Rectangle()
                 .fill(.athensGray)
                 .ignoresSafeArea()
-            ScrollView(showsIndicators: false){
+            ScrollView(showsIndicators: false) {
                 VStack(spacing: 24) {
                     CalendarView(
                         calendar: calendar,
