@@ -20,6 +20,7 @@
 		A21637912AEEAA46006F05E7 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21637902AEEAA46006F05E7 /* Resolver.swift */; };
 		A221D0CC2AF8248200A492F1 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = A221D0CB2AF8248200A492F1 /* Time.swift */; };
 		A221D0CE2AF835E700A492F1 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A221D0CD2AF835E700A492F1 /* HomeViewModel.swift */; };
+		A22C3D722B4DBD5F00AE7021 /* OffsetKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22C3D712B4DBD5F00AE7021 /* OffsetKey.swift */; };
 		A242B4532AE97B12006123B6 /* SubscriptionPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A242B4522AE97B11006123B6 /* SubscriptionPlanView.swift */; };
 		A242B4552AE97DB6006123B6 /* SubscriptionPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A242B4542AE97DB6006123B6 /* SubscriptionPlanViewModel.swift */; };
 		A24B3FBE2B2A26EE0037B569 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21637762AEC5F61006F05E7 /* Lato-Black.ttf */; };
@@ -55,6 +56,9 @@
 		A289925B2B1E87E3004DEA9D /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A289925A2B1E87E3004DEA9D /* ProgressBar.swift */; };
 		A28F1F402B06D89100D7CA1E /* BorderedRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28F1F3F2B06D89100D7CA1E /* BorderedRoundedButton.swift */; };
 		A28F1F422B06D8A500D7CA1E /* FilledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28F1F412B06D8A500D7CA1E /* FilledButton.swift */; };
+		A2945FD22B7573D500DD8281 /* DayPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2945FD12B7573D500DD8281 /* DayPicker.swift */; };
+		A2945FD42B7575EE00DD8281 /* DayCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2945FD32B7575EE00DD8281 /* DayCard.swift */; };
+		A2945FD62B75769800DD8281 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2945FD52B75769800DD8281 /* Date+Ext.swift */; };
 		A29578012AE1865000206D9B /* WorkkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29578002AE1865000206D9B /* WorkkApp.swift */; };
 		A29578052AE1865200206D9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A29578042AE1865200206D9B /* Assets.xcassets */; };
 		A29578082AE1865200206D9B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A29578072AE1865200206D9B /* Preview Assets.xcassets */; };
@@ -72,6 +76,10 @@
 		A2A3751B2B019D2B00ED51E9 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A3751A2B019D2B00ED51E9 /* HomeRouter.swift */; };
 		A2A3751D2B019D3B00ED51E9 /* HomeRouterViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A3751C2B019D3B00ED51E9 /* HomeRouterViewModifier.swift */; };
 		A2A8CA352B191E1E00A23B43 /* Resolver in Frameworks */ = {isa = PBXBuildFile; productRef = A2A8CA342B191E1E00A23B43 /* Resolver */; settings = {ATTRIBUTES = (Weak, ); }; };
+		A2B031A02B7FAF8F00296078 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0319F2B7FAF8F00296078 /* String+Ext.swift */; };
+		A2B031A22B7FB41A00296078 /* UIFont+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B031A12B7FB41A00296078 /* UIFont+Ext.swift */; };
+		A2B031A42B7FCD3B00296078 /* WeekCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B031A32B7FCD3B00296078 /* WeekCard.swift */; };
+		A2B031A62B7FD2F000296078 /* WeekPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B031A52B7FD2F000296078 /* WeekPicker.swift */; };
 		A2B0AE3C2AE2D4B500F535F3 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0AE3B2AE2D4B500F535F3 /* CalendarView.swift */; };
 		A2B0AE3F2AE2D74A00F535F3 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0AE3E2AE2D74A00F535F3 /* ScheduleView.swift */; };
 		A2B0AE422AE5456000F535F3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0AE412AE5456000F535F3 /* HomeView.swift */; };
@@ -85,6 +93,11 @@
 		A2B0AE592AE5A87A00F535F3 /* PeriodFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0AE582AE5A87A00F535F3 /* PeriodFilter.swift */; };
 		A2C548002B44AAF400A7A0CC /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C547FF2B44AAF400A7A0CC /* Stopwatch.swift */; };
 		A2C548022B44CCBA00A7A0CC /* TimeInterval+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C548012B44CCBA00A7A0CC /* TimeInterval+Ext.swift */; };
+		A2D4D7732B7D77E40096FDFF /* RollingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4D7722B7D77E40096FDFF /* RollingText.swift */; };
+		A2D4D7752B7E9BD00096FDFF /* MonthCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4D7742B7E9BD00096FDFF /* MonthCard.swift */; };
+		A2D4D7772B7E9D2F0096FDFF /* MonthPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4D7762B7E9D2F0096FDFF /* MonthPicker.swift */; };
+		A2D4D7792B7EBDBF0096FDFF /* YearCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4D7782B7EBDBF0096FDFF /* YearCard.swift */; };
+		A2D4D77B2B7EBF3F0096FDFF /* YearPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4D77A2B7EBF3F0096FDFF /* YearPicker.swift */; };
 		A2FD64352B1FCA2B00E3BDFF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A2FD64372B1FCA2B00E3BDFF /* Localizable.strings */; };
 		A2FD643C2B20F8D500E3BDFF /* SizeKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FD643B2B20F8D500E3BDFF /* SizeKey.swift */; };
 		A2FD643E2B20F92B00E3BDFF /* UIApplication+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FD643D2B20F92B00E3BDFF /* UIApplication+Ext.swift */; };
@@ -145,6 +158,7 @@
 		A21637902AEEAA46006F05E7 /* Resolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
 		A221D0CB2AF8248200A492F1 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		A221D0CD2AF835E700A492F1 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		A22C3D712B4DBD5F00AE7021 /* OffsetKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetKey.swift; sourceTree = "<group>"; };
 		A242B4522AE97B11006123B6 /* SubscriptionPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanView.swift; sourceTree = "<group>"; };
 		A242B4542AE97DB6006123B6 /* SubscriptionPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanViewModel.swift; sourceTree = "<group>"; };
 		A2689A352AE1CEAF00445350 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
@@ -168,6 +182,9 @@
 		A289925A2B1E87E3004DEA9D /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		A28F1F3F2B06D89100D7CA1E /* BorderedRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedRoundedButton.swift; sourceTree = "<group>"; };
 		A28F1F412B06D8A500D7CA1E /* FilledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilledButton.swift; sourceTree = "<group>"; };
+		A2945FD12B7573D500DD8281 /* DayPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayPicker.swift; sourceTree = "<group>"; };
+		A2945FD32B7575EE00DD8281 /* DayCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCard.swift; sourceTree = "<group>"; };
+		A2945FD52B75769800DD8281 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		A29577FD2AE1865000206D9B /* Workk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Workk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A29578002AE1865000206D9B /* WorkkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkkApp.swift; sourceTree = "<group>"; };
 		A29578042AE1865200206D9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -186,6 +203,10 @@
 		A2A375172B019CF100ED51E9 /* ModuleRoutable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleRoutable.swift; sourceTree = "<group>"; };
 		A2A3751A2B019D2B00ED51E9 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
 		A2A3751C2B019D3B00ED51E9 /* HomeRouterViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouterViewModifier.swift; sourceTree = "<group>"; };
+		A2B0319F2B7FAF8F00296078 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
+		A2B031A12B7FB41A00296078 /* UIFont+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Ext.swift"; sourceTree = "<group>"; };
+		A2B031A32B7FCD3B00296078 /* WeekCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCard.swift; sourceTree = "<group>"; };
+		A2B031A52B7FD2F000296078 /* WeekPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekPicker.swift; sourceTree = "<group>"; };
 		A2B0AE3B2AE2D4B500F535F3 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		A2B0AE3E2AE2D74A00F535F3 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		A2B0AE412AE5456000F535F3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -200,6 +221,11 @@
 		A2B0AE582AE5A87A00F535F3 /* PeriodFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodFilter.swift; sourceTree = "<group>"; };
 		A2C547FF2B44AAF400A7A0CC /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		A2C548012B44CCBA00A7A0CC /* TimeInterval+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Ext.swift"; sourceTree = "<group>"; };
+		A2D4D7722B7D77E40096FDFF /* RollingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingText.swift; sourceTree = "<group>"; };
+		A2D4D7742B7E9BD00096FDFF /* MonthCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCard.swift; sourceTree = "<group>"; };
+		A2D4D7762B7E9D2F0096FDFF /* MonthPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthPicker.swift; sourceTree = "<group>"; };
+		A2D4D7782B7EBDBF0096FDFF /* YearCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearCard.swift; sourceTree = "<group>"; };
+		A2D4D77A2B7EBF3F0096FDFF /* YearPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearPicker.swift; sourceTree = "<group>"; };
 		A2FD64362B1FCA2B00E3BDFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A2FD64382B1FCA2D00E3BDFF /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A2FD643B2B20F8D500E3BDFF /* SizeKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeKey.swift; sourceTree = "<group>"; };
@@ -250,11 +276,20 @@
 				A2FD643F2B20F96000E3BDFF /* AnimatedNotificationView.swift */,
 				A2B0AE3B2AE2D4B500F535F3 /* CalendarView.swift */,
 				A285D1E42B10096100070835 /* CircleProgressBar.swift */,
-				A289924D2B1BF105004DEA9D /* DropdownPicker.swift */,
-				A28992542B1CCED4004DEA9D /* OverlayView.swift */,
+				A2945FD32B7575EE00DD8281 /* DayCard.swift */,
+				A2B031A32B7FCD3B00296078 /* WeekCard.swift */,
+				A2D4D7742B7E9BD00096FDFF /* MonthCard.swift */,
+				A2D4D7782B7EBDBF0096FDFF /* YearCard.swift */,
 				A28992562B1CD68A004DEA9D /* DarkModeWrapper.swift */,
 				A28992582B1CD6E4004DEA9D /* DarkModeButton.swift */,
+				A2945FD12B7573D500DD8281 /* DayPicker.swift */,
+				A2B031A52B7FD2F000296078 /* WeekPicker.swift */,
+				A2D4D7762B7E9D2F0096FDFF /* MonthPicker.swift */,
+				A2D4D77A2B7EBF3F0096FDFF /* YearPicker.swift */,
+				A289924D2B1BF105004DEA9D /* DropdownPicker.swift */,
+				A28992542B1CCED4004DEA9D /* OverlayView.swift */,
 				A289925A2B1E87E3004DEA9D /* ProgressBar.swift */,
+				A2D4D7722B7D77E40096FDFF /* RollingText.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -376,10 +411,13 @@
 			isa = PBXGroup;
 			children = (
 				A2A23BF32B4D658D0089F670 /* Calendar+Ext.swift */,
+				A2945FD52B75769800DD8281 /* Date+Ext.swift */,
 				A2A375102B004BB500ED51E9 /* Font+Ext.swift */,
+				A2B0319F2B7FAF8F00296078 /* String+Ext.swift */,
 				A2C548012B44CCBA00A7A0CC /* TimeInterval+Ext.swift */,
 				A2689A352AE1CEAF00445350 /* View+Ext.swift */,
 				A2FD643D2B20F92B00E3BDFF /* UIApplication+Ext.swift */,
+				A2B031A12B7FB41A00296078 /* UIFont+Ext.swift */,
 				A28992522B1CCE79004DEA9D /* UIView+Ext.swift */,
 			);
 			path = Extensions;
@@ -425,6 +463,7 @@
 				A2FD643B2B20F8D500E3BDFF /* SizeKey.swift */,
 				A2C547FF2B44AAF400A7A0CC /* Stopwatch.swift */,
 				A221D0CB2AF8248200A492F1 /* Time.swift */,
+				A22C3D712B4DBD5F00AE7021 /* OffsetKey.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -764,34 +803,46 @@
 				A2689A362AE1CEAF00445350 /* View+Ext.swift in Sources */,
 				A2B0AE572AE59A9200F535F3 /* MoreRowView.swift in Sources */,
 				A21637912AEEAA46006F05E7 /* Resolver.swift in Sources */,
+				A2945FD62B75769800DD8281 /* Date+Ext.swift in Sources */,
 				A28F1F402B06D89100D7CA1E /* BorderedRoundedButton.swift in Sources */,
 				A28992592B1CD6E4004DEA9D /* DarkModeButton.swift in Sources */,
 				A272C34F2B27C16700536B60 /* WorkTimeStatusAttributes.swift in Sources */,
+				A22C3D722B4DBD5F00AE7021 /* OffsetKey.swift in Sources */,
 				A2B0AE3C2AE2D4B500F535F3 /* CalendarView.swift in Sources */,
 				A285D1E52B10096100070835 /* CircleProgressBar.swift in Sources */,
+				A2945FD22B7573D500DD8281 /* DayPicker.swift in Sources */,
 				A2B0AE592AE5A87A00F535F3 /* PeriodFilter.swift in Sources */,
 				A28992572B1CD68A004DEA9D /* DarkModeWrapper.swift in Sources */,
 				A2B0AE422AE5456000F535F3 /* HomeView.swift in Sources */,
 				A2A375162B019CCB00ED51E9 /* AppRouter.swift in Sources */,
 				A28992552B1CCED4004DEA9D /* OverlayView.swift in Sources */,
+				A2D4D7752B7E9BD00096FDFF /* MonthCard.swift in Sources */,
 				A289924E2B1BF105004DEA9D /* DropdownPicker.swift in Sources */,
 				A289925B2B1E87E3004DEA9D /* ProgressBar.swift in Sources */,
+				A2D4D7772B7E9D2F0096FDFF /* MonthPicker.swift in Sources */,
+				A2D4D7792B7EBDBF0096FDFF /* YearCard.swift in Sources */,
 				A28F1F422B06D8A500D7CA1E /* FilledButton.swift in Sources */,
 				A2FD643E2B20F92B00E3BDFF /* UIApplication+Ext.swift in Sources */,
+				A2B031A42B7FCD3B00296078 /* WeekCard.swift in Sources */,
 				A2B0AE552AE59A8100F535F3 /* MoreView.swift in Sources */,
+				A2B031A22B7FB41A00296078 /* UIFont+Ext.swift in Sources */,
 				A29578392AE18DB200206D9B /* StatsView.swift in Sources */,
 				A2C548002B44AAF400A7A0CC /* Stopwatch.swift in Sources */,
 				A2A375182B019CF100ED51E9 /* ModuleRoutable.swift in Sources */,
 				A29578362AE18BCC00206D9B /* SiteView.swift in Sources */,
 				A2B0AE3F2AE2D74A00F535F3 /* ScheduleView.swift in Sources */,
+				A2B031A62B7FD2F000296078 /* WeekPicker.swift in Sources */,
 				A2FD643C2B20F8D500E3BDFF /* SizeKey.swift in Sources */,
+				A2945FD42B7575EE00DD8281 /* DayCard.swift in Sources */,
 				A2A375112B004BB500ED51E9 /* Font+Ext.swift in Sources */,
 				A2C548022B44CCBA00A7A0CC /* TimeInterval+Ext.swift in Sources */,
 				A29578012AE1865000206D9B /* WorkkApp.swift in Sources */,
 				A29578312AE1870B00206D9B /* MainTabView.swift in Sources */,
 				A2A3751D2B019D3B00ED51E9 /* HomeRouterViewModifier.swift in Sources */,
+				A2B031A02B7FAF8F00296078 /* String+Ext.swift in Sources */,
 				A2B0AE452AE55B2700F535F3 /* RoundedShape.swift in Sources */,
 				A2A23BF42B4D658D0089F670 /* Calendar+Ext.swift in Sources */,
+				A2D4D77B2B7EBF3F0096FDFF /* YearPicker.swift in Sources */,
 				A28992532B1CCE79004DEA9D /* UIView+Ext.swift in Sources */,
 				A2A3751B2B019D2B00ED51E9 /* HomeRouter.swift in Sources */,
 				A242B4552AE97DB6006123B6 /* SubscriptionPlanViewModel.swift in Sources */,
@@ -803,6 +854,7 @@
 				A221D0CE2AF835E700A492F1 /* HomeViewModel.swift in Sources */,
 				A2B0AE4D2AE562FA00F535F3 /* FontNameManager.swift in Sources */,
 				A242B4532AE97B12006123B6 /* SubscriptionPlanView.swift in Sources */,
+				A2D4D7732B7D77E40096FDFF /* RollingText.swift in Sources */,
 				A221D0CC2AF8248200A492F1 /* Time.swift in Sources */,
 				A28992512B1CC592004DEA9D /* RectKey.swift in Sources */,
 			);

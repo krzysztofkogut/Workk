@@ -49,7 +49,7 @@ struct ScheduleView: View {
         //                            )
                                     .overlay(
                                             RoundedRectangle(cornerRadius: 8)
-                                                .stroke(calendar.isDate(date, inSameDayAs: selectedDate) ? .cranberry : calendar.isDateInToday(date) ? .gray : .athensGray, lineWidth: 6)
+                                                .stroke(calendar.isDate(date, inSameDayAs: selectedDate) ? .cranberry : calendar.isDateInToday(date) ? .gray : .athensGray, lineWidth: 3)
                                             )
                                     .cornerRadius(8)
                                     .accessibilityHidden(true)

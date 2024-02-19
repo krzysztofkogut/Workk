@@ -14,6 +14,9 @@ class Stopwatch: ObservableObject {
     private var timer: Cancellable?
     
     @Published private(set) var elapsedTime: TimeInterval = 0
+    @Published var hours: Int = 0
+    @Published var minutes: Int = 0
+    @Published var seconds: Int = 0
     @Published var isPaused: Bool = false
     
     @Published var isRunning = false {
@@ -34,6 +37,9 @@ class Stopwatch: ObservableObject {
             }
             
             self.elapsedTime = self.getElapsedTime()
+            self.hours = elapsedTime.hours
+            self.minutes = elapsedTime.minutes
+            self.seconds = elapsedTime.seconds
         }
         startTime = Date()
         isPaused = false
@@ -50,6 +56,9 @@ class Stopwatch: ObservableObject {
     func reset() -> Void {
         accumulatedTime = 0
         elapsedTime = 0
+        hours = elapsedTime.hours
+        minutes = elapsedTime.minutes
+        seconds = elapsedTime.seconds
         startTime = nil
         isRunning = false
         isPaused = false

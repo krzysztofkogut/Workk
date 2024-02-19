@@ -6,7 +6,7 @@
 //
 
 import Combine
-import Foundation
+import SwiftUI
 
 protocol HomeViewModelProtocol where Self: ObservableObject {
     var selectedFilter: PeriodFilter { get set }
@@ -23,11 +23,23 @@ final class HomeViewModel: HomeViewModelProtocol {
     @Published var timeReciver = Timer.publish(every: 1, on: .current, in: .default).autoconnect()
     @Published var stopwatch: Stopwatch = Stopwatch()
     
+    @Published var daysOfCurrentWeek: [Date] = Calendar(identifier: .iso8601).daysOfWeek()
+    @Published var lastTwoWeeks: [Date] = Calendar(identifier: .iso8601).lastTwoWeeks()
+    @Published var lastThreeMonths: [Date] = Calendar(identifier: .iso8601).lastThreeMonths()
+    @Published var lastFourYears: [Date] = Calendar(identifier: .iso8601).lastFourYears()
+    
+    @Published var selectedDayInWeek: Date = Date()
+    @Published var selectedWeek: Date = Date()
+    @Published var selectedMonth: Date = Date()
+    @Published var selectedYear: Date = Date()
+    
     private let router: HomeRouter
     
     private let currentDateFormatter = DateFormatter(dateFormat: "dd MMMM, yyyy", calendar: Calendar.current)
     private let currentDayFormatter = DateFormatter(dateFormat: "EEEE", calendar: Calendar.current)
-    private let currentWeekFormatter = DateFormatter(dateFormat: "dd MMMM", calendar: Calendar.current)
+    private let currentDayShortFormatter = DateFormatter(dateFormat: "EE", calendar: Calendar.current)
+    private let currentDayNumberFormatter = DateFormatter(dateFormat: "dd", calendar: Calendar.current)
+    private let currentWeekFormatter = DateFormatter(dateFormat: "dd MMM", calendar: Calendar.current)
     private let currentMonthFormatter = DateFormatter(dateFormat: "MMMM", calendar: Calendar.current)
     private let currentYearFormatter = DateFormatter(dateFormat: "yyyy", calendar: Calendar.current)
 
@@ -37,6 +49,14 @@ final class HomeViewModel: HomeViewModelProtocol {
     
     var currentDayString: String {
         currentDayFormatter.string(from: Date())
+    }
+    
+    var currentDayShortString: String {
+        currentDayShortFormatter.string(from: Date())
+    }
+    
+    var currentDayNumberString: String {
+        currentDayNumberFormatter.string(from: Date())
     }
     
     var currentWeekString: String {
@@ -73,5 +93,79 @@ final class HomeViewModel: HomeViewModelProtocol {
     
     func showSubscriptionPlan() {
         router.showSubscriptionPlan()
+    }
+    
+    func backwardToLastDaysWeek() {
+        if let firstWeekDay = daysOfCurrentWeek.first, let lastWeekStartDay = Calendar(identifier: .iso8601).date(byAdding: .day, value: -7, to: firstWeekDay) {
+            withAnimation(.smooth(duration: 0.4)) {
+                daysOfCurrentWeek = Calendar(identifier: .iso8601).daysOfWeek(for: lastWeekStartDay)
+                selectedDayInWeek = lastWeekStartDay
+                
+                if let day = daysOfCurrentWeek.first(where: { $0.isToday() }) {
+                    selectedDayInWeek = day
+                }
+            }
+        }
+    }
+    
+    func forwardToNextDaysWeek() {
+        if let lastWeekDay = daysOfCurrentWeek.last, let nextWeekStartDay = Calendar(identifier: .iso8601).date(byAdding: .day, value: 1, to: lastWeekDay) {
+            withAnimation(.smooth(duration: 0.4)) {
+                daysOfCurrentWeek = Calendar(identifier: .iso8601).daysOfWeek(for: nextWeekStartDay)
+                selectedDayInWeek = nextWeekStartDay
+                
+                if let day = daysOfCurrentWeek.first(where: { $0.isToday() }) {
+                    selectedDayInWeek = day
+                }
+            }
+        }
+    }
+    
+    func backwardToLastWeek() {
+        if let lastWeek = Calendar(identifier: .iso8601).date(byAdding: .weekOfYear, value: -1, to: selectedWeek) {
+            withAnimation(.smooth(duration: 0.4)) {
+                selectedWeek = lastWeek
+            }
+        }
+    }
+    
+    func forwardToNextWeek() {
+        if let nextWeek = Calendar(identifier: .iso8601).date(byAdding: .weekOfYear, value: 1, to: selectedWeek) {
+            withAnimation(.smooth(duration: 0.4)) {
+                selectedWeek = nextWeek
+            }
+        }
+    }
+    
+    func backwardToLastMonth() {
+        if let lastMonth = Calendar(identifier: .iso8601).date(byAdding: .month, value: -1, to: selectedMonth) {
+            withAnimation(.smooth(duration: 0.4)) {
+                selectedMonth = lastMonth
+            }
+        }
+    }
+    
+    func forwardToNextMonth() {
+        if let nextMonth = Calendar(identifier: .iso8601).date(byAdding: .month, value: 1, to: selectedMonth) {
+            withAnimation(.smooth(duration: 0.4)) {
+                selectedMonth = nextMonth
+            }
+        }
+    }
+    
+    func backwardToLastYear() {
+        if let lastYear = Calendar(identifier: .iso8601).date(byAdding: .year, value: -1, to: selectedYear) {
+            withAnimation(.smooth(duration: 0.4)) {
+                selectedYear = lastYear
+            }
+        }
+    }
+    
+    func forwardToNextYear() {
+        if let nextYear = Calendar(identifier: .iso8601).date(byAdding: .year, value: 1, to: selectedYear) {
+            withAnimation(.smooth(duration: 0.4)) {
+                selectedYear = nextYear
+            }
+        }
     }
 }

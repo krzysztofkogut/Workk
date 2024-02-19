@@ -16,6 +16,7 @@ struct HomeView: View {
     @ObservedObject private var viewModel: HomeViewModel = Resolver.resolve()
     
     @State private var selectedFilter: PeriodFilter = .day
+    @State private var selectedFilterWidth: CGFloat = 0
     @State private var activity: Activity<WorkTimeStatusAttributes>? = nil
     @State private var progressValue: CGFloat = 0
     @State private var timeReciver = Timer.publish(every: 0.5, on: .current, in: .common).autoconnect()
@@ -24,6 +25,8 @@ struct HomeView: View {
     @State private var pauseTimer = false
     @State private var toggleDynamicIsland: Bool = false
     @State private var selectedWorkName: String? = nil
+    
+    @State private var filtersWidthDict: [PeriodFilter : CGFloat] = [:]
     
     var body: some View {
         NavigationStack(path: $appRouter.path) {
@@ -38,7 +41,7 @@ struct HomeView: View {
                 
                 headerActionsView
                     .padding(.top, 16)
-                                
+                
                 Spacer()
                 
                 detailsView
@@ -67,14 +70,31 @@ struct HomeView: View {
 extension HomeView {
     var headerActionsView: some View {
         VStack(alignment: .center) {
-            HStack(alignment: .firstTextBaseline, spacing: 2) {
-                Text(countWorkTime ? viewModel.stopwatch.elapsedTime.hourMinString : viewModel.currentTime.hourMinString)
-                    .font(.latoBold(size: 56))
-                    .padding(.leading, 24)
-                Text(countWorkTime ? viewModel.stopwatch.elapsedTime.secString : viewModel.currentTime.secString)
-                    .font(.latoLight(size: 16))
+            ZStack(alignment: .center) {
+                HStack(alignment: .firstTextBaseline, spacing: 0) {
+                    RollingText(font: .latoBold(size: 56), value: $viewModel.stopwatch.hours)
+                    Text(":")
+                        .font(.latoBold(size: 56))
+                    RollingText(font: .latoBold(size: 56), value: $viewModel.stopwatch.minutes)
+                    RollingText(font: .latoLight(size: 16), value: $viewModel.stopwatch.seconds)
+                        .padding(.leading, 2)
+                }
+                .transition(.opacity)
+                .padding(.leading, 24)
+                .opacity(countWorkTime ? 1 : 0)
+                
+                HStack(alignment: .firstTextBaseline, spacing: 0) {
+                    RollingText(font: .latoBold(size: 56), value: $viewModel.currentTime.hour)
+                    Text(":")
+                        .font(.latoBold(size: 56))
+                    RollingText(font: .latoBold(size: 56), value: $viewModel.currentTime.min)
+                    RollingText(font: .latoLight(size: 16), value: $viewModel.currentTime.sec)
+                        .padding(.leading, 2)
+                }
+                .transition(.opacity)
+                .padding(.leading, 24)
+                .opacity(countWorkTime ? 0 : 1)
             }
-            .transition(.opacity)
             
             Text(viewModel.currentDateString)
                 .font(.latoRegular(size: 16))
@@ -134,7 +154,7 @@ extension HomeView {
                             }
                             .padding(.horizontal, 36)
                             .padding(.vertical, 16)
-
+                            
                             Rectangle()
                                 .frame(width: 40, height: 4)
                                 .cornerRadius(2)
@@ -224,6 +244,8 @@ extension HomeView {
     var detailsView: some View {
         VStack(spacing: 0) {
             periodFilterBar
+                .padding(.top, 4)
+                .padding(.horizontal, 8)
             
             TabView(selection: $selectedFilter) {
                 dayDetailsView
@@ -239,7 +261,7 @@ extension HomeView {
                     .tag(PeriodFilter.year)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .animation(.easeOut(duration: 0.4), value: selectedFilter)
+            .animation(.easeOut(duration: 0.2), value: selectedFilter)
         }
         .background(.wildSand)
         .clipShape(RoundedShape(corners: [.topLeft, .topRight]))
@@ -248,19 +270,45 @@ extension HomeView {
     var dayDetailsView: some View {
         ScrollView(showsIndicators: false) {
             VStack {
+                HStack(spacing: 0) {
+                    Button(action: viewModel.backwardToLastDaysWeek) {
+                        Image(systemName: "chevron.left")
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
+                    .padding(.leading, 16)
+                    .padding(.trailing, -8)
+                    
+                    DayPicker(selection: $viewModel.selectedDayInWeek, days: viewModel.daysOfCurrentWeek)
+                        .padding(.vertical, 8)
+                    
+                    Button(action: viewModel.forwardToNextDaysWeek) {
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
+                    .padding(.leading, -8)
+                    .padding(.trailing, 16)
+                }
+            }
+            .background { Capsule().fill(.white) }
+            .padding(.horizontal, 24)
+            .padding(.bottom, 4)
+            
+            VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(PeriodFilter.day.statsTitle + " you earned")
                             .font(.latoBold(size: 16))
                         
-                        Text(viewModel.currentDayString)
+                        Text(viewModel.selectedDayInWeek.currentDayString)
                             .font(.latoRegular(size: 12))
                             .foregroundColor(.gray)
                     }
                     
                     Spacer()
                 }
-                .padding(16)
+                .padding(12)
                 
                 VStack(spacing: 8) {
                     HStack {
@@ -285,7 +333,7 @@ extension HomeView {
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
-            .padding(.bottom, 8)
+            .padding(.bottom, 4)
             
             VStack {
                 HStack {
@@ -295,7 +343,7 @@ extension HomeView {
                     Text("36h / 40h")
                         .font(.latoRegular(size: 16))
                 }
-                .padding(16)
+                .padding(12)
                 
                 ProgressBar(percent: $progressValue)
                     .padding(.vertical, 8)
@@ -336,19 +384,48 @@ extension HomeView {
     var weekDetailsView: some View {
         ScrollView(showsIndicators: false) {
             VStack {
+                HStack(spacing: 0) {
+                    Button(action: viewModel.backwardToLastWeek) {
+                        Image(systemName: "chevron.left")
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
+                    .padding(.leading, 24)
+                    
+                    Spacer()
+                    
+                    WeekCard(isSelected: true, week: viewModel.selectedWeek)
+                    
+                    Spacer()
+                    
+                    Button(action: viewModel.forwardToNextWeek) {
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
+                    .padding(.trailing, 24)
+                }
+                .padding(.horizontal, 4)
+                .padding(.vertical, 20)
+            }
+            .background { Capsule().fill(.white) }
+            .padding(.horizontal, 24)
+            .padding(.bottom, 4)
+            
+            VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(PeriodFilter.week.statsTitle + " you earned")
                             .font(.latoBold(size: 16))
                         
-                        Text(viewModel.currentWeekString)
+                        Text(viewModel.selectedWeek.currentWeekString)
                             .font(.latoRegular(size: 12))
                             .foregroundColor(.gray)
                     }
                     
                     Spacer()
                 }
-                .padding(16)
+                .padding(12)
                 
                 VStack(spacing: 8) {
                     HStack {
@@ -373,7 +450,7 @@ extension HomeView {
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
-            .padding(.bottom, 8)
+            .padding(.bottom, 4)
             
             VStack {
                 HStack {
@@ -383,7 +460,7 @@ extension HomeView {
                     Text("36h / 40h")
                         .font(.latoRegular(size: 16))
                 }
-                .padding(16)
+                .padding(12)
                 
                 ProgressBar(percent: $progressValue)
                     .padding(.vertical, 8)
@@ -416,6 +493,7 @@ extension HomeView {
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
+            .padding(.bottom, 4)
             
             Spacer(minLength: 60)
         }
@@ -424,19 +502,49 @@ extension HomeView {
     var monthDetailsView: some View {
         ScrollView(showsIndicators: false) {
             VStack {
+                HStack(spacing: 0) {
+                    Button(action: viewModel.backwardToLastMonth) {
+                        Image(systemName: "chevron.left")
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
+                    .padding(.leading, 24)
+                    
+                    Spacer()
+                    
+                    MonthCard(isSelected: true, month: viewModel.selectedMonth)
+                    
+                    Spacer()
+                    
+                    Button(action: viewModel.forwardToNextMonth) {
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
+                    .padding(.trailing, 24)
+                }
+                .padding(.horizontal, 4)
+                .padding(.vertical, 20)
+                    
+            }
+            .background { Capsule().fill(.white) }
+            .padding(.horizontal, 24)
+            .padding(.bottom, 4)
+            
+            VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(PeriodFilter.month.statsTitle + " you earned")
                             .font(.latoBold(size: 16))
                         
-                        Text(viewModel.currentMonthString)
+                        Text(viewModel.selectedMonth.currentMonthString)
                             .font(.latoRegular(size: 12))
                             .foregroundColor(.gray)
                     }
                     
                     Spacer()
                 }
-                .padding(16)
+                .padding(12)
                 
                 VStack(spacing: 8) {
                     HStack {
@@ -461,7 +569,7 @@ extension HomeView {
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
-            .padding(.bottom, 8)
+            .padding(.bottom, 4)
             
             VStack {
                 HStack {
@@ -471,7 +579,7 @@ extension HomeView {
                     Text("36h / 40h")
                         .font(.latoRegular(size: 16))
                 }
-                .padding(16)
+                .padding(12)
                 
                 ProgressBar(percent: $progressValue)
                     .padding(.vertical, 8)
@@ -504,6 +612,7 @@ extension HomeView {
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
+            .padding(.bottom, 4)
             
             Spacer(minLength: 60)
         }
@@ -512,19 +621,48 @@ extension HomeView {
     var yearDetailsView: some View {
         ScrollView(showsIndicators: false) {
             VStack {
+                HStack(spacing: 0) {
+                    Button(action: viewModel.backwardToLastYear) {
+                        Image(systemName: "chevron.left")
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
+                    .padding(.leading, 24)
+                    
+                    Spacer()
+                    
+                    YearCard(isSelected: true, year: viewModel.selectedYear)
+                    
+                    Spacer()
+                    
+                    Button(action: viewModel.forwardToNextYear) {
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
+                    .padding(.trailing, 24)
+                }
+                .padding(.horizontal, 4)
+                .padding(.vertical, 20)
+            }
+            .background { Capsule().fill(.white) }
+            .padding(.horizontal, 24)
+            .padding(.bottom, 4)
+            
+            VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(PeriodFilter.year.statsTitle + " you earned")
                             .font(.latoBold(size: 16))
                         
-                        Text(viewModel.currentYearString)
+                        Text(viewModel.selectedYear.currentYearString)
                             .font(.latoRegular(size: 12))
                             .foregroundColor(.gray)
                     }
                     
                     Spacer()
                 }
-                .padding(16)
+                .padding(12)
                 
                 VStack(spacing: 8) {
                     HStack {
@@ -549,7 +687,7 @@ extension HomeView {
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
-            .padding(.bottom, 8)
+            .padding(.bottom, 4)
             
             VStack {
                 HStack {
@@ -559,7 +697,7 @@ extension HomeView {
                     Text("36h / 40h")
                         .font(.latoRegular(size: 16))
                 }
-                .padding(16)
+                .padding(12)
                 
                 ProgressBar(percent: $progressValue)
                     .padding(.vertical, 8)
@@ -592,6 +730,7 @@ extension HomeView {
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
+            .padding(.bottom, 4)
             
             Spacer(minLength: 60)
         }
@@ -600,35 +739,36 @@ extension HomeView {
     var periodFilterBar: some View {
         HStack {
             ForEach(PeriodFilter.allCases, id: \.rawValue) { item in
-                VStack {
+                VStack(spacing: 4) {
                     Text(item.title)
                         .font(selectedFilter == item ? .latoBold(size: 16) : .latoRegular(size: 16))
                         .foregroundColor(selectedFilter == item ? .black : .gray)
+                        .onAppear {
+                            filtersWidthDict[item] = item.title.widthOfString(usingFont: .latoBold(size: 16))
+                        }
                     
                     if selectedFilter == item {
                         Rectangle()
-                            .frame(height: 2)
+                            .frame(width: filtersWidthDict[selectedFilter], height: 2)
                             .cornerRadius(3)
                             .foregroundColor(.persianBlue)
                             .matchedGeometryEffect(id: "periodFilter", in: filterAnimation)
                     } else {
                         Rectangle()
-                            .frame(height: 2)
+                            .frame(width: filtersWidthDict[item], height: 2)
                             .cornerRadius(3)
                             .foregroundColor(.clear)
                     }
                 }
                 .padding()
-                .animation(.easeOut(duration: 0.4), value: selectedFilter)
+                .animation(.easeOut(duration: 0.2), value: selectedFilter)
                 .onTapGesture {
-                    withAnimation(.easeOut(duration: 0.4)) {
+                    withAnimation(.easeOut(duration: 0.2)) {
                         self.selectedFilter = item
                     }
                 }
             }
         }
-        .padding(.top, 8)
-        .padding(.horizontal, 8)
     }
 }
 
