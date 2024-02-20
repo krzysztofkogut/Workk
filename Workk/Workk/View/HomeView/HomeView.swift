@@ -295,6 +295,17 @@ extension HomeView {
             .padding(.horizontal, 24)
             .padding(.bottom, 4)
             
+            Group {
+                BannerAd(unitID: "REDACTED_SERVICE_CONFIGURATION")
+                    .frame(minHeight: 50, maxHeight: 80)
+                    .padding(8)
+            }
+            .background(.white)
+            .cornerRadius(12)
+            .padding(.horizontal, 24)
+            .padding(.bottom, 4)
+            
+            
             VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {

@@ -8,6 +8,18 @@
 import SwiftUI
 
 extension UIApplication {
+    func getRootViewController() -> UIViewController {
+        guard let screen = self.connectedScenes.first as? UIWindowScene else{
+            return .init()
+        }
+        
+        guard let root = screen.windows.last?.rootViewController else{
+            return .init()
+        }
+        
+        return root
+    }
+    
     func inAppNotification<Content: View>(adaptForDynamicIsland: Bool = false, timeout: CGFloat = 5, swipeToClose: Bool = true, @ViewBuilder content: @escaping (Bool) -> Content) {
         /// Fetching Active Window VIA WindowScene
         if let activeWindow = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first(where: { $0.tag == 0320 }) {

@@ -5,12 +5,17 @@
 //  Created by Krzysztof Kogut on 19/10/2023.
 //
 
+import GoogleMobileAds
 import Resolver
 import SwiftUI
 
 @main
 struct WorkkApp: App {
     @State private var overlayWindow: PassThroughWindow?
+    
+    init() {
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+    }
     
     var body: some Scene {
         WindowGroup {
