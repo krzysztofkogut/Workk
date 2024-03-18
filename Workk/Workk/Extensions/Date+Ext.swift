@@ -29,7 +29,7 @@ extension Date {
     }
     
     var currentDayNumberString: String {
-        let currentDayNumberFormatter = DateFormatter(dateFormat: "dd", calendar: Calendar.current)
+        let currentDayNumberFormatter = DateFormatter(dateFormat: "d", calendar: Calendar.current)
         return currentDayNumberFormatter.string(from: self)
     }
     

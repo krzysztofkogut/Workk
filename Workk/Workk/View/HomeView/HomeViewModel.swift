@@ -23,11 +23,6 @@ final class HomeViewModel: HomeViewModelProtocol {
     @Published var timeReciver = Timer.publish(every: 1, on: .current, in: .default).autoconnect()
     @Published var stopwatch: Stopwatch = Stopwatch()
     
-    @Published var daysOfCurrentWeek: [Date] = Calendar(identifier: .iso8601).daysOfWeek()
-    @Published var lastTwoWeeks: [Date] = Calendar(identifier: .iso8601).lastTwoWeeks()
-    @Published var lastThreeMonths: [Date] = Calendar(identifier: .iso8601).lastThreeMonths()
-    @Published var lastFourYears: [Date] = Calendar(identifier: .iso8601).lastFourYears()
-    
     @Published var selectedDayInWeek: Date = Date()
     @Published var selectedWeek: Date = Date()
     @Published var selectedMonth: Date = Date()
@@ -42,6 +37,8 @@ final class HomeViewModel: HomeViewModelProtocol {
     private let currentWeekFormatter = DateFormatter(dateFormat: "dd MMM", calendar: Calendar.current)
     private let currentMonthFormatter = DateFormatter(dateFormat: "MMMM", calendar: Calendar.current)
     private let currentYearFormatter = DateFormatter(dateFormat: "yyyy", calendar: Calendar.current)
+    
+    var daysOfCurrentWeek: [Date] = Calendar(identifier: .iso8601).daysOfWeek()
 
     var currentDateString: String {
         currentDateFormatter.string(from: Date())
@@ -91,8 +88,8 @@ final class HomeViewModel: HomeViewModelProtocol {
         currentTime = Time(hour: hour, min: min, sec: sec)
     }
     
-    func showSubscriptionPlan() {
-        router.showSubscriptionPlan()
+    func showSubscriptionPlanView() {
+        router.showSubscriptionPlanView()
     }
     
     func backwardToLastDaysWeek() {

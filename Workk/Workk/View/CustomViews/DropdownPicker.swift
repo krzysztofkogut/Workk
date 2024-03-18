@@ -15,10 +15,13 @@ enum DropDownPickerState {
 struct DropDownPicker: View {
     
     @Binding var selection: String?
+    @Binding var addNewOption: Bool
+    
     var hint: String
     var state: DropDownPickerState = .bottom
     var options: [String]
-    var maxWidth: CGFloat = 140
+    var backgroundColor: Color
+    var maxWidth: CGFloat = 130
     
     @State var showDropdown = false
     
@@ -52,7 +55,7 @@ struct DropDownPicker: View {
                 }
                 .padding(.horizontal, 16)
                 .frame(height: 38)
-                .background(.wildSand)
+                .background(backgroundColor)
                 .contentShape(.rect)
                 .onTapGesture {
                     index += 1
@@ -88,9 +91,9 @@ struct DropDownPicker: View {
                     
                     Spacer()
                     
-                    Image(systemName: "checkmark")
-                        .font(.subheadline)
-                        .opacity(selection == option ? 1 : 0)
+//                    Image(systemName: "checkmark")
+//                        .font(.subheadline)
+//                        .opacity(selection == option ? 1 : 0)
                 }
                 .foregroundStyle(selection == option ? Color.primary : Color.gray)
                 .animation(.none, value: selection)
@@ -104,8 +107,31 @@ struct DropDownPicker: View {
                     }
                 }
             }
+            
+            HStack {
+//                Text("Add new")
+//                    .foregroundColor(.blueRibbon)
+//                    .font(.latoBlack(size: 18))
+//                    .lineLimit(1)
+                
+                Image(systemName: "plus")
+                    .font(.body)
+                
+                Spacer()
+            }
+            .animation(.none, value: selection)
+            .frame(height: 38)
+            .background(backgroundColor)
+            .contentShape(.rect)
+            .padding(.horizontal, 16)
+            .onTapGesture {
+                withAnimation(.snappy) {
+                    addNewOption.toggle()
+                    showDropdown.toggle()
+                }
+            }
         }
-        .background(.wildSand)
+        .background(backgroundColor)
         .transition(.move(edge: state == .top ? .bottom : .top))
         .zIndex(1)
     }
@@ -113,5 +139,6 @@ struct DropDownPicker: View {
 
 #Preview {
     @State var selection: String? = nil
-    return DropDownPicker(selection: $selection, hint: "Select", options: ["YouTube", "Instagram"])
+    @State var addNewOption: Bool = false
+    return DropDownPicker(selection: $selection, addNewOption: $addNewOption, hint: "Select", options: ["YouTube", "Instagram"], backgroundColor: .wildSand)
 }

@@ -8,15 +8,14 @@
 import SwiftUI
 
 public struct CalendarView<Day: View, Header: View, Title: View, Trailing: View>: View {
-    // Injected dependencies
-    private var calendar: Calendar
     @Binding private var date: Date
+    
+    private var calendar: Calendar
     private let content: (Date) -> Day
     private let trailing: (Date) -> Trailing
     private let header: (Date) -> Header
     private let title: (Date) -> Title
 
-    // Constants
     private let daysInWeek = 7
 
     public init(
@@ -126,8 +125,3 @@ extension DateFormatter {
         self.calendar = calendar
     }
 }
-
-
-//#Preview {
-//    CalendarView()
-//}

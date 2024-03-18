@@ -10,6 +10,7 @@ import SwiftUI
 
 struct StatsView: View {
     @State var selection: String? = "Day"
+    @State var showAddNewWorkView: Bool = false
     @State var sampleAnalytics: [SiteView] = sample_analytics
     @State var currentTab: String = "7 Days"
     @State var currentActiveItem: SiteView?
@@ -18,7 +19,11 @@ struct StatsView: View {
         NavigationStack {
             VStack {
                 HStack {
-                    DropDownPicker(selection: $selection, hint: "Day", options: ["Day", "Week", "Month", "Year"])
+                    DropDownPicker(selection: $selection,
+                                   addNewOption: $showAddNewWorkView,
+                                   hint: "Day",
+                                   options: ["Day", "Week", "Month", "Year"],
+                                   backgroundColor: .wildSand)
                     
                     Spacer()
                 }

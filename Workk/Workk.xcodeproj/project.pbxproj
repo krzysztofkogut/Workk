@@ -23,6 +23,8 @@
 		A22C3D722B4DBD5F00AE7021 /* OffsetKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22C3D712B4DBD5F00AE7021 /* OffsetKey.swift */; };
 		A242B4532AE97B12006123B6 /* SubscriptionPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A242B4522AE97B11006123B6 /* SubscriptionPlanView.swift */; };
 		A242B4552AE97DB6006123B6 /* SubscriptionPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A242B4542AE97DB6006123B6 /* SubscriptionPlanViewModel.swift */; };
+		A246EC692B854A2100E7FBB5 /* AdmobSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = A246EC682B854A2100E7FBB5 /* AdmobSwiftUI */; };
+		A246EC6B2B86B65700E7FBB5 /* HideViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A246EC6A2B86B65700E7FBB5 /* HideViewModifier.swift */; };
 		A24B3FBE2B2A26EE0037B569 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21637762AEC5F61006F05E7 /* Lato-Black.ttf */; };
 		A24B3FBF2B2A26F20037B569 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A216377C2AEC5F9F006F05E7 /* Lato-Bold.ttf */; };
 		A24B3FC02B2A26F40037B569 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A216377A2AEC5F7C006F05E7 /* Lato-Regular.ttf */; };
@@ -34,6 +36,7 @@
 		A24B3FC62B2A27040037B569 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21637802AEC5FCC006F05E7 /* Nunito-Regular.ttf */; };
 		A24B3FC72B2A27060037B569 /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A216377E2AEC5FB9006F05E7 /* Nunito-SemiBold.ttf */; };
 		A24B3FC82B2A27090037B569 /* arialbold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2B0AE4E2AE5637200F535F3 /* arialbold.ttf */; };
+		A26454162BA73C42001B2F62 /* Int+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26454152BA73C42001B2F62 /* Int+Ext.swift */; };
 		A2689A362AE1CEAF00445350 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2689A352AE1CEAF00445350 /* View+Ext.swift */; };
 		A272C3362B27BC8E00536B60 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A272C3352B27BC8E00536B60 /* WidgetKit.framework */; };
 		A272C3382B27BC8E00536B60 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A272C3372B27BC8E00536B60 /* SwiftUI.framework */; };
@@ -100,6 +103,11 @@
 		A2D4D7772B7E9D2F0096FDFF /* MonthPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4D7762B7E9D2F0096FDFF /* MonthPicker.swift */; };
 		A2D4D7792B7EBDBF0096FDFF /* YearCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4D7782B7EBDBF0096FDFF /* YearCard.swift */; };
 		A2D4D77B2B7EBF3F0096FDFF /* YearPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4D77A2B7EBF3F0096FDFF /* YearPicker.swift */; };
+		A2FCACBC2B8FE73000B94E35 /* WorkPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FCACBB2B8FE73000B94E35 /* WorkPeriod.swift */; };
+		A2FCACBE2B93592300B94E35 /* UIScreen+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FCACBD2B93592300B94E35 /* UIScreen+Ext.swift */; };
+		A2FCACC02B93AD7000B94E35 /* ScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FCACBF2B93AD7000B94E35 /* ScheduleViewModel.swift */; };
+		A2FCACC32B93AE4C00B94E35 /* ScheduleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FCACC22B93AE4C00B94E35 /* ScheduleRouter.swift */; };
+		A2FCACC52B93AFFC00B94E35 /* ScheduleRouterViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FCACC42B93AFFC00B94E35 /* ScheduleRouterViewModifier.swift */; };
 		A2FD64352B1FCA2B00E3BDFF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A2FD64372B1FCA2B00E3BDFF /* Localizable.strings */; };
 		A2FD643C2B20F8D500E3BDFF /* SizeKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FD643B2B20F8D500E3BDFF /* SizeKey.swift */; };
 		A2FD643E2B20F92B00E3BDFF /* UIApplication+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FD643D2B20F92B00E3BDFF /* UIApplication+Ext.swift */; };
@@ -163,6 +171,8 @@
 		A22C3D712B4DBD5F00AE7021 /* OffsetKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetKey.swift; sourceTree = "<group>"; };
 		A242B4522AE97B11006123B6 /* SubscriptionPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanView.swift; sourceTree = "<group>"; };
 		A242B4542AE97DB6006123B6 /* SubscriptionPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanViewModel.swift; sourceTree = "<group>"; };
+		A246EC6A2B86B65700E7FBB5 /* HideViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideViewModifier.swift; sourceTree = "<group>"; };
+		A26454152BA73C42001B2F62 /* Int+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Ext.swift"; sourceTree = "<group>"; };
 		A2689A352AE1CEAF00445350 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
 		A272C3342B27BC8E00536B60 /* WorkTimeStatusExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WorkTimeStatusExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A272C3352B27BC8E00536B60 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -229,6 +239,11 @@
 		A2D4D7762B7E9D2F0096FDFF /* MonthPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthPicker.swift; sourceTree = "<group>"; };
 		A2D4D7782B7EBDBF0096FDFF /* YearCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearCard.swift; sourceTree = "<group>"; };
 		A2D4D77A2B7EBF3F0096FDFF /* YearPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearPicker.swift; sourceTree = "<group>"; };
+		A2FCACBB2B8FE73000B94E35 /* WorkPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkPeriod.swift; sourceTree = "<group>"; };
+		A2FCACBD2B93592300B94E35 /* UIScreen+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Ext.swift"; sourceTree = "<group>"; };
+		A2FCACBF2B93AD7000B94E35 /* ScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewModel.swift; sourceTree = "<group>"; };
+		A2FCACC22B93AE4C00B94E35 /* ScheduleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRouter.swift; sourceTree = "<group>"; };
+		A2FCACC42B93AFFC00B94E35 /* ScheduleRouterViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRouterViewModifier.swift; sourceTree = "<group>"; };
 		A2FD64362B1FCA2B00E3BDFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A2FD64382B1FCA2D00E3BDFF /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A2FD643B2B20F8D500E3BDFF /* SizeKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeKey.swift; sourceTree = "<group>"; };
@@ -267,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2AAA8342B84177400AD7ACA /* GoogleMobileAds in Frameworks */,
+				A246EC692B854A2100E7FBB5 /* AdmobSwiftUI in Frameworks */,
 				A2A8CA352B191E1E00A23B43 /* Resolver in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -278,6 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				A2FD643F2B20F96000E3BDFF /* AnimatedNotificationView.swift */,
+				A2AAA8352B841BAA00AD7ACA /* BannerAd.swift */,
 				A2B0AE3B2AE2D4B500F535F3 /* CalendarView.swift */,
 				A285D1E42B10096100070835 /* CircleProgressBar.swift */,
 				A2945FD32B7575EE00DD8281 /* DayCard.swift */,
@@ -294,7 +311,6 @@
 				A28992542B1CCED4004DEA9D /* OverlayView.swift */,
 				A289925A2B1E87E3004DEA9D /* ProgressBar.swift */,
 				A2D4D7722B7D77E40096FDFF /* RollingText.swift */,
-				A2AAA8352B841BAA00AD7ACA /* BannerAd.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -418,11 +434,13 @@
 				A2A23BF32B4D658D0089F670 /* Calendar+Ext.swift */,
 				A2945FD52B75769800DD8281 /* Date+Ext.swift */,
 				A2A375102B004BB500ED51E9 /* Font+Ext.swift */,
+				A26454152BA73C42001B2F62 /* Int+Ext.swift */,
 				A2B0319F2B7FAF8F00296078 /* String+Ext.swift */,
 				A2C548012B44CCBA00A7A0CC /* TimeInterval+Ext.swift */,
 				A2689A352AE1CEAF00445350 /* View+Ext.swift */,
 				A2FD643D2B20F92B00E3BDFF /* UIApplication+Ext.swift */,
 				A2B031A12B7FB41A00296078 /* UIFont+Ext.swift */,
+				A2FCACBD2B93592300B94E35 /* UIScreen+Ext.swift */,
 				A28992522B1CCE79004DEA9D /* UIView+Ext.swift */,
 			);
 			path = Extensions;
@@ -469,6 +487,7 @@
 				A2C547FF2B44AAF400A7A0CC /* Stopwatch.swift */,
 				A221D0CB2AF8248200A492F1 /* Time.swift */,
 				A22C3D712B4DBD5F00AE7021 /* OffsetKey.swift */,
+				A2FCACBB2B8FE73000B94E35 /* WorkPeriod.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -519,7 +538,9 @@
 		A2B0AE3D2AE2D73500F535F3 /* ScheduleView */ = {
 			isa = PBXGroup;
 			children = (
+				A2FCACC12B93AE2C00B94E35 /* Router */,
 				A2B0AE3E2AE2D74A00F535F3 /* ScheduleView.swift */,
+				A2FCACBF2B93AD7000B94E35 /* ScheduleViewModel.swift */,
 			);
 			path = ScheduleView;
 			sourceTree = "<group>";
@@ -540,6 +561,7 @@
 				A28F1F3F2B06D89100D7CA1E /* BorderedRoundedButton.swift */,
 				A28F1F412B06D8A500D7CA1E /* FilledButton.swift */,
 				A2B0AE442AE55B2700F535F3 /* RoundedShape.swift */,
+				A246EC6A2B86B65700E7FBB5 /* HideViewModifier.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -580,6 +602,15 @@
 				A2B0AE562AE59A9200F535F3 /* MoreRowView.swift */,
 			);
 			path = MoreView;
+			sourceTree = "<group>";
+		};
+		A2FCACC12B93AE2C00B94E35 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				A2FCACC22B93AE4C00B94E35 /* ScheduleRouter.swift */,
+				A2FCACC42B93AFFC00B94E35 /* ScheduleRouterViewModifier.swift */,
+			);
+			path = Router;
 			sourceTree = "<group>";
 		};
 		A2FD64322B1FC63900E3BDFF /* Resources */ = {
@@ -638,6 +669,7 @@
 			packageProductDependencies = (
 				A2A8CA342B191E1E00A23B43 /* Resolver */,
 				A2AAA8332B84177400AD7ACA /* GoogleMobileAds */,
+				A246EC682B854A2100E7FBB5 /* AdmobSwiftUI */,
 			);
 			productName = Workk;
 			productReference = A29577FD2AE1865000206D9B /* Workk.app */;
@@ -718,6 +750,7 @@
 			packageReferences = (
 				A2A8CA332B191E1E00A23B43 /* XCRemoteSwiftPackageReference "Resolver" */,
 				A2AAA8322B84177400AD7ACA /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				A246EC672B854A2100E7FBB5 /* XCRemoteSwiftPackageReference "AdmobSwiftUI" */,
 			);
 			productRefGroup = A29577FE2AE1865000206D9B /* Products */;
 			projectDirPath = "";
@@ -814,6 +847,7 @@
 				A28F1F402B06D89100D7CA1E /* BorderedRoundedButton.swift in Sources */,
 				A28992592B1CD6E4004DEA9D /* DarkModeButton.swift in Sources */,
 				A272C34F2B27C16700536B60 /* WorkTimeStatusAttributes.swift in Sources */,
+				A2FCACC32B93AE4C00B94E35 /* ScheduleRouter.swift in Sources */,
 				A22C3D722B4DBD5F00AE7021 /* OffsetKey.swift in Sources */,
 				A2B0AE3C2AE2D4B500F535F3 /* CalendarView.swift in Sources */,
 				A285D1E52B10096100070835 /* CircleProgressBar.swift in Sources */,
@@ -826,6 +860,7 @@
 				A28992552B1CCED4004DEA9D /* OverlayView.swift in Sources */,
 				A2D4D7752B7E9BD00096FDFF /* MonthCard.swift in Sources */,
 				A289924E2B1BF105004DEA9D /* DropdownPicker.swift in Sources */,
+				A246EC6B2B86B65700E7FBB5 /* HideViewModifier.swift in Sources */,
 				A289925B2B1E87E3004DEA9D /* ProgressBar.swift in Sources */,
 				A2D4D7772B7E9D2F0096FDFF /* MonthPicker.swift in Sources */,
 				A2D4D7792B7EBDBF0096FDFF /* YearCard.swift in Sources */,
@@ -840,10 +875,13 @@
 				A29578362AE18BCC00206D9B /* SiteView.swift in Sources */,
 				A2B0AE3F2AE2D74A00F535F3 /* ScheduleView.swift in Sources */,
 				A2B031A62B7FD2F000296078 /* WeekPicker.swift in Sources */,
+				A26454162BA73C42001B2F62 /* Int+Ext.swift in Sources */,
 				A2FD643C2B20F8D500E3BDFF /* SizeKey.swift in Sources */,
 				A2945FD42B7575EE00DD8281 /* DayCard.swift in Sources */,
 				A2A375112B004BB500ED51E9 /* Font+Ext.swift in Sources */,
+				A2FCACC52B93AFFC00B94E35 /* ScheduleRouterViewModifier.swift in Sources */,
 				A2C548022B44CCBA00A7A0CC /* TimeInterval+Ext.swift in Sources */,
+				A2FCACBE2B93592300B94E35 /* UIScreen+Ext.swift in Sources */,
 				A29578012AE1865000206D9B /* WorkkApp.swift in Sources */,
 				A29578312AE1870B00206D9B /* MainTabView.swift in Sources */,
 				A2A3751D2B019D3B00ED51E9 /* HomeRouterViewModifier.swift in Sources */,
@@ -863,8 +901,10 @@
 				A2B0AE4D2AE562FA00F535F3 /* FontNameManager.swift in Sources */,
 				A242B4532AE97B12006123B6 /* SubscriptionPlanView.swift in Sources */,
 				A2D4D7732B7D77E40096FDFF /* RollingText.swift in Sources */,
+				A2FCACBC2B8FE73000B94E35 /* WorkPeriod.swift in Sources */,
 				A221D0CC2AF8248200A492F1 /* Time.swift in Sources */,
 				A28992512B1CC592004DEA9D /* RectKey.swift in Sources */,
+				A2FCACC02B93AD7000B94E35 /* ScheduleViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1028,10 +1068,13 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				"LD_MAP_FILE_PATH[arch=*]" = "$(TARGET_TEMP_DIR)/$(PRODUCT_NAME)-LinkMap-$(CURRENT_VARIANT)-$(CURRENT_ARCH).txt";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1089,6 +1132,8 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
@@ -1120,6 +1165,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.Workk";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1153,6 +1199,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.Workk";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1284,6 +1331,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A246EC672B854A2100E7FBB5 /* XCRemoteSwiftPackageReference "AdmobSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dearhui/AdmobSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.11;
+			};
+		};
 		A2A8CA332B191E1E00A23B43 /* XCRemoteSwiftPackageReference "Resolver" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hmlongco/Resolver.git";
@@ -1297,12 +1352,17 @@
 			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 11.0.1;
+				minimumVersion = 10.6.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A246EC682B854A2100E7FBB5 /* AdmobSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A246EC672B854A2100E7FBB5 /* XCRemoteSwiftPackageReference "AdmobSwiftUI" */;
+			productName = AdmobSwiftUI;
+		};
 		A2A8CA342B191E1E00A23B43 /* Resolver */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A2A8CA332B191E1E00A23B43 /* XCRemoteSwiftPackageReference "Resolver" */;

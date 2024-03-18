@@ -49,7 +49,7 @@ struct RollingText: View {
             
             // MARK: Loading Range
             animationRange = Array(repeating: 0, count: value < 10 ? "0\(value)".count : "\(value)".count )
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.06) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                 updateText()
             }
         }
@@ -59,11 +59,11 @@ struct RollingText: View {
             let extra = (value < 10 ? "0\(value)".count : "\(value)".count) - animationRange.count
             if extra > 0 {
                 for _ in 0..<extra {
-                    withAnimation(.easeIn(duration: 0.1)) { animationRange.append(0) }
+                    withAnimation(.easeIn(duration: 0.05)) { animationRange.append(0) }
                 }
             } else {
                 for _ in 0..<(-extra) {
-                    withAnimation(.easeIn(duration: 0.1)) { animationRange.removeLast() }
+                    withAnimation(.easeIn(duration: 0.05)) { animationRange.removeLast() }
                 }
             }
             
@@ -87,7 +87,7 @@ struct RollingText: View {
             // Total = 1.5
             fraction = (fraction > 0.5 ? 0.5 : fraction)
             withAnimation(.interactiveSpring(
-                response: 0.8,
+                response: 0.5,
                 dampingFraction: 1 + fraction, blendDuration: 1 + fraction)) {
                 animationRange[index] = (String(value) as NSString).integerValue
             }

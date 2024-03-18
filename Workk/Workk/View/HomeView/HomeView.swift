@@ -6,6 +6,7 @@
 //
 
 import ActivityKit
+import AdmobSwiftUI
 import Resolver
 import SwiftUI
 
@@ -15,24 +16,57 @@ struct HomeView: View {
     @ObservedObject private var appRouter: AppRouter = Resolver.resolve()
     @ObservedObject private var viewModel: HomeViewModel = Resolver.resolve()
     
+    @StateObject private var nativeDayDetailsViewModel: NativeAdViewModel = NativeAdViewModel(
+                                                        adUnitID: "REDACTED_SERVICE_CONFIGURATION",
+                                                        requestInterval: 300)
+    
+    @StateObject private var nativeWeekDetailsViewModel: NativeAdViewModel = NativeAdViewModel(
+                                                        adUnitID: "REDACTED_SERVICE_CONFIGURATION",
+                                                        requestInterval: 300)
+    
+    @StateObject private var nativeMonthDetailsViewModel: NativeAdViewModel = NativeAdViewModel(
+                                                        adUnitID: "REDACTED_SERVICE_CONFIGURATION",
+                                                        requestInterval: 300)
+    
+    @StateObject private var nativeYearDetailsViewModel: NativeAdViewModel = NativeAdViewModel(
+                                                        adUnitID: "REDACTED_SERVICE_CONFIGURATION",
+                                                        requestInterval: 300)
+    
     @State private var selectedFilter: PeriodFilter = .day
     @State private var selectedFilterWidth: CGFloat = 0
     @State private var activity: Activity<WorkTimeStatusAttributes>? = nil
-    @State private var progressValue: CGFloat = 0
+    @State private var dayProgressValue: CGFloat = 0
+    @State private var weekProgressValue: CGFloat = 0
+    @State private var monthProgressValue: CGFloat = 0
+    @State private var yearProgressValue: CGFloat = 0
     @State private var timeReciver = Timer.publish(every: 0.5, on: .current, in: .common).autoconnect()
-    @State private var showSubscriptionPlan = false
     @State private var countWorkTime = false
     @State private var pauseTimer = false
     @State private var toggleDynamicIsland: Bool = false
     @State private var selectedWorkName: String? = nil
-    
+    @State private var showAddNewWorkView: Bool = false
+    @State private var showSubscriptionPlanView = false
     @State private var filtersWidthDict: [PeriodFilter : CGFloat] = [:]
+    
+    @State private var isDayDetailsBannerAdLoaded: Bool = false
+    @State private var isWeekDetailsBannerAdLoaded: Bool = false
+    @State private var isMonthDetailsBannerAdLoaded: Bool = false
+    @State private var isYearDetailsBannerAdLoaded: Bool = false
+    
+    private let dayDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
+    private let weekDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
+    private let monthDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
+    private let yearDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
     
     var body: some View {
         NavigationStack(path: $appRouter.path) {
             VStack(spacing: 0) {
                 HStack {
-                    DropDownPicker(selection: $selectedWorkName, hint: "Select", options: ["DAZN"])
+                    DropDownPicker(selection: $selectedWorkName,
+                                   addNewOption: $showAddNewWorkView,
+                                   hint: "Select",
+                                   options: ["DAZN"], 
+                                   backgroundColor: .wildSand)
                     Spacer()
                 }
                 .padding(.horizontal, 16)
@@ -51,8 +85,6 @@ struct HomeView: View {
                 withAnimation(.linear(duration: 0.01)) {
                     self.viewModel.updateCurrentTime()
                 }
-                
-                self.progressValue = 0.9
             })
             .onReceive(timeReciver) { _ in
                 withAnimation(Animation.linear(duration: 0.01)) {
@@ -60,7 +92,10 @@ struct HomeView: View {
                 }
             }
             .withHomeRoutes()
-            .fullScreenCover(isPresented: $showSubscriptionPlan) {
+            .fullScreenCover(isPresented: $showSubscriptionPlanView) {
+                SubscriptionPlanView()
+            }
+            .fullScreenCover(isPresented: $showAddNewWorkView) {
                 SubscriptionPlanView()
             }
         }
@@ -195,7 +230,7 @@ extension HomeView {
                         pauseTimer = false
                     }
                 } else {
-                    showSubscriptionPlan.toggle()
+                    showSubscriptionPlanView.toggle()
                 }
                 
                 viewModel.stopwatch.reset()
@@ -206,7 +241,7 @@ extension HomeView {
             .modifier(BorderedRoundedButton())
             .overlay {
                 RoundedRectangle(cornerRadius: 6)
-                    .stroke(.persianBlue, lineWidth: 4)
+                    .stroke(.blueRibbon, lineWidth: 4)
             }
             .cornerRadius(6)
         }
@@ -280,7 +315,7 @@ extension HomeView {
                     .padding(.trailing, -8)
                     
                     DayPicker(selection: $viewModel.selectedDayInWeek, days: viewModel.daysOfCurrentWeek)
-                        .padding(.vertical, 8)
+                        .padding(.vertical, 7)
                     
                     Button(action: viewModel.forwardToNextDaysWeek) {
                         Image(systemName: "chevron.right")
@@ -291,20 +326,36 @@ extension HomeView {
                     .padding(.trailing, 16)
                 }
             }
-            .background { Capsule().fill(.white) }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 4)
-            
-            Group {
-                BannerAd(unitID: "REDACTED_SERVICE_CONFIGURATION")
-                    .frame(minHeight: 50, maxHeight: 80)
-                    .padding(8)
-            }
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
-            .padding(.bottom, 4)
+            .padding(.bottom, isDayDetailsBannerAdLoaded ? 4 : -16)
             
+            ZStack {
+                Button {
+                    showSubscriptionPlanView.toggle()
+                } label: {
+                    Text("Buy subscription to remove ads")
+                        .font(.nunitoBold(size: 18))
+                        .foregroundColor(.blueRibbon)
+                }
+                
+                Group {
+                    BannerAd(isLoaded: $isDayDetailsBannerAdLoaded, unitID: "REDACTED_SERVICE_CONFIGURATION")
+                        .frame(height: 50)
+                        .cornerRadius(6)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(.white, lineWidth: 3)
+                        }
+                        .padding(6)
+                }
+                .background(.white)
+                .cornerRadius(12)
+                .padding(.horizontal, 24)
+                .opacity(isDayDetailsBannerAdLoaded ? 1 : 0)
+            }
+            .padding(.bottom, isDayDetailsBannerAdLoaded ? 4 : -16)
             
             VStack {
                 HStack {
@@ -356,15 +407,18 @@ extension HomeView {
                 }
                 .padding(12)
                 
-                ProgressBar(percent: $progressValue)
+                ProgressBar(percent: $dayProgressValue)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
+                    .task {
+                        await updateProgressBar()
+                    }
                 
                 HStack(spacing: 6) {
                     Text("Plan done in:")
                         .font(.latoRegular(size: 16))
                         .foregroundColor(.gray)
-                    Text(String(format: "%0.f", self.progressValue * 100) + "%")
+                    Text(String(format: "%0.f", self.dayProgressValue * 100) + "%")
                         .font(.nunitoSemiBold(size: 16))
                         .foregroundColor(.black)
                     Spacer()
@@ -387,6 +441,25 @@ extension HomeView {
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
+            .padding(.bottom, 4)
+            
+            Group {
+                NativeAdView(nativeViewModel: nativeDayDetailsViewModel, style: .card)
+                    .frame(height: 300)
+                    .cornerRadius(8)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(.white, lineWidth: 2)
+                    }
+                    .padding(8)
+                    .onAppear {
+                        nativeDayDetailsViewModel.refreshAd()
+                    }
+            }
+            .background(.white)
+            .cornerRadius(12)
+            .padding(.horizontal, 24)
+            .padding(.bottom, 16)
             
             Spacer(minLength: 60)
         }
@@ -417,11 +490,38 @@ extension HomeView {
                     .padding(.trailing, 24)
                 }
                 .padding(.horizontal, 4)
-                .padding(.vertical, 20)
+                .padding(.vertical, 12)
             }
-            .background { Capsule().fill(.white) }
+            .background(.white)
+            .cornerRadius(12)
             .padding(.horizontal, 24)
-            .padding(.bottom, 4)
+            .padding(.bottom, isWeekDetailsBannerAdLoaded ? 4 : -16)
+            
+            ZStack {
+                Button {
+                    showSubscriptionPlanView.toggle()
+                } label: {
+                    Text("Buy subscription to remove ads")
+                        .font(.nunitoBold(size: 18))
+                        .foregroundColor(.blueRibbon)
+                }
+                
+                Group {
+                    BannerAd(isLoaded: $isWeekDetailsBannerAdLoaded, unitID: "REDACTED_SERVICE_CONFIGURATION")
+                        .frame(height: 50)
+                        .cornerRadius(6)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(.white, lineWidth: 3)
+                        }
+                        .padding(6)
+                }
+                .background(.white)
+                .cornerRadius(12)
+                .padding(.horizontal, 24)
+                .opacity(isWeekDetailsBannerAdLoaded ? 1 : 0)
+            }
+            .padding(.bottom, isWeekDetailsBannerAdLoaded ? 4 : -16)
             
             VStack {
                 HStack {
@@ -473,15 +573,18 @@ extension HomeView {
                 }
                 .padding(12)
                 
-                ProgressBar(percent: $progressValue)
+                ProgressBar(percent: $weekProgressValue)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
+                    .task {
+                        await updateProgressBar()
+                    }
                 
                 HStack(spacing: 6) {
                     Text("Plan done in:")
                         .font(.latoRegular(size: 16))
                         .foregroundColor(.gray)
-                    Text(String(format: "%0.f", self.progressValue * 100) + "%")
+                    Text(String(format: "%0.f", self.weekProgressValue * 100) + "%")
                         .font(.nunitoSemiBold(size: 16))
                         .foregroundColor(.black)
                     Spacer()
@@ -505,6 +608,24 @@ extension HomeView {
             .cornerRadius(12)
             .padding(.horizontal, 24)
             .padding(.bottom, 4)
+            
+            Group {
+                NativeAdView(nativeViewModel: nativeWeekDetailsViewModel, style: .card)
+                    .frame(height: 300)
+                    .cornerRadius(8)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(.white, lineWidth: 2)
+                    }
+                    .padding(8)
+                    .onAppear {
+                        nativeWeekDetailsViewModel.refreshAd()
+                    }
+            }
+            .background(.white)
+            .cornerRadius(12)
+            .padding(.horizontal, 24)
+            .padding(.bottom, 16)
             
             Spacer(minLength: 60)
         }
@@ -535,12 +656,39 @@ extension HomeView {
                     .padding(.trailing, 24)
                 }
                 .padding(.horizontal, 4)
-                .padding(.vertical, 20)
+                .padding(.vertical, 12)
                     
             }
-            .background { Capsule().fill(.white) }
+            .background(.white)
+            .cornerRadius(12)
             .padding(.horizontal, 24)
-            .padding(.bottom, 4)
+            .padding(.bottom, isMonthDetailsBannerAdLoaded ? 4 : -16)
+            
+            ZStack {
+                Button {
+                    showSubscriptionPlanView.toggle()
+                } label: {
+                    Text("Buy subscription to remove ads")
+                        .font(.nunitoBold(size: 18))
+                        .foregroundColor(.blueRibbon)
+                }
+                
+                Group {
+                    BannerAd(isLoaded: $isMonthDetailsBannerAdLoaded, unitID: "REDACTED_SERVICE_CONFIGURATION")
+                        .frame(height: 50)
+                        .cornerRadius(6)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(.white, lineWidth: 3)
+                        }
+                        .padding(6)
+                }
+                .background(.white)
+                .cornerRadius(12)
+                .padding(.horizontal, 24)
+                .opacity(isMonthDetailsBannerAdLoaded ? 1 : 0)
+            }
+            .padding(.bottom, isMonthDetailsBannerAdLoaded ? 4 : -16)
             
             VStack {
                 HStack {
@@ -592,15 +740,18 @@ extension HomeView {
                 }
                 .padding(12)
                 
-                ProgressBar(percent: $progressValue)
+                ProgressBar(percent: $monthProgressValue)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
+                    .task {
+                        await updateProgressBar()
+                    }
                 
                 HStack(spacing: 6) {
                     Text("Plan done in:")
                         .font(.latoRegular(size: 16))
                         .foregroundColor(.gray)
-                    Text(String(format: "%0.f", self.progressValue * 100) + "%")
+                    Text(String(format: "%0.f", self.monthProgressValue * 100) + "%")
                         .font(.nunitoSemiBold(size: 16))
                         .foregroundColor(.black)
                     Spacer()
@@ -624,6 +775,24 @@ extension HomeView {
             .cornerRadius(12)
             .padding(.horizontal, 24)
             .padding(.bottom, 4)
+            
+            Group {
+                NativeAdView(nativeViewModel: nativeMonthDetailsViewModel, style: .card)
+                    .frame(height: 300)
+                    .cornerRadius(8)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(.white, lineWidth: 2)
+                    }
+                    .padding(8)
+                    .onAppear {
+                        nativeMonthDetailsViewModel.refreshAd()
+                    }
+            }
+            .background(.white)
+            .cornerRadius(12)
+            .padding(.horizontal, 24)
+            .padding(.bottom, 16)
             
             Spacer(minLength: 60)
         }
@@ -656,9 +825,36 @@ extension HomeView {
                 .padding(.horizontal, 4)
                 .padding(.vertical, 20)
             }
-            .background { Capsule().fill(.white) }
+            .background(.white)
+            .cornerRadius(12)
             .padding(.horizontal, 24)
-            .padding(.bottom, 4)
+            .padding(.bottom, isYearDetailsBannerAdLoaded ? 4 : -16)
+            
+            ZStack {
+                Button {
+                    showSubscriptionPlanView.toggle()
+                } label: {
+                    Text("Buy subscription to remove ads")
+                        .font(.nunitoBold(size: 18))
+                        .foregroundColor(.blueRibbon)
+                }
+                
+                Group {
+                    BannerAd(isLoaded: $isYearDetailsBannerAdLoaded, unitID: "REDACTED_SERVICE_CONFIGURATION")
+                        .frame(height: 50)
+                        .cornerRadius(6)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(.white, lineWidth: 3)
+                        }
+                        .padding(6)
+                }
+                .background(.white)
+                .cornerRadius(12)
+                .padding(.horizontal, 24)
+                .opacity(isYearDetailsBannerAdLoaded ? 1 : 0)
+            }
+            .padding(.bottom, isYearDetailsBannerAdLoaded ? 4 : -16)
             
             VStack {
                 HStack {
@@ -710,15 +906,18 @@ extension HomeView {
                 }
                 .padding(12)
                 
-                ProgressBar(percent: $progressValue)
+                ProgressBar(percent: $yearProgressValue)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
+                    .task {
+                        await updateProgressBar()
+                    }
                 
                 HStack(spacing: 6) {
                     Text("Plan done in:")
                         .font(.latoRegular(size: 16))
                         .foregroundColor(.gray)
-                    Text(String(format: "%0.f", self.progressValue * 100) + "%")
+                    Text(String(format: "%0.f", self.yearProgressValue * 100) + "%")
                         .font(.nunitoSemiBold(size: 16))
                         .foregroundColor(.black)
                     Spacer()
@@ -743,6 +942,24 @@ extension HomeView {
             .padding(.horizontal, 24)
             .padding(.bottom, 4)
             
+            Group {
+                NativeAdView(nativeViewModel: nativeYearDetailsViewModel, style: .card)
+                    .frame(height: 300)
+                    .cornerRadius(8)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(.white, lineWidth: 2)
+                    }
+                    .padding(8)
+                    .onAppear {
+                        nativeYearDetailsViewModel.refreshAd()
+                    }
+            }
+            .background(.white)
+            .cornerRadius(12)
+            .padding(.horizontal, 24)
+            .padding(.bottom, 16)
+            
             Spacer(minLength: 60)
         }
     }
@@ -750,24 +967,26 @@ extension HomeView {
     var periodFilterBar: some View {
         HStack {
             ForEach(PeriodFilter.allCases, id: \.rawValue) { item in
+                Spacer()
+                
                 VStack(spacing: 4) {
                     Text(item.title)
-                        .font(selectedFilter == item ? .latoBold(size: 16) : .latoRegular(size: 16))
+                        .font(selectedFilter == item ? .latoBlack(size: 16) : .latoRegular(size: 16))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.01)
                         .foregroundColor(selectedFilter == item ? .black : .gray)
                         .onAppear {
-                            filtersWidthDict[item] = item.title.widthOfString(usingFont: .latoBold(size: 16))
+                            filtersWidthDict[item] = item.title.widthOfString(usingFont: .latoBold(size: 18))
                         }
                     
                     if selectedFilter == item {
                         Rectangle()
                             .frame(width: filtersWidthDict[selectedFilter], height: 2)
-                            .cornerRadius(3)
-                            .foregroundColor(.persianBlue)
+                            .foregroundColor(.blueRibbon)
                             .matchedGeometryEffect(id: "periodFilter", in: filterAnimation)
                     } else {
                         Rectangle()
                             .frame(width: filtersWidthDict[item], height: 2)
-                            .cornerRadius(3)
                             .foregroundColor(.clear)
                     }
                 }
@@ -778,6 +997,8 @@ extension HomeView {
                         self.selectedFilter = item
                     }
                 }
+                
+                Spacer()
             }
         }
     }
@@ -798,6 +1019,34 @@ extension HomeView {
     private func stopLiveActivityTimer() {
         Task {
             await activity?.end(using: activity?.contentState, dismissalPolicy: .immediate)
+        }
+    }
+    
+    private func updateProgressBar() async {
+        try? await Task.sleep(nanoseconds: 200_000_000)
+        withAnimation(.easeIn(duration: 0.6)) {
+            switch selectedFilter {
+            case .day:
+                dayProgressValue = 0.9
+                weekProgressValue = 0.0
+                monthProgressValue = 0.0
+                yearProgressValue = 0.0
+            case .week:
+                dayProgressValue = 0.0
+                weekProgressValue = 0.4
+                monthProgressValue = 0.0
+                yearProgressValue = 0.0
+            case .month:
+                dayProgressValue = 0.0
+                weekProgressValue = 0.0
+                monthProgressValue = 0.6
+                yearProgressValue = 0.0
+            case .year:
+                dayProgressValue = 0.0
+                weekProgressValue = 0.0
+                monthProgressValue = 0.0
+                yearProgressValue = 0.5
+            }
         }
     }
 }

@@ -69,18 +69,9 @@ extension View {
 }
 
 extension View {
-    @ViewBuilder
-    func offsetX(completion: @escaping (CGRect) -> ()) -> some View {
-        self
-            .onAppear()
-            .overlay {
-                GeometryReader { proxy in
-                    let rect = proxy.frame(in: .global)
-                    
-                    Color.clear
-                        .preference(key: OffsetKey.self, value: rect)
-                        .onPreferenceChange(OffsetKey.self, perform: completion)
-                }
-            }
+    func hide(if isHiddden: Bool) -> some View {
+        ModifiedContent(content: self,
+                        modifier: HideViewModifier(isHidden: isHiddden)
+        )
     }
 }

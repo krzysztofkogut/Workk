@@ -16,7 +16,8 @@ struct MainTabView: View {
                     Text("Home")
                 }
             
-            ScheduleView(calendar: Calendar.current)
+            ScheduleView(calendar: Calendar(identifier: .iso8601))
+                .background(.wildSand)
                 .tabItem {
                     Image(systemName: "calendar")
                     Text("Schedule")

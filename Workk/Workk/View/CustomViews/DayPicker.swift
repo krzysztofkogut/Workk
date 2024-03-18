@@ -24,13 +24,13 @@ struct DayPicker: View {
                         .frame(width: 26)
                     
                     if day.isSameDay(date: selection) {
-                        RoundedRectangle(cornerRadius: 4)
-                            .fill(.persianBlue)
+                        Rectangle()
+                            .fill(.blueRibbon)
                             .frame(width: 20, height: 2)
                             .padding(.top, 4)
                             .matchedGeometryEffect(id: "dayPicker", in: dayPickerAnimation)
                     } else {
-                        RoundedRectangle(cornerRadius: 4)
+                        Rectangle()
                             .fill(.clear)
                             .frame(width: 20, height: 2)
                             .padding(.top, 4)

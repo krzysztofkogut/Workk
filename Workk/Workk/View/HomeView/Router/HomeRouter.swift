@@ -9,11 +9,11 @@ import SwiftUI
 
 protocol HomeRouterProtocol {
     func pop()
-    func showSubscriptionPlan()
+    func showSubscriptionPlanView()
 }
 
 enum HomeRoute: Hashable {
-    case subscriptionPlan
+    case subscriptionPlanView
 }
 
 class HomeRouter: ModuleRouter, HomeRouterProtocol {
@@ -31,15 +31,7 @@ class HomeRouter: ModuleRouter, HomeRouterProtocol {
         appRouter.pop()
     }
     
-    func showSubscriptionPlan() {
-        navigate(to: .subscriptionPlan)
-    }
-    
-    func showCatchScene() {
-        appRouter.navigate(to: ModuleExit.showCatch)
-    }
-    
-    func showBackpackScene() {
-        appRouter.navigate(to: ModuleExit.showBackpack)
+    func showSubscriptionPlanView() {
+        navigate(to: .subscriptionPlanView)
     }
 }

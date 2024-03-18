@@ -28,11 +28,19 @@ extension Resolver {
         }.scope(.application)
         
         register {
+            HomeRouter(with: resolve())
+        }.scope(.unique)
+        
+        register {
             HomeViewModel(router: resolve())
         }.scope(.unique)
         
         register {
-            HomeRouter(with: resolve())
+            ScheduleRouter(with: resolve())
+        }.scope(.unique)
+        
+        register {
+            ScheduleViewModel(router: resolve())
         }.scope(.unique)
     }
 }

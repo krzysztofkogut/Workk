@@ -1,6 +1,60 @@
 {
   "pins" : [
     {
+      "identity" : "admobswiftui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dearhui/AdmobSwiftUI.git",
+      "state" : {
+        "revision" : "7eb317341ffdf7af9a14a952a96519499c07b644",
+        "version" : "1.0.11"
+      }
+    },
+    {
+      "identity" : "googleappmeasurement",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/GoogleAppMeasurement.git",
+      "state" : {
+        "revision" : "cb8617fab75d181270a1d8f763f26b15c73e2e1e",
+        "version" : "10.21.0"
+      }
+    },
+    {
+      "identity" : "googleutilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/GoogleUtilities.git",
+      "state" : {
+        "revision" : "bc27fad73504f3d4af235de451f02ee22586ebd3",
+        "version" : "7.12.1"
+      }
+    },
+    {
+      "identity" : "lbtatools",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/bhlvoong/LBTATools",
+      "state" : {
+        "revision" : "dce147bfbdc0417a4b430ec220c088629e9dc81d",
+        "version" : "1.0.17"
+      }
+    },
+    {
+      "identity" : "nanopb",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/firebase/nanopb.git",
+      "state" : {
+        "revision" : "819d0a2173aff699fb8c364b6fb906f7cdb1a692",
+        "version" : "2.30909.0"
+      }
+    },
+    {
+      "identity" : "promises",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/promises.git",
+      "state" : {
+        "revision" : "e70e889c0196c76d22759eb50d6a0270ca9f1d9e",
+        "version" : "2.3.1"
+      }
+    },
+    {
       "identity" : "resolver",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/hmlongco/Resolver.git",
@@ -14,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/googleads/swift-package-manager-google-mobile-ads.git",
       "state" : {
-        "revision" : "4668daa078c7e104df9f5b8a80a7638cab19bb4e",
-        "version" : "11.0.1"
+        "revision" : "70516c9e799a366ff90c1a70c09c48f7c076fd8a",
+        "version" : "10.14.0"
       }
     },
     {
