@@ -21,14 +21,39 @@ struct ScheduleView: View {
     @State private var monthDeleteMode = false
     @State private var yearDeleteMode = false
     @State private var selectedEntries: [WorkPeriod] = []
-    
+    @State private var selectedWorkName: String? = "All"
     @State private var showAddNewEntry = false
     @State private var showAddNewWorkView: Bool = false
+    @State private var showSubscriptionPlanView = false
     
-    @State private var selectedWorkName: String? = "All"
+    @State private var isDayDetailsBannerAdLoaded: Bool = false
+    @State private var isWeekDetailsBannerAdLoaded: Bool = false
+    @State private var isMonthDetailsBannerAdLoaded: Bool = false
+    @State private var isYearDetailsBannerAdLoaded: Bool = false
     
-    private static var now = Date() // Cache now
     private let calendar: Calendar
+    
+    private let dayScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
+    private let weekScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
+    private let monthScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
+    private let yearScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
+    
+    private let calendarTitleViewHeight: CGFloat = 56.0
+    private let weekLabelHeight: CGFloat = 28.0
+    private let horizontalPadding: CGFloat = 16.0
+    private let topPadding: CGFloat = 24.0
+    private let bottomPadding: CGFloat = 24.0
+    private let calendarRowHeight: CGFloat = 44
+    private let calendarHeight: CGFloat = 354
+    
+    private var monthProgress: CGFloat {
+        let selectedMonthDates = makeDays()
+        if let index = selectedMonthDates.firstIndex(where: { calendar.isDate($0, inSameDayAs: viewModel.selectedDay) }) {
+            return CGFloat(index / 7).rounded()
+        }
+        
+        return 1.0
+    }
     
     init(calendar: Calendar) {
         self.calendar = calendar
@@ -64,153 +89,13 @@ struct ScheduleView: View {
     var dayScheduleView: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
-                CalendarView(
-                    calendar: calendar,
-                    date: $viewModel.selectedDay,
-                    content: { date in
-                        Button {
-                            withAnimation(.interpolatingSpring(duration: 0.4)) {
-                                viewModel.selectedDay = date
-                            }
-                        } label: {
-                            Text("00")
-                                .padding(8)
-                                .foregroundColor(.clear)
-                                .overlay {
-                                    Capsule().fill(calendar.isDate(date, inSameDayAs: viewModel.selectedDay) ?
-                                        .black : (calendar.isDateInToday(date) ? .wildSand : .clear))
-                                    .padding(.horizontal, 4)
-                                }
-                                .accessibilityHidden(true)
-                                .overlay {
-                                    Text(date.currentDayNumberString)
-                                        .font(calendar.isDate(date, inSameDayAs: viewModel.selectedDay) ?
-                                            .latoBlack(size: 14) : (calendar.isDateInToday(date) ? .latoBlack(size: 14) : .latoRegular(size: 14)))
-                                        .foregroundColor(calendar.isDate(date, inSameDayAs: viewModel.selectedDay) ? .white : .black)
-                                }
-                                .overlay {
-                                    if let work = workSampleData.first(where: { $0.date.isSameDay(date: date) }) {
-                                        Circle()
-                                            .fill(work.date.isSameDay(date: viewModel.selectedDay) ? .white : .black)
-                                            .frame(width: 5, height: 5)
-                                            .padding(.top, 26)
-                                    }
-                                }
-                        }
-                    },
-                    trailing: { date in
-                        Text(date.currentDayNumberString)
-                            .font(.latoRegular(size: 14))
-                            .foregroundColor(.secondary)
-                    },
-                    header: { date in
-                        Text(date.currentDayShortString)
-                            .font(.latoRegular(size: 14))
-                    },
-                    title: { date in
-                        HStack {
-                            Button {
-                                withAnimation(.easeInOut(duration: 0.4)) {
-                                    guard let newDate = calendar.date(
-                                        byAdding: .month,
-                                        value: -1,
-                                        to: viewModel.selectedDay
-                                    ) else {
-                                        return
-                                    }
-                                    
-                                    viewModel.selectedDay = newDate
-                                }
-                            } label: {
-                                Label(
-                                    title: { Text("Previous") },
-                                    icon: { Image(systemName: "chevron.left") }
-                                )
-                                .labelStyle(IconOnlyLabelStyle())
-                                .padding(.horizontal)
-                                .frame(maxHeight: .infinity)
-                            }
-                            
-                            Spacer()
-                            
-                            VStack(spacing: 0) {
-                                Text(date.currentYearString)
-                                    .font(.latoBold(size: 14))
-                                    .foregroundColor(.gray)
-                                
-                                Text(date.currentMonthString)
-                                    .font(.latoBlack(size: 26))
-                            }
-                            .padding()
-                            
-                            Spacer()
-                            
-                            Button {
-                                withAnimation(.easeInOut(duration: 0.4)) {
-                                    guard let newDate = calendar.date(
-                                        byAdding: .month,
-                                        value: 1,
-                                        to: viewModel.selectedDay
-                                    ) else {
-                                        return
-                                    }
-                                    
-                                    viewModel.selectedDay = newDate
-                                }
-                            } label: {
-                                Label(
-                                    title: { Text("Next") },
-                                    icon: { Image(systemName: "chevron.right") }
-                                )
-                                .labelStyle(IconOnlyLabelStyle())
-                                .padding(.horizontal)
-                                .frame(maxHeight: .infinity)
-                            }
-                        }
-                        .padding(.bottom, 6)
-                    }
-                )
-                .equatable()
-                .padding(12)
-                .background(.white)
-                .cornerRadius(12)
-                .padding(.horizontal, 24)
-                .padding(.bottom, 12)
+                Calendar()
+                    .padding(.bottom, 64)
                 
                 let selectedDayWork = workSampleData
                     .filter { $0.date.isSameDay(date: viewModel.selectedDay) }
                     .reduce(into: []) { $0.append($1.workPeriod) }
                     .flatMap { $0 }
-                
-                ZStack {
-                    HStack(spacing: 0) {
-                        DropDownPicker(selection: $selectedWorkName,
-                                       addNewOption: $showAddNewWorkView,
-                                       hint: "Select",
-                                       options: ["All", "DAZN", "Revolut", "Long long name"],
-                                       backgroundColor: .white)
-                        
-                        Spacer()
-                        
-                        Button {
-                            if dayDeleteMode {
-                                selectedEntries = []
-                            }
-                            
-                            withAnimation(.bouncy(duration: 0.4)) {
-                                dayDeleteMode.toggle()
-                            }
-                        } label: {
-                            Text(dayDeleteMode ? "Cancel" : "Delete")
-                                .font(.latoRegular(size: 12))
-                        }
-                        .opacity(selectedDayWork.isEmpty ? 0 : 1)
-                    }
-                }
-                .zIndex(1000)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.bottom, 12)
-                .padding(.horizontal, 24)
                 
                 if !selectedDayWork.isEmpty {
                     ForEach(selectedDayWork) { workPeriod in
@@ -260,9 +145,37 @@ struct ScheduleView: View {
                         .transition(.opacity)
                     }
                 } else {
-                    Text("No Entries Found")
-                        .font(.latoRegular(size: 18))
-                        .padding()
+                    VStack {
+                        ZStack {
+                            Button {
+                                showSubscriptionPlanView.toggle()
+                            } label: {
+                                Text("Buy subscription to remove ads")
+                                    .font(.nunitoBold(size: 18))
+                                    .foregroundColor(.blueRibbon)
+                            }
+                            
+                            Group {
+                                BannerAd(isLoaded: $isDayDetailsBannerAdLoaded, unitID: dayScheduleBannerId)
+                                    .frame(height: 50)
+                                    .cornerRadius(6)
+                                    .overlay {
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .stroke(.white, lineWidth: 3)
+                                    }
+                                    .padding(6)
+                            }
+                            .background(.white)
+                            .cornerRadius(12)
+                            .padding(.horizontal, 24)
+                            .opacity(isDayDetailsBannerAdLoaded ? 1 : 0)
+                        }
+                        .padding(.bottom, 16)
+                        
+                        Text("No Entries Found")
+                            .font(.latoRegular(size: 18))
+                            .padding()
+                    }
                 }
             }
         }
@@ -352,10 +265,8 @@ struct ScheduleView: View {
             }
             .zIndex(1000)
             .fixedSize(horizontal: false, vertical: true)
-            .padding(.bottom, 4)
+            .padding(.bottom, 12)
             .padding(.horizontal, 24)
-            
-            Spacer()
             
             if !selectedWeekWork.isEmpty {
                 ScrollView {
@@ -406,12 +317,40 @@ struct ScheduleView: View {
                     }
                 }
             } else {
-                Text("No Entries Found")
-                    .font(.latoRegular(size: 18))
-                    .padding()
+                VStack {
+                    ZStack {
+                        Button {
+                            showSubscriptionPlanView.toggle()
+                        } label: {
+                            Text("Buy subscription to remove ads")
+                                .font(.nunitoBold(size: 18))
+                                .foregroundColor(.blueRibbon)
+                        }
+                        
+                        Group {
+                            BannerAd(isLoaded: $isWeekDetailsBannerAdLoaded, unitID: weekScheduleBannerId)
+                                .frame(height: 50)
+                                .cornerRadius(6)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .stroke(.white, lineWidth: 3)
+                                }
+                                .padding(6)
+                        }
+                        .background(.white)
+                        .cornerRadius(12)
+                        .padding(.horizontal, 24)
+                        .opacity(isWeekDetailsBannerAdLoaded ? 1 : 0)
+                    }
+                    .padding(.bottom, 16)
+                    
+                    Text("No Entries Found")
+                        .font(.latoRegular(size: 18))
+                        .padding()
+                    
+                    Spacer()
+                }
             }
-            
-            Spacer()
         }
         .safeAreaInset(edge: .bottom) {
             VStack {
@@ -503,8 +442,6 @@ struct ScheduleView: View {
             .padding(.bottom, 12)
             .padding(.horizontal, 24)
             
-//            Spacer()
-            
             if !selectedMonthWork.isEmpty {
                 ScrollView {
                     ForEach(selectedMonthWork) { workPeriod in
@@ -554,12 +491,40 @@ struct ScheduleView: View {
                     }
                 }
             } else {
-                Text("No Entries Found")
-                    .font(.latoRegular(size: 18))
-                    .padding()
+                VStack {
+                    ZStack {
+                        Button {
+                            showSubscriptionPlanView.toggle()
+                        } label: {
+                            Text("Buy subscription to remove ads")
+                                .font(.nunitoBold(size: 18))
+                                .foregroundColor(.blueRibbon)
+                        }
+                        
+                        Group {
+                            BannerAd(isLoaded: $isMonthDetailsBannerAdLoaded, unitID: monthScheduleBannerId)
+                                .frame(height: 50)
+                                .cornerRadius(6)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .stroke(.white, lineWidth: 3)
+                                }
+                                .padding(6)
+                        }
+                        .background(.white)
+                        .cornerRadius(12)
+                        .padding(.horizontal, 24)
+                        .opacity(isMonthDetailsBannerAdLoaded ? 1 : 0)
+                    }
+                    .padding(.bottom, 16)
+                    
+                    Text("No Entries Found")
+                        .font(.latoRegular(size: 18))
+                        .padding()
+                    
+                    Spacer()
+                }
             }
-            
-//            Spacer()
         }
         .safeAreaInset(edge: .bottom) {
             VStack {
@@ -699,9 +664,39 @@ struct ScheduleView: View {
                     }
                 }
             } else {
-                Text("No Entries Found")
-                    .font(.latoRegular(size: 18))
-                    .padding()
+                VStack {
+                    ZStack {
+                        Button {
+                            showSubscriptionPlanView.toggle()
+                        } label: {
+                            Text("Buy subscription to remove ads")
+                                .font(.nunitoBold(size: 18))
+                                .foregroundColor(.blueRibbon)
+                        }
+                        
+                        Group {
+                            BannerAd(isLoaded: $isYearDetailsBannerAdLoaded, unitID: yearScheduleBannerId)
+                                .frame(height: 50)
+                                .cornerRadius(6)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .stroke(.white, lineWidth: 3)
+                                }
+                                .padding(6)
+                        }
+                        .background(.white)
+                        .cornerRadius(12)
+                        .padding(.horizontal, 24)
+                        .opacity(isYearDetailsBannerAdLoaded ? 1 : 0)
+                    }
+                    .padding(.bottom, 16)
+                    
+                    Text("No Entries Found")
+                        .font(.latoRegular(size: 18))
+                        .padding()
+                    
+                    Spacer()
+                }
             }
         }
         .safeAreaInset(edge: .bottom) {
@@ -763,5 +758,233 @@ struct ScheduleView: View {
                 Spacer()
             }
         }
+    }
+    
+    @ViewBuilder
+    func Calendar() -> some View {
+        let month = viewModel.selectedDay.startOfMonth(using: calendar)
+        let days = makeDays()
+        
+        GeometryReader { geometry in
+            let size = geometry.size
+            let minY = geometry.frame(in: .global).minY - 122.67
+            /// Converting Scroll into Progress
+            let maxHeight = size.height - (calendarTitleViewHeight + weekLabelHeight + calendarRowHeight + topPadding + bottomPadding - 4)
+            @State var progress = max(min((-minY / maxHeight), 1), 0)
+            
+            VStack(spacing: 0) {
+                ZStack {
+                    Rectangle()
+                        .fill(.wildSand)
+                        .ignoresSafeArea()
+                        .frame(height: size.height - (maxHeight * progress), alignment: .top)
+                        .clipped()
+                        .contentShape(.rect)
+                        .offset(y: -minY)
+                    
+                    LazyVGrid(columns: Array(repeating: GridItem(), count: viewModel.daysInWeek)) {
+                        Section {
+                            ForEach(days, id: \.self) { date in
+                                if calendar.isDate(date, equalTo: month, toGranularity: .month) {
+                                    Button {
+                                        withAnimation(.interpolatingSpring(duration: 0.4)) {
+                                            viewModel.selectedDay = date
+                                        }
+                                    } label: {
+                                        Text("00")
+                                            .padding(8)
+                                            .foregroundColor(.clear)
+                                            .overlay {
+                                                Capsule().fill(calendar.isDate(date, inSameDayAs: viewModel.selectedDay) ?
+                                                    .black : (calendar.isDateInToday(date) ? .wildSand : .clear))
+                                                .padding(.horizontal, 4)
+                                            }
+                                            .accessibilityHidden(true)
+                                            .overlay {
+                                                Text(date.currentDayNumberString)
+                                                    .font(calendar.isDate(date, inSameDayAs: viewModel.selectedDay) ?
+                                                        .latoBlack(size: 14) : (calendar.isDateInToday(date) ? .latoBlack(size: 14) : .latoRegular(size: 14)))
+                                                    .foregroundColor(calendar.isDate(date, inSameDayAs: viewModel.selectedDay) ? .white : .black)
+                                            }
+                                            .overlay {
+                                                if let work = workSampleData.first(where: { $0.date.isSameDay(date: date) }) {
+                                                    Circle()
+                                                        .fill(work.date.isSameDay(date: viewModel.selectedDay) ? .white : .black)
+                                                        .frame(width: 5, height: 5)
+                                                        .padding(.top, 26)
+                                                }
+                                            }
+                                    }
+                                } else {
+                                    Text(date.currentDayNumberString)
+                                        .font(.latoRegular(size: 14))
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            .offset(y: -(monthProgress * calendarRowHeight + 2) * progress)
+                        } header: {
+                            ZStack {
+                                Rectangle()
+                                    .fill(.white)
+                                    .ignoresSafeArea()
+                                VStack {
+                                    HStack {
+                                        Button {
+                                            withAnimation(.easeInOut(duration: 0.4)) {
+                                                guard let newDate = calendar.date(
+                                                    byAdding: .month,
+                                                    value: -1,
+                                                    to: viewModel.selectedDay
+                                                ) else {
+                                                    return
+                                                }
+                                                
+                                                viewModel.selectedDay = newDate
+                                            }
+                                        } label: {
+                                            Label(
+                                                title: { Text("Previous") },
+                                                icon: { Image(systemName: "chevron.left") }
+                                            )
+                                            .labelStyle(IconOnlyLabelStyle())
+                                            .padding(.horizontal)
+                                            .frame(maxHeight: .infinity)
+                                        }
+                                        
+                                        Spacer()
+                                        
+                                        VStack(spacing: 0) {
+                                            Text(month.currentYearString)
+                                                .font(.latoBold(size: 14))
+                                                .foregroundColor(.gray)
+                                            
+                                            
+                                            Text(month.currentMonthString)
+                                                .font(.latoBlack(size: 26))
+                                        }
+                                        .padding()
+                                        
+                                        Spacer()
+                                        
+                                        Button {
+                                            withAnimation(.easeInOut(duration: 0.4)) {
+                                                guard let newDate = calendar.date(
+                                                    byAdding: .month,
+                                                    value: 1,
+                                                    to: viewModel.selectedDay
+                                                ) else {
+                                                    return
+                                                }
+                                                
+                                                viewModel.selectedDay = newDate
+                                            }
+                                        } label: {
+                                            Label(
+                                                title: { Text("Next") },
+                                                icon: { Image(systemName: "chevron.right") }
+                                            )
+                                            .labelStyle(IconOnlyLabelStyle())
+                                            .padding(.horizontal)
+                                            .frame(maxHeight: .infinity)
+                                        }
+                                    }
+                                    
+                                    HStack {
+                                        ForEach(days.prefix(viewModel.daysInWeek), id: \.self) { date in
+                                            Text(date.currentDayShortString)
+                                                .font(.latoRegular(size: 14))
+                                                .frame(maxWidth: .infinity)
+                                        }
+                                    }
+                                }
+                            }
+                            .padding(.top, 12)
+                            .padding(.bottom, 6)
+                            .background(.white)
+                            .zIndex(1001)
+                        }
+                    }
+                    .padding(.bottom, 12)
+                    .padding(.horizontal, 12)
+                    .background(.white)
+                    .cornerRadius(12)
+                    .frame(height: size.height - (maxHeight * progress), alignment: .top)
+                    .cornerRadius(12)
+                    .padding(.horizontal, 24)
+                    .clipped()
+                    .contentShape(.rect)
+                    .offset(y: -minY)
+                }
+                
+                let selectedDayWork = workSampleData
+                    .filter { $0.date.isSameDay(date: viewModel.selectedDay) }
+                    .reduce(into: []) { $0.append($1.workPeriod) }
+                    .flatMap { $0 }
+                
+                Rectangle()
+                    .fill(.wildSand)
+                    .ignoresSafeArea()
+                    .frame(height: 12)
+                    .clipped()
+                    .contentShape(.rect)
+                    .offset(y: -minY)
+                
+                ZStack {
+                    HStack(spacing: 0) {
+                        DropDownPicker(selection: $selectedWorkName,
+                                       addNewOption: $showAddNewWorkView,
+                                       hint: "Select",
+                                       options: ["All", "DAZN", "Revolut", "Long long name"],
+                                       backgroundColor: .white)
+                        
+                        Spacer()
+                        
+                        Button {
+                            if dayDeleteMode {
+                                selectedEntries = []
+                            }
+                            
+                            withAnimation(.bouncy(duration: 0.4)) {
+                                dayDeleteMode.toggle()
+                            }
+                        } label: {
+                            Text(dayDeleteMode ? "Cancel" : "Delete")
+                                .font(.latoRegular(size: 12))
+                        }
+                        .opacity(selectedDayWork.isEmpty ? 0 : 1)
+                    }
+                }
+                .fixedSize(horizontal: false, vertical: true)
+                .background(.wildSand)
+                .contentShape(.rect)
+                .offset(y: -minY)
+                .padding(.horizontal, 24)
+                .zIndex(1001)
+                
+                Rectangle()
+                    .fill(.wildSand)
+                    .ignoresSafeArea()
+                    .frame(height: 12)
+                    .clipped()
+                    .contentShape(.rect)
+                    .offset(y: -minY)
+            }
+        }
+        .frame(height: calendarHeight)
+        .zIndex(1000)
+    }
+}
+
+extension ScheduleView {
+    func makeDays() -> [Date] {
+        guard let monthInterval = calendar.dateInterval(of: .month, for: viewModel.selectedDay),
+              let monthFirstWeek = calendar.dateInterval(of: .weekOfMonth, for: monthInterval.start),
+              let monthLastWeek = calendar.dateInterval(of: .weekOfMonth, for: monthInterval.end - 1)
+        else {
+            return []
+        }
+
+        let dateInterval = DateInterval(start: monthFirstWeek.start, end: monthLastWeek.end)
+        return calendar.generateDays(for: dateInterval)
     }
 }

@@ -24,6 +24,7 @@ struct MainTabView: View {
                 }
             
             StatsView()
+                .background(.wildSand)
                 .tabItem {
                     Image(systemName: "chart.bar")
                     Text("Stats")

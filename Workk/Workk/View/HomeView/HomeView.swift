@@ -85,10 +85,19 @@ struct HomeView: View {
                 withAnimation(.linear(duration: 0.01)) {
                     self.viewModel.updateCurrentTime()
                 }
+                
+                Task {
+                    await updateProgressBar()
+                }
             })
             .onReceive(timeReciver) { _ in
                 withAnimation(Animation.linear(duration: 0.01)) {
                     self.viewModel.updateCurrentTime()
+                }
+            }
+            .onChange(of: selectedFilter) { _ in
+                Task {
+                    await updateProgressBar()
                 }
             }
             .withHomeRoutes()
@@ -308,24 +317,24 @@ extension HomeView {
                 HStack(spacing: 0) {
                     Button(action: viewModel.backwardToLastDaysWeek) {
                         Image(systemName: "chevron.left")
-                            .font(.caption)
+                            .frame(width: 24, height: 24)
                             .foregroundColor(.primary)
                     }
-                    .padding(.leading, 16)
+                    .padding(.leading, 12)
                     .padding(.trailing, -8)
                     
                     DayPicker(selection: $viewModel.selectedDayInWeek, days: viewModel.daysOfCurrentWeek)
-                        .padding(.vertical, 7)
                     
                     Button(action: viewModel.forwardToNextDaysWeek) {
                         Image(systemName: "chevron.right")
-                            .font(.caption)
+                            .frame(width: 24, height: 24)
                             .foregroundColor(.primary)
                     }
                     .padding(.leading, -8)
-                    .padding(.trailing, 16)
+                    .padding(.trailing, 12)
                 }
             }
+            .frame(height: 62)
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
@@ -341,7 +350,7 @@ extension HomeView {
                 }
                 
                 Group {
-                    BannerAd(isLoaded: $isDayDetailsBannerAdLoaded, unitID: "REDACTED_SERVICE_CONFIGURATION")
+                    BannerAd(isLoaded: $isDayDetailsBannerAdLoaded, unitID: dayDetailsBannerId)
                         .frame(height: 50)
                         .cornerRadius(6)
                         .overlay {
@@ -410,9 +419,9 @@ extension HomeView {
                 ProgressBar(percent: $dayProgressValue)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .task {
-                        await updateProgressBar()
-                    }
+//                    .task {
+//                        await updateProgressBar()
+//                    }
                 
                 HStack(spacing: 6) {
                     Text("Plan done in:")
@@ -446,12 +455,12 @@ extension HomeView {
             Group {
                 NativeAdView(nativeViewModel: nativeDayDetailsViewModel, style: .card)
                     .frame(height: 300)
-                    .cornerRadius(8)
+                    .cornerRadius(6)
                     .overlay {
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(.white, lineWidth: 2)
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(.white, lineWidth: 3)
                     }
-                    .padding(8)
+                    .padding(6)
                     .onAppear {
                         nativeDayDetailsViewModel.refreshAd()
                     }
@@ -471,7 +480,7 @@ extension HomeView {
                 HStack(spacing: 0) {
                     Button(action: viewModel.backwardToLastWeek) {
                         Image(systemName: "chevron.left")
-                            .font(.caption)
+                            .frame(width: 24, height: 24)
                             .foregroundColor(.primary)
                     }
                     .padding(.leading, 24)
@@ -484,14 +493,14 @@ extension HomeView {
                     
                     Button(action: viewModel.forwardToNextWeek) {
                         Image(systemName: "chevron.right")
-                            .font(.caption)
+                            .frame(width: 24, height: 24)
                             .foregroundColor(.primary)
                     }
                     .padding(.trailing, 24)
                 }
                 .padding(.horizontal, 4)
-                .padding(.vertical, 12)
             }
+            .frame(height: 62)
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
@@ -507,7 +516,7 @@ extension HomeView {
                 }
                 
                 Group {
-                    BannerAd(isLoaded: $isWeekDetailsBannerAdLoaded, unitID: "REDACTED_SERVICE_CONFIGURATION")
+                    BannerAd(isLoaded: $isWeekDetailsBannerAdLoaded, unitID: weekDetailsBannerId)
                         .frame(height: 50)
                         .cornerRadius(6)
                         .overlay {
@@ -576,9 +585,9 @@ extension HomeView {
                 ProgressBar(percent: $weekProgressValue)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .task {
-                        await updateProgressBar()
-                    }
+//                    .task {
+//                        await updateProgressBar()
+//                    }
                 
                 HStack(spacing: 6) {
                     Text("Plan done in:")
@@ -612,12 +621,12 @@ extension HomeView {
             Group {
                 NativeAdView(nativeViewModel: nativeWeekDetailsViewModel, style: .card)
                     .frame(height: 300)
-                    .cornerRadius(8)
+                    .cornerRadius(6)
                     .overlay {
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(.white, lineWidth: 2)
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(.white, lineWidth: 3)
                     }
-                    .padding(8)
+                    .padding(6)
                     .onAppear {
                         nativeWeekDetailsViewModel.refreshAd()
                     }
@@ -637,7 +646,7 @@ extension HomeView {
                 HStack(spacing: 0) {
                     Button(action: viewModel.backwardToLastMonth) {
                         Image(systemName: "chevron.left")
-                            .font(.caption)
+                            .frame(width: 24, height: 24)
                             .foregroundColor(.primary)
                     }
                     .padding(.leading, 24)
@@ -650,15 +659,15 @@ extension HomeView {
                     
                     Button(action: viewModel.forwardToNextMonth) {
                         Image(systemName: "chevron.right")
-                            .font(.caption)
+                            .frame(width: 24, height: 24)
                             .foregroundColor(.primary)
                     }
                     .padding(.trailing, 24)
                 }
                 .padding(.horizontal, 4)
-                .padding(.vertical, 12)
                     
             }
+            .frame(height: 62)
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
@@ -674,7 +683,7 @@ extension HomeView {
                 }
                 
                 Group {
-                    BannerAd(isLoaded: $isMonthDetailsBannerAdLoaded, unitID: "REDACTED_SERVICE_CONFIGURATION")
+                    BannerAd(isLoaded: $isMonthDetailsBannerAdLoaded, unitID: monthDetailsBannerId)
                         .frame(height: 50)
                         .cornerRadius(6)
                         .overlay {
@@ -743,9 +752,9 @@ extension HomeView {
                 ProgressBar(percent: $monthProgressValue)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .task {
-                        await updateProgressBar()
-                    }
+//                    .task {
+//                        await updateProgressBar()
+//                    }
                 
                 HStack(spacing: 6) {
                     Text("Plan done in:")
@@ -779,12 +788,12 @@ extension HomeView {
             Group {
                 NativeAdView(nativeViewModel: nativeMonthDetailsViewModel, style: .card)
                     .frame(height: 300)
-                    .cornerRadius(8)
+                    .cornerRadius(6)
                     .overlay {
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(.white, lineWidth: 2)
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(.white, lineWidth: 3)
                     }
-                    .padding(8)
+                    .padding(6)
                     .onAppear {
                         nativeMonthDetailsViewModel.refreshAd()
                     }
@@ -804,7 +813,7 @@ extension HomeView {
                 HStack(spacing: 0) {
                     Button(action: viewModel.backwardToLastYear) {
                         Image(systemName: "chevron.left")
-                            .font(.caption)
+                            .frame(width: 24, height: 24)
                             .foregroundColor(.primary)
                     }
                     .padding(.leading, 24)
@@ -817,14 +826,14 @@ extension HomeView {
                     
                     Button(action: viewModel.forwardToNextYear) {
                         Image(systemName: "chevron.right")
-                            .font(.caption)
+                            .frame(width: 24, height: 24)
                             .foregroundColor(.primary)
                     }
                     .padding(.trailing, 24)
                 }
                 .padding(.horizontal, 4)
-                .padding(.vertical, 20)
             }
+            .frame(height: 62)
             .background(.white)
             .cornerRadius(12)
             .padding(.horizontal, 24)
@@ -840,7 +849,7 @@ extension HomeView {
                 }
                 
                 Group {
-                    BannerAd(isLoaded: $isYearDetailsBannerAdLoaded, unitID: "REDACTED_SERVICE_CONFIGURATION")
+                    BannerAd(isLoaded: $isYearDetailsBannerAdLoaded, unitID: yearDetailsBannerId)
                         .frame(height: 50)
                         .cornerRadius(6)
                         .overlay {
@@ -909,9 +918,9 @@ extension HomeView {
                 ProgressBar(percent: $yearProgressValue)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .task {
-                        await updateProgressBar()
-                    }
+//                    .task {
+//                        await updateProgressBar()
+//                    }
                 
                 HStack(spacing: 6) {
                     Text("Plan done in:")
@@ -945,12 +954,12 @@ extension HomeView {
             Group {
                 NativeAdView(nativeViewModel: nativeYearDetailsViewModel, style: .card)
                     .frame(height: 300)
-                    .cornerRadius(8)
+                    .cornerRadius(6)
                     .overlay {
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(.white, lineWidth: 2)
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(.white, lineWidth: 3)
                     }
-                    .padding(8)
+                    .padding(6)
                     .onAppear {
                         nativeYearDetailsViewModel.refreshAd()
                     }

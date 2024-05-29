@@ -35,6 +35,9 @@ func getSampleDate(offset: Int) -> Date {
 var workSampleData: [WorkPeriodMetaData] = [
     WorkPeriodMetaData(workPeriod: [WorkPeriod(title: "DAZN"),
                                     WorkPeriod(title: "Workk"),
+                                    WorkPeriod(title: "Workk"),
+                                    WorkPeriod(title: "Workk"),
+                                    WorkPeriod(title: "Workk"),
                                     WorkPeriod(title: "Workk")],
                        date: getSampleDate(offset: 1)),
     WorkPeriodMetaData(workPeriod: [WorkPeriod(title: "DAZN")],

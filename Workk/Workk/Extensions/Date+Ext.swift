@@ -77,34 +77,40 @@ extension Date {
     }
     
     func isToday() -> Bool {
-        Calendar.current.isDateInToday(self)
+        Calendar(identifier: .iso8601).isDateInToday(self)
     }
     
     func isThisWeek() -> Bool {
-        Calendar.current.isDate(self, equalTo: Date(), toGranularity: .weekOfYear)
+        Calendar(identifier: .iso8601).isDate(self, equalTo: Date(), toGranularity: .weekOfYear)
     }
     
     func isThisMonth() -> Bool {
-        Calendar.current.isDate(self, equalTo: Date(), toGranularity: .month)
+        Calendar(identifier: .iso8601).isDate(self, equalTo: Date(), toGranularity: .month)
     }
     
     func isThisYear() -> Bool {
-        Calendar.current.isDate(self, equalTo: Date(), toGranularity: .year)
+        Calendar(identifier: .iso8601).isDate(self, equalTo: Date(), toGranularity: .year)
     }
     
     func isSameDay(date: Date) -> Bool {
-        Calendar.current.isDate(self, equalTo: date, toGranularity: .day)
+        Calendar(identifier: .iso8601).isDate(self, equalTo: date, toGranularity: .day)
     }
     
     func isSameWeek(date: Date) -> Bool {
-        Calendar.current.isDate(self, equalTo: date, toGranularity: .weekOfYear)
+        Calendar(identifier: .iso8601).isDate(self, equalTo: date, toGranularity: .weekOfYear)
     }
     
     func isSameMonth(date: Date) -> Bool {
-        Calendar.current.isDate(self, equalTo: date, toGranularity: .month)
+        Calendar(identifier: .iso8601).isDate(self, equalTo: date, toGranularity: .month)
     }
     
     func isSameYear(date: Date) -> Bool {
-        Calendar.current.isDate(self, equalTo: date, toGranularity: .year)
+        Calendar(identifier: .iso8601).isDate(self, equalTo: date, toGranularity: .year)
+    }
+    
+    func startOfMonth(using calendar: Calendar) -> Date {
+        calendar.date(
+            from: calendar.dateComponents([.year, .month], from: self)
+        ) ?? self
     }
 }

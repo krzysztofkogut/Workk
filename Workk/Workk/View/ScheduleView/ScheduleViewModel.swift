@@ -22,6 +22,7 @@ final class ScheduleViewModel: ScheduleViewModelProtocol {
     @Published var selectedYear: Date = Date()
     
     var daysOfCurrentWeek: [Date] = Calendar(identifier: .iso8601).daysOfWeek()
+    let daysInWeek = 7
     
     private let router: ScheduleRouter
     

@@ -5,6 +5,7 @@
 //  Created by Krzysztof Kogut on 22/10/2023.
 //
 
+import Foundation
 import SwiftUI
 
 enum PeriodFilter: Int, CaseIterable {
@@ -36,6 +37,45 @@ enum PeriodFilter: Int, CaseIterable {
             return "This month"
         case .year:
             return "This year"
+        }
+    }
+    
+    var chartStride: Calendar.Component {
+        switch self {
+        case .day:
+            return .day
+        case .week:
+            return .day
+        case .month:
+            return .month
+        case .year:
+            return .year
+        }
+    }
+    
+    var calendarComponent: Calendar.Component {
+        switch self {
+        case .day:
+            return .day
+        case .week:
+            return .day
+        case .month:
+            return .month
+        case .year:
+            return .year
+        }
+    }
+    
+    var dateFormat: Date.FormatStyle {
+        switch self {
+        case .day:
+            return .dateTime.day(.defaultDigits)
+        case .week:
+            return .dateTime.weekday(.abbreviated)
+        case .month:
+            return .dateTime.month(.abbreviated)
+        case .year:
+            return .dateTime.year(.defaultDigits)
         }
     }
 }

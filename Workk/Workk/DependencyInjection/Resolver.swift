@@ -42,6 +42,10 @@ extension Resolver {
         register {
             ScheduleViewModel(router: resolve())
         }.scope(.unique)
+        
+        register {
+            StatsViewModel()
+        }.scope(.unique)
     }
 }
 

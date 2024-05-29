@@ -9,6 +9,7 @@ import SwiftUI
 
 public struct CalendarView<Day: View, Header: View, Title: View, Trailing: View>: View {
     @Binding private var date: Date
+    @Binding private var progress: CGFloat
     
     private var calendar: Calendar
     private let content: (Date) -> Day
@@ -21,6 +22,7 @@ public struct CalendarView<Day: View, Header: View, Title: View, Trailing: View>
     public init(
         calendar: Calendar,
         date: Binding<Date>,
+        progress: Binding<CGFloat>,
         @ViewBuilder content: @escaping (Date) -> Day,
         @ViewBuilder trailing: @escaping (Date) -> Trailing,
         @ViewBuilder header: @escaping (Date) -> Header,
@@ -28,6 +30,7 @@ public struct CalendarView<Day: View, Header: View, Title: View, Trailing: View>
     ) {
         self.calendar = calendar
         self._date = date
+        self._progress = progress
         self.content = content
         self.trailing = trailing
         self.header = header
@@ -74,54 +77,5 @@ extension CalendarView {
 
         let dateInterval = DateInterval(start: monthFirstWeek.start, end: monthLastWeek.end)
         return calendar.generateDays(for: dateInterval)
-    }
-}
-
-extension Calendar {
-    func generateDates(
-        for dateInterval: DateInterval,
-        matching components: DateComponents
-    ) -> [Date] {
-        var dates = [dateInterval.start]
-
-        enumerateDates(
-            startingAfter: dateInterval.start,
-            matching: components,
-            matchingPolicy: .nextTime
-        ) { date, _, stop in
-            guard let date = date else { return }
-
-            guard date < dateInterval.end else {
-                stop = true
-                return
-            }
-
-            dates.append(date)
-        }
-
-        return dates
-    }
-
-    func generateDays(for dateInterval: DateInterval) -> [Date] {
-        generateDates(
-            for: dateInterval,
-            matching: dateComponents([.hour, .minute, .second], from: dateInterval.start)
-        )
-    }
-}
-
-extension Date {
-    func startOfMonth(using calendar: Calendar) -> Date {
-        calendar.date(
-            from: calendar.dateComponents([.year, .month], from: self)
-        ) ?? self
-    }
-}
-
-extension DateFormatter {
-    convenience init(dateFormat: String, calendar: Calendar) {
-        self.init()
-        self.dateFormat = dateFormat
-        self.calendar = calendar
     }
 }

@@ -21,6 +21,20 @@ extension Calendar {
         return (0...6).map { self.date(byAdding: .day, value: $0, to: startOfWeekNoon)! }
     }
     
+    func monthsOfYear(for date: Date = Date()) -> [Date] {
+        let dateComponents = self.dateComponents([.year], from: date)
+        let startOfYear = self.date(from: dateComponents)!
+        let startOfYearNoon = self.date(bySettingHour: 12, minute: 0, second: 0, of: startOfYear)!
+        return (0...11).map { self.date(byAdding: .month, value: $0, to: startOfYearNoon)! }
+    }
+    
+    func periodOf5Years(for date: Date = Date()) -> [Date] {
+        let dateComponents = self.dateComponents([.year], from: date)
+        let startOfYear = self.date(from: dateComponents)!
+        let startOfYearNoon = self.date(bySettingHour: 12, minute: 0, second: 0, of: startOfYear)!
+        return (-2...2).map { self.date(byAdding: .year, value: $0, to: startOfYearNoon)! }
+    }
+    
     func lastTwoWeeks(for date: Date = Date()) -> [Date] {
         (-1...0).map { self.date(byAdding: .weekOfYear, value: $0, to: date)! }.reversed()
     }
@@ -47,5 +61,35 @@ extension Calendar {
         }
         
         return (startOfWeek, endOfWeek)
+    }
+    
+    func generateDates(
+        for dateInterval: DateInterval,
+        matching components: DateComponents) -> [Date] {
+        var dates = [dateInterval.start]
+
+        enumerateDates(
+            startingAfter: dateInterval.start,
+            matching: components,
+            matchingPolicy: .nextTime
+        ) { date, _, stop in
+            guard let date = date else { return }
+
+            guard date < dateInterval.end else {
+                stop = true
+                return
+            }
+
+            dates.append(date)
+        }
+
+        return dates
+    }
+
+    func generateDays(for dateInterval: DateInterval) -> [Date] {
+        generateDates(
+            for: dateInterval,
+            matching: dateComponents([.hour, .minute, .second], from: dateInterval.start)
+        )
     }
 }
