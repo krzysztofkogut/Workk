@@ -10,8 +10,15 @@ import Resolver
 import SwiftUI
 
 struct StatsView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    
     @ObservedObject private var appRouter: AppRouter = Resolver.resolve()
     @ObservedObject private var viewModel: StatsViewModel = Resolver.resolve()
+    
+    @FetchRequest(
+            entity: Job.entity(),
+            sortDescriptors: [NSSortDescriptor(keyPath: \Job.name, ascending: true)]
+        ) private var jobs: FetchedResults<Job>
     
     @State var selectedPeriodFilter: PeriodFilter = .week
     @State var selectedWorkFilter: String? = "All"
@@ -94,7 +101,7 @@ struct StatsView: View {
                                addNewOption: $showAddNewWorkView,
                                hint: "All",
                                state: .trailing,
-                               options: ["All", "DAZN", "itCraft"],
+                               options: ["All"] + jobs.compactMap { $0.name },
                                backgroundColor: .white)
             }
             .padding(.horizontal, 16)
@@ -163,7 +170,7 @@ struct StatsView: View {
                 case .week:
                     WeekCard(isSelected: true, week: viewModel.selectedWeek)
                 case .month:
-                    YearCard(isSelected: true, year: viewModel.selectedYear)
+                    YearCard(isSelected: true, year: viewModel.selectedYearForMonths)
                 default:
                     YearCard(isSelected: true, year: viewModel.selectedYear)
                 }

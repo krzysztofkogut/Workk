@@ -30,6 +30,13 @@ final class ScheduleViewModel: ScheduleViewModelProtocol {
         self.router = router
     }
     
+    func showAddWorkTimeView(selectedWork: Binding<Work?>,
+                             selectedFilter: Binding<PeriodFilter>,
+                             selectedWorkName: Binding<String?>) {
+        router.showAddWorkTimeView(selectedWork: selectedWork,
+                                   selectedFilter: selectedFilter,
+                                   selectedWorkName: selectedWorkName)
+    }
     
     func backwardToLastWeek() {
         if let lastWeek = Calendar(identifier: .iso8601).date(byAdding: .weekOfYear, value: -1, to: selectedWeek) {

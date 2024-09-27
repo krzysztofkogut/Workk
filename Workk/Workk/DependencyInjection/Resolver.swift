@@ -28,6 +28,10 @@ extension Resolver {
         }.scope(.application)
         
         register {
+            PersistanceManager()
+        }.scope(.application)
+        
+        register {
             HomeRouter(with: resolve())
         }.scope(.unique)
         
@@ -41,7 +45,7 @@ extension Resolver {
         
         register {
             ScheduleViewModel(router: resolve())
-        }.scope(.unique)
+        }.scope(.shared)
         
         register {
             StatsViewModel()

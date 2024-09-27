@@ -21,7 +21,6 @@ struct DayPicker: View {
                 
                 VStack(spacing: 0) {
                     DayCard(isSelected: day.isSameDay(date: selection) , day: day)
-                        .frame(width: 26)
                     
                     if day.isSameDay(date: selection) {
                         Rectangle()

@@ -18,6 +18,11 @@ extension Date {
         return currentDateFormatter.string(from: self)
     }
     
+    var currentHourString: String {
+        let currentDayFormatter = DateFormatter(dateFormat: "HH:mm", calendar: Calendar.current)
+        return currentDayFormatter.string(from: self)
+    }
+    
     var currentDayString: String {
         let currentDayFormatter = DateFormatter(dateFormat: "EEEE", calendar: Calendar.current)
         return currentDayFormatter.string(from: self)
@@ -112,5 +117,76 @@ extension Date {
         calendar.date(
             from: calendar.dateComponents([.year, .month], from: self)
         ) ?? self
+    }
+    
+    func startOfWeek() -> Date {
+        Calendar(identifier: .iso8601).dateInterval(of: .weekOfYear, for: self)?.start ?? self
+    }
+    
+    func endOfWeek() -> Date {
+        Calendar(identifier: .iso8601).dateInterval(of: .weekOfYear, for: self)?.end ?? self
+    }
+    
+    func startOfMonth() -> Date {
+        Calendar(identifier: .iso8601).dateInterval(of: .month, for: self)?.start ?? self
+    }
+    
+    func endOfMonth() -> Date {
+        Calendar(identifier: .iso8601).dateInterval(of: .month, for: self)?.end ?? self
+    }
+    
+    func startOfYear() -> Date {
+        Calendar(identifier: .iso8601).dateInterval(of: .year, for: self)?.start ?? self
+    }
+    
+    func endOfYear() -> Date {
+        Calendar(identifier: .iso8601).dateInterval(of: .year, for: self)?.end ?? self
+    }
+    
+    func updatingMonthAndDay(from otherDate: Date) -> Date? {
+        let calendar = Calendar(identifier: .iso8601)
+        
+        // Extract the current date components (hour, minute, second, etc.)
+        var currentComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self)
+        
+        // Extract the month and day from the other date
+        let newDateComponents = calendar.dateComponents([.month, .day], from: otherDate)
+        
+        // Update the current components with the new month and day
+        currentComponents.month = newDateComponents.month
+        currentComponents.day = newDateComponents.day
+        
+        // Return the new date by combining the updated components
+        return calendar.date(from: currentComponents)
+    }
+    
+    func timeDifference(to endDate: Date) -> String {
+        // Calculate the difference between the two dates
+        let calendar = Calendar(identifier: .iso8601)
+        let components = calendar.dateComponents([.hour, .minute, .second], from: self, to: endDate)
+
+        // Format the result
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .second]
+        formatter.unitsStyle = .positional // Shows 1h 2m 3s as 1:02:03
+        formatter.zeroFormattingBehavior = .pad // Pads with zeros, like 01:02:03
+        
+        // Format the date components into a string
+        if let formattedString = formatter.string(from: components) {
+            return formattedString
+        } else {
+            return "Invalid date difference"
+        }
+    }
+    
+    func timeDifferenceInHours(to endDate: Date) -> Float {
+        let timeInterval = endDate.timeIntervalSince(self) // Time interval in seconds
+        let timeDifferenceInHours = Float(timeInterval) / 3600.0 // Convert seconds to hours
+        return timeDifferenceInHours
+    }
+    
+    func timeDifferenceInMinutes(to endDate: Date) -> Float {
+        let timeInterval = endDate.timeIntervalSince(self) // Time interval in seconds
+        return Float(timeInterval) / 60.0 // Convert seconds to minutes
     }
 }

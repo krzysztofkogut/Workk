@@ -7,6 +7,9 @@
 */
 
 "Day" = "Dzień";
+"Week" = "Tydzień";
+"Month" = "Miesiąc";
+"Year" = "Rok";
 "Save" = "Zapisz";
 "Save time" = "Zapisz czas";
 "Select" = "Zaznacz";

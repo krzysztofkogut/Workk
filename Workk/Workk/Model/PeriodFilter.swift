@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum PeriodFilter: Int, CaseIterable {
+enum PeriodFilter: String, CaseIterable {
     case day
     case week
     case month

@@ -11,8 +11,8 @@ public extension View {
     func withScheduleRoutes() -> some View {
         self.navigationDestination(for: ScheduleRoute.self) { destination in
             switch destination {
-            case .addNewEntryView:
-                SubscriptionPlanView()
+            case .addWorkTimeView(let selectedWork, let selectedFilter, let selectedWorkName):
+                AddWorkTimeView(selectedWork: selectedWork, selectedFilter: selectedFilter, selectedWorkName: selectedWorkName)
             }
         }
     }

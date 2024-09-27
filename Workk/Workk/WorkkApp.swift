@@ -12,6 +12,7 @@ import SwiftUI
 @main
 struct WorkkApp: App {
     @State private var overlayWindow: PassThroughWindow?
+    let persistenceManager: PersistanceManager = Resolver.resolve()
     
     init() {
         GADMobileAds.sharedInstance().start(completionHandler: nil)
@@ -21,6 +22,7 @@ struct WorkkApp: App {
         WindowGroup {
                 MainTabView()
                     .environment(\.locale, .init(identifier: "pl"))
+                    .environment(\.managedObjectContext, persistenceManager.container.viewContext)
                     .onAppear(perform: {
                         if overlayWindow == nil {
                             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
@@ -33,7 +35,6 @@ struct WorkkApp: App {
                                 overlayWindow.isHidden = false
                                 overlayWindow.isUserInteractionEnabled = true
                                 self.overlayWindow = overlayWindow
-                                //print("Overlay Window Created")
                             }
                         }
                     })

@@ -14,12 +14,16 @@ struct DayCard: View {
     var body: some View {
         VStack(spacing: 0) {
             Text(day.currentDayShortString)
+                .minimumScaleFactor(0.01)
+                .fixedSize(horizontal: true, vertical: false)
                 .font(.latoRegular(size: 10))
                 .foregroundColor(day.isToday() || isSelected ? .black : .gray)
                 .padding(.top, 4)
                 .padding(.bottom, 2)
             
             Text(day.currentDayNumberString)
+                .minimumScaleFactor(0.01)
+                .fixedSize(horizontal: true, vertical: false)
                 .font(day.isToday() || isSelected ? .latoBlack(size: 14) : .latoRegular(size: 14))
                 .foregroundColor(day.isToday() || isSelected ? .black : .gray)
         }

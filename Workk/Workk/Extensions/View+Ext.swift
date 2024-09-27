@@ -54,7 +54,7 @@ extension View {
     @ViewBuilder
     func size(value: @escaping (CGSize) -> ()) -> some View {
         self
-            .overlay {
+            .background {
                 GeometryReader(content: { geometry in
                     let size = geometry.size
                     
@@ -65,6 +65,12 @@ extension View {
                         })
                 })
             }
+    }
+}
+
+extension View {
+    func readSize(_ size: Binding<CGSize>) -> some View {
+        self.modifier(SizeModifier(size: size))
     }
 }
 

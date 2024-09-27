@@ -9,11 +9,29 @@ import SwiftUI
 
 protocol ScheduleRouterProtocol {
     func pop()
-    func showAddNewEntryView()
+    func showAddWorkTimeView(selectedWork: Binding<Work?>,
+                             selectedFilter: Binding<PeriodFilter>,
+                             selectedWorkName: Binding<String?>)
 }
 
 enum ScheduleRoute: Hashable {
-    case addNewEntryView
+    case addWorkTimeView(selectedWork: Binding<Work?>, selectedFilter: Binding<PeriodFilter>, selectedWorkName: Binding<String?>)
+    
+    static func == (lhs: ScheduleRoute, rhs: ScheduleRoute) -> Bool {
+            switch (lhs, rhs) {
+            case (.addWorkTimeView(let lhsWork, let lhsFilter, let lhsWorkName), .addWorkTimeView(let rhsWork, let rhsFilter, let rhsWorkName)):
+                return lhsFilter.wrappedValue == rhsFilter.wrappedValue
+                && lhsWorkName.wrappedValue == rhsWorkName.wrappedValue
+                && lhsWork.wrappedValue == rhsWork.wrappedValue
+            }
+        }
+        
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .addWorkTimeView(let selectedWork, let selectedFilter, let selectedWorkName):
+            hasher.combine(selectedFilter.wrappedValue)
+        }
+    }
 }
 
 class ScheduleRouter: ModuleRouter, ScheduleRouterProtocol {
@@ -31,7 +49,11 @@ class ScheduleRouter: ModuleRouter, ScheduleRouterProtocol {
         appRouter.pop()
     }
     
-    func showAddNewEntryView() {
-        navigate(to: .addNewEntryView)
+    func showAddWorkTimeView(selectedWork: Binding<Work?>,
+                             selectedFilter: Binding<PeriodFilter>,
+                             selectedWorkName: Binding<String?>) {
+        navigate(to: .addWorkTimeView(selectedWork: selectedWork,
+                                      selectedFilter: selectedFilter,
+                                      selectedWorkName: selectedWorkName))
     }
 }

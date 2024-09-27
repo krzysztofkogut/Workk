@@ -11,6 +11,8 @@ public extension View {
     func withHomeRoutes() -> some View {
         self.navigationDestination(for: HomeRoute.self) { destination in
             switch destination {
+            case .addJobView:
+                AddJobView()
             case .subscriptionPlanView:
                 SubscriptionPlanView()
             }

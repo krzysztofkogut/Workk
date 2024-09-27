@@ -23,8 +23,8 @@ struct DropDownPicker: View {
     var backgroundColor: Color
     var maxWidth: CGFloat = 130
     
-    @SceneStorage("drop_down_zindex") private var index = 1000.0
-    @State var zindex = 1000.0
+    @SceneStorage("drop_down_zindex") private var index = 2000.0
+    @State var zindex = 2000.0
     @State var showDropdown = false
     
     var body: some View {
@@ -87,72 +87,120 @@ struct DropDownPicker: View {
         }
         .frame(maxWidth: maxWidth, alignment: state == .leading ? .leading : .trailing)
         .frame(height: 38, alignment: state == .leading ? .leading : .trailing)
+        .onAppear {
+            showDropdown = false
+        }
         .zIndex(zindex)
     }
     
     
     func OptionsView() -> some View {
         VStack(alignment: state == .leading ? .leading : .trailing, spacing: 0) {
-            ForEach(options, id: \.self) { option in
-                HStack {
-                    if state == .trailing {
-                        Spacer()
+            ScrollViewReader { proxy in
+                if options.count > 2 {
+                    ScrollView {
+                        ForEach(options.indices, id: \.self) { index in
+                            let option = options[index]
+                            
+                            HStack {
+                                if state == .trailing {
+                                    Spacer()
+                                }
+                                
+                                Text(option)
+                                    .lineLimit(1)
+                                
+                                if state == .leading {
+                                    Spacer()
+                                }
+                            }
+                            .foregroundStyle(selection == option ? Color.primary : Color.gray)
+                            .animation(.none, value: selection)
+                            .frame(height: 38, alignment: state == .leading ? .leading : .trailing)
+                            .contentShape(Rectangle())
+                            .padding(.horizontal, 16)
+                            .onTapGesture {
+                                withAnimation(.snappy) {
+                                    selection = option
+                                    showDropdown.toggle()
+                                }
+                            }
+                            .id(index)  // Set each item’s index as its ID
+                        }
                     }
-                    
-                    Text(option)
-                        .lineLimit(1)
-                    
-                    if state == .leading {
-                        Spacer()
+                    .frame(height: 92)
+                } else {
+                    ForEach(options.indices, id: \.self) { index in
+                        let option = options[index]
+                        
+                        HStack {
+                            if state == .trailing {
+                                Spacer()
+                            }
+                            
+                            Text(option)
+                                .lineLimit(1)
+                            
+                            if state == .leading {
+                                Spacer()
+                            }
+                        }
+                        .foregroundStyle(selection == option ? Color.primary : Color.gray)
+                        .animation(.none, value: selection)
+                        .frame(height: 38, alignment: state == .leading ? .leading : .trailing)
+                        .contentShape(Rectangle())
+                        .padding(.horizontal, 16)
+                        .onTapGesture {
+                            withAnimation(.snappy) {
+                                selection = option
+                                showDropdown.toggle()
+                            }
+                        }
+                        .id(index)  // Use index-based ID for each item
                     }
                 }
-                .foregroundStyle(selection == option ? Color.primary : Color.gray)
-                .animation(.none, value: selection)
-                .frame(height: 38, alignment: state == .leading ? .leading : .trailing)
-                .contentShape(.rect)
-                .padding(.horizontal, 16)
-                .onTapGesture {
-                    withAnimation(.snappy) {
-                        selection = option
-                        showDropdown.toggle()
-                    }
-                }
-            }
-            
-            if !hideAddNewOption {
-                HStack {
-                    if state == .trailing {
+                
+                if !hideAddNewOption {
+                    HStack {
+                        Image(systemName: "plus")
+                            .font(.body)
+                        
                         Spacer()
+                        
+                        if options.count > 2 {
+                            Button {
+                                withAnimation {
+                                    // Scroll to the last element using its index-based ID
+                                    proxy.scrollTo(options.count - 1, anchor: .bottom)
+                                }
+                            } label: {
+                                Image(systemName: "chevron.down.circle.fill")
+                                    .font(.body)
+                                    .foregroundColor(.black)
+                            }
+                        }
                     }
-                    
-                    Image(systemName: "plus")
-                        .font(.body)
-                    
-                    if state == .leading {
-                        Spacer()
-                    }
-                }
-                .animation(.none, value: selection)
-                .frame(height: 38, alignment: state == .leading ? .leading : .trailing)
-                .background(backgroundColor)
-                .contentShape(.rect)
-                .padding(.horizontal, 16)
-                .onTapGesture {
-                    withAnimation(.snappy) {
-                        addNewOption.toggle()
-                        showDropdown.toggle()
+                    .animation(.none, value: selection)
+                    .frame(height: 38, alignment: state == .leading ? .leading : .trailing)
+                    .background(backgroundColor)
+                    .contentShape(Rectangle())
+                    .padding(.horizontal, 16)
+                    .onTapGesture {
+                        withAnimation(.snappy) {
+                            addNewOption.toggle()
+                            showDropdown.toggle()
+                        }
                     }
                 }
             }
         }
         .background(backgroundColor)
-        .transition(.move(edge: .top))
-        .zIndex(1)
     }
+
 }
 
 #Preview {
     @State var selection: String? = nil
     @State var addNewOption: Bool = false
-    return DropDownPicker(selection: $selection, addNewOption: $addNewOption, hint: "Select", options: ["YouTube", "Instagram"], backgroundColor: .wildSand)
+    return DropDownPicker(selection: $selection, addNewOption: $addNewOption, hint: "Select", state: .trailing, options: ["YouTube", "Instagram", "Facebook", "Twitter"], backgroundColor: .wildSand)
 }

@@ -11,6 +11,7 @@ import Resolver
 import SwiftUI
 
 struct HomeView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     @Namespace var filterAnimation
     
     @ObservedObject private var appRouter: AppRouter = Resolver.resolve()
@@ -32,6 +33,7 @@ struct HomeView: View {
                                                         adUnitID: "REDACTED_SERVICE_CONFIGURATION",
                                                         requestInterval: 300)
     
+    @State private var selectedWork: Work? = nil
     @State private var selectedFilter: PeriodFilter = .day
     @State private var selectedFilterWidth: CGFloat = 0
     @State private var activity: Activity<WorkTimeStatusAttributes>? = nil
@@ -42,9 +44,10 @@ struct HomeView: View {
     @State private var timeReciver = Timer.publish(every: 0.5, on: .current, in: .common).autoconnect()
     @State private var countWorkTime = false
     @State private var pauseTimer = false
-    @State private var toggleDynamicIsland: Bool = false
+    @State private var toggleDynamicIsland: Bool = true
     @State private var selectedWorkName: String? = nil
-    @State private var showAddNewWorkView: Bool = false
+    @State private var showAddJobView: Bool = false
+    @State private var showAddWorkTimeView: Bool = false
     @State private var showSubscriptionPlanView = false
     @State private var filtersWidthDict: [PeriodFilter : CGFloat] = [:]
     
@@ -63,7 +66,7 @@ struct HomeView: View {
             VStack(spacing: 0) {
                 HStack {
                     DropDownPicker(selection: $selectedWorkName,
-                                   addNewOption: $showAddNewWorkView,
+                                   addNewOption: $showAddJobView,
                                    hint: "Select",
                                    options: ["DAZN"], 
                                    backgroundColor: .wildSand)
@@ -101,10 +104,15 @@ struct HomeView: View {
                 }
             }
             .withHomeRoutes()
-            .fullScreenCover(isPresented: $showSubscriptionPlanView) {
-                SubscriptionPlanView()
+            .fullScreenCover(isPresented: $showAddJobView) {
+                AddJobView()
             }
-            .fullScreenCover(isPresented: $showAddNewWorkView) {
+            .fullScreenCover(isPresented: $showAddWorkTimeView) {
+                AddWorkTimeView(selectedWork: $selectedWork,
+                    selectedFilter: $selectedFilter,
+                    selectedWorkName: $selectedWorkName)
+            }
+            .sheet(isPresented: $showSubscriptionPlanView) {
                 SubscriptionPlanView()
             }
         }
@@ -116,10 +124,10 @@ extension HomeView {
         VStack(alignment: .center) {
             ZStack(alignment: .center) {
                 HStack(alignment: .firstTextBaseline, spacing: 0) {
-                    RollingText(font: .latoBold(size: 56), value: $viewModel.stopwatch.hours)
+                    RollingText(font: .latoBlack(size: 56), value: $viewModel.stopwatch.hours)
                     Text(":")
                         .font(.latoBold(size: 56))
-                    RollingText(font: .latoBold(size: 56), value: $viewModel.stopwatch.minutes)
+                    RollingText(font: .latoBlack(size: 56), value: $viewModel.stopwatch.minutes)
                     RollingText(font: .latoLight(size: 16), value: $viewModel.stopwatch.seconds)
                         .padding(.leading, 2)
                 }
@@ -128,10 +136,10 @@ extension HomeView {
                 .opacity(countWorkTime ? 1 : 0)
                 
                 HStack(alignment: .firstTextBaseline, spacing: 0) {
-                    RollingText(font: .latoBold(size: 56), value: $viewModel.currentTime.hour)
+                    RollingText(font: .latoBlack(size: 56), value: $viewModel.currentTime.hour)
                     Text(":")
                         .font(.latoBold(size: 56))
-                    RollingText(font: .latoBold(size: 56), value: $viewModel.currentTime.min)
+                    RollingText(font: .latoBlack(size: 56), value: $viewModel.currentTime.min)
                     RollingText(font: .latoLight(size: 16), value: $viewModel.currentTime.sec)
                         .padding(.leading, 2)
                 }
@@ -158,7 +166,7 @@ extension HomeView {
                     viewModel.stopwatch.isRunning.toggle()
                     pauseTimer ? stopLiveActivityTimer() : startLiveActivityTimer(elapsedTime: viewModel.stopwatch.elapsedTime)
                 } else {
-                    withAnimation(.easeInOut(duration: 0.6)) {
+                    withAnimation(.bouncy(duration: 0.6)) {
                         countWorkTime.toggle()
                     }
                     
@@ -167,11 +175,12 @@ extension HomeView {
                 }
             } label: {
                 Text(countWorkTime ? (pauseTimer ? "Start" : "Stop") : "Start timer")
-                    .frame(width: countWorkTime ? 80 : 120, height: 44)
+                    .font(.latoBold(size: 16))
+                    .frame(width: countWorkTime ? 90 : 120, height: 44)
             }
             .modifier(FilledButton())
             .background(.black)
-            .cornerRadius(6)
+            .cornerRadius(24)
             
             if countWorkTime {
                 Button {
@@ -214,45 +223,47 @@ extension HomeView {
                     viewModel.stopwatch.reset()
                     stopLiveActivityTimer()
                     
-                    withAnimation(.easeInOut(duration: 0.6)) {
+                    withAnimation(.bouncy(duration: 0.6)) {
                         countWorkTime = false
                         pauseTimer = false
                     }
                 } label : {
                     Text("Save")
-                        .frame(width: 80, height: 44)
+                        .font(.latoBold(size: 16))
+                        .frame(width: 90, height: 44)
                 }
                 .overlay {
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(.cranberry, lineWidth: 4)
+                    RoundedRectangle(cornerRadius: 24)
+                        .stroke(.black, lineWidth: 4)
                 }
                 .modifier(BorderedRoundedButton())
-                .cornerRadius(6)
+                .cornerRadius(24)
             }
             
             Button {
                 if countWorkTime {
                     stopLiveActivityTimer()
                     
-                    withAnimation(.easeInOut(duration: 0.6)) {
+                    withAnimation(.bouncy(duration: 0.6)) {
                         countWorkTime = false
                         pauseTimer = false
                     }
                 } else {
-                    showSubscriptionPlanView.toggle()
+                    showAddWorkTimeView.toggle()
                 }
                 
                 viewModel.stopwatch.reset()
             } label: {
                 Text(countWorkTime ? "Reset" : "Save time")
-                    .frame(width: countWorkTime ? 80 : 120, height: 44)
+                    .font(.latoBold(size: 16))
+                    .frame(width: countWorkTime ? 90 : 120, height: 44)
             }
             .modifier(BorderedRoundedButton())
             .overlay {
-                RoundedRectangle(cornerRadius: 6)
+                RoundedRectangle(cornerRadius: 24)
                     .stroke(.blueRibbon, lineWidth: 4)
             }
-            .cornerRadius(6)
+            .cornerRadius(24)
         }
     }
     
@@ -290,6 +301,7 @@ extension HomeView {
             periodFilterBar
                 .padding(.top, 4)
                 .padding(.horizontal, 8)
+                .padding()
             
             TabView(selection: $selectedFilter) {
                 dayDetailsView
@@ -313,7 +325,7 @@ extension HomeView {
     
     var dayDetailsView: some View {
         ScrollView(showsIndicators: false) {
-            VStack {
+            VStack(spacing: 0) {
                 HStack(spacing: 0) {
                     Button(action: viewModel.backwardToLastDaysWeek) {
                         Image(systemName: "chevron.left")
@@ -337,8 +349,7 @@ extension HomeView {
             .frame(height: 62)
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
-            .padding(.bottom, isDayDetailsBannerAdLoaded ? 4 : -16)
+            .padding(.bottom, isDayDetailsBannerAdLoaded ? 2 : -16)
             
             ZStack {
                 Button {
@@ -361,10 +372,10 @@ extension HomeView {
                 }
                 .background(.white)
                 .cornerRadius(12)
-                .padding(.horizontal, 24)
+//                .padding(.horizontal, 24)
                 .opacity(isDayDetailsBannerAdLoaded ? 1 : 0)
             }
-            .padding(.bottom, isDayDetailsBannerAdLoaded ? 4 : -16)
+            .padding(.bottom, isDayDetailsBannerAdLoaded ? 2 : -16)
             
             VStack {
                 HStack {
@@ -403,8 +414,7 @@ extension HomeView {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
-            .padding(.bottom, 4)
+            .padding(.bottom, 2)
             
             VStack {
                 HStack {
@@ -419,9 +429,6 @@ extension HomeView {
                 ProgressBar(percent: $dayProgressValue)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-//                    .task {
-//                        await updateProgressBar()
-//                    }
                 
                 HStack(spacing: 6) {
                     Text("Plan done in:")
@@ -449,8 +456,7 @@ extension HomeView {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
-            .padding(.bottom, 4)
+            .padding(.bottom, 2)
             
             Group {
                 NativeAdView(nativeViewModel: nativeDayDetailsViewModel, style: .card)
@@ -467,16 +473,16 @@ extension HomeView {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
             .padding(.bottom, 16)
             
             Spacer(minLength: 60)
         }
+        .padding(.horizontal, 24)
     }
     
     var weekDetailsView: some View {
         ScrollView(showsIndicators: false) {
-            VStack {
+            VStack(spacing: 0) {
                 HStack(spacing: 0) {
                     Button(action: viewModel.backwardToLastWeek) {
                         Image(systemName: "chevron.left")
@@ -503,8 +509,7 @@ extension HomeView {
             .frame(height: 62)
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
-            .padding(.bottom, isWeekDetailsBannerAdLoaded ? 4 : -16)
+            .padding(.bottom, isWeekDetailsBannerAdLoaded ? 2 : -16)
             
             ZStack {
                 Button {
@@ -527,10 +532,10 @@ extension HomeView {
                 }
                 .background(.white)
                 .cornerRadius(12)
-                .padding(.horizontal, 24)
+//                .padding(.horizontal, 24)
                 .opacity(isWeekDetailsBannerAdLoaded ? 1 : 0)
             }
-            .padding(.bottom, isWeekDetailsBannerAdLoaded ? 4 : -16)
+            .padding(.bottom, isWeekDetailsBannerAdLoaded ? 2 : -16)
             
             VStack {
                 HStack {
@@ -569,8 +574,7 @@ extension HomeView {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
-            .padding(.bottom, 4)
+            .padding(.bottom, 2)
             
             VStack {
                 HStack {
@@ -585,9 +589,6 @@ extension HomeView {
                 ProgressBar(percent: $weekProgressValue)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-//                    .task {
-//                        await updateProgressBar()
-//                    }
                 
                 HStack(spacing: 6) {
                     Text("Plan done in:")
@@ -615,8 +616,7 @@ extension HomeView {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
-            .padding(.bottom, 4)
+            .padding(.bottom, 2)
             
             Group {
                 NativeAdView(nativeViewModel: nativeWeekDetailsViewModel, style: .card)
@@ -633,16 +633,16 @@ extension HomeView {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
             .padding(.bottom, 16)
             
             Spacer(minLength: 60)
         }
+        .padding(.horizontal, 24)
     }
     
     var monthDetailsView: some View {
         ScrollView(showsIndicators: false) {
-            VStack {
+            VStack(spacing: 0) {
                 HStack(spacing: 0) {
                     Button(action: viewModel.backwardToLastMonth) {
                         Image(systemName: "chevron.left")
@@ -670,8 +670,7 @@ extension HomeView {
             .frame(height: 62)
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
-            .padding(.bottom, isMonthDetailsBannerAdLoaded ? 4 : -16)
+            .padding(.bottom, isMonthDetailsBannerAdLoaded ? 2 : -16)
             
             ZStack {
                 Button {
@@ -694,10 +693,10 @@ extension HomeView {
                 }
                 .background(.white)
                 .cornerRadius(12)
-                .padding(.horizontal, 24)
+//                .padding(.horizontal, 24)
                 .opacity(isMonthDetailsBannerAdLoaded ? 1 : 0)
             }
-            .padding(.bottom, isMonthDetailsBannerAdLoaded ? 4 : -16)
+            .padding(.bottom, isMonthDetailsBannerAdLoaded ? 2 : -16)
             
             VStack {
                 HStack {
@@ -736,8 +735,7 @@ extension HomeView {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
-            .padding(.bottom, 4)
+            .padding(.bottom, 2)
             
             VStack {
                 HStack {
@@ -752,9 +750,6 @@ extension HomeView {
                 ProgressBar(percent: $monthProgressValue)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-//                    .task {
-//                        await updateProgressBar()
-//                    }
                 
                 HStack(spacing: 6) {
                     Text("Plan done in:")
@@ -782,8 +777,7 @@ extension HomeView {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
-            .padding(.bottom, 4)
+            .padding(.bottom, 2)
             
             Group {
                 NativeAdView(nativeViewModel: nativeMonthDetailsViewModel, style: .card)
@@ -800,16 +794,16 @@ extension HomeView {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
             .padding(.bottom, 16)
             
             Spacer(minLength: 60)
         }
+        .padding(.horizontal, 24)
     }
     
     var yearDetailsView: some View {
         ScrollView(showsIndicators: false) {
-            VStack {
+            VStack(spacing: 0) {
                 HStack(spacing: 0) {
                     Button(action: viewModel.backwardToLastYear) {
                         Image(systemName: "chevron.left")
@@ -836,8 +830,7 @@ extension HomeView {
             .frame(height: 62)
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
-            .padding(.bottom, isYearDetailsBannerAdLoaded ? 4 : -16)
+            .padding(.bottom, isYearDetailsBannerAdLoaded ? 2 : -16)
             
             ZStack {
                 Button {
@@ -860,10 +853,10 @@ extension HomeView {
                 }
                 .background(.white)
                 .cornerRadius(12)
-                .padding(.horizontal, 24)
+//                .padding(.horizontal, 24)
                 .opacity(isYearDetailsBannerAdLoaded ? 1 : 0)
             }
-            .padding(.bottom, isYearDetailsBannerAdLoaded ? 4 : -16)
+            .padding(.bottom, isYearDetailsBannerAdLoaded ? 2 : -16)
             
             VStack {
                 HStack {
@@ -902,8 +895,7 @@ extension HomeView {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
-            .padding(.bottom, 4)
+            .padding(.bottom, 2)
             
             VStack {
                 HStack {
@@ -918,9 +910,6 @@ extension HomeView {
                 ProgressBar(percent: $yearProgressValue)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-//                    .task {
-//                        await updateProgressBar()
-//                    }
                 
                 HStack(spacing: 6) {
                     Text("Plan done in:")
@@ -948,8 +937,7 @@ extension HomeView {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
-            .padding(.bottom, 4)
+            .padding(.bottom, 2)
             
             Group {
                 NativeAdView(nativeViewModel: nativeYearDetailsViewModel, style: .card)
@@ -966,11 +954,11 @@ extension HomeView {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
             .padding(.bottom, 16)
             
             Spacer(minLength: 60)
         }
+        .padding(.horizontal, 24)
     }
     
     var periodFilterBar: some View {
@@ -999,7 +987,6 @@ extension HomeView {
                             .foregroundColor(.clear)
                     }
                 }
-                .padding()
                 .animation(.easeOut(duration: 0.2), value: selectedFilter)
                 .onTapGesture {
                     withAnimation(.easeOut(duration: 0.2)) {

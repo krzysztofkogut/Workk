@@ -13,6 +13,7 @@ protocol HomeRouterProtocol {
 }
 
 enum HomeRoute: Hashable {
+    case addJobView
     case subscriptionPlanView
 }
 
@@ -29,6 +30,10 @@ class HomeRouter: ModuleRouter, HomeRouterProtocol {
 
     func pop() {
         appRouter.pop()
+    }
+    
+    func showAddNewJobView() {
+        navigate(to: .addJobView)
     }
     
     func showSubscriptionPlanView() {

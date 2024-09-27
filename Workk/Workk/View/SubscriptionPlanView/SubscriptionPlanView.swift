@@ -10,6 +10,7 @@ import SwiftUI
 struct SubscriptionPlanView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var selectedPlan: SubscriptionPlanViewModel = .year
+    @State private var dayStartDate: Date = .now
     
     var body: some View {
         VStack {
@@ -19,13 +20,13 @@ struct SubscriptionPlanView: View {
                 Button {
                     dismiss()
                 } label: {
-                    Image(systemName: "multiply.circle")
+                    Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.black)
                         .font(.title)
                 }
             }
             .padding(.horizontal, 24)
-            .padding(.vertical, 8)
+            .padding(.vertical, 16)
             
             Spacer()
             
