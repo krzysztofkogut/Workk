@@ -31,7 +31,6 @@ struct DarkModeButton: View {
     func animateScheme() {
         Task {
             if let windows = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows, let window = windows.first(where: { $0.isKeyWindow }), let overlayWindow = windows.first(where: { $0.tag == 0320 }) {
-                
                 overlayWindow.isUserInteractionEnabled = true
                 let imageView = UIImageView()
                 imageView.frame = window.frame

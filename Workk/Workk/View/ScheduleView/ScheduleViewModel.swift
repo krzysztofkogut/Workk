@@ -10,16 +10,15 @@ import SwiftUI
 
 protocol ScheduleViewModelProtocol where Self: ObservableObject {
     var selectedFilter: PeriodFilter { get set }
-
 }
 
 final class ScheduleViewModel: ScheduleViewModelProtocol {
     @Published var selectedFilter: PeriodFilter = .day
 
-    @Published var selectedDay: Date = Date()
-    @Published var selectedWeek: Date = Date()
-    @Published var selectedMonth: Date = Date()
-    @Published var selectedYear: Date = Date()
+    @Published var selectedDay: Date = .init()
+    @Published var selectedWeek: Date = .init()
+    @Published var selectedMonth: Date = .init()
+    @Published var selectedYear: Date = .init()
     
     var daysOfCurrentWeek: [Date] = Calendar(identifier: .iso8601).daysOfWeek()
     let daysInWeek = 7
@@ -32,7 +31,8 @@ final class ScheduleViewModel: ScheduleViewModelProtocol {
     
     func showAddWorkTimeView(selectedWork: Binding<Work?>,
                              selectedFilter: Binding<PeriodFilter>,
-                             selectedWorkName: Binding<String?>) {
+                             selectedWorkName: Binding<String?>)
+    {
         router.showAddWorkTimeView(selectedWork: selectedWork,
                                    selectedFilter: selectedFilter,
                                    selectedWorkName: selectedWorkName)

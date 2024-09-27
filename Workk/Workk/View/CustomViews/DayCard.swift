@@ -10,7 +10,7 @@ import SwiftUI
 struct DayCard: View {
     var isSelected: Bool
     var day: Date
-        
+
     var body: some View {
         VStack(spacing: 0) {
             Text(day.currentDayShortString)
@@ -20,7 +20,7 @@ struct DayCard: View {
                 .foregroundColor(day.isToday() || isSelected ? .black : .gray)
                 .padding(.top, 4)
                 .padding(.bottom, 2)
-            
+
             Text(day.currentDayNumberString)
                 .minimumScaleFactor(0.01)
                 .fixedSize(horizontal: true, vertical: false)

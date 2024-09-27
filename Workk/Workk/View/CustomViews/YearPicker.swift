@@ -11,19 +11,19 @@ struct YearPicker: View {
     @Binding var selection: Date?
     var years: [Date]
     @Namespace private var yearPickerAnimation
-    @State private var selectionWidthDict: [Date : CGFloat] = [:]
-    
+    @State private var selectionWidthDict: [Date: CGFloat] = [:]
+
     var body: some View {
         HStack(alignment: .center) {
             ForEach(years, id: \.self) { year in
                 Spacer()
-                
+
                 VStack(spacing: 0) {
-                    YearCard(isSelected: selection == nil ? year.isThisYear() : year.isSameYear(date: selection ?? year) , year: year)
+                    YearCard(isSelected: selection == nil ? year.isThisYear() : year.isSameYear(date: selection ?? year), year: year)
                         .onAppear {
                             selectionWidthDict[year] = year.currentYearString.widthOfString(usingFont: .latoBold(size: 14))
                         }
-                    
+
                     if selection == nil ? year.isThisYear() : year.isSameYear(date: selection ?? year) {
                         RoundedRectangle(cornerRadius: 4)
                             .fill(.persianBlue)
@@ -43,7 +43,7 @@ struct YearPicker: View {
                         selection = year
                     }
                 }
-                
+
                 Spacer()
             }
         }

@@ -41,7 +41,8 @@ extension Date {
     var currentWeekString: String {
         guard let weekBoundry = Calendar(identifier: .iso8601).weekBoundary(for: self),
               let startOfWeek = weekBoundry.startOfWeek,
-              let endOfWeek = weekBoundry.endOfWeek else {
+              let endOfWeek = weekBoundry.endOfWeek
+        else {
             return ""
         }
         
@@ -53,14 +54,15 @@ extension Date {
     var currentWeekBoundryString: WeekBoundaryString {
         guard let weekBoundry = Calendar(identifier: .iso8601).weekBoundary(for: self),
               let startOfWeek = weekBoundry.startOfWeek,
-              let endOfWeek = weekBoundry.endOfWeek else {
+              let endOfWeek = weekBoundry.endOfWeek
+        else {
             return ("", "", "", "")
         }
         
         let currentWeekDayFormatter = DateFormatter(dateFormat: "dd", calendar: Calendar.current)
         let currentWeekMonthFormatter = DateFormatter(dateFormat: "MMM", calendar: Calendar.current)
         
-        return (currentWeekDayFormatter.string(from: startOfWeek), 
+        return (currentWeekDayFormatter.string(from: startOfWeek),
                 currentWeekMonthFormatter.string(from: startOfWeek),
                 currentWeekDayFormatter.string(from: endOfWeek),
                 currentWeekMonthFormatter.string(from: endOfWeek))

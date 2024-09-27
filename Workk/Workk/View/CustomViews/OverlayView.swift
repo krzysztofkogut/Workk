@@ -17,14 +17,14 @@ struct OverlayView: View {
         GeometryReader(content: { geometry in
             let size = geometry.size
             let maskRadius = size.height / 10
-            
+
             if let previousImage, let currentImage {
                 ZStack {
                     Image(uiImage: previousImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: size.width, height: size.height)
-                    
+
                     Image(uiImage: currentImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -39,7 +39,7 @@ struct OverlayView: View {
                 }
                 .task {
                     guard !maskAnimation else { return }
-                    
+
                     withAnimation(.easeInOut(duration: 0.9)) {
                         maskAnimation = true
                     }
@@ -60,7 +60,7 @@ struct OverlayView: View {
             }
         })
         /// Reverse Masking
-        .mask({
+        .mask {
             Rectangle()
                 .overlay(alignment: .topLeading) {
                     Circle()
@@ -68,7 +68,7 @@ struct OverlayView: View {
                         .offset(x: buttonRect.minX, y: buttonRect.minY)
                         .blendMode(.destinationOut)
                 }
-        })
+        }
         .ignoresSafeArea()
     }
 }

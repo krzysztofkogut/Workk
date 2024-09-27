@@ -20,7 +20,7 @@ extension View {
             .shadow(
                 color: .shadow, radius: radius, x: offset, y: offset)
     }
-    
+
     func southEastShadow(
         color: Color = .highlight,
         radius: CGFloat = 16,
@@ -41,7 +41,7 @@ extension View {
             .overlay {
                 GeometryReader { geometry in
                     let rect = geometry.frame(in: .global)
-                    
+
                     Color.clear
                         .preference(key: RectKey.self, value: rect)
                         .onPreferenceChange(RectKey.self, perform: { rect in
@@ -50,14 +50,14 @@ extension View {
                 }
             }
     }
-    
+
     @ViewBuilder
     func size(value: @escaping (CGSize) -> ()) -> some View {
         self
             .background {
                 GeometryReader(content: { geometry in
                     let size = geometry.size
-                    
+
                     Color.clear
                         .preference(key: SizeKey.self, value: size)
                         .onPreferenceChange(SizeKey.self, perform: {
@@ -77,7 +77,6 @@ extension View {
 extension View {
     func hide(if isHiddden: Bool) -> some View {
         ModifiedContent(content: self,
-                        modifier: HideViewModifier(isHidden: isHiddden)
-        )
+                        modifier: HideViewModifier(isHidden: isHiddden))
     }
 }

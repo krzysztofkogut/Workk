@@ -11,7 +11,7 @@ enum SubscriptionPlanViewModel: Int, CaseIterable {
     case month
     case year
     case forLife
-    
+
     var title: String {
         switch self {
         case .month:
@@ -22,7 +22,7 @@ enum SubscriptionPlanViewModel: Int, CaseIterable {
             return "For life"
         }
     }
-    
+
     var description: String {
         switch self {
         case .month:

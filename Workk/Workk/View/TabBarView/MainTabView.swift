@@ -39,7 +39,7 @@ struct MainTabView: View {
                 Text("MORE".uppercased())
             }
         }
-        .onAppear() {
+        .onAppear {
             let standardAppearance = UITabBarAppearance()
             standardAppearance.backgroundColor = UIColor(.wildSand)
             standardAppearance.shadowColor = UIColor(.clear)

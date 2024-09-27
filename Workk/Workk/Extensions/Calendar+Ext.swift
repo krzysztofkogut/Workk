@@ -65,7 +65,8 @@ extension Calendar {
     
     func generateDates(
         for dateInterval: DateInterval,
-        matching components: DateComponents) -> [Date] {
+        matching components: DateComponents
+    ) -> [Date] {
         var dates = [dateInterval.start]
 
         enumerateDates(

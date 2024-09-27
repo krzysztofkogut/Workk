@@ -6,45 +6,40 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
-
-extension Job {
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Job> {
+public extension Job {
+    @nonobjc class func fetchRequest() -> NSFetchRequest<Job> {
         return NSFetchRequest<Job>(entityName: "Job")
     }
 
-    @NSManaged public var name: String?
-    @NSManaged public var id: UUID?
-    @NSManaged public var hourlyRate: Float
-    @NSManaged public var work: NSSet?
+    @NSManaged var name: String?
+    @NSManaged var id: UUID?
+    @NSManaged var hourlyRate: Float
+    @NSManaged var work: NSSet?
 
-    public var workArray: [Work] {
+    var workArray: [Work] {
         let set = work as? Set<Work> ?? []
-        
+
         return set.sorted { $0.startDate < $1.startDate }
     }
 }
 
 // MARK: Generated accessors for work
-extension Job {
 
+public extension Job {
     @objc(addWorkObject:)
-    @NSManaged public func addToWork(_ value: Work)
+    @NSManaged func addToWork(_ value: Work)
 
     @objc(removeWorkObject:)
-    @NSManaged public func removeFromWork(_ value: Work)
+    @NSManaged func removeFromWork(_ value: Work)
 
     @objc(addWork:)
-    @NSManaged public func addToWork(_ values: NSSet)
+    @NSManaged func addToWork(_ values: NSSet)
 
     @objc(removeWork:)
-    @NSManaged public func removeFromWork(_ values: NSSet)
-
+    @NSManaged func removeFromWork(_ values: NSSet)
 }
 
-extension Job : Identifiable {
-
-}
+extension Job: Identifiable {}

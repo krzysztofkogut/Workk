@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomToggle: View {
     @Binding var isOn: Bool
-    
+
     var body: some View {
         Button(action: {
             withAnimation(.bouncy) {

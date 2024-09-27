@@ -25,7 +25,7 @@ struct DateTextField: View {
                             .labelsHidden()
                             .datePickerStyle(.wheel)
                             .foregroundColor(.wildSand)
-                        
+
                         Button {
                             isActive = false
                         } label: {
@@ -47,10 +47,10 @@ struct DateTextField: View {
     }
 }
 
-fileprivate struct AddInputViewToTextField<Content: View>: UIViewRepresentable {
+private struct AddInputViewToTextField<Content: View>: UIViewRepresentable {
     var id: String
     var onDoneButtonTap: () -> ()
-    
+
     @ViewBuilder var content: Content
 
     func makeUIView(context: Context) -> UIView {
@@ -77,20 +77,22 @@ fileprivate struct AddInputViewToTextField<Content: View>: UIViewRepresentable {
         return view
     }
 
-    func updateUIView(_ uiView: UIViewType, context: Context) { }
+    func updateUIView(_ uiView: UIViewType, context: Context) {}
 }
 
-fileprivate extension UIView {
+private extension UIView {
     func allSubViews<T: UIView>(type: T.Type) -> [T] {
-        var resultViews = subviews.compactMap({ $0 as? T })
-        for view in subviews { resultViews.append(contentsOf: view.allSubViews(type: type)) }
+        var resultViews = subviews.compactMap { $0 as? T }
+        for view in subviews {
+            resultViews.append(contentsOf: view.allSubViews(type: type))
+        }
         return resultViews
     }
 }
 
 #Preview {
-    @State var date: Date = Date()
-    
+    @State var date = Date()
+
     return DateTextField(date: $date, components: [.date, .hourAndMinute]) { date in
         let formatter = DateFormatter()
         formatter.dateFormat = "dd MMM yy, hh:mm a"

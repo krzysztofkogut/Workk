@@ -8,10 +8,9 @@
 import Foundation
 
 extension TimeInterval {
-    
     var hours: Int {
         let ti = Int(self)
-        return (ti / 3600)
+        return ti / 3600
     }
     
     var minutes: Int {

@@ -10,7 +10,7 @@ import SwiftUI
 struct YearDatePicker: View {
     @State private var selectedYear = Calendar.current.component(.year, from: Date())
     private let currentYear = Calendar.current.component(.year, from: Date())
-    private let rangeOfYears = Array(1900...Calendar.current.component(.year, from: Date()))
+    private let rangeOfYears = Array(1900 ... Calendar.current.component(.year, from: Date()))
 
     var body: some View {
         VStack {
@@ -42,4 +42,3 @@ struct YearDatePicker_Previews: PreviewProvider {
         YearDatePicker()
     }
 }
-

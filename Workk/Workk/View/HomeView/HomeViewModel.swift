@@ -21,12 +21,12 @@ final class HomeViewModel: HomeViewModelProtocol {
     @Published var selectedFilter: PeriodFilter = .day
     @Published var currentTime = Time(hour: 0, min: 0, sec: 0)
     @Published var timeReciver = Timer.publish(every: 1, on: .current, in: .default).autoconnect()
-    @Published var stopwatch: Stopwatch = Stopwatch()
+    @Published var stopwatch: Stopwatch = .init()
     
-    @Published var selectedDayInWeek: Date = Date()
-    @Published var selectedWeek: Date = Date()
-    @Published var selectedMonth: Date = Date()
-    @Published var selectedYear: Date = Date()
+    @Published var selectedDayInWeek: Date = .init()
+    @Published var selectedWeek: Date = .init()
+    @Published var selectedMonth: Date = .init()
+    @Published var selectedYear: Date = .init()
     
     private let router: HomeRouter
     
@@ -59,7 +59,8 @@ final class HomeViewModel: HomeViewModelProtocol {
     var currentWeekString: String {
         guard let weekBoundry = Calendar(identifier: .iso8601).currentWeekBoundary(),
               let startOfWeek = weekBoundry.startOfWeek,
-              let endOfWeek = weekBoundry.endOfWeek else {
+              let endOfWeek = weekBoundry.endOfWeek
+        else {
             return ""
         }
         

@@ -8,7 +8,6 @@
 import SwiftUI
 
 extension EnvironmentValues {
-    
     var safeAreaInsets: EdgeInsets {
         self[SafeAreaInsetsKey.self]
     }

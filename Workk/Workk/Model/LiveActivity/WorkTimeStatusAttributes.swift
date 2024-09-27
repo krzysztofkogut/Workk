@@ -14,10 +14,11 @@ struct WorkTimeStatusAttributes: ActivityAttributes {
             Calendar.current.date(
                 byAdding: .second,
                 value: -Int(workTimeInterval),
-              to: Date()) ?? Date()
+                to: Date()) ?? Date()
         }
+
         var workTimeInterval: TimeInterval = 0
     }
-    
+
     var workName: String
 }

@@ -20,7 +20,7 @@ struct DayPicker: View {
                 Spacer()
                 
                 VStack(spacing: 0) {
-                    DayCard(isSelected: day.isSameDay(date: selection) , day: day)
+                    DayCard(isSelected: day.isSameDay(date: selection), day: day)
                     
                     if day.isSameDay(date: selection) {
                         Rectangle()
@@ -50,6 +50,6 @@ struct DayPicker: View {
 }
 
 #Preview {
-    @State var selection: Date = Date()
+    @State var selection = Date()
     return DayPicker(selection: $selection, days: Calendar.current.daysOfWeek())
 }

@@ -12,7 +12,7 @@ import SwiftUI
 public struct WorkPeriod: Identifiable {
     public var id = UUID()
     var title: String
-    var time: Date = Date()
+    var time: Date = .init()
 }
 
 // Total Working Period Meta View...
@@ -25,9 +25,9 @@ public struct WorkPeriodMetaData: Identifiable {
 // sample Date for Testing...
 func getSampleDate(offset: Int) -> Date {
     let calender = Calendar.current
-    
+
     let date = calender.date(byAdding: .day, value: offset, to: Date())
-    
+
     return date ?? Date()
 }
 
@@ -51,4 +51,5 @@ var workSampleData: [WorkPeriodMetaData] = [
     WorkPeriodMetaData(workPeriod: [WorkPeriod(title: "DAZN")],
                        date: getSampleDate(offset: 15)),
     WorkPeriodMetaData(workPeriod: [WorkPeriod(title: "Workk")],
-                       date: getSampleDate(offset: -20))]
+                       date: getSampleDate(offset: -20)),
+]

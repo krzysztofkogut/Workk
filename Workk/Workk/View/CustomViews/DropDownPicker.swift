@@ -42,7 +42,7 @@ struct DropDownPicker: View {
                         Image(systemName: "chevron.down")
                             .frame(width: 20, height: 20)
                             .foregroundColor(selection != nil ? .black : .gray)
-                            .rotationEffect(.degrees((showDropdown ? -180 : 0)))
+                            .rotationEffect(.degrees(showDropdown ? -180 : 0))
                     }
                     
                     if showDropdown {
@@ -53,7 +53,7 @@ struct DropDownPicker: View {
                         Image(systemName: "chevron.down")
                             .frame(width: 20, height: 20)
                             .foregroundColor(selection != nil ? .black : .gray)
-                            .rotationEffect(.degrees((showDropdown ? -180 : 0)))
+                            .rotationEffect(.degrees(showDropdown ? -180 : 0))
                     } else {
                         Text(selection == nil ? hint : selection!)
                             .foregroundColor(selection != nil ? .black : .gray)
@@ -83,7 +83,6 @@ struct DropDownPicker: View {
             .cornerRadius(6)
             .frame(height: size.height, alignment: .top)
             .offset(x: (state == .trailing && !showDropdown) ? maxWidth - (selection == nil ? hint : selection!).widthOfString(usingFont: .latoBlack(size: 18)) - 60 : 0)
-            
         }
         .frame(maxWidth: maxWidth, alignment: state == .leading ? .leading : .trailing)
         .frame(height: 38, alignment: state == .leading ? .leading : .trailing)
@@ -92,7 +91,6 @@ struct DropDownPicker: View {
         }
         .zIndex(zindex)
     }
-    
     
     func OptionsView() -> some View {
         VStack(alignment: state == .leading ? .leading : .trailing, spacing: 0) {
@@ -125,7 +123,7 @@ struct DropDownPicker: View {
                                     showDropdown.toggle()
                                 }
                             }
-                            .id(index)  // Set each item’s index as its ID
+                            .id(index) // Set each item’s index as its ID
                         }
                     }
                     .frame(height: 92)
@@ -156,7 +154,7 @@ struct DropDownPicker: View {
                                 showDropdown.toggle()
                             }
                         }
-                        .id(index)  // Use index-based ID for each item
+                        .id(index) // Use index-based ID for each item
                     }
                 }
                 
@@ -196,11 +194,10 @@ struct DropDownPicker: View {
         }
         .background(backgroundColor)
     }
-
 }
 
 #Preview {
     @State var selection: String? = nil
-    @State var addNewOption: Bool = false
+    @State var addNewOption = false
     return DropDownPicker(selection: $selection, addNewOption: $addNewOption, hint: "Select", state: .trailing, options: ["YouTube", "Instagram", "Facebook", "Twitter"], backgroundColor: .wildSand)
 }

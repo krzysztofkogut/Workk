@@ -10,7 +10,7 @@ import SwiftUI
 public struct CalendarView<Day: View, Header: View, Title: View, Trailing: View>: View {
     @Binding private var date: Date
     @Binding private var progress: CGFloat
-    
+
     private var calendar: Calendar
     private let content: (Date) -> Day
     private let trailing: (Date) -> Trailing

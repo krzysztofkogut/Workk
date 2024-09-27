@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct FontManager {
+enum FontManager {
     static let headline = Font.custom(FontNameManager.Lato.bold, size: 56.0)
     static let headline_2 = Font.custom(FontNameManager.Lato.bold, size: 32.0)
     static let subheadline = Font.custom(FontNameManager.Lato.bold, size: 16.0)
@@ -22,7 +22,7 @@ struct FontManager {
     static let body = Font.custom(FontNameManager.Lato.regular, size: 14.0)
     static let regularTitle = Font.custom(FontNameManager.Lato.regular, size: 18.0)
     static let caption = Font.custom(FontNameManager.Lato.light, size: 16.0)
-    
+
 //    static let headline = Font.custom(FontNameManager.Arial.regular, size: 56.0)
 //    static let headline_2 = Font.custom(FontNameManager.Arial.regular, size: 22.0)
 //    static let subheadline = Font.custom(FontNameManager.Arial.regular, size: 16.0)

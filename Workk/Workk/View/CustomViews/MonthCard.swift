@@ -10,14 +10,14 @@ import SwiftUI
 struct MonthCard: View {
     var isSelected: Bool
     var month: Date
-        
+
     var body: some View {
         VStack(spacing: 0) {
             Text(month.currentYearString)
                 .lineLimit(1)
                 .font(.latoRegular(size: 12))
                 .foregroundColor(.gray)
-            
+
             Text(month.currentMonthString)
                 .lineLimit(1)
                 .font(month.isThisMonth() || isSelected ? .latoBold(size: 16) : .latoRegular(size: 16))

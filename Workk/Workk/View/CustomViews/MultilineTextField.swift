@@ -26,7 +26,7 @@ struct MultilineTextField: UIViewRepresentable {
         return textView
     }
 
-    func updateUIView(_ uiView: UITextView, context: Context) { }
+    func updateUIView(_ uiView: UITextView, context: Context) {}
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -42,15 +42,15 @@ struct MultilineTextField: UIViewRepresentable {
         func textViewDidChange(_ textView: UITextView) {
             parent.text = textView.text
         }
-        
+
         func textViewDidBeginEditing(_ textView: UITextView) {
             if parent.text.isEmpty {
                 textView.text = ""
             }
-            
+
             textView.textColor = .black
         }
-        
+
         func textViewDidEndEditing(_ textView: UITextView) {
             if parent.text.isEmpty {
                 textView.text = parent.placeHolder

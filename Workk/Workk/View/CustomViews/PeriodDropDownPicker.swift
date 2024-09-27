@@ -34,7 +34,7 @@ struct PeriodDropDownPicker: View {
                         Image(systemName: "chevron.down")
                             .frame(width: 20, height: 20)
                             .foregroundColor(.black)
-                            .rotationEffect(.degrees((showDropdown ? -180 : 0)))
+                            .rotationEffect(.degrees(showDropdown ? -180 : 0))
                     }
                     
                     if showDropdown {
@@ -45,7 +45,7 @@ struct PeriodDropDownPicker: View {
                         Image(systemName: "chevron.down")
                             .frame(width: 20, height: 20)
                             .foregroundColor(.black)
-                            .rotationEffect(.degrees((showDropdown ? -180 : 0)))
+                            .rotationEffect(.degrees(showDropdown ? -180 : 0))
                     } else {
                         Text(selection.title)
                             .foregroundColor(.black)
@@ -75,13 +75,11 @@ struct PeriodDropDownPicker: View {
             .cornerRadius(6)
             .frame(height: size.height, alignment: .top)
             .offset(x: (state == .trailing && !showDropdown) ? maxWidth - (selection.title).widthOfString(usingFont: .latoBlack(size: 18)) - 60 : 0)
-            
         }
         .frame(maxWidth: maxWidth, alignment: state == .leading ? .leading : .trailing)
         .frame(height: 38, alignment: state == .leading ? .leading : .trailing)
         .zIndex(zindex)
     }
-    
     
     func OptionsView() -> some View {
         VStack(alignment: state == .leading ? .leading : .trailing, spacing: 0) {

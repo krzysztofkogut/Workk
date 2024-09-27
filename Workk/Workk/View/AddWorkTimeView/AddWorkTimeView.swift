@@ -15,9 +15,9 @@ struct AddWorkTimeView: View {
     @Namespace var filterAnimation
     
     @FetchRequest(
-            entity: Job.entity(),
-            sortDescriptors: [NSSortDescriptor(keyPath: \Job.name, ascending: true)]
-        ) private var jobs: FetchedResults<Job>
+        entity: Job.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Job.name, ascending: true)]
+    ) private var jobs: FetchedResults<Job>
     
     @ObservedObject private var viewModel: ScheduleViewModel = Resolver.resolve()
     
@@ -26,7 +26,7 @@ struct AddWorkTimeView: View {
     @Binding var selectedWorkName: String?
     
     @State private var showAddJobView: Bool = false
-    @State private var filtersWidthDict: [PeriodFilter : CGFloat] = [:]
+    @State private var filtersWidthDict: [PeriodFilter: CGFloat] = [:]
     
     @State private var dayStartDate: Date = .now
     @State private var dayEndDate: Date = .now
@@ -120,9 +120,6 @@ struct AddWorkTimeView: View {
                 }
                 setupView()
             }
-            .onChange(of: selectedFilter) { newValue in
-                UIApplication.shared.dismissKeyboard()
-            }
             .onChange(of: dayStartDate) { newValue in
                 if newValue > dayEndDate {
                     dayEndDate = newValue
@@ -159,6 +156,7 @@ struct AddWorkTimeView: View {
                 moneyEarnedYear = formatNumberInput(newValue)
                 updateSaveButtonState()
             }
+            .onChange(of: selectedFilter) { _ in UIApplication.shared.dismissKeyboard() }
             .onChange(of: selectedWorkName) { _ in updateSaveButtonState() }
             .onChange(of: isPaidDay) { _ in updateSaveButtonState() }
             .onChange(of: isHourlyRateDay) { _ in updateSaveButtonState() }
@@ -217,7 +215,6 @@ struct AddWorkTimeView: View {
                     }
                     .multilineTextAlignment(.trailing)
                     .font(.latoBold(size: 16))
-                    
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 18)
@@ -256,7 +253,7 @@ struct AddWorkTimeView: View {
                     .foregroundStyle(.black)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
                     .padding(.horizontal, 24)
                 
                 TextField("Project", text: $projectDay)
@@ -264,7 +261,7 @@ struct AddWorkTimeView: View {
                     .foregroundStyle(.black)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
                     .padding(.horizontal, 24)
                 
                 TextField("Task", text: $taskDay)
@@ -272,14 +269,14 @@ struct AddWorkTimeView: View {
                     .foregroundStyle(.black)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
                     .padding(.horizontal, 24)
                 
                 MultilineTextField(placeHolder: "Note", text: $noteDay)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                     .frame(height: 150)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
                     .padding(.horizontal, 24)
             }
         }
@@ -348,27 +345,27 @@ struct AddWorkTimeView: View {
                     .foregroundStyle(.black)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
                 
                 TextField("Project", text: $projectWeek)
                     .font(.latoRegular(size: 16))
                     .foregroundStyle(.black)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
                 
                 TextField("Task", text: $taskWeek)
                     .font(.latoRegular(size: 16))
                     .foregroundStyle(.black)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
                 
                 MultilineTextField(placeHolder: "Note", text: $noteWeek)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                     .frame(height: 150)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
             }
             .padding(.horizontal, 24)
         }
@@ -386,7 +383,7 @@ struct AddWorkTimeView: View {
             .padding(.horizontal, 16)
             .background(
                 withAnimation {
-                    if !moneyEarnedWeek.isEmpty && selectedWorkName != "All" {
+                    if !moneyEarnedWeek.isEmpty, selectedWorkName != "All" {
                         RoundedRectangle(cornerRadius: 18)
                             .fill(.black)
                     } else {
@@ -447,27 +444,27 @@ struct AddWorkTimeView: View {
                     .foregroundStyle(.black)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
                 
                 TextField("Project", text: $projectMonth)
                     .font(.latoRegular(size: 16))
                     .foregroundStyle(.black)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
                 
                 TextField("Task", text: $taskMonth)
                     .font(.latoRegular(size: 16))
                     .foregroundStyle(.black)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
                 
                 MultilineTextField(placeHolder: "Note", text: $noteMonth)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                     .frame(height: 150)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
             }
             .padding(.horizontal, 24)
         }
@@ -490,7 +487,7 @@ struct AddWorkTimeView: View {
     
     var addYearWorkTimeView: some View {
         ScrollView(showsIndicators: false) {
-            VStack(spacing: 8)  {
+            VStack(spacing: 8) {
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
                         Button(action: viewModel.backwardToLastYear) {
@@ -536,27 +533,27 @@ struct AddWorkTimeView: View {
                     .foregroundStyle(.black)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
                 
                 TextField("Project", text: $projectYear)
                     .font(.latoRegular(size: 16))
                     .foregroundStyle(.black)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
                 
                 TextField("Task", text: $taskYear)
                     .font(.latoRegular(size: 16))
                     .foregroundStyle(.black)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
                 
                 MultilineTextField(placeHolder: "Note", text: $noteYear)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                     .frame(height: 150)
-                    .background(.wildSand ,in: .rect(cornerRadius: 12))
+                    .background(.wildSand, in: .rect(cornerRadius: 12))
             }
             .padding(.horizontal, 24)
         }
@@ -617,7 +614,6 @@ struct AddWorkTimeView: View {
 }
 
 extension AddWorkTimeView {
-    
     private func addItem() {
         let formatter = NumberFormatter()
         formatter.locale = Locale.current
@@ -700,7 +696,7 @@ extension AddWorkTimeView {
         let formatter = NumberFormatter()
         formatter.locale = Locale.current
         
-        self.selectedWorkName = work.job?.name
+        selectedWorkName = work.job?.name
         
         switch periodType {
         case PeriodFilter.day.rawValue:
@@ -785,7 +781,7 @@ extension AddWorkTimeView {
             return
         }
         
-        self.selectedWorkName = work.job?.name
+        selectedWorkName = work.job?.name
         
         switch periodType {
         case PeriodFilter.day.rawValue:
@@ -829,7 +825,7 @@ extension AddWorkTimeView {
         withAnimation(.easeInOut(duration: 0.2)) {
             hourlyRateDay = formatFloatToString(from: jobs.first(where: { $0.name == selectedWorkName })?.hourlyRate)
             isDaySaveButtonEnabled = (!hourlyRateDay.isEmpty || !moneyEarnedDay.isEmpty)
-            && isProperJobSelected
+                && isProperJobSelected
             isWeekSaveButtonEnabled = !moneyEarnedWeek.isEmpty && isProperJobSelected
             isMonthSaveButtonEnabled = !moneyEarnedMonth.isEmpty && isProperJobSelected
             isYearSaveButtonEnabled = !moneyEarnedYear.isEmpty && isProperJobSelected
@@ -844,56 +840,56 @@ extension AddWorkTimeView {
         isMonthSaveButtonEnabled = false
         isYearSaveButtonEnabled = false
 
-        var hasChanged: Bool = false
+        var hasChanged = false
         
         switch periodType {
         case PeriodFilter.day.rawValue:
             hasChanged = dayStartDate != work.startDate ||
-            dayEndDate != work.endDate ||
-            isPaidDay != work.isPaid ||
-            hourlyRateDay != formatFloatToString(from: work.hourlyRate) ||
-            moneyEarnedDay != formatFloatToString(from: work.moneyEarned) ||
-            projectDay != work.project ||
-            taskDay != work.task ||
-            noteDay != work.note ||
-            selectedWorkName != work.job?.name
+                dayEndDate != work.endDate ||
+                isPaidDay != work.isPaid ||
+                hourlyRateDay != formatFloatToString(from: work.hourlyRate) ||
+                moneyEarnedDay != formatFloatToString(from: work.moneyEarned) ||
+                projectDay != work.project ||
+                taskDay != work.task ||
+                noteDay != work.note ||
+                selectedWorkName != work.job?.name
             
             withAnimation(.easeInOut(duration: 0.2)) {
                 isDaySaveButtonEnabled = (!hourlyRateDay.isEmpty || !moneyEarnedDay.isEmpty)
-                && isProperJobSelected && hasChanged
+                    && isProperJobSelected && hasChanged
             }
         case PeriodFilter.week.rawValue:
             hasChanged = weekDate != work.startDate ||
-            isPaidWeek != work.isPaid ||
-            moneyEarnedWeek != formatFloatToString(from: work.moneyEarned) ||
-            projectWeek != work.project ||
-            taskWeek != work.task ||
-            noteWeek != work.note ||
-            selectedWorkName != work.job?.name
+                isPaidWeek != work.isPaid ||
+                moneyEarnedWeek != formatFloatToString(from: work.moneyEarned) ||
+                projectWeek != work.project ||
+                taskWeek != work.task ||
+                noteWeek != work.note ||
+                selectedWorkName != work.job?.name
             
             withAnimation(.easeInOut(duration: 0.2)) {
                 isWeekSaveButtonEnabled = !moneyEarnedWeek.isEmpty && isProperJobSelected && hasChanged
             }
         case PeriodFilter.month.rawValue:
             hasChanged = monthDate != work.startDate ||
-            isPaidMonth != work.isPaid ||
-            moneyEarnedMonth != formatFloatToString(from: work.moneyEarned) ||
-            projectMonth != work.project ||
-            taskMonth != work.task ||
-            noteMonth != work.note ||
-            selectedWorkName != work.job?.name
+                isPaidMonth != work.isPaid ||
+                moneyEarnedMonth != formatFloatToString(from: work.moneyEarned) ||
+                projectMonth != work.project ||
+                taskMonth != work.task ||
+                noteMonth != work.note ||
+                selectedWorkName != work.job?.name
             
             withAnimation(.easeInOut(duration: 0.2)) {
                 isMonthSaveButtonEnabled = !moneyEarnedMonth.isEmpty && isProperJobSelected && hasChanged
             }
         case PeriodFilter.year.rawValue:
             hasChanged = yearDate != work.startDate ||
-            isPaidYear != work.isPaid ||
-            moneyEarnedYear != formatFloatToString(from: work.moneyEarned) ||
-            projectYear != work.project ||
-            taskYear != work.task ||
-            noteYear != work.note ||
-            selectedWorkName != work.job?.name
+                isPaidYear != work.isPaid ||
+                moneyEarnedYear != formatFloatToString(from: work.moneyEarned) ||
+                projectYear != work.project ||
+                taskYear != work.task ||
+                noteYear != work.note ||
+                selectedWorkName != work.job?.name
             
             withAnimation(.easeInOut(duration: 0.2)) {
                 isYearSaveButtonEnabled = !moneyEarnedYear.isEmpty && isProperJobSelected && hasChanged
@@ -946,4 +942,3 @@ extension AddWorkTimeView {
 #Preview {
     AddJobView()
 }
-

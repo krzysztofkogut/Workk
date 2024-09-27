@@ -10,7 +10,7 @@ import SwiftUI
 struct YearCard: View {
     var isSelected: Bool
     var year: Date
-    
+
     var body: some View {
         VStack(spacing: 0) {
             Text(year.currentYearString)

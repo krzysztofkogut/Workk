@@ -11,19 +11,19 @@ struct WeekPicker: View {
     @Binding var selection: Date?
     var weeks: [Date]
     @Namespace private var weekPickerAnimation
-    @State private var selectionWidthDict: [Date : CGFloat] = [:]
-    
+    @State private var selectionWidthDict: [Date: CGFloat] = [:]
+
     var body: some View {
         HStack(spacing: 0) {
             ForEach(weeks, id: \.self) { week in
                 Spacer()
-                
+
                 VStack(spacing: 0) {
-                    WeekCard(isSelected: selection == nil ? week.isThisWeek() : week.isSameWeek(date: selection ?? week) , week: week)
+                    WeekCard(isSelected: selection == nil ? week.isThisWeek() : week.isSameWeek(date: selection ?? week), week: week)
                         .onAppear {
                             selectionWidthDict[week] = week.currentWeekString.widthOfString(usingFont: .latoRegular(size: 14))
                         }
-                    
+
                     if selection == nil ? week.isThisMonth() : week.isSameWeek(date: selection ?? week) {
                         RoundedRectangle(cornerRadius: 4)
                             .fill(.persianBlue)
@@ -43,7 +43,7 @@ struct WeekPicker: View {
                         selection = week
                     }
                 }
-                
+
                 Spacer()
             }
         }

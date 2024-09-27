@@ -1,7 +1,6 @@
 import CoreData
 
 class PersistanceManager {
-
     let container: NSPersistentCloudKitContainer
 
     init(inMemory: Bool = false) {
@@ -16,7 +15,7 @@ class PersistanceManager {
         description?.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
         description?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
 
-        container.loadPersistentStores { storeDescription, error in
+        container.loadPersistentStores { _, error in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
@@ -41,4 +40,3 @@ class PersistanceManager {
         }
     }
 }
-

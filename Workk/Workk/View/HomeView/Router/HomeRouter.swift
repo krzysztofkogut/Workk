@@ -19,11 +19,11 @@ enum HomeRoute: Hashable {
 
 class HomeRouter: ModuleRouter, HomeRouterProtocol {
     var appRouter: AppRouter
-    
+
     init(with appRouter: AppRouter) {
         self.appRouter = appRouter
     }
-    
+
     private func navigate(to target: HomeRoute) {
         appRouter.navigate(to: target)
     }
@@ -31,11 +31,11 @@ class HomeRouter: ModuleRouter, HomeRouterProtocol {
     func pop() {
         appRouter.pop()
     }
-    
+
     func showAddNewJobView() {
         navigate(to: .addJobView)
     }
-    
+
     func showSubscriptionPlanView() {
         navigate(to: .subscriptionPlanView)
     }

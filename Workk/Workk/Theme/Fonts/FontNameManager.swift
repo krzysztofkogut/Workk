@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct FontNameManager {
-    struct Arial {
+enum FontNameManager {
+    enum Arial {
         static let regular = "ArialRoundedMTBold"
     }
-    
-    struct Nunito {
+
+    enum Nunito {
         static let black = "Nunito-Black"
         static let bold = "Nunito-Bold"
         static let light = "Nunito-Light"
@@ -20,8 +20,8 @@ struct FontNameManager {
         static let regular = "Nunito-Regular"
         static let semiBold = "Nunito-SemiBold"
     }
-    
-    struct Lato {
+
+    enum Lato {
         static let black = "Lato-Black"
         static let bold = "Lato-Bold"
         static let light = "Lato-Light"

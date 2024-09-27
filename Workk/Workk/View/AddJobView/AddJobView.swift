@@ -40,14 +40,14 @@ struct AddJobView: View {
                 .font(.latoRegular(size: 18))
                 .padding(.horizontal, 16)
                 .padding(.vertical, 16)
-                .background(.wildSand ,in: .rect(cornerRadius: 16))
+                .background(.wildSand, in: .rect(cornerRadius: 16))
             
             TextField("Hourly rate", text: $hourlyRate)
                 .keyboardType(.decimalPad)
                 .font(.latoRegular(size: 18))
                 .padding(.horizontal, 16)
                 .padding(.vertical, 16)
-                .background(.wildSand ,in: .rect(cornerRadius: 16))
+                .background(.wildSand, in: .rect(cornerRadius: 16))
             
             Spacer()
         }
@@ -71,7 +71,6 @@ struct AddJobView: View {
 }
 
 extension AddJobView {
-    
     private func addItem() {
         let formatter = NumberFormatter()
         formatter.locale = Locale.current

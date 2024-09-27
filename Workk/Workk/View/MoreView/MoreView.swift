@@ -15,17 +15,17 @@ struct MoreView: View {
                     Image(systemName: item.imageName)
                         .font(.title2)
                         .foregroundColor(.gray)
-                    
+
                     Text(item.description)
                         .font(FontManager.subheadline)
-                    
+
                     Spacer()
                 }
             }
             .frame(height: 40)
             .padding(.horizontal)
             .padding(.vertical, 4)
-            
+
             Spacer()
         }
         .padding(.vertical, 24)

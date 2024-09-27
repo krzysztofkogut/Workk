@@ -29,7 +29,7 @@ class Stopwatch: ObservableObject {
         }
     }
     
-    private func start() -> Void {
+    private func start() {
         timer?.cancel()
         timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect().sink { [weak self] _ in
             guard let self else {
@@ -45,7 +45,7 @@ class Stopwatch: ObservableObject {
         isPaused = false
     }
     
-    private func stop() -> Void {
+    private func stop() {
         timer?.cancel()
         timer = nil
         accumulatedTime = getElapsedTime()
@@ -53,7 +53,7 @@ class Stopwatch: ObservableObject {
         isPaused = true
     }
     
-    func reset() -> Void {
+    func reset() {
         accumulatedTime = 0
         elapsedTime = 0
         hours = elapsedTime.hours

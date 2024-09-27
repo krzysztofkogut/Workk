@@ -11,19 +11,19 @@ struct MonthPicker: View {
     @Binding var selection: Date?
     var months: [Date]
     @Namespace private var monthPickerAnimation
-    @State private var selectionWidthDict: [Date : CGFloat] = [:]
-    
+    @State private var selectionWidthDict: [Date: CGFloat] = [:]
+
     var body: some View {
         HStack(alignment: .center) {
             ForEach(months, id: \.self) { month in
                 Spacer()
-                
+
                 VStack(spacing: 0) {
-                    MonthCard(isSelected: selection == nil ? month.isThisMonth() : month.isSameMonth(date: selection ?? month) , month: month)
+                    MonthCard(isSelected: selection == nil ? month.isThisMonth() : month.isSameMonth(date: selection ?? month), month: month)
                         .onAppear {
                             selectionWidthDict[month] = month.currentMonthString.widthOfString(usingFont: .latoBold(size: 14))
                         }
-                    
+
                     if selection == nil ? month.isThisMonth() : month.isSameMonth(date: selection ?? month) {
                         RoundedRectangle(cornerRadius: 4)
                             .fill(.persianBlue)
@@ -43,7 +43,7 @@ struct MonthPicker: View {
                         selection = month
                     }
                 }
-                
+
                 Spacer()
             }
         }

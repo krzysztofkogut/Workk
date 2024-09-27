@@ -8,30 +8,33 @@
 import SwiftUI
 
 struct RollingText: View {
-    
     // MARK: Text Properties
+
     var font: Font = .largeTitle
     @Binding var value: Int
     
     // MARK: Animation Properties
+
     @State var animationRange: [Int] = []
     
     var body: some View {
         HStack(spacing: 0) {
             ForEach(0..<animationRange.count, id: \.self) { index in
+
                 // MARK: To Find Text Size for Given Font
+
                 // Random Number
                 Text("0")
                     .font(font)
                     .opacity(0)
                     .overlay {
-                        GeometryReader {proxy in
+                        GeometryReader { proxy in
                             let size = proxy.size
                             
                             VStack(spacing: 0) {
-                                
                                 // MARK: Since Its Individual Value
-                                ForEach(0...9, id: \.self) { number in
+
+                                ForEach(0 ... 9, id: \.self) { number in
                                     Text("\(number)")
                                         .font(font)
                                         .frame(width: size.width, height: size.height, alignment: .center)
@@ -39,6 +42,7 @@ struct RollingText: View {
                             }
                             
                             // MARK: Setting Offset
+
                             .offset(y: -CGFloat(animationRange[index]) * size.height)
                         }
                         .clipped()
@@ -46,16 +50,17 @@ struct RollingText: View {
             }
         }
         .onAppear {
-            
             // MARK: Loading Range
-            animationRange = Array(repeating: 0, count: value < 10 ? "0\(value)".count : "\(value)".count )
+
+            animationRange = Array(repeating: 0, count: value < 10 ? "0\(value)".count : "\(value)".count)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                 updateText()
             }
         }
-        .onChange(of: value) { newValue in
+        .onChange(of: value) { _ in
             
             // MARK: Handling Addition/Removal to Extra Value
+
             let extra = (value < 10 ? "0\(value)".count : "\(value)".count) - animationRange.count
             if extra > 0 {
                 for _ in 0..<extra {
@@ -68,6 +73,7 @@ struct RollingText: View {
             }
             
             // MARK: Little Delay for Nice Look
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                 updateText()
             }
@@ -76,19 +82,21 @@ struct RollingText: View {
     
     func updateText() {
         let stringValue = value < 10 ? "0\(value)" : "\(value)"
-        for (index,value) in zip(0..<stringValue.count, stringValue){
+        for (index, value) in zip(0..<stringValue.count, stringValue) {
             // If First Value = 1
             // Then Offset will be Applied for -1
             // So the text will move up to show 1 Value
             
             // MARK: DampingFraction based on Index Value
+
             var fraction = Double(index) * 0.15
             // Max = 0.5
             // Total = 1.5
             fraction = (fraction > 0.5 ? 0.5 : fraction)
             withAnimation(.interactiveSpring(
                 response: 0.5,
-                dampingFraction: 1 + fraction, blendDuration: 1 + fraction)) {
+                dampingFraction: 1 + fraction, blendDuration: 1 + fraction))
+            {
                 animationRange[index] = (String(value) as NSString).integerValue
             }
         }

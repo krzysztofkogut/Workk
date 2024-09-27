@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CircleProgressBar: View {
     @Binding var progress: Float
-    
+
     var body: some View {
         ZStack {
             Circle()
@@ -18,7 +18,7 @@ struct CircleProgressBar: View {
                 .opacity(0.3)
                 .foregroundColor(Color.gray)
                 .rotationEffect(.degrees(270))
-            
+
             Circle()
                 .trim(from: 0.0, to: CGFloat(self.progress))
                 .stroke(style: StrokeStyle(lineWidth: 8.0, lineCap: .round, lineJoin: .bevel))
@@ -26,10 +26,11 @@ struct CircleProgressBar: View {
                     .init(color: .cranberry, location: 0.48000002),
                     .init(color: .fuchsiaBlue, location: 0.5999999),
                     .init(color: .cornflowerBlue, location: 0.7199998),
-                    .init(color: .persianBlue, location: 0.8099997)]), center: .center))
+                    .init(color: .persianBlue, location: 0.8099997),
+                ]), center: .center))
                 .rotationEffect(.degrees(270))
-            
-            VStack{
+
+            VStack {
                 Text("90%")
                     .font(.latoBold(size: 36))
                     .foregroundColor(.black)

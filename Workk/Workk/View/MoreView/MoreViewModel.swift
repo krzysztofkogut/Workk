@@ -15,7 +15,7 @@ enum MoreViewModel: Int, CaseIterable {
     case help
     case recommend
     case review
-    
+
     var description: String {
         switch self {
         case .settings:
@@ -34,7 +34,7 @@ enum MoreViewModel: Int, CaseIterable {
             return "Review the app on the App Store"
         }
     }
-    
+
     var imageName: String {
         switch self {
         case .settings:

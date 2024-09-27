@@ -5,12 +5,11 @@
 //  Created by Krzysztof Kogut on 20/02/2024.
 //
 
-import SwiftUI
 import GoogleMobileAds
+import SwiftUI
 
 struct BannerAd: UIViewRepresentable {
-    
-    @Binding var isLoaded : Bool
+    @Binding var isLoaded: Bool
     var unitID: String
     
     func makeCoordinator() -> Coordinator {

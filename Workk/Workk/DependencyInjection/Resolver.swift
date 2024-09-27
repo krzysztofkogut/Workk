@@ -10,7 +10,6 @@ import SwiftUI
 
 extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
-        
         registerDependencies()
         
         // Register view models.
@@ -20,9 +19,8 @@ extension Resolver: ResolverRegistering {
     }
 }
 
-extension Resolver {
-
-    public static func registerDependencies() {        
+public extension Resolver {
+    static func registerDependencies() {
         register {
             AppRouter(with: NavigationPath())
         }.scope(.application)
@@ -52,4 +50,3 @@ extension Resolver {
         }.scope(.unique)
     }
 }
-

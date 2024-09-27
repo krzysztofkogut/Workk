@@ -9,11 +9,11 @@ import SwiftUI
 
 extension UIApplication {
     func getRootViewController() -> UIViewController {
-        guard let screen = self.connectedScenes.first as? UIWindowScene else{
+        guard let screen = connectedScenes.first as? UIWindowScene else {
             return .init()
         }
         
-        guard let root = screen.windows.last?.rootViewController else{
+        guard let root = screen.windows.last?.rootViewController else {
             return .init()
         }
         
@@ -31,7 +31,7 @@ extension UIApplication {
             let frame = activeWindow.frame
             let safeArea = activeWindow.safeAreaInsets
             
-            var tag: Int = 1009
+            var tag = 1009
             let checkForDynamicIsland = adaptForDynamicIsland && safeArea.top >= 51
             
             if let previousTag = UserDefaults.standard.value(forKey: "in_app_notification_tag") as? Int {

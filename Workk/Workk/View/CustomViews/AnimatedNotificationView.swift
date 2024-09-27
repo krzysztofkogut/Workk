@@ -56,8 +56,8 @@ struct AnimatedNotificationView<Content: View>: View {
             .offset(y: offsetY)
             .gesture(
                 DragGesture()
-                    .onEnded({ value in
-                        if -value.translation.height > 50 && swipeToClose {
+                    .onEnded { value in
+                        if -value.translation.height > 50, swipeToClose {
                             withAnimation(.smooth) {
                                 animateNotification = false
                             }
@@ -66,7 +66,7 @@ struct AnimatedNotificationView<Content: View>: View {
                                 removeNotificationViewFromWindow()
                             }
                         }
-                    })
+                    }
             )
             .onAppear(perform: {
                 Task {
@@ -102,7 +102,7 @@ struct AnimatedNotificationView<Content: View>: View {
     func removeNotificationViewFromWindow() {
         if let activeWindow = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first(where: { $0.tag == 0320 }) {
             if let view = activeWindow.viewWithTag(tag) {
-                //print("Removed View with \(tag)")
+                // print("Removed View with \(tag)")
                 view.removeFromSuperview()
                 
                 /// Resetting Once All the notifications was removed
