@@ -696,7 +696,7 @@ extension AddWorkTimeView {
         let formatter = NumberFormatter()
         formatter.locale = Locale.current
         
-        selectedWorkName = work.job?.name
+        work.job = jobs.first(where: { $0.name == selectedWorkName })
         
         switch periodType {
         case PeriodFilter.day.rawValue:

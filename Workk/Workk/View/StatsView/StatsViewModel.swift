@@ -10,16 +10,15 @@ import SwiftUI
 
 protocol StatsViewModelProtocol where Self: ObservableObject {
     var selectedFilter: PeriodFilter { get set }
-
 }
 
 final class StatsViewModel: StatsViewModelProtocol {
     @Published var selectedFilter: PeriodFilter = .day
 
-    @Published var selectedDay: Date = Date()
-    @Published var selectedWeek: Date = Date()
-    @Published var selectedYearForMonths: Date = Date()
-    @Published var selectedYear: Date = Date()
+    @Published var selectedDay: Date = .init()
+    @Published var selectedWeek: Date = .init()
+    @Published var selectedYearForMonths: Date = .init()
+    @Published var selectedYear: Date = .init()
     
     var daysOfCurrentWeek: [Date] = Calendar(identifier: .iso8601).daysOfWeek()
     let daysInWeek = 7

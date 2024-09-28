@@ -7,12 +7,26 @@
 
 import SwiftUI
 
-struct SiteView: Identifiable {
+struct SiteView: Identifiable, Equatable {
     var id = UUID().uuidString
     var day: Date
-    var moneyEarned: Double
-    var workingHours: Double
+    var moneyEarned: Float
+    var workingHours: Float
     var animate: Bool = false
+    
+    init(id: String = UUID().uuidString, day: Date, moneyEarned: Float, workingHours: Float, animate: Bool = false) {
+        self.id = id
+        self.day = day
+        self.moneyEarned = moneyEarned
+        self.workingHours = workingHours
+        self.animate = animate
+    }
+    
+    init(work: Work) {
+        self.day = work.startDate
+        self.moneyEarned = work.moneyEarned
+        self.workingHours = work.hoursWorked
+    }
 }
 
 extension Date {

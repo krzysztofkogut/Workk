@@ -556,7 +556,7 @@ struct ScheduleView: View {
                     { work in
                         HStack(spacing: 0) {
                             VStack(alignment: .leading, spacing: 0) {
-                                Text(work.note ?? "n/a")
+                                Text(work.jobName)
                                     .font(.latoBold(size: 18))
                                     .padding(.bottom, 4)
                                 
@@ -564,18 +564,13 @@ struct ScheduleView: View {
                                     .font(.latoRegular(size: 12))
                                     .foregroundColor(.black)
                             }
-                            .padding(.horizontal, 16)
+                            .padding(16)
                             
                             Spacer()
                             
                             VStack(alignment: .trailing, spacing: 0) {
-                                Text("200 PLN")
+                                Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
                                     .font(.latoBold(size: 16))
-                                    .padding(.bottom, 4)
-                                
-                                Text("8h" + " | " + "\(work.hourlyRate) PLN/h")
-                                    .font(.latoRegular(size: 12))
-                                    .foregroundColor(.gray)
                             }
                             .padding(16)
                             
@@ -751,7 +746,7 @@ struct ScheduleView: View {
                     { work in
                         HStack(spacing: 0) {
                             VStack(alignment: .leading, spacing: 0) {
-                                Text(work.note ?? "n/a")
+                                Text(work.jobName)
                                     .font(.latoBold(size: 18))
                                     .padding(.bottom, 4)
                                 
@@ -759,18 +754,13 @@ struct ScheduleView: View {
                                     .font(.latoRegular(size: 12))
                                     .foregroundColor(.black)
                             }
-                            .padding(.horizontal, 16)
+                            .padding(16)
                             
                             Spacer()
                             
                             VStack(alignment: .trailing, spacing: 0) {
-                                Text("200 PLN")
+                                Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
                                     .font(.latoBold(size: 16))
-                                    .padding(.bottom, 4)
-                                
-                                Text("8h" + " | " + "\(work.hourlyRate) PLN/h")
-                                    .font(.latoRegular(size: 12))
-                                    .foregroundColor(.gray)
                             }
                             .padding(16)
                             

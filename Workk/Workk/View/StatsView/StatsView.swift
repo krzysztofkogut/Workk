@@ -16,14 +16,27 @@ struct StatsView: View {
     @ObservedObject private var viewModel: StatsViewModel = Resolver.resolve()
     
     @FetchRequest(
-            entity: Job.entity(),
-            sortDescriptors: [NSSortDescriptor(keyPath: \Job.name, ascending: true)]
-        ) private var jobs: FetchedResults<Job>
+        entity: Job.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Job.name, ascending: true)]
+    ) private var jobs: FetchedResults<Job>
+    
+    @FetchRequest(
+        entity: Work.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Work.id, ascending: true)]
+    ) private var works: FetchedResults<Work>
     
     @State var selectedPeriodFilter: PeriodFilter = .week
-    @State var selectedWorkFilter: String? = "All"
+    @State var selectedWorkName: String? = "All"
     @State var showAddNewWorkView: Bool = false
+    
     @State var sampleAnalytics: [SiteView] = sample_analytics
+    @State var weekSiteViews: [SiteView] = []
+    @State var monthSiteViews: [SiteView] = []
+    @State var yearSiteViews: [SiteView] = []
+    
+    @State var moneyYScale: Float = 0.0
+    @State var hoursYScale: Float = 0.0
+    
     @State var currentActiveMoneyItem: SiteView?
     @State var currentActiveHoursItem: SiteView?
     @State var daysOfWeek: [Date] = []
@@ -49,43 +62,62 @@ struct StatsView: View {
         return hasher.finalize()
     }
     
-    private var moneyEarned: Double {
+    private var moneyEarned: Float {
         switch selectedPeriodFilter {
         case .week:
-            return sampleAnalytics
+            return weekSiteViews
                 .filter { $0.day.isSameWeek(date: viewModel.selectedWeek) }
                 .map { $0.moneyEarned }
                 .reduce(0, +)
         case .month:
-            return sampleAnalytics
+            return monthSiteViews
                 .filter { $0.day.isSameYear(date: viewModel.selectedYearForMonths) }
                 .map { $0.moneyEarned }
                 .reduce(0, +)
         default:
-            return sampleAnalytics
-                .filter { $0.day.isSameYear(date: viewModel.selectedYear) }
+            return yearSiteViews
+                .filter { siteView in
+                    periodOf5Years.contains { periodDate in
+                        siteView.day.isSameYear(date: periodDate)
+                    }
+                }
                 .map { $0.moneyEarned }
                 .reduce(0, +)
         }
     }
     
-    private var workingHours: Double {
+    private var workingHours: Float {
         switch selectedPeriodFilter {
         case .week:
-            return sampleAnalytics
+            return weekSiteViews
                 .filter { $0.day.isSameWeek(date: viewModel.selectedWeek) }
                 .map { $0.workingHours }
                 .reduce(0, +)
         case .month:
-            return sampleAnalytics
+            return monthSiteViews
                 .filter { $0.day.isSameYear(date: viewModel.selectedYearForMonths) }
                 .map { $0.workingHours }
                 .reduce(0, +)
         default:
-            return sampleAnalytics
-                .filter { $0.day.isSameYear(date: viewModel.selectedYear) }
+            return yearSiteViews
+                .filter { siteView in
+                    periodOf5Years.contains { periodDate in
+                        siteView.day.isSameYear(date: periodDate)
+                    }
+                }
                 .map { $0.workingHours }
                 .reduce(0, +)
+        }
+    }
+    
+    private var currentSiteViews: [SiteView] {
+        switch selectedPeriodFilter {
+        case .week:
+            weekSiteViews
+        case .month:
+            monthSiteViews
+        default:
+            yearSiteViews
         }
     }
     
@@ -94,10 +126,10 @@ struct StatsView: View {
             HStack(spacing: 0) {
                 PeriodDropDownPicker(selection: $selectedPeriodFilter,
                                      options: [.week, .month, .year],
-                               backgroundColor: .white)
+                                     backgroundColor: .white)
                 Spacer()
                 
-                DropDownPicker(selection: $selectedWorkFilter,
+                DropDownPicker(selection: $selectedWorkName,
                                addNewOption: $showAddNewWorkView,
                                hint: "All",
                                state: .trailing,
@@ -143,7 +175,7 @@ struct StatsView: View {
                 }
                 
                 if let currentActiveHoursItem = currentActiveHoursItem {
-                    Text(workingHours(for: currentActiveHoursItem.day).stringFormat + " h")
+                    Text(currentActiveHoursItem.workingHours.stringFormat + " h")
                         .font(.latoBold(size: 20))
                 } else {
                     Text(workingHours.stringFormat + " h")
@@ -190,16 +222,65 @@ struct StatsView: View {
             .padding(.horizontal, 24)
             .padding(.vertical, 16)
         }
-        .onChange(of: selectedPeriodFilter) { newValue in
+        .onAppear {
+            moneyYScale = maxForMoney()
+            hoursYScale = maxForHours()
+            weekSiteViews = generateWeekSiteViews(works: works)
+            monthSiteViews = generateMonthsOfYearSiteViews(works: works)
+            yearSiteViews = generateYearSiteViews(works: works)
+        }
+        .onChange(of: weekSiteViews) { _ in
+            moneyYScale = maxForMoney()
+            hoursYScale = maxForHours()
+        }
+        .onChange(of: monthSiteViews) { _ in
+            moneyYScale = maxForMoney()
+            hoursYScale = maxForHours()
+        }
+        .onChange(of: yearSiteViews) { _ in
+            moneyYScale = maxForMoney()
+            hoursYScale = maxForHours()
+        }
+        .onChange(of: viewModel.selectedWeek) { _ in
+            moneyYScale = maxForMoney()
+            hoursYScale = maxForHours()
+        }
+        .onChange(of: viewModel.selectedYearForMonths) { _ in
+            moneyYScale = maxForMoney()
+            hoursYScale = maxForHours()
+        }
+        .onChange(of: viewModel.selectedYear) { _ in
+            moneyYScale = maxForMoney()
+            hoursYScale = maxForHours()
+        }
+        .onChange(of: selectedWorkName) { _ in
             currentActiveMoneyItem = nil
             currentActiveHoursItem = nil
-            sampleAnalytics = sample_analytics
+            moneyYScale = maxForMoney()
+            hoursYScale = maxForHours()
+            weekSiteViews = generateWeekSiteViews(works: works)
+            monthSiteViews = generateMonthsOfYearSiteViews(works: works)
+            yearSiteViews = generateYearSiteViews(works: works)
+            animateChart(fromChange: true)
+        }
+        .onChange(of: selectedPeriodFilter) { _ in
+            currentActiveMoneyItem = nil
+            currentActiveHoursItem = nil
+            moneyYScale = maxForMoney()
+            hoursYScale = maxForHours()
+            weekSiteViews = generateWeekSiteViews(works: works)
+            monthSiteViews = generateMonthsOfYearSiteViews(works: works)
+            yearSiteViews = generateYearSiteViews(works: works)
             animateChart(fromChange: true)
         }
         .onChange(of: datePropertiesHash) { _ in
             currentActiveMoneyItem = nil
             currentActiveHoursItem = nil
-            sampleAnalytics = sample_analytics
+            moneyYScale = maxForMoney()
+            hoursYScale = maxForHours()
+            weekSiteViews = generateWeekSiteViews(works: works)
+            monthSiteViews = generateMonthsOfYearSiteViews(works: works)
+            yearSiteViews = generateYearSiteViews(works: works)
             animateChart(fromChange: true)
         }
     }
@@ -210,7 +291,7 @@ struct StatsView: View {
             switch selectedPeriodFilter {
             case .week:
                 ForEach(daysOfWeek, id: \.self) { dayOfWeek in
-                    let chartData = sampleAnalytics.first { $0.day.isSameDay(date: dayOfWeek) }
+                    let chartData = weekSiteViews.first { $0.day.isSameDay(date: dayOfWeek) }
                     if let currentActiveMoneyItem, currentActiveMoneyItem.id == chartData?.id {
                         BarMark(
                             x: .value("Day", currentActiveMoneyItem.day, unit: .day),
@@ -234,7 +315,7 @@ struct StatsView: View {
                 }
             case .month:
                 ForEach(monthsOfYear, id: \.self) { monthOfYear in
-                    let chartData = sampleAnalytics.first { $0.day.isSameMonth(date: monthOfYear) }
+                    let chartData = monthSiteViews.first { $0.day.isSameMonth(date: monthOfYear) }
                     if let currentActiveMoneyItem, currentActiveMoneyItem.id == chartData?.id {
                         BarMark(
                             x: .value("Month", currentActiveMoneyItem.day, unit: .month),
@@ -258,7 +339,7 @@ struct StatsView: View {
                 }
             default:
                 ForEach(periodOf5Years, id: \.self) { year in
-                    let chartData = sampleAnalytics.first { $0.day.isSameYear(date: year) }
+                    let chartData = yearSiteViews.first { $0.day.isSameYear(date: year) }
                     
 //                    let moneyEarned = sampleAnalytics
 //                        .filter { $0.day.isSameYear(date: year) }
@@ -289,27 +370,28 @@ struct StatsView: View {
                 }
             }
         }
-        .chartYScale(domain: [0, maxForPeriod() + 300])
+        .chartYScale(domain: [0, 1.4 * moneyYScale])
         .chartYAxis {
             AxisMarks(values: .automatic(desiredCount: 2))
         }
         .chartXAxis {
-            AxisMarks(values: .stride(by: selectedPeriodFilter.calendarComponent)) { date in
+            AxisMarks(values: .stride(by: selectedPeriodFilter.calendarComponent)) { _ in
                 AxisValueLabel(format: selectedPeriodFilter.dateFormat, centered: true)
             }
         }
         .chartOverlay(content: { proxy in
-            GeometryReader { innerProxy in
+            GeometryReader { _ in
                 Rectangle()
                     .fill(.clear).contentShape(Rectangle())
                     .onTapGesture(perform: { location in
                         if let date: Date = proxy.value(atX: location.x) {
                             let calendar = Calendar.current
-                            if let currentItem = sampleAnalytics.first(where: { 
+                            if let currentItem = currentSiteViews.first(where: {
                                 calendar.component(selectedPeriodFilter.calendarComponent, from: $0.day) ==
-                                calendar.component(selectedPeriodFilter.calendarComponent, from: date) }) {
+                                    calendar.component(selectedPeriodFilter.calendarComponent, from: date)
+                            }) {
                                 self.currentActiveMoneyItem = (self.currentActiveMoneyItem == nil ||
-                                                               self.currentActiveMoneyItem?.id != currentItem.id) ? currentItem : nil
+                                    self.currentActiveMoneyItem?.id != currentItem.id) ? currentItem : nil
                             }
                         }
                     })
@@ -319,9 +401,10 @@ struct StatsView: View {
                                 let location = value.location
                                 if let date: Date = proxy.value(atX: location.x) {
                                     let calendar = Calendar.current
-                                    if let currentItem = sampleAnalytics.first(where: { 
+                                    if let currentItem = currentSiteViews.first(where: {
                                         calendar.component(selectedPeriodFilter.calendarComponent, from: $0.day) ==
-                                        calendar.component(selectedPeriodFilter.calendarComponent, from: date) }) {
+                                            calendar.component(selectedPeriodFilter.calendarComponent, from: date)
+                                    }) {
                                         self.currentActiveMoneyItem = currentItem
                                     }
                                 }
@@ -330,7 +413,7 @@ struct StatsView: View {
             }
             .padding(.bottom, 16)
         })
-        .frame(height: 120)
+        .frame(maxHeight: .infinity)
         .onAppear {
             animateChart()
         }
@@ -342,7 +425,7 @@ struct StatsView: View {
             switch selectedPeriodFilter {
             case .week:
                 ForEach(daysOfWeek, id: \.self) { dayOfWeek in
-                    let chartData = sampleAnalytics.first { $0.day.isSameDay(date: dayOfWeek) }
+                    let chartData = weekSiteViews.first { $0.day.isSameDay(date: dayOfWeek) }
                     if let currentActiveHoursItem, currentActiveHoursItem.id == chartData?.id {
                         BarMark(
                             x: .value("Day", currentActiveHoursItem.day, unit: .day),
@@ -366,34 +449,31 @@ struct StatsView: View {
                 }
             case .month:
                 ForEach(monthsOfYear, id: \.self) { monthOfYear in
-                    let chartData = SiteView(day: monthOfYear,
-                                            moneyEarned: moneyEarned(for: monthOfYear),
-                                            workingHours: workingHours(for: monthOfYear)) // to think about
-                    
-                    if let currentActiveHoursItem, currentActiveHoursItem.id == chartData.id {
+                    let chartData = monthSiteViews.first { $0.day.isSameMonth(date: monthOfYear) }
+                    if let currentActiveHoursItem, currentActiveHoursItem.id == chartData?.id {
                         BarMark(
                             x: .value("Month", currentActiveHoursItem.day, unit: .month),
                             y: .value("Hours", currentActiveHoursItem.workingHours)
                         )
                         .foregroundStyle(.blueRibbon)
                         .cornerRadius(4)
-                    } else { //if let chartData {
+                    } else if let chartData {
                         BarMark(
                             x: .value("Month", monthOfYear, unit: .month),
-                            y: .value("Hours", chartData.workingHours)
+                            y: .value("Hours", chartData.animate ? chartData.workingHours : 0)
                         )
                         .foregroundStyle(.black)
                         .cornerRadius(4)
-                    } //else {
-//                        BarMark(
-//                            x: .value("Month", monthOfYear, unit: .month),
-//                            y: .value("Hours", 0)
-//                        )
-//                    }
+                    } else {
+                        BarMark(
+                            x: .value("Month", monthOfYear, unit: .month),
+                            y: .value("Hours", 0)
+                        )
+                    }
                 }
             default:
                 ForEach(periodOf5Years, id: \.self) { year in
-                    let chartData = sampleAnalytics.first { $0.day.isSameYear(date: year) }
+                    let chartData = yearSiteViews.first { $0.day.isSameYear(date: year) }
                     if let currentActiveHoursItem, currentActiveHoursItem.id == chartData?.id {
                         BarMark(
                             x: .value("Year", currentActiveHoursItem.day, unit: .year),
@@ -417,27 +497,28 @@ struct StatsView: View {
                 }
             }
         }
-        .chartYScale(domain: [0, maxForHours() + 8])
+        .chartYScale(domain: [0, 1.4 * hoursYScale])
         .chartYAxis {
             AxisMarks(values: .automatic(desiredCount: 2))
         }
         .chartXAxis {
-            AxisMarks(values: .stride(by: selectedPeriodFilter.calendarComponent)) { date in
+            AxisMarks(values: .stride(by: selectedPeriodFilter.calendarComponent)) { _ in
                 AxisValueLabel(format: selectedPeriodFilter.dateFormat, centered: true)
             }
         }
         .chartOverlay(content: { proxy in
-            GeometryReader { innerProxy in
+            GeometryReader { _ in
                 Rectangle()
                     .fill(.clear).contentShape(Rectangle())
                     .onTapGesture(perform: { location in
                         if let date: Date = proxy.value(atX: location.x) {
                             let calendar = Calendar.current
-                            if let currentItem = sampleAnalytics.first(where: {
+                            if let currentItem = currentSiteViews.first(where: {
                                 calendar.component(selectedPeriodFilter.calendarComponent, from: $0.day) ==
-                                calendar.component(selectedPeriodFilter.calendarComponent, from: date) }) {
+                                    calendar.component(selectedPeriodFilter.calendarComponent, from: date)
+                            }) {
                                 self.currentActiveHoursItem = (self.currentActiveHoursItem == nil ||
-                                                               self.currentActiveHoursItem?.id != currentItem.id) ? currentItem : nil
+                                    self.currentActiveHoursItem?.id != currentItem.id) ? currentItem : nil
                             }
                         }
                     })
@@ -447,9 +528,10 @@ struct StatsView: View {
                                 let location = value.location
                                 if let date: Date = proxy.value(atX: location.x) {
                                     let calendar = Calendar.current
-                                    if let currentItem = sampleAnalytics.first(where: {
+                                    if let currentItem = currentSiteViews.first(where: {
                                         calendar.component(selectedPeriodFilter.calendarComponent, from: $0.day) ==
-                                        calendar.component(selectedPeriodFilter.calendarComponent, from: date) }) {
+                                            calendar.component(selectedPeriodFilter.calendarComponent, from: date)
+                                    }) {
                                         self.currentActiveHoursItem = currentItem
                                     }
                                 }
@@ -458,101 +540,134 @@ struct StatsView: View {
             }
             .padding(.bottom, 16)
         })
-        .frame(height: 120)
+        .frame(maxHeight: .infinity)
         .onAppear {
             animateChart()
         }
     }
     
     func animateChart(fromChange: Bool = false) {
-        for (index, _) in sampleAnalytics.enumerated() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)) {
-                withAnimation(fromChange ? .easeInOut(duration: 0.8).delay(Double(index) * 0.03) : .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8).delay(Double(index) * 0.05)) {
-                    sampleAnalytics[index].animate = true
+        switch selectedPeriodFilter {
+        case .week:
+            for (index, _) in weekSiteViews.enumerated() {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)) {
+                    withAnimation(fromChange ? .easeInOut(duration: 0.8).delay(Double(index) * 0.03) : .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8).delay(Double(index) * 0.05)) {
+                        weekSiteViews[index].animate = true
+                    }
+                }
+            }
+        case .month:
+            for (index, _) in monthSiteViews.enumerated() {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)) {
+                    withAnimation(fromChange ? .easeInOut(duration: 0.8).delay(Double(index) * 0.03) : .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8).delay(Double(index) * 0.05)) {
+                        monthSiteViews[index].animate = true
+                    }
+                }
+            }
+        default:
+            for (index, _) in yearSiteViews.enumerated() {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)) {
+                    withAnimation(fromChange ? .easeInOut(duration: 0.8).delay(Double(index) * 0.03) : .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8).delay(Double(index) * 0.05)) {
+                        yearSiteViews[index].animate = true
+                    }
                 }
             }
         }
     }
     
-    private func maxForPeriod() -> Double {
+    private func maxForMoney() -> Float {
         switch selectedPeriodFilter {
         case .week:
-//            return sampleAnalytics.max { $1.moneyEarned > $0.moneyEarned }?.moneyEarned ?? 0
-            return sampleAnalytics
-                .filter { $0.day.isThisWeek() }
+            return weekSiteViews
+                .filter { $0.day.isSameWeek(date: viewModel.selectedWeek) }
+                .max { $1.moneyEarned > $0.moneyEarned }?
+                .moneyEarned ?? 0.0
+        case .month:
+            return monthSiteViews
+                .filter { $0.day.isSameYear(date: viewModel.selectedYearForMonths) }
+                .max { $1.moneyEarned > $0.moneyEarned }?
+                .moneyEarned ?? 0.0
+        default:
+            return yearSiteViews
+                .filter { siteView in
+                    periodOf5Years.contains { periodDate in
+                        siteView.day.isSameYear(date: periodDate)
+                    }
+                }
                 .reduce(0) { partialResult, siteView in
                     partialResult + siteView.moneyEarned
                 }
-        case .month:
-            return sampleAnalytics
-                .filter { $0.day.isThisYear() }
-                .reduce(0) { partialResult, siteView in
-                    partialResult + siteView.moneyEarned
-                }
-        default:
-            return sampleAnalytics.reduce(0) { partialResult, siteView in
-                partialResult + siteView.moneyEarned
-            }
         }
     }
     
-    private func maxForHours() -> Double {
+    private func maxForHours() -> Float {
         switch selectedPeriodFilter {
         case .week:
-//            return sampleAnalytics.max { $1.workingHours > $0.workingHours }?.workingHours ?? 0
-            return sampleAnalytics
-                .filter { $0.day.isThisWeek() }
-                .reduce(0) { partialResult, siteView in
-                    partialResult + siteView.workingHours
-                }
+            return weekSiteViews
+                .filter { $0.day.isSameWeek(date: viewModel.selectedWeek) }
+                .max { $1.workingHours > $0.workingHours }?
+                .workingHours ?? 0.0
         case .month:
-            return sampleAnalytics
-                .filter { $0.day.isThisYear() }
+            return monthSiteViews
+                .filter { $0.day.isSameYear(date: viewModel.selectedYearForMonths) }
+                .max { $1.workingHours > $0.workingHours }?
+                .workingHours ?? 0.0
+        default:
+            return yearSiteViews
+                .filter { siteView in
+                    periodOf5Years.contains { periodDate in
+                        siteView.day.isSameYear(date: periodDate)
+                    }
+                }
                 .reduce(0) { partialResult, siteView in
                     partialResult + siteView.workingHours
                 }
-        default:
-            return sampleAnalytics.reduce(0) { partialResult, siteView in
-                partialResult + siteView.workingHours
-            }
         }
     }
     
-    private func moneyEarned(for date: Date) -> Double {
+    private func moneyEarned(for date: Date) -> Float {
         switch selectedPeriodFilter {
         case .week:
-            return sampleAnalytics
-                .filter { $0.day.isSameWeek(date: date) }
+            return weekSiteViews
+                .filter { $0.day.isSameWeek(date: viewModel.selectedWeek) }
                 .map { $0.moneyEarned }
                 .reduce(0, +)
         case .month:
-            return sampleAnalytics
-                .filter { $0.day.isSameMonth(date: date) }
+            return monthSiteViews
+                .filter { $0.day.isSameYear(date: viewModel.selectedYearForMonths) }
                 .map { $0.moneyEarned }
                 .reduce(0, +)
         default:
-            return sampleAnalytics
-                .filter { $0.day.isSameYear(date: date) }
+            return yearSiteViews
+                .filter { siteView in
+                    periodOf5Years.contains { periodDate in
+                        siteView.day.isSameYear(date: periodDate)
+                    }
+                }
                 .map { $0.moneyEarned }
                 .reduce(0, +)
         }
     }
     
-    private func workingHours(for date: Date) -> Double {
+    private func workingHours(for date: Date) -> Float {
         switch selectedPeriodFilter {
         case .week:
-            return sampleAnalytics
-                .filter { $0.day.isSameWeek(date: date) }
+            return weekSiteViews
+                .filter { $0.day.isSameWeek(date: viewModel.selectedWeek) }
                 .map { $0.workingHours }
                 .reduce(0, +)
         case .month:
-            return sampleAnalytics
-                .filter { $0.day.isSameMonth(date: date) }
+            return monthSiteViews
+                .filter { $0.day.isSameYear(date: viewModel.selectedYearForMonths) }
                 .map { $0.workingHours }
                 .reduce(0, +)
         default:
-            return sampleAnalytics
-                .filter { $0.day.isSameYear(date: date) }
+            return yearSiteViews
+                .filter { siteView in
+                    periodOf5Years.contains { periodDate in
+                        siteView.day.isSameYear(date: periodDate)
+                    }
+                }
                 .map { $0.workingHours }
                 .reduce(0, +)
         }
@@ -575,15 +690,83 @@ struct StatsView: View {
     private func forwardAction() {
         switch selectedPeriodFilter {
         case .week:
-            viewModel.forwardToNextWeek()
-            daysOfWeek = Calendar(identifier: .iso8601).daysOfWeek(for: viewModel.selectedWeek)
+            withAnimation(.smooth(duration: 0.4)) {
+                viewModel.forwardToNextWeek()
+                daysOfWeek = Calendar(identifier: .iso8601).daysOfWeek(for: viewModel.selectedWeek)
+            }
         case .month:
-            viewModel.forwardToNextYearForMonths()
-            monthsOfYear = Calendar(identifier: .iso8601).monthsOfYear(for: viewModel.selectedYearForMonths)
+            withAnimation(.smooth(duration: 0.4)) {
+                viewModel.forwardToNextYearForMonths()
+                monthsOfYear = Calendar(identifier: .iso8601).monthsOfYear(for: viewModel.selectedYearForMonths)
+            }
         default:
-            viewModel.forwardToNextYear()
-            periodOf5Years = Calendar(identifier: .iso8601).periodOf5Years(for: viewModel.selectedYear)
+            withAnimation(.smooth(duration: 0.4)) {
+                viewModel.forwardToNextYear()
+                periodOf5Years = Calendar(identifier: .iso8601).periodOf5Years(for: viewModel.selectedYear)
+            }
         }
+    }
+    
+    private func generateWeekSiteViews(works: FetchedResults<Work>) -> [SiteView] {
+        let filteredWorks = works
+            .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+            .filter { $0.periodType == PeriodFilter.day.rawValue }
+        
+        // Group works by the start of each day (ignoring time components)
+        let groupedByDay = Dictionary(grouping: filteredWorks, by: { $0.startDate.startOfDay() })
+        
+        // For each day, sum the moneyEarned and hoursWorked
+        let siteViews: [SiteView] = groupedByDay.map { day, worksForDay in
+            let totalMoneyEarned = worksForDay.reduce(0) { $0 + $1.moneyEarned }
+            let totalHoursWorked = worksForDay.reduce(0) { $0 + $1.hoursWorked }
+            
+            return SiteView(day: day, moneyEarned: totalMoneyEarned, workingHours: totalHoursWorked)
+        }
+        
+        // Optional: Sort the array by day if needed
+        return siteViews.sorted { $0.day < $1.day }
+    }
+    
+    private func generateMonthsOfYearSiteViews(works: FetchedResults<Work>) -> [SiteView] {
+        let filteredWorks = works
+            .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+            .filter {
+                $0.periodType == PeriodFilter.day.rawValue ||
+                    $0.periodType == PeriodFilter.week.rawValue ||
+                    $0.periodType == PeriodFilter.month.rawValue
+            }
+        
+        // Group works by the start of each day (ignoring time components)
+        let groupedByMonth = Dictionary(grouping: filteredWorks, by: { $0.startDate.startOfMonth() })
+        
+        // For each day, sum the moneyEarned and hoursWorked
+        let siteViews: [SiteView] = groupedByMonth.map { day, worksForMonth in
+            let totalMoneyEarned = worksForMonth.reduce(0) { $0 + $1.moneyEarned }
+            let totalHoursWorked = worksForMonth.reduce(0) { $0 + $1.hoursWorked }
+            
+            return SiteView(day: day, moneyEarned: totalMoneyEarned, workingHours: totalHoursWorked)
+        }
+        
+        // Optional: Sort the array by day if needed
+        return siteViews.sorted { $0.day < $1.day }
+    }
+    
+    private func generateYearSiteViews(works: FetchedResults<Work>) -> [SiteView] {
+        let filteredWorks = works.filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+        
+        // Group works by the start of each day (ignoring time components)
+        let groupedByYear = Dictionary(grouping: filteredWorks, by: { $0.startDate.startOfYear() })
+        
+        // For each day, sum the moneyEarned and hoursWorked
+        let siteViews: [SiteView] = groupedByYear.map { day, worksForYear in
+            let totalMoneyEarned = worksForYear.reduce(0) { $0 + $1.moneyEarned }
+            let totalHoursWorked = worksForYear.reduce(0) { $0 + $1.hoursWorked }
+            
+            return SiteView(day: day, moneyEarned: totalMoneyEarned, workingHours: totalHoursWorked)
+        }
+        
+        // Optional: Sort the array by day if needed
+        return siteViews.sorted { $0.day < $1.day }
     }
 }
 

@@ -32,6 +32,7 @@
 		A221D0CC2AF8248200A492F1 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = A221D0CB2AF8248200A492F1 /* Time.swift */; };
 		A221D0CE2AF835E700A492F1 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A221D0CD2AF835E700A492F1 /* HomeViewModel.swift */; };
 		A224AEB92BB9DD3400124705 /* DateFormatter+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A224AEB82BB9DD3400124705 /* DateFormatter+Ext.swift */; };
+		A229ABA12CA7170200BB97F6 /* Float+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A229ABA02CA7170200BB97F6 /* Float+Ext.swift */; };
 		A22C3D722B4DBD5F00AE7021 /* OffsetKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22C3D712B4DBD5F00AE7021 /* OffsetKey.swift */; };
 		A240212F2C1744DD007A5988 /* AddJobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A240212E2C1744DD007A5988 /* AddJobView.swift */; };
 		A242B4532AE97B12006123B6 /* SubscriptionPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A242B4522AE97B11006123B6 /* SubscriptionPlanView.swift */; };
@@ -201,6 +202,7 @@
 		A221D0CB2AF8248200A492F1 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		A221D0CD2AF835E700A492F1 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		A224AEB82BB9DD3400124705 /* DateFormatter+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Ext.swift"; sourceTree = "<group>"; };
+		A229ABA02CA7170200BB97F6 /* Float+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+Ext.swift"; sourceTree = "<group>"; };
 		A22C3D712B4DBD5F00AE7021 /* OffsetKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetKey.swift; sourceTree = "<group>"; };
 		A240212E2C1744DD007A5988 /* AddJobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddJobView.swift; sourceTree = "<group>"; };
 		A242B4522AE97B11006123B6 /* SubscriptionPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanView.swift; sourceTree = "<group>"; };
@@ -509,6 +511,7 @@
 				A2D732772BC6B8250013C02B /* Double+Ext.swift */,
 				A21B7F9A2C95F8DF00B66611 /* EnvironmentValues+Ext.swift */,
 				A2A375102B004BB500ED51E9 /* Font+Ext.swift */,
+				A229ABA02CA7170200BB97F6 /* Float+Ext.swift */,
 				A26454152BA73C42001B2F62 /* Int+Ext.swift */,
 				A2B0319F2B7FAF8F00296078 /* String+Ext.swift */,
 				A2C548012B44CCBA00A7A0CC /* TimeInterval+Ext.swift */,
@@ -958,6 +961,7 @@
 				A240212F2C1744DD007A5988 /* AddJobView.swift in Sources */,
 				A2A375162B019CCB00ED51E9 /* AppRouter.swift in Sources */,
 				A28992552B1CCED4004DEA9D /* OverlayView.swift in Sources */,
+				A229ABA12CA7170200BB97F6 /* Float+Ext.swift in Sources */,
 				A2D4D7752B7E9BD00096FDFF /* MonthCard.swift in Sources */,
 				A289924E2B1BF105004DEA9D /* DropDownPicker.swift in Sources */,
 				A246EC6B2B86B65700E7FBB5 /* HideViewModifier.swift in Sources */,

@@ -115,10 +115,8 @@ extension Date {
         Calendar(identifier: .iso8601).isDate(self, equalTo: date, toGranularity: .year)
     }
     
-    func startOfMonth(using calendar: Calendar) -> Date {
-        calendar.date(
-            from: calendar.dateComponents([.year, .month], from: self)
-        ) ?? self
+    func startOfDay() -> Date {
+        Calendar(identifier: .iso8601).startOfDay(for: self)
     }
     
     func startOfWeek() -> Date {
@@ -127,6 +125,12 @@ extension Date {
     
     func endOfWeek() -> Date {
         Calendar(identifier: .iso8601).dateInterval(of: .weekOfYear, for: self)?.end ?? self
+    }
+    
+    func startOfMonth(using calendar: Calendar) -> Date {
+        calendar.date(
+            from: calendar.dateComponents([.year, .month], from: self)
+        ) ?? self
     }
     
     func startOfMonth() -> Date {
