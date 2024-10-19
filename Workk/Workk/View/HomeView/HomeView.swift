@@ -72,7 +72,14 @@ struct HomeView: View {
                         hint: "Select",
                         options: ["DAZN"],
                         backgroundColor: .wildSand)
+
                     Spacer()
+
+                    Button {} label: {
+                        Image(systemName: "person.crop.circle.fill")
+                            .foregroundColor(.black)
+                            .font(.title)
+                    }
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
@@ -267,11 +274,7 @@ extension HomeView {
                     .font(.latoBold(size: 16))
                     .frame(width: countWorkTime ? 90 : 120, height: 44)
             }
-            .modifier(BorderedRoundedButton())
-            .overlay {
-                RoundedRectangle(cornerRadius: 24)
-                    .stroke(.blueRibbon, lineWidth: 4)
-            }
+            .background(.wildSand)
             .cornerRadius(24)
         }
     }
@@ -295,10 +298,9 @@ extension HomeView {
                                 .frame(height: 24)
                         }
                 }
+                .animation(.easeOut(duration: 0.2), value: selectedFilter)
                 .onTapGesture {
-                    withAnimation(.easeOut) {
-                        self.viewModel.selectedFilter = item
-                    }
+                    self.viewModel.selectedFilter = item
                 }
             }
         }
@@ -972,8 +974,6 @@ extension HomeView {
     var periodFilterBar: some View {
         HStack {
             ForEach(PeriodFilter.allCases, id: \.rawValue) { item in
-                Spacer()
-
                 VStack(spacing: 4) {
                     Text(item.title)
                         .font(selectedFilter == item ? .latoBlack(size: 16) : .latoRegular(size: 16))
@@ -995,14 +995,11 @@ extension HomeView {
                             .foregroundColor(.clear)
                     }
                 }
+                .frame(maxWidth: .infinity)
                 .animation(.easeOut(duration: 0.2), value: selectedFilter)
                 .onTapGesture {
-                    withAnimation(.easeOut(duration: 0.2)) {
-                        self.selectedFilter = item
-                    }
+                    self.selectedFilter = item
                 }
-
-                Spacer()
             }
         }
     }

@@ -102,8 +102,8 @@ struct PeriodDropDownPicker: View {
                 .contentShape(.rect)
                 .padding(.horizontal, 16)
                 .onTapGesture {
+                    selection = option
                     withAnimation(.snappy) {
-                        selection = option
                         showDropdown.toggle()
                     }
                 }

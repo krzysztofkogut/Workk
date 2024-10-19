@@ -47,6 +47,6 @@ public extension Resolver {
         
         register {
             StatsViewModel()
-        }.scope(.unique)
+        }.scope(.shared)
     }
 }

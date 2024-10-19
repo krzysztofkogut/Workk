@@ -69,7 +69,7 @@ struct AddWorkTimeView: View {
                 DropDownPicker(selection: $selectedWorkName,
                                addNewOption: $showAddJobView,
                                hint: "Select",
-                               options: ["All"] + jobs.compactMap { $0.name },
+                               options: jobs.compactMap { $0.name },
                                backgroundColor: .wildSand)
                 
                 Spacer()
@@ -304,7 +304,7 @@ struct AddWorkTimeView: View {
                     HStack(spacing: 0) {
                         Button(action: viewModel.backwardToLastWeek) {
                             Image(systemName: "chevron.left")
-                                .font(.caption)
+                                .frame(width: 24, height: 24)
                                 .foregroundColor(.primary)
                         }
                         .padding(.leading, 24)
@@ -317,7 +317,7 @@ struct AddWorkTimeView: View {
                         
                         Button(action: viewModel.forwardToNextWeek) {
                             Image(systemName: "chevron.right")
-                                .font(.caption)
+                                .frame(width: 24, height: 24)
                                 .foregroundColor(.primary)
                         }
                         .padding(.trailing, 24)
@@ -403,7 +403,7 @@ struct AddWorkTimeView: View {
                     HStack(spacing: 0) {
                         Button(action: viewModel.backwardToLastMonth) {
                             Image(systemName: "chevron.left")
-                                .font(.caption)
+                                .frame(width: 24, height: 24)
                                 .foregroundColor(.primary)
                         }
                         .padding(.leading, 24)
@@ -416,7 +416,7 @@ struct AddWorkTimeView: View {
                         
                         Button(action: viewModel.forwardToNextMonth) {
                             Image(systemName: "chevron.right")
-                                .font(.caption)
+                                .frame(width: 24, height: 24)
                                 .foregroundColor(.primary)
                         }
                         .padding(.trailing, 24)
@@ -492,7 +492,7 @@ struct AddWorkTimeView: View {
                     HStack(spacing: 0) {
                         Button(action: viewModel.backwardToLastYear) {
                             Image(systemName: "chevron.left")
-                                .font(.caption)
+                                .frame(width: 24, height: 24)
                                 .foregroundColor(.primary)
                         }
                         .padding(.leading, 24)
@@ -505,13 +505,13 @@ struct AddWorkTimeView: View {
                         
                         Button(action: viewModel.forwardToNextYear) {
                             Image(systemName: "chevron.right")
-                                .font(.caption)
+                                .frame(width: 24, height: 24)
                                 .foregroundColor(.primary)
                         }
                         .padding(.trailing, 24)
                     }
                     .padding(.horizontal, 4)
-                    .padding(.vertical, 20)
+                    .padding(.vertical, 18)
                 }
                 .background(.wildSand, in: .rect(cornerRadius: 12))
                 
@@ -577,8 +577,6 @@ struct AddWorkTimeView: View {
     var periodFilterBar: some View {
         HStack {
             ForEach(PeriodFilter.allCases, id: \.rawValue) { item in
-                Spacer()
-                
                 VStack(spacing: 4) {
                     Text(item.title)
                         .font(selectedFilter == item ? .latoBlack(size: 18) : .latoRegular(size: 18))
@@ -600,14 +598,13 @@ struct AddWorkTimeView: View {
                             .foregroundColor(.clear)
                     }
                 }
+                .frame(maxWidth: .infinity)
                 .animation(.easeOut(duration: 0.2), value: selectedFilter)
                 .onTapGesture {
                     withAnimation(.easeOut(duration: 0.2)) {
                         self.selectedFilter = item
                     }
                 }
-                
-                Spacer()
             }
         }
     }

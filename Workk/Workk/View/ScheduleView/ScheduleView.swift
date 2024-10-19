@@ -24,30 +24,30 @@ struct ScheduleView: View {
     
     @FetchRequest(
         entity: Work.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Work.id, ascending: true)]
+        sortDescriptors: [NSSortDescriptor(keyPath: \Work.startDate, ascending: true)]
     ) private var works: FetchedResults<Work>
         
     @FetchRequest(
         entity: Work.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Work.id, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Work.startDate, ascending: true)],
         predicate: NSPredicate(format: "periodType == %@", "day")
     ) private var dayWorks: FetchedResults<Work>
     
     @FetchRequest(
         entity: Work.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Work.id, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Work.startDate, ascending: true)],
         predicate: NSPredicate(format: "periodType IN %@", ["week"])
     ) private var weekWorks: FetchedResults<Work>
     
     @FetchRequest(
         entity: Work.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Work.id, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Work.startDate, ascending: true)],
         predicate: NSPredicate(format: "periodType IN %@", ["month"])
     ) private var monthWorks: FetchedResults<Work>
     
     @FetchRequest(
         entity: Work.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Work.id, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Work.startDate, ascending: true)],
         predicate: NSPredicate(format: "periodType IN %@", ["year"])
     ) private var yearWorks: FetchedResults<Work>
     
@@ -134,7 +134,7 @@ struct ScheduleView: View {
                     .tag(PeriodFilter.year)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .animation(.easeOut(duration: 0.2), value: selectedFilter)
+            .animation(.easeOut(duration: 0.4), value: selectedFilter)
             .background(.wildSand)
         }
         .background(ViewSizeReader(size: $screenSize))
@@ -203,10 +203,9 @@ struct ScheduleView: View {
                     .filter { $0.startDate.isSameDay(date: viewModel.selectedDay) })
                 { work in
                     HStack(spacing: 0) {
-                        VStack(alignment: .leading, spacing: 0) {
+                        VStack(alignment: .leading, spacing: 2) {
                             Text(work.jobName)
                                 .font(.latoBold(size: 18))
-                                .padding(.bottom, 4)
                                 
                             Text(work.startDate.currentHourString + " - " + work.endDate.currentHourString)
                                 .font(.latoRegular(size: 12))
@@ -216,16 +215,20 @@ struct ScheduleView: View {
                             
                         Spacer()
                             
-                        VStack(alignment: .trailing, spacing: 0) {
+                        VStack(alignment: .trailing, spacing: 2) {
                             Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
                                 .font(.latoBold(size: 16))
-                                .padding(.bottom, 4)
                                 
                             Text(work.hoursWorkedString + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
                                 .font(.latoRegular(size: 12))
                                 .foregroundColor(.gray)
+                                .padding(.bottom, 2)
+                            
+                            Text(work.isPaid ? "Paid" : "Unpaid")
+                                .font(.latoBold(size: 14))
                         }
-                        .padding(16)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 10)
                             
                         Button {
                             withAnimation(.bouncy(duration: 0.4)) {
@@ -364,12 +367,11 @@ struct ScheduleView: View {
                         .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) })
                     { work in
                         HStack(spacing: 0) {
-                            VStack(alignment: .leading, spacing: 0) {
+                            VStack(alignment: .leading, spacing: 2) {
                                 Text(work.jobName)
                                     .font(.latoBold(size: 18))
-                                    .padding(.bottom, 4)
                                 
-                                Text(work.startDate.currentHourString + " - " + work.endDate.currentHourString)
+                                Text(work.startDate.currentWeekScheduleString)
                                     .font(.latoRegular(size: 12))
                                     .foregroundColor(.black)
                             }
@@ -377,11 +379,20 @@ struct ScheduleView: View {
                             
                             Spacer()
                             
-                            VStack(alignment: .trailing, spacing: 0) {
+                            VStack(alignment: .trailing, spacing: 2) {
                                 Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
                                     .font(.latoBold(size: 16))
+                                
+                                Text(work.hoursWorkedString + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
+                                    .font(.latoRegular(size: 12))
+                                    .foregroundColor(.gray)
+                                    .padding(.bottom, 2)
+                                
+                                Text(work.isPaid ? "Paid" : "Unpaid")
+                                    .font(.latoBold(size: 14))
                             }
-                            .padding(16)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 10)
                             
                             Button {
                                 withAnimation(.bouncy(duration: 0.4)) {
@@ -554,13 +565,12 @@ struct ScheduleView: View {
                         .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
                         .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) })
                     { work in
-                        HStack(spacing: 0) {
-                            VStack(alignment: .leading, spacing: 0) {
+                        HStack(spacing: 4) {
+                            VStack(alignment: .leading, spacing: 2) {
                                 Text(work.jobName)
                                     .font(.latoBold(size: 18))
-                                    .padding(.bottom, 4)
                                 
-                                Text(work.startDate.currentHourString + " - " + work.endDate.currentHourString)
+                                Text(work.startDate.currentMonthString)
                                     .font(.latoRegular(size: 12))
                                     .foregroundColor(.black)
                             }
@@ -568,11 +578,20 @@ struct ScheduleView: View {
                             
                             Spacer()
                             
-                            VStack(alignment: .trailing, spacing: 0) {
+                            VStack(alignment: .trailing, spacing: 2) {
                                 Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
                                     .font(.latoBold(size: 16))
+                                
+                                Text(work.hoursWorkedString + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
+                                    .font(.latoRegular(size: 12))
+                                    .foregroundColor(.gray)
+                                    .padding(.bottom, 2)
+                                
+                                Text(work.isPaid ? "Paid" : "Unpaid")
+                                    .font(.latoBold(size: 14))
                             }
-                            .padding(16)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 10)
                             
                             Button {
                                 withAnimation(.bouncy(duration: 0.4)) {
@@ -745,12 +764,11 @@ struct ScheduleView: View {
                         .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) })
                     { work in
                         HStack(spacing: 0) {
-                            VStack(alignment: .leading, spacing: 0) {
+                            VStack(alignment: .leading, spacing: 2) {
                                 Text(work.jobName)
                                     .font(.latoBold(size: 18))
-                                    .padding(.bottom, 4)
                                 
-                                Text(work.startDate.currentHourString + " - " + work.endDate.currentHourString)
+                                Text(work.startDate.currentYearString)
                                     .font(.latoRegular(size: 12))
                                     .foregroundColor(.black)
                             }
@@ -758,11 +776,20 @@ struct ScheduleView: View {
                             
                             Spacer()
                             
-                            VStack(alignment: .trailing, spacing: 0) {
+                            VStack(alignment: .trailing, spacing: 2) {
                                 Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
                                     .font(.latoBold(size: 16))
+                            
+                                Text(work.hoursWorkedString + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
+                                    .font(.latoRegular(size: 12))
+                                    .foregroundColor(.gray)
+                                    .padding(.bottom, 2)
+                                
+                                Text(work.isPaid ? "Paid" : "Unpaid")
+                                    .font(.latoBold(size: 14))
                             }
-                            .padding(16)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 10)
                             
                             Button {
                                 withAnimation(.bouncy(duration: 0.4)) {
@@ -846,8 +873,6 @@ struct ScheduleView: View {
     var periodFilterBar: some View {
         HStack {
             ForEach(PeriodFilter.allCases, id: \.rawValue) { item in
-                Spacer()
-                
                 VStack(spacing: 4) {
                     Text(item.title)
                         .font(selectedFilter == item ? .latoBlack(size: 18) : .latoRegular(size: 18))
@@ -869,14 +894,11 @@ struct ScheduleView: View {
                             .foregroundColor(.clear)
                     }
                 }
+                .frame(maxWidth: .infinity)
                 .animation(.easeOut(duration: 0.2), value: selectedFilter)
                 .onTapGesture {
-                    withAnimation(.easeOut(duration: 0.2)) {
-                        self.selectedFilter = item
-                    }
+                    self.selectedFilter = item
                 }
-                
-                Spacer()
             }
         }
     }
@@ -930,7 +952,11 @@ struct ScheduleView: View {
                                                     .foregroundColor(date.isSameDay(date: viewModel.selectedDay) ? .white : .black)
                                             }
                                             .overlay {
-                                                if !dayWorks.filter({ $0.startDate.isSameDay(date: date) }).isEmpty {
+                                                if !dayWorks
+                                                    .filter({ selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true })
+                                                    .filter({ $0.startDate.isSameDay(date: date) })
+                                                    .isEmpty
+                                                {
                                                     Circle()
                                                         .fill(date.isSameDay(date: viewModel.selectedDay) ? .white : .black)
                                                         .frame(width: screenSize.height < 700 ? 4 : 5,

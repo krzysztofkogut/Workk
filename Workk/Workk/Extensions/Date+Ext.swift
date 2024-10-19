@@ -46,9 +46,31 @@ extension Date {
             return ""
         }
         
-        let currentWeekFormatter = DateFormatter(dateFormat: "dd MMM", calendar: Calendar.current)
+        let currentWeekFormatter = DateFormatter(dateFormat: "d MMM", calendar: Calendar.current)
         
         return currentWeekFormatter.string(from: startOfWeek) + " - " + currentWeekFormatter.string(from: endOfWeek)
+    }
+    
+    var currentWeekScheduleString: String {
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        
+        let endOfWeek = calendar.date(byAdding: .day, value: 6, to: self) ?? self
+        
+        let currentWeekFormatter = DateFormatter(dateFormat: "d MMM", calendar: calendar)
+        
+        return "\(currentWeekFormatter.string(from: self)) - \(currentWeekFormatter.string(from: endOfWeek))"
+    }
+    
+    var currentWeekStatsString: String {
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        
+        let endOfWeek = calendar.date(byAdding: .day, value: 6, to: self) ?? self
+        
+        let currentWeekFormatter = DateFormatter(dateFormat: "d MMM", calendar: calendar)
+        
+        return "\(currentWeekFormatter.string(from: self))\n\(currentWeekFormatter.string(from: endOfWeek))"
     }
     
     var currentWeekBoundryString: WeekBoundaryString {
@@ -83,48 +105,86 @@ extension Date {
         return currentYearFormatter.string(from: self)
     }
     
+    var formatedWeekBoundary: String {
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        
+        let startOfWeek = calendar.date(byAdding: .day, value: 1, to: self) ?? self
+        let endOfWeek = calendar.date(byAdding: .day, value: 6, to: startOfWeek) ?? startOfWeek
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMM"
+        
+        let startString = dateFormatter.string(from: startOfWeek)
+        let endString = dateFormatter.string(from: endOfWeek)
+        
+        return "\(startString)\n\(endString)"
+    }
+    
     func isToday() -> Bool {
-        Calendar(identifier: .iso8601).isDateInToday(self)
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.isDateInToday(self)
     }
     
     func isThisWeek() -> Bool {
-        Calendar(identifier: .iso8601).isDate(self, equalTo: Date(), toGranularity: .weekOfYear)
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.isDate(self, equalTo: Date(), toGranularity: .weekOfYear)
     }
     
     func isThisMonth() -> Bool {
-        Calendar(identifier: .iso8601).isDate(self, equalTo: Date(), toGranularity: .month)
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.isDate(self, equalTo: Date(), toGranularity: .month)
     }
     
     func isThisYear() -> Bool {
-        Calendar(identifier: .iso8601).isDate(self, equalTo: Date(), toGranularity: .year)
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.isDate(self, equalTo: Date(), toGranularity: .year)
     }
     
     func isSameDay(date: Date) -> Bool {
-        Calendar(identifier: .iso8601).isDate(self, equalTo: date, toGranularity: .day)
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.isDate(self, equalTo: date, toGranularity: .day)
     }
     
     func isSameWeek(date: Date) -> Bool {
-        Calendar(identifier: .iso8601).isDate(self, equalTo: date, toGranularity: .weekOfYear)
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.isDate(self, equalTo: date, toGranularity: .weekOfYear)
     }
     
     func isSameMonth(date: Date) -> Bool {
-        Calendar(identifier: .iso8601).isDate(self, equalTo: date, toGranularity: .month)
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.isDate(self, equalTo: date, toGranularity: .month)
     }
     
     func isSameYear(date: Date) -> Bool {
-        Calendar(identifier: .iso8601).isDate(self, equalTo: date, toGranularity: .year)
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.isDate(self, equalTo: date, toGranularity: .year)
     }
     
     func startOfDay() -> Date {
-        Calendar(identifier: .iso8601).startOfDay(for: self)
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.startOfDay(for: self)
     }
     
     func startOfWeek() -> Date {
-        Calendar(identifier: .iso8601).dateInterval(of: .weekOfYear, for: self)?.start ?? self
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.dateInterval(of: .weekOfYear, for: self)?.start ?? self
     }
     
     func endOfWeek() -> Date {
-        Calendar(identifier: .iso8601).dateInterval(of: .weekOfYear, for: self)?.end ?? self
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.dateInterval(of: .weekOfYear, for: self)?.end ?? self
     }
     
     func startOfMonth(using calendar: Calendar) -> Date {
@@ -134,19 +194,27 @@ extension Date {
     }
     
     func startOfMonth() -> Date {
-        Calendar(identifier: .iso8601).dateInterval(of: .month, for: self)?.start ?? self
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.dateInterval(of: .month, for: self)?.start ?? self
     }
     
     func endOfMonth() -> Date {
-        Calendar(identifier: .iso8601).dateInterval(of: .month, for: self)?.end ?? self
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.dateInterval(of: .month, for: self)?.end ?? self
     }
     
     func startOfYear() -> Date {
-        Calendar(identifier: .iso8601).dateInterval(of: .year, for: self)?.start ?? self
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.dateInterval(of: .year, for: self)?.start ?? self
     }
     
     func endOfYear() -> Date {
-        Calendar(identifier: .iso8601).dateInterval(of: .year, for: self)?.end ?? self
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        return calendar.dateInterval(of: .year, for: self)?.end ?? self
     }
     
     func updatingMonthAndDay(from otherDate: Date) -> Date? {

@@ -58,7 +58,7 @@ enum PeriodFilter: String, CaseIterable {
         case .day:
             return .day
         case .week:
-            return .day
+            return .weekOfYear
         case .month:
             return .month
         case .year:
@@ -69,9 +69,9 @@ enum PeriodFilter: String, CaseIterable {
     var dateFormat: Date.FormatStyle {
         switch self {
         case .day:
-            return .dateTime.day(.defaultDigits)
-        case .week:
             return .dateTime.weekday(.abbreviated)
+        case .week:
+            return .dateTime.week(.defaultDigits)
         case .month:
             return .dateTime.month(.abbreviated)
         case .year:

@@ -52,6 +52,7 @@
 		A24B3FC82B2A27090037B569 /* arialbold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2B0AE4E2AE5637200F535F3 /* arialbold.ttf */; };
 		A26454162BA73C42001B2F62 /* Int+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26454152BA73C42001B2F62 /* Int+Ext.swift */; };
 		A2689A362AE1CEAF00445350 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2689A352AE1CEAF00445350 /* View+Ext.swift */; };
+		A26B34472CB7387100544395 /* PaymentStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26B34462CB7387100544395 /* PaymentStatus.swift */; };
 		A272C3362B27BC8E00536B60 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A272C3352B27BC8E00536B60 /* WidgetKit.framework */; };
 		A272C3382B27BC8E00536B60 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A272C3372B27BC8E00536B60 /* SwiftUI.framework */; };
 		A272C33B2B27BC8E00536B60 /* WorkTimeStatusBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A272C33A2B27BC8E00536B60 /* WorkTimeStatusBundle.swift */; };
@@ -210,6 +211,7 @@
 		A246EC6A2B86B65700E7FBB5 /* HideViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideViewModifier.swift; sourceTree = "<group>"; };
 		A26454152BA73C42001B2F62 /* Int+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Ext.swift"; sourceTree = "<group>"; };
 		A2689A352AE1CEAF00445350 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
+		A26B34462CB7387100544395 /* PaymentStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatus.swift; sourceTree = "<group>"; };
 		A272C3342B27BC8E00536B60 /* WorkTimeStatusExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WorkTimeStatusExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A272C3352B27BC8E00536B60 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		A272C3372B27BC8E00536B60 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -563,6 +565,7 @@
 			isa = PBXGroup;
 			children = (
 				A272C34D2B27C13400536B60 /* LiveActivity */,
+				A26B34462CB7387100544395 /* PaymentStatus.swift */,
 				A2B0AE582AE5A87A00F535F3 /* PeriodFilter.swift */,
 				A28992502B1CC592004DEA9D /* RectKey.swift */,
 				A29578352AE18BCC00206D9B /* SiteView.swift */,
@@ -1010,6 +1013,7 @@
 				A2A3751B2B019D2B00ED51E9 /* HomeRouter.swift in Sources */,
 				A242B4552AE97DB6006123B6 /* SubscriptionPlanViewModel.swift in Sources */,
 				A2FD64432B20F9E400E3BDFF /* StatusBarBasedController.swift in Sources */,
+				A26B34472CB7387100544395 /* PaymentStatus.swift in Sources */,
 				A2B0AE4B2AE562EC00F535F3 /* FontManager.swift in Sources */,
 				A2B0AE532AE59A7400F535F3 /* MoreViewModel.swift in Sources */,
 				A21B7F952C95ECAD00B66611 /* SizeModifier.swift in Sources */,

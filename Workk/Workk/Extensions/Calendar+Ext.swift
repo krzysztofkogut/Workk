@@ -21,6 +21,36 @@ extension Calendar {
         return (0...6).map { self.date(byAdding: .day, value: $0, to: startOfWeekNoon)! }
     }
     
+    func weeksOfMonth(for date: Date = Date()) -> [Date] {
+        // Get the start of the current month
+        guard let startOfMonth = self.date(from: dateComponents([.year, .month], from: date)),
+              let startOfNextMonth = self.date(byAdding: .month, value: 1, to: startOfMonth)
+        else {
+            return []
+        }
+            
+        // Find the first Monday before or on the start of the month
+        guard let firstMonday = nextDate(after: startOfMonth,
+                                         matching: DateComponents(weekday: 2),
+                                         matchingPolicy: .previousTimePreservingSmallerComponents,
+                                         direction: .backward)
+        else {
+            return []
+        }
+            
+        var startOfWeeks: [Date] = []
+        var currentWeekStart = firstMonday
+            
+        // Loop through the weeks, adding Mondays, until we reach the next month
+        while currentWeekStart < startOfNextMonth {
+            startOfWeeks.append(currentWeekStart)
+            // Move to the next Monday
+            currentWeekStart = self.date(byAdding: .day, value: 7, to: currentWeekStart)!
+        }
+            
+        return startOfWeeks
+    }
+    
     func monthsOfYear(for date: Date = Date()) -> [Date] {
         let dateComponents = self.dateComponents([.year], from: date)
         let startOfYear = self.date(from: dateComponents)!
