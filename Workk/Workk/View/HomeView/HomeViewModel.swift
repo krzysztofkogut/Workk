@@ -9,6 +9,15 @@ import Combine
 import SwiftUI
 
 protocol HomeViewModelProtocol where Self: ObservableObject {
+    var daysTitle: AttributedString { get }
+    var weekTitle: AttributedString { get }
+    var weeksTitle: AttributedString { get }
+    var monthTitle: AttributedString { get }
+    var monthsTitle: AttributedString { get }
+    var yearTitle: AttributedString { get }
+    var totalTitle: AttributedString { get }
+    var goalTitle: AttributedString { get }
+    
     var selectedFilter: PeriodFilter { get set }
     var currentTime: Time { get set }
     var timeReciver: Publishers.Autoconnect<Timer.TimerPublisher> { get set }
@@ -23,10 +32,12 @@ final class HomeViewModel: HomeViewModelProtocol {
     @Published var timeReciver = Timer.publish(every: 1, on: .current, in: .default).autoconnect()
     @Published var stopwatch: Stopwatch = .init()
     
-    @Published var selectedDayInWeek: Date = .init()
+    @Published var selectedDay: Date = .init()
     @Published var selectedWeek: Date = .init()
     @Published var selectedMonth: Date = .init()
     @Published var selectedYear: Date = .init()
+    
+    @Published var daysOfCurrentWeek: [Date] = Calendar(identifier: .iso8601).daysOfWeek()
     
     private let router: HomeRouter
     
@@ -38,7 +49,68 @@ final class HomeViewModel: HomeViewModelProtocol {
     private let currentMonthFormatter = DateFormatter(dateFormat: "MMMM", calendar: Calendar.current)
     private let currentYearFormatter = DateFormatter(dateFormat: "yyyy", calendar: Calendar.current)
     
-    var daysOfCurrentWeek: [Date] = Calendar(identifier: .iso8601).daysOfWeek()
+    var dayTitle: AttributedString {
+        var string = AttributedString("DAYILY")
+        string.kern = 3
+        string.font = .latoBlack(size: 12)
+        return string
+    }
+    
+    var daysTitle: AttributedString {
+        var string = AttributedString("DAYS")
+        string.kern = 3
+        string.font = .latoBlack(size: 12)
+        return string
+    }
+
+    var weekTitle: AttributedString {
+        var string = AttributedString("WEEK")
+        string.kern = 3
+        string.font = .latoBlack(size: 12)
+        return string
+    }
+    
+    var weeksTitle: AttributedString {
+        var string = AttributedString("WEEKS")
+        string.kern = 3
+        string.font = .latoBlack(size: 12)
+        return string
+    }
+    
+    var monthTitle: AttributedString {
+        var string = AttributedString("MONTH")
+        string.kern = 3
+        string.font = .latoBlack(size: 12)
+        return string
+    }
+    
+    var monthsTitle: AttributedString {
+        var string = AttributedString("MONTHS")
+        string.kern = 3
+        string.font = .latoBlack(size: 12)
+        return string
+    }
+    
+    var yearTitle: AttributedString {
+        var string = AttributedString("YEAR")
+        string.kern = 3
+        string.font = .latoBlack(size: 12)
+        return string
+    }
+    
+    var totalTitle: AttributedString {
+        var string = AttributedString("TOTAL")
+        string.kern = 3
+        string.font = .latoBlack(size: 12)
+        return string
+    }
+    
+    var goalTitle: AttributedString {
+        var string = AttributedString("GOAL")
+        string.kern = 3
+        string.font = .latoBlack(size: 12)
+        return string
+    }
 
     var currentDateString: String {
         currentDateFormatter.string(from: Date())
@@ -77,6 +149,7 @@ final class HomeViewModel: HomeViewModelProtocol {
     
     init(router: HomeRouter) {
         self.router = router
+        daysOfCurrentWeek = Calendar(identifier: .iso8601).daysOfWeek(for: selectedDay)
     }
     
     func updateCurrentTime() {
@@ -93,14 +166,19 @@ final class HomeViewModel: HomeViewModelProtocol {
         router.showSubscriptionPlanView()
     }
     
+    func selectToday() {
+        selectedDay = .now
+        daysOfCurrentWeek = Calendar(identifier: .iso8601).daysOfWeek(for: selectedDay)
+    }
+    
     func backwardToLastDaysWeek() {
         if let firstWeekDay = daysOfCurrentWeek.first, let lastWeekStartDay = Calendar(identifier: .iso8601).date(byAdding: .day, value: -7, to: firstWeekDay) {
             withAnimation(.smooth(duration: 0.4)) {
                 daysOfCurrentWeek = Calendar(identifier: .iso8601).daysOfWeek(for: lastWeekStartDay)
-                selectedDayInWeek = lastWeekStartDay
+                selectedDay = lastWeekStartDay
                 
                 if let day = daysOfCurrentWeek.first(where: { $0.isToday() }) {
-                    selectedDayInWeek = day
+                    selectedDay = day
                 }
             }
         }
@@ -110,10 +188,10 @@ final class HomeViewModel: HomeViewModelProtocol {
         if let lastWeekDay = daysOfCurrentWeek.last, let nextWeekStartDay = Calendar(identifier: .iso8601).date(byAdding: .day, value: 1, to: lastWeekDay) {
             withAnimation(.smooth(duration: 0.4)) {
                 daysOfCurrentWeek = Calendar(identifier: .iso8601).daysOfWeek(for: nextWeekStartDay)
-                selectedDayInWeek = nextWeekStartDay
+                selectedDay = nextWeekStartDay
                 
                 if let day = daysOfCurrentWeek.first(where: { $0.isToday() }) {
-                    selectedDayInWeek = day
+                    selectedDay = day
                 }
             }
         }

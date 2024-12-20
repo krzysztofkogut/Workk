@@ -30,7 +30,18 @@ enum SubscriptionPlanViewModel: Int, CaseIterable {
         case .year:
             return "29.99$ for year"
         case .forLife:
-            return "Have Workk premium forever for one time payment 99.99$"
+            return "Forever for one time payment 99.99$"
+        }
+    }
+    
+    var price: Float {
+        switch self {
+        case .month:
+            3.99
+        case .year:
+            29.99
+        case .forLife:
+            99.99
         }
     }
 }

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 enum PeriodFilter: String, CaseIterable {
     case day
@@ -76,6 +75,19 @@ enum PeriodFilter: String, CaseIterable {
             return .dateTime.month(.abbreviated)
         case .year:
             return .dateTime.year(.defaultDigits)
+        }
+    }
+    
+    var orderNumber: Int {
+        switch self {
+        case .day:
+            1
+        case .week:
+            2
+        case .month:
+            3
+        case .year:
+            4
         }
     }
 }

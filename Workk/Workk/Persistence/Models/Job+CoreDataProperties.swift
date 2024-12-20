@@ -14,7 +14,7 @@ public extension Job {
         return NSFetchRequest<Job>(entityName: "Job")
     }
 
-    @NSManaged var name: String?
+    @NSManaged var name: String
     @NSManaged var id: UUID?
     @NSManaged var hourlyRate: Float
     @NSManaged var work: NSSet?

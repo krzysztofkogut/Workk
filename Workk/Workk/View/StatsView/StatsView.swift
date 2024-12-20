@@ -34,8 +34,11 @@ struct StatsView: View {
         predicate: NSPredicate(format: "isPaid == FALSE")
     ) private var unpaidWorks: FetchedResults<Work>
     
+    @State var selectedJob: Job? = nil
+    
+    @State private var showAddNewJobView: Bool = false
+    @State private var showFilterView: Bool = false
     @State private var filtersWidthDict: [PaymentStatus: CGFloat] = [:]
-    @State private var showAddNewWorkView: Bool = false
     @State private var moneyYScale: Float = 0.0
     @State private var hoursYScale: Float = 0.0
     @State private var currentActiveMoneyItem: SiteView?
@@ -44,6 +47,7 @@ struct StatsView: View {
     @State private var stopAnimation: Bool = false
     
     private let calendar = Calendar(identifier: .iso8601)
+    private let smallDeviceWidth: CGFloat = 375
     
     private var datePropertiesHash: Int {
         var hasher = Hasher()
@@ -57,19 +61,15 @@ struct StatsView: View {
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment: .leading) {
-                Button {
-                    viewModel.showToday()
-                } label: {
-                    Text("Today")
-                        .font(.latoBold(size: 14))
-                        .foregroundStyle(.white)
-                }
-                .padding(.vertical, 8)
-                .padding(.horizontal, 16)
-                .background(.black, in: .rect(cornerRadius: 18))
-                .padding(.leading,
-                         viewModel.selectedPeriodFilter.title.widthOfString(usingFont: .latoBlack(size: 18)) + 70)
-                .hide(if: viewModel.isToday())
+                DropDownPicker(selection: $viewModel.selectedWorkName,
+                               addNewOption: $showAddNewJobView,
+                               hint: "All",
+                               options: ["All"] + jobs.compactMap { $0.name },
+                               backgroundColor: .white,
+                               maxWidth:  UIScreen.main.bounds.width > smallDeviceWidth ? 180 : 160)
+                    .zIndex(2001)
+                    .padding(.leading,
+                             viewModel.selectedPeriodFilter.title.widthOfString(usingFont: .latoBlack(size: 18)) + 70)
                 
                 HStack(spacing: 0) {
                     PeriodDropDownPicker(selection: $viewModel.selectedPeriodFilter,
@@ -78,17 +78,19 @@ struct StatsView: View {
                     
                     Spacer()
                     
-                    DropDownPicker(selection: $viewModel.selectedWorkName,
-                                   addNewOption: $showAddNewWorkView,
-                                   hint: "All",
-                                   state: .trailing,
-                                   options: ["All"] + jobs.compactMap { $0.name },
-                                   backgroundColor: .white)
+                    Button {
+                        showFilterView = true
+                    } label: {
+                        Image(systemName: "line.3.horizontal.decrease.circle.fill")
+                            .foregroundColor(.black)
+                            .font(.title)
+                    }
                 }
+                .zIndex(3001)
             }
             .padding(.horizontal, 16)
             .padding(.top, 8)
-            .zIndex(1001)
+            .zIndex(3001)
             
             Spacer()
             
@@ -109,10 +111,7 @@ struct StatsView: View {
                         .font(.latoBold(size: 20))
                 }
                 
-                AnimatedMoneyChart()
-//                    .transaction { transaction in
-//                            transaction.animation = nil
-//                    }
+                animatedMoneyChart()
             }
             .padding(24)
             
@@ -135,7 +134,7 @@ struct StatsView: View {
                         .font(.latoBold(size: 20))
                 }
                 
-                AnimatedHoursChart()
+                animatedHoursChart()
             }
             .padding(24)
             
@@ -182,7 +181,7 @@ struct StatsView: View {
             .frame(height: 62)
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 16)
             .padding(.vertical, 16)
         }
         .onAppear {
@@ -193,22 +192,18 @@ struct StatsView: View {
         .onChange(of: viewModel.selectedWeek) { _ in
             moneyYScale = viewModel.maxForMoney()
             hoursYScale = viewModel.maxForHours()
-            viewModel.animateChart(fromChange: true)
         }
         .onChange(of: viewModel.selectedMonth) { _ in
             moneyYScale = viewModel.maxForMoney()
             hoursYScale = viewModel.maxForHours()
-            viewModel.animateChart(fromChange: true)
         }
         .onChange(of: viewModel.selectedYearForMonths) { _ in
             moneyYScale = viewModel.maxForMoney()
             hoursYScale = viewModel.maxForHours()
-            viewModel.animateChart(fromChange: true)
         }
         .onChange(of: viewModel.selectedYear) { _ in
             moneyYScale = viewModel.maxForMoney()
             hoursYScale = viewModel.maxForHours()
-            viewModel.animateChart(fromChange: true)
         }
         .onChange(of: viewModel.selectedWorkName) { _ in
             currentActiveMoneyItem = nil
@@ -234,7 +229,7 @@ struct StatsView: View {
             hoursYScale = viewModel.maxForHours()
             viewModel.animateChart(fromChange: true)
         }
-        .onChange(of: datePropertiesHash) { _ in
+        .onChange(of: viewModel.weekFilters) { _ in
             currentActiveMoneyItem = nil
             currentActiveHoursItem = nil
             viewModel.reloadSiteViews(works: viewModel.selectedPaymentStatus.isPaid ? paidWorks : unpaidWorks)
@@ -242,13 +237,44 @@ struct StatsView: View {
             hoursYScale = viewModel.maxForHours()
             viewModel.animateChart(fromChange: true)
         }
+        .onChange(of: viewModel.monthFilters) { _ in
+            currentActiveMoneyItem = nil
+            currentActiveHoursItem = nil
+            viewModel.reloadSiteViews(works: viewModel.selectedPaymentStatus.isPaid ? paidWorks : unpaidWorks)
+            moneyYScale = viewModel.maxForMoney()
+            hoursYScale = viewModel.maxForHours()
+            viewModel.animateChart(fromChange: true)
+        }
+        .onChange(of: viewModel.yearFilters) { _ in
+            currentActiveMoneyItem = nil
+            currentActiveHoursItem = nil
+            viewModel.reloadSiteViews(works: viewModel.selectedPaymentStatus.isPaid ? paidWorks : unpaidWorks)
+            moneyYScale = viewModel.maxForMoney()
+            hoursYScale = viewModel.maxForHours()
+            viewModel.animateChart(fromChange: true)
+        }
+        .onChange(of: datePropertiesHash) { _ in
+            currentActiveMoneyItem = nil
+            currentActiveHoursItem = nil
+            moneyYScale = viewModel.maxForMoney()
+            hoursYScale = viewModel.maxForHours()
+        }
+        .fullScreenCover(isPresented: $showAddNewJobView) {
+            AddJobView(selectedJob: $selectedJob)
+        }
+        .sheet(isPresented: $showFilterView) {
+            StatsFilterView(weekFilters: $viewModel.weekFilters,
+                            monthFilters: $viewModel.monthFilters,
+                            yearFilters: $viewModel.yearFilters)
+                .background(.wildSand)
+        }
     }
     
     var paymentStatusFilterBar: some View {
         HStack(spacing: 16) {
             ForEach(PaymentStatus.allCases, id: \.rawValue) { item in
                 Text(item.title)
-                    .font(.latoBold(size: 16))
+                    .font(.latoBold(size: 14))
                     .minimumScaleFactor(0.01)
                     .lineLimit(1)
                     .foregroundColor(viewModel.selectedPaymentStatus == item ? .white : .black)
@@ -262,11 +288,29 @@ struct StatsView: View {
                         }
                     }
             }
+            
+            Spacer()
+                .hide(if: viewModel.isToday())
+            
+            Button {
+                viewModel.showToday()
+            } label: {
+                Text("Today")
+                    .font(.latoBold(size: 14))
+                    .minimumScaleFactor(0.5)
+                    .foregroundStyle(.white)
+            }
+            .padding(.vertical, 8)
+            .padding(.horizontal, 16)
+            .background(.black, in: .rect(cornerRadius: 18))
+            .hide(if: viewModel.isToday())
         }
+        .animation(.easeInOut, value: viewModel.isToday())
+        .padding(.horizontal, 16)
     }
     
     @ViewBuilder
-    func AnimatedMoneyChart() -> some View {
+    func animatedMoneyChart() -> some View {
         Chart {
             switch viewModel.selectedPeriodFilter {
             case .day:
@@ -357,7 +401,6 @@ struct StatsView: View {
                 }
             }
         }
-        .chartXAxis(viewModel.endOfChartAnimation ? .visible : .hidden)
         .chartOverlay(content: { proxy in
             GeometryReader { _ in
                 Rectangle()
@@ -401,7 +444,7 @@ struct StatsView: View {
     }
     
     @ViewBuilder
-    func AnimatedHoursChart() -> some View {
+    func animatedHoursChart() -> some View {
         Chart {
             switch viewModel.selectedPeriodFilter {
             case .day:
@@ -525,7 +568,6 @@ struct StatsView: View {
                 }
             }
         }
-        .chartXAxis(viewModel.isDataEmpty ? .hidden : .visible)
         .chartOverlay(content: { proxy in
             GeometryReader { _ in
                 Rectangle()

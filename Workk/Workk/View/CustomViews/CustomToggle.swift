@@ -17,12 +17,12 @@ struct CustomToggle: View {
             }
         }) {
             RoundedRectangle(cornerRadius: 16)
-                .fill(isOn ? .black : .gray)
+                .fill(isOn ? .blackTheme : .gray)
                 .frame(width: 50, height: 30)
                 .overlay {
                     Circle()
-                        .fill(.white)
-                        .frame(width: 25, height: 25)
+                        .fill(.whiteTheme)
+                        .frame(width: 26, height: 26)
                         .offset(x: isOn ? 10 : -10)
                         .animation(.bouncy, value: isOn)
                 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DayPicker: View {
     @Binding var selection: Date
-    var days: [Date]
+    @Binding var days: [Date]
     @Namespace private var dayPickerAnimation
     
     var body: some View {
@@ -47,9 +47,4 @@ struct DayPicker: View {
             Spacer()
         }
     }
-}
-
-#Preview {
-    @State var selection = Date()
-    return DayPicker(selection: $selection, days: Calendar.current.daysOfWeek())
 }

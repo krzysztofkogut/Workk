@@ -20,11 +20,12 @@ struct DateTextField: View {
             .focused($isActive)
             .overlay {
                 AddInputViewToTextField(id: viewID, onDoneButtonTap: { isActive = false }) {
-                    VStack(spacing: 2) {
+                    VStack(spacing: 4) {
                         DatePicker("", selection: $date, displayedComponents: components)
                             .labelsHidden()
                             .datePickerStyle(.wheel)
-                            .foregroundColor(.wildSand)
+                            .frame(maxWidth: .infinity)
+                            .background(.wildSand, in: .rect(cornerRadius: 12))
 
                         Button {
                             isActive = false
@@ -32,12 +33,13 @@ struct DateTextField: View {
                             Text("Done")
                                 .font(.latoBold(size: 18))
                                 .foregroundStyle(.black)
+                                .padding(.top, 16)
+                                .padding(.bottom, 20)
+                                .frame(maxWidth: .infinity)
+                                .background(.wildSand, in: .rect(cornerRadius: 12))
                         }
-                        .padding(.top, 8)
-                        .padding(.bottom, 20)
                     }
-                    .padding(.horizontal, 8)
-                    .background(.wildSand, in: .rect(cornerRadius: 18))
+                    .padding(.horizontal, 16)
                     .padding(.bottom, 8)
                 }
                 .onTapGesture {

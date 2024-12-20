@@ -32,7 +32,10 @@ final class StatsViewModel: StatsViewModelProtocol {
     @Published var monthSiteViews: [SiteView] = []
     @Published var yearSiteViews: [SiteView] = []
     
-    @Published var endOfChartAnimation = true
+    @Published var weekFilters: Set<PeriodFilter> = [.day, .week]
+    @Published var monthFilters: Set<PeriodFilter> = [.day, .week, .month]
+    @Published var yearFilters: Set<PeriodFilter> = [.day, .week, .month, .year]
+    
     
     var daysOfCurrentWeek: [Date] = Calendar(identifier: .iso8601).daysOfWeek()
     let daysInWeek = 7
@@ -228,10 +231,7 @@ final class StatsViewModel: StatsViewModelProtocol {
     func generateWeekSiteViews(works: FetchedResults<Work>) -> [SiteView] {
         let filteredWorks = works
             .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
-            .filter {
-                $0.periodType == PeriodFilter.day.rawValue ||
-                    $0.periodType == PeriodFilter.week.rawValue
-            }
+            .filter { weekFilters.contains(PeriodFilter(rawValue: $0.periodType) ?? .week) }
         
         let groupedByDay = Dictionary(grouping: filteredWorks, by: { $0.startDate.startOfWeek() })
         
@@ -248,11 +248,7 @@ final class StatsViewModel: StatsViewModelProtocol {
     func generateMonthsOfYearSiteViews(works: FetchedResults<Work>) -> [SiteView] {
         let filteredWorks = works
             .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
-            .filter {
-                $0.periodType == PeriodFilter.day.rawValue ||
-                    $0.periodType == PeriodFilter.week.rawValue ||
-                    $0.periodType == PeriodFilter.month.rawValue
-            }
+            .filter { monthFilters.contains(PeriodFilter(rawValue: $0.periodType) ?? .week) }
         
         let groupedByMonth = Dictionary(grouping: filteredWorks, by: { $0.startDate.startOfMonth() })
         
@@ -267,7 +263,10 @@ final class StatsViewModel: StatsViewModelProtocol {
     }
     
     func generateYearSiteViews(works: FetchedResults<Work>) -> [SiteView] {
-        let filteredWorks = works.filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+        let filteredWorks = works
+            .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+            .filter { yearFilters.contains(PeriodFilter(rawValue: $0.periodType) ?? .week) }
+        
         let groupedByYear = Dictionary(grouping: filteredWorks, by: { $0.startDate.startOfYear() })
         
         let siteViews: [SiteView] = groupedByYear.map { day, worksForYear in
@@ -430,20 +429,14 @@ final class StatsViewModel: StatsViewModelProtocol {
     func animateChart(fromChange: Bool = false) {
         switch selectedPeriodFilter {
         case .day:
-            endOfChartAnimation = false
-            
-            for (index, siteView) in daySiteViews.enumerated() {
+            for (index, _) in daySiteViews.enumerated() {
                 DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)) { [weak self] in
                     withAnimation(fromChange ? .easeInOut(duration: 0.8).delay(Double(index) * 0.03) : .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8).delay(Double(index) * 0.05)) {
                         self?.daySiteViews[index].animate = true
                     }
-                    
-                    self?.endOfChartAnimation = self?.daySiteViews.last == siteView
                 }
             }
         case .week:
-            endOfChartAnimation = false
-            
             for (index, _) in weekSiteViews.enumerated() {
                 DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)) { [weak self] in
                     withAnimation(fromChange ? .easeInOut(duration: 0.8).delay(Double(index) * 0.03) : .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8).delay(Double(index) * 0.05)) {
@@ -451,11 +444,7 @@ final class StatsViewModel: StatsViewModelProtocol {
                     }
                 }
             }
-            
-            endOfChartAnimation = true
         case .month:
-            endOfChartAnimation = false
-            
             for (index, _) in monthSiteViews.enumerated() {
                 DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)) { [weak self] in
                     withAnimation(fromChange ? .easeInOut(duration: 0.8).delay(Double(index) * 0.03) : .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8).delay(Double(index) * 0.05)) {
@@ -463,11 +452,7 @@ final class StatsViewModel: StatsViewModelProtocol {
                     }
                 }
             }
-            
-            endOfChartAnimation = true
         case .year:
-            endOfChartAnimation = false
-            
             for (index, _) in yearSiteViews.enumerated() {
                 DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)) { [weak self] in
                     withAnimation(fromChange ? .easeInOut(duration: 0.8).delay(Double(index) * 0.03) : .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8).delay(Double(index) * 0.05)) {
@@ -475,8 +460,6 @@ final class StatsViewModel: StatsViewModelProtocol {
                     }
                 }
             }
-            
-            endOfChartAnimation = true
         }
     }
     

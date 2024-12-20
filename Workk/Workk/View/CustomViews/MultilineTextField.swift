@@ -54,7 +54,7 @@ struct MultilineTextField: UIViewRepresentable {
         func textViewDidEndEditing(_ textView: UITextView) {
             if parent.text.isEmpty {
                 textView.text = parent.placeHolder
-                textView.textColor = UIColor.black.withAlphaComponent(0.25)
+                textView.textColor = UIColor.blackTheme.withAlphaComponent(0.25)
             }
         }
     }

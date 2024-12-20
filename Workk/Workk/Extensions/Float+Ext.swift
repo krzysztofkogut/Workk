@@ -17,4 +17,17 @@ extension Float {
             return String(format: "%.0f", self)
         }
     }
+    
+    func formatFloatToString() -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+
+        guard let formattedAmount = formatter.string(from: NSNumber(value: self)) else {
+            return ""
+        }
+        
+        return formattedAmount
+    }
 }

@@ -21,11 +21,6 @@ struct ScheduleView: View {
         entity: Job.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \Job.name, ascending: true)]
     ) private var jobs: FetchedResults<Job>
-    
-    @FetchRequest(
-        entity: Work.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Work.startDate, ascending: true)]
-    ) private var works: FetchedResults<Work>
         
     @FetchRequest(
         entity: Work.entity(),
@@ -51,20 +46,19 @@ struct ScheduleView: View {
         predicate: NSPredicate(format: "periodType IN %@", ["year"])
     ) private var yearWorks: FetchedResults<Work>
     
+    @State private var selectedJob: Job? = nil
     @State private var selectedWork: Work? = nil
     @State private var screenSize: CGSize = .zero
     @State private var selectedWorks = Set<Work>()
     @State private var selectedFilter: PeriodFilter = .day
     @State private var filtersWidthDict: [PeriodFilter: CGFloat] = [:]
-    @State private var dayDeleteMode = false
-    @State private var weekDeleteMode = false
-    @State private var monthDeleteMode = false
-    @State private var yearDeleteMode = false
+    @State private var deleteMode = false
     @State private var selectedEntries: [WorkPeriod] = []
     @State private var selectedWorkName: String? = "All"
     @State private var showAddWorkTime = false
     @State private var showAddJobView: Bool = false
     @State private var showSubscriptionPlanView = false
+    @State private var showDeletionView = false
     
     @State private var isDayDetailsBannerAdLoaded: Bool = false
     @State private var isWeekDetailsBannerAdLoaded: Bool = false
@@ -116,7 +110,7 @@ struct ScheduleView: View {
             periodFilterBar
                 .padding(.top, 4)
                 .padding(.horizontal, 8)
-                .padding()
+                .padding(.vertical, 12)
                 .size { periodFilterSize = $0 }
                 .background(.wildSand)
             
@@ -139,15 +133,22 @@ struct ScheduleView: View {
         }
         .background(ViewSizeReader(size: $screenSize))
         .fullScreenCover(isPresented: $showAddWorkTime) {
-            AddWorkTimeView(selectedWork: $selectedWork,
-                            selectedFilter: $selectedFilter,
-                            selectedWorkName: $selectedWorkName)
+            AddWorkTimeView(
+                addWorkTimePlace: .schedule,
+                selectedWork: $selectedWork,
+                selectedFilter: $selectedFilter,
+                selectedWorkName: $selectedWorkName
+            )
         }
         .fullScreenCover(isPresented: $showAddJobView) {
-            AddJobView()
+            AddJobView(selectedJob: $selectedJob)
         }
-        .sheet(isPresented: $showSubscriptionPlanView) {
+        .fullScreenCover(isPresented: $showSubscriptionPlanView) {
             SubscriptionPlanView()
+        }
+        .sheet(isPresented: $showDeletionView) {
+            WorksDeletionView(selectedWorks: $selectedWorks)
+                .background(.wildSand)
         }
     }
     
@@ -185,7 +186,7 @@ struct ScheduleView: View {
                                 }
                                 .background(.white)
                                 .cornerRadius(12)
-                                .padding(.horizontal, 24)
+                                .padding(.horizontal, 16)
                                 .opacity(isDayDetailsBannerAdLoaded ? 1 : 0)
                             }
                             .padding(.bottom, 16)
@@ -193,7 +194,7 @@ struct ScheduleView: View {
                             Text("No Entries Found")
                                 .font(.latoRegular(size: 18))
                         }
-                        .padding(.top, calendarHeight + 66)
+                        .padding(.top, calendarHeight + 62)
                     }
                 }
                 .zIndex(1002)
@@ -211,15 +212,15 @@ struct ScheduleView: View {
                                 .font(.latoRegular(size: 12))
                                 .foregroundColor(.black)
                         }
-                        .padding(.horizontal, 16)
+                        .padding(16)
                             
                         Spacer()
                             
                         VStack(alignment: .trailing, spacing: 2) {
-                            Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
+                            Text("\(work.moneyEarned.formatFloatToString())" + " PLN")
                                 .font(.latoBold(size: 16))
                                 
-                            Text(work.hoursWorkedString + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
+                            Text(work.hoursWorkedTimeDifference + " | " + "\(work.hourlyRate.formatFloatToString())" + " PLN/h")
                                 .font(.latoRegular(size: 12))
                                 .foregroundColor(.gray)
                                 .padding(.bottom, 2)
@@ -230,7 +231,19 @@ struct ScheduleView: View {
                         .padding(.horizontal, 16)
                         .padding(.vertical, 10)
                             
-                        Button {
+                        Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .padding([.trailing, .vertical], 16)
+                            .hide(if: !deleteMode)
+                    }
+                    .background(.white)
+                    .cornerRadius(12)
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 4)
+                    .transition(.opacity)
+                    .onTapGesture {
+                        if deleteMode {
                             withAnimation(.bouncy(duration: 0.4)) {
                                 if selectedWorks.contains(where: { $0.id == work.id }) {
                                     selectedWorks.remove(work)
@@ -238,39 +251,45 @@ struct ScheduleView: View {
                                     selectedWorks.insert(work)
                                 }
                             }
-                        } label: {
-                            Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.square" : "square")
+                        } else {
+                            showAddWorkTimeView(work: work)
                         }
-                        .padding(.trailing, 16)
-                        .hide(if: !dayDeleteMode)
-                    }
-                    .background(.white)
-                    .cornerRadius(12)
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 8)
-                    .transition(.opacity)
-                    .onTapGesture {
-                        showAddWorkTimeView(work: work)
                     }
                 }
             }
         }
         .safeAreaInset(edge: .bottom) {
-            Button {
-                if dayDeleteMode {
-                    deleteSelectedWorks()
-                    dayDeleteMode = false
-                } else {
-                    showAddWorkTimeView()
+            HStack {
+                Button {
+                    if deleteMode {
+                        deleteSelectedWorks()
+                        deleteMode = false
+                    } else {
+                        showAddWorkTimeView()
+                    }
+                } label: {
+                    Text(deleteMode ? "Delete" : "Add work time")
+                        .font(.latoBold(size: 16))
+                        .foregroundStyle(.white)
                 }
-            } label: {
-                Text(dayDeleteMode ? "Delete" : "Add work time")
-                    .font(.latoBold(size: 16))
-                    .foregroundStyle(.white)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 16)
+                .background(.black, in: .rect(cornerRadius: 18))
+                
+                Button {
+                    if selectedWorks.count > 0 {
+                        showDeletionView = true
+                    }
+                } label: {
+                    Text("\(selectedWorks.count)")
+                        .font(.latoBold(size: 16))
+                        .foregroundStyle(.white)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(.black, in: .rect(cornerRadius: 18))
+                        .hide(if: !deleteMode)
+                }
             }
-            .padding(.vertical, 8)
-            .padding(.horizontal, 16)
-            .background(.black, in: .rect(cornerRadius: 18))
             .padding(.bottom, 30)
         }
     }
@@ -304,7 +323,7 @@ struct ScheduleView: View {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 16)
             .padding(.bottom, 12)
             
             ZStack {
@@ -313,7 +332,8 @@ struct ScheduleView: View {
                                    addNewOption: $showAddJobView,
                                    hint: "Select",
                                    options: ["All"] + jobs.compactMap { $0.name },
-                                   backgroundColor: .white)
+                                   backgroundColor: .white,
+                                   maxWidth: 200)
                     
                     Spacer()
                     
@@ -329,97 +349,99 @@ struct ScheduleView: View {
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
                     .background(.black, in: .rect(cornerRadius: 18))
-                    .padding(.horizontal, weekWorks.isEmpty ? 0 : 8)
+                    .padding(.horizontal, 8)
                     .hide(if: viewModel.selectedWeek.isThisWeek())
                     
                     Button {
-                        if weekDeleteMode {
+                        if deleteMode {
                             selectedWorks = []
                         }
                         
                         withAnimation(.bouncy(duration: 0.4)) {
-                            weekDeleteMode.toggle()
+                            deleteMode.toggle()
                         }
                     } label: {
-                        Text(weekDeleteMode ? "Cancel" : "Delete")
+                        Text(deleteMode ? "Cancel" : "Delete")
                             .font(.latoBold(size: 14))
                             .foregroundStyle(.black)
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
                     .background(.white, in: .rect(cornerRadius: 18))
-                    .hide(if: weekWorks.isEmpty)
                 }
             }
             .zIndex(1000)
             .fixedSize(horizontal: false, vertical: true)
             .padding(.bottom, 12)
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 16)
             
             if !weekWorks
                 .filter({ selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true })
                 .filter({ $0.startDate.isSameWeek(date: viewModel.selectedWeek) })
                 .isEmpty
             {
-                ScrollView {
-                    ForEach(weekWorks
-                        .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
-                        .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) })
-                    { work in
-                        HStack(spacing: 0) {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(work.jobName)
-                                    .font(.latoBold(size: 18))
-                                
-                                Text(work.startDate.currentWeekScheduleString)
-                                    .font(.latoRegular(size: 12))
-                                    .foregroundColor(.black)
-                            }
-                            .padding(16)
-                            
-                            Spacer()
-                            
-                            VStack(alignment: .trailing, spacing: 2) {
-                                Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
-                                    .font(.latoBold(size: 16))
-                                
-                                Text(work.hoursWorkedString + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
-                                    .font(.latoRegular(size: 12))
-                                    .foregroundColor(.gray)
-                                    .padding(.bottom, 2)
-                                
-                                Text(work.isPaid ? "Paid" : "Unpaid")
-                                    .font(.latoBold(size: 14))
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 10)
-                            
-                            Button {
-                                withAnimation(.bouncy(duration: 0.4)) {
-                                    if selectedWorks.contains(where: { $0.id == work.id }) {
-                                        selectedWorks.remove(work)
-                                    } else {
-                                        selectedWorks.insert(work)
-                                    }
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 4) {
+                        ForEach(weekWorks
+                            .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+                            .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) })
+                        { work in
+                            HStack(spacing: 0) {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(work.jobName)
+                                        .font(.latoBold(size: 18))
+                                    
+                                    Text(work.startDate.currentWeekScheduleString)
+                                        .font(.latoRegular(size: 12))
+                                        .foregroundColor(.black)
                                 }
-                            } label: {
-                                Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.square" : "square")
+                                .padding(16)
+                                
+                                Spacer()
+                                
+                                VStack(alignment: .trailing, spacing: 2) {
+                                    Text("\(work.moneyEarned.formatFloatToString())" + " PLN")
+                                        .font(.latoBold(size: 16))
+                                    
+                                    Text(work.hoursWorkedString + " | " + "\(work.hourlyRate.formatFloatToString())" + " PLN/h")
+                                        .font(.latoRegular(size: 12))
+                                        .foregroundColor(.gray)
+                                        .padding(.bottom, 2)
+                                    
+                                    Text(work.isPaid ? "Paid" : "Unpaid")
+                                        .font(.latoBold(size: 14))
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 10)
+                                
+                                Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .padding([.trailing, .vertical], 16)
+                                    .hide(if: !deleteMode)
                             }
-                            .padding(.trailing, 16)
-                            .hide(if: !weekDeleteMode)
-                        }
-                        .background(.white)
-                        .cornerRadius(12)
-                        .padding(.horizontal, 24)
-                        .transition(.opacity)
-                        .onTapGesture {
-                            showAddWorkTimeView(work: work)
+                            .background(.white)
+                            .cornerRadius(12)
+                            .padding(.horizontal, 16)
+                            .transition(.opacity)
+                            .onTapGesture {
+                                if deleteMode {
+                                    withAnimation(.bouncy(duration: 0.4)) {
+                                        if selectedWorks.contains(where: { $0.id == work.id }) {
+                                            selectedWorks.remove(work)
+                                        } else {
+                                            selectedWorks.insert(work)
+                                        }
+                                    }
+                                } else {
+                                    showAddWorkTimeView(work: work)
+                                }
+                            }
                         }
                     }
-                    .onDelete(perform: deleteWorks)
                 }
             } else {
-                VStack {
+                VStack(spacing: 0) {
                     ZStack {
                         Button {
                             showSubscriptionPlanView.toggle()
@@ -441,7 +463,7 @@ struct ScheduleView: View {
                         }
                         .background(.white)
                         .cornerRadius(12)
-                        .padding(.horizontal, 24)
+                        .padding(.horizontal, 16)
                         .opacity(isWeekDetailsBannerAdLoaded ? 1 : 0)
                     }
                     .padding(.bottom, 16)
@@ -455,21 +477,37 @@ struct ScheduleView: View {
             }
         }
         .safeAreaInset(edge: .bottom) {
-            Button {
-                if weekDeleteMode {
-                    deleteSelectedWorks()
-                    weekDeleteMode = false
-                } else {
-                    showAddWorkTimeView()
+            HStack {
+                Button {
+                    if deleteMode {
+                        deleteSelectedWorks()
+                        deleteMode = false
+                    } else {
+                        showAddWorkTimeView()
+                    }
+                } label: {
+                    Text(deleteMode ? "Delete" : "Add work time")
+                        .font(.latoBold(size: 16))
+                        .foregroundStyle(.white)
                 }
-            } label: {
-                Text(weekDeleteMode ? "Delete" : "Add work time")
-                    .font(.latoBold(size: 16))
-                    .foregroundStyle(.white)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 16)
+                .background(.black, in: .rect(cornerRadius: 18))
+                
+                Button {
+                    if selectedWorks.count > 0 {
+                        showDeletionView = true
+                    }
+                } label: {
+                    Text("\(selectedWorks.count)")
+                        .font(.latoBold(size: 16))
+                        .foregroundStyle(.white)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(.black, in: .rect(cornerRadius: 18))
+                        .hide(if: !deleteMode)
+                }
             }
-            .padding(.vertical, 8)
-            .padding(.horizontal, 16)
-            .background(.black, in: .rect(cornerRadius: 18))
             .padding(.bottom, 30)
         }
     }
@@ -503,7 +541,7 @@ struct ScheduleView: View {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 16)
             .padding(.bottom, 12)
             
             ZStack {
@@ -512,7 +550,8 @@ struct ScheduleView: View {
                                    addNewOption: $showAddJobView,
                                    hint: "Select",
                                    options: ["All"] + jobs.compactMap { $0.name },
-                                   backgroundColor: .white)
+                                   backgroundColor: .white,
+                                   maxWidth: 200)
                     
                     Spacer()
                     
@@ -528,32 +567,31 @@ struct ScheduleView: View {
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
                     .background(.black, in: .rect(cornerRadius: 18))
-                    .padding(.horizontal, monthWorks.isEmpty ? 0 : 8)
+                    .padding(.horizontal, 8)
                     .hide(if: viewModel.selectedMonth.isThisMonth())
                     
                     Button {
-                        if monthDeleteMode {
-                            selectedEntries = []
+                        if deleteMode {
+                            selectedWorks = []
                         }
                         
                         withAnimation(.bouncy(duration: 0.4)) {
-                            monthDeleteMode.toggle()
+                            deleteMode.toggle()
                         }
                     } label: {
-                        Text(monthDeleteMode ? "Cancel" : "Delete")
+                        Text(deleteMode ? "Cancel" : "Delete")
                             .font(.latoBold(size: 14))
                             .foregroundStyle(.black)
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
                     .background(.white, in: .rect(cornerRadius: 18))
-                    .hide(if: monthWorks.isEmpty)
                 }
             }
             .zIndex(1000)
             .fixedSize(horizontal: false, vertical: true)
             .padding(.bottom, 12)
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 16)
             
             if !monthWorks
                 .filter({ selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true })
@@ -561,58 +599,62 @@ struct ScheduleView: View {
                 .isEmpty
             {
                 ScrollView {
-                    ForEach(monthWorks
-                        .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
-                        .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) })
-                    { work in
-                        HStack(spacing: 4) {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(work.jobName)
-                                    .font(.latoBold(size: 18))
-                                
-                                Text(work.startDate.currentMonthString)
-                                    .font(.latoRegular(size: 12))
-                                    .foregroundColor(.black)
-                            }
-                            .padding(16)
-                            
-                            Spacer()
-                            
-                            VStack(alignment: .trailing, spacing: 2) {
-                                Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
-                                    .font(.latoBold(size: 16))
-                                
-                                Text(work.hoursWorkedString + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
-                                    .font(.latoRegular(size: 12))
-                                    .foregroundColor(.gray)
-                                    .padding(.bottom, 2)
-                                
-                                Text(work.isPaid ? "Paid" : "Unpaid")
-                                    .font(.latoBold(size: 14))
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 10)
-                            
-                            Button {
-                                withAnimation(.bouncy(duration: 0.4)) {
-                                    if selectedWorks.contains(where: { $0.id == work.id }) {
-                                        selectedWorks.remove(work)
-                                    } else {
-                                        selectedWorks.insert(work)
-                                    }
+                    VStack(spacing: 4) {
+                        ForEach(monthWorks
+                            .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+                            .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) })
+                        { work in
+                            HStack(spacing: 4) {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(work.jobName)
+                                        .font(.latoBold(size: 18))
+                                    
+                                    Text(work.startDate.currentMonthString)
+                                        .font(.latoRegular(size: 12))
+                                        .foregroundColor(.black)
                                 }
-                            } label: {
-                                Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.square" : "square")
+                                .padding(16)
+                                
+                                Spacer()
+                                
+                                VStack(alignment: .trailing, spacing: 2) {
+                                    Text(work.moneyEarned.formatFloatToString() + " PLN")
+                                        .font(.latoBold(size: 16))
+                                    
+                                    Text(work.hoursWorkedString + " | " + work.hourlyRate.formatFloatToString() + " PLN/h")
+                                        .font(.latoRegular(size: 12))
+                                        .foregroundColor(.gray)
+                                        .padding(.bottom, 2)
+                                    
+                                    Text(work.isPaid ? "Paid" : "Unpaid")
+                                        .font(.latoBold(size: 14))
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 10)
+                                
+                                Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .padding(.trailing, 16)
+                                    .hide(if: !deleteMode)
                             }
-                            .padding(.trailing, 16)
-                            .hide(if: !monthDeleteMode)
-                        }
-                        .background(.white)
-                        .cornerRadius(12)
-                        .padding(.horizontal, 24)
-                        .transition(.opacity)
-                        .onTapGesture {
-                            showAddWorkTimeView(work: work)
+                            .background(.white)
+                            .cornerRadius(12)
+                            .padding(.horizontal, 16)
+                            .transition(.opacity)
+                            .onTapGesture {
+                                if deleteMode {
+                                    withAnimation(.bouncy(duration: 0.4)) {
+                                        if selectedWorks.contains(where: { $0.id == work.id }) {
+                                            selectedWorks.remove(work)
+                                        } else {
+                                            selectedWorks.insert(work)
+                                        }
+                                    }
+                                } else {
+                                    showAddWorkTimeView(work: work)
+                                }
+                            }
                         }
                     }
                 }
@@ -639,7 +681,7 @@ struct ScheduleView: View {
                         }
                         .background(.white)
                         .cornerRadius(12)
-                        .padding(.horizontal, 24)
+                        .padding(.horizontal, 16)
                         .opacity(isMonthDetailsBannerAdLoaded ? 1 : 0)
                     }
                     .padding(.bottom, 16)
@@ -653,21 +695,37 @@ struct ScheduleView: View {
             }
         }
         .safeAreaInset(edge: .bottom) {
-            Button {
-                if monthDeleteMode {
-                    deleteSelectedWorks()
-                    monthDeleteMode = false
-                } else {
-                    showAddWorkTimeView()
+            HStack {
+                Button {
+                    if deleteMode {
+                        deleteSelectedWorks()
+                        deleteMode = false
+                    } else {
+                        showAddWorkTimeView()
+                    }
+                } label: {
+                    Text(deleteMode ? "Delete" : "Add work time")
+                        .font(.latoBold(size: 16))
+                        .foregroundStyle(.white)
                 }
-            } label: {
-                Text(monthDeleteMode ? "Delete" : "Add work time")
-                    .font(.latoBold(size: 16))
-                    .foregroundStyle(.white)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 16)
+                .background(.black, in: .rect(cornerRadius: 18))
+                
+                Button {
+                    if selectedWorks.count > 0 {
+                        showDeletionView = true
+                    }
+                } label: {
+                    Text("\(selectedWorks.count)")
+                        .font(.latoBold(size: 16))
+                        .foregroundStyle(.white)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(.black, in: .rect(cornerRadius: 18))
+                        .hide(if: !deleteMode)
+                }
             }
-            .padding(.vertical, 8)
-            .padding(.horizontal, 16)
-            .background(.black, in: .rect(cornerRadius: 18))
             .padding(.bottom, 30)
         }
     }
@@ -701,16 +759,17 @@ struct ScheduleView: View {
             }
             .background(.white)
             .cornerRadius(12)
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 16)
             .padding(.bottom, 12)
             
             ZStack {
-                HStack {
+                HStack(spacing: 0) {
                     DropDownPicker(selection: $selectedWorkName,
                                    addNewOption: $showAddJobView,
                                    hint: "Select",
                                    options: ["All"] + jobs.compactMap { $0.name },
-                                   backgroundColor: .white)
+                                   backgroundColor: .white,
+                                   maxWidth: 200)
                     
                     Spacer()
                     
@@ -726,32 +785,31 @@ struct ScheduleView: View {
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
                     .background(.black, in: .rect(cornerRadius: 18))
-                    .padding(.horizontal, yearWorks.isEmpty ? 0 : 8)
+                    .padding(.horizontal, 8)
                     .hide(if: viewModel.selectedYear.isThisYear())
                     
                     Button {
-                        if yearDeleteMode {
-                            selectedEntries = []
+                        if deleteMode {
+                            selectedWorks = []
                         }
                         
                         withAnimation(.bouncy(duration: 0.4)) {
-                            yearDeleteMode.toggle()
+                            deleteMode.toggle()
                         }
                     } label: {
-                        Text(yearDeleteMode ? "Cancel" : "Delete")
+                        Text(deleteMode ? "Cancel" : "Delete")
                             .font(.latoBold(size: 14))
                             .foregroundStyle(.black)
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
                     .background(.white, in: .rect(cornerRadius: 18))
-                    .hide(if: yearWorks.isEmpty)
                 }
             }
             .zIndex(1000)
             .fixedSize(horizontal: false, vertical: true)
             .padding(.bottom, 12)
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 16)
             
             if !yearWorks
                 .filter({ selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true })
@@ -759,58 +817,62 @@ struct ScheduleView: View {
                 .isEmpty
             {
                 ScrollView {
-                    ForEach(yearWorks
-                        .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
-                        .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) })
-                    { work in
-                        HStack(spacing: 0) {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(work.jobName)
-                                    .font(.latoBold(size: 18))
-                                
-                                Text(work.startDate.currentYearString)
-                                    .font(.latoRegular(size: 12))
-                                    .foregroundColor(.black)
-                            }
-                            .padding(16)
-                            
-                            Spacer()
-                            
-                            VStack(alignment: .trailing, spacing: 2) {
-                                Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
-                                    .font(.latoBold(size: 16))
-                            
-                                Text(work.hoursWorkedString + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
-                                    .font(.latoRegular(size: 12))
-                                    .foregroundColor(.gray)
-                                    .padding(.bottom, 2)
-                                
-                                Text(work.isPaid ? "Paid" : "Unpaid")
-                                    .font(.latoBold(size: 14))
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 10)
-                            
-                            Button {
-                                withAnimation(.bouncy(duration: 0.4)) {
-                                    if selectedWorks.contains(where: { $0.id == work.id }) {
-                                        selectedWorks.remove(work)
-                                    } else {
-                                        selectedWorks.insert(work)
-                                    }
+                    VStack(spacing: 4) {
+                        ForEach(yearWorks
+                            .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+                            .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) })
+                        { work in
+                            HStack(spacing: 0) {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(work.jobName)
+                                        .font(.latoBold(size: 18))
+                                    
+                                    Text(work.startDate.currentYearString)
+                                        .font(.latoRegular(size: 12))
+                                        .foregroundColor(.black)
                                 }
-                            } label: {
-                                Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.square" : "square")
+                                .padding(16)
+                                
+                                Spacer()
+                                
+                                VStack(alignment: .trailing, spacing: 2) {
+                                    Text(work.moneyEarned.formatFloatToString() + " PLN")
+                                        .font(.latoBold(size: 16))
+                                    
+                                    Text(work.hoursWorkedString + " | " + work.hourlyRate.formatFloatToString() + " PLN/h")
+                                        .font(.latoRegular(size: 12))
+                                        .foregroundColor(.gray)
+                                        .padding(.bottom, 2)
+                                    
+                                    Text(work.isPaid ? "Paid" : "Unpaid")
+                                        .font(.latoBold(size: 14))
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 10)
+                                
+                                Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .padding(.trailing, 16)
+                                    .hide(if: !deleteMode)
                             }
-                            .padding(.trailing, 16)
-                            .hide(if: !yearDeleteMode)
-                        }
-                        .background(.white)
-                        .cornerRadius(12)
-                        .padding(.horizontal, 24)
-                        .transition(.opacity)
-                        .onTapGesture {
-                            showAddWorkTimeView(work: work)
+                            .background(.white)
+                            .cornerRadius(12)
+                            .padding(.horizontal, 16)
+                            .transition(.opacity)
+                            .onTapGesture {
+                                if deleteMode {
+                                    withAnimation(.bouncy(duration: 0.4)) {
+                                        if selectedWorks.contains(where: { $0.id == work.id }) {
+                                            selectedWorks.remove(work)
+                                        } else {
+                                            selectedWorks.insert(work)
+                                        }
+                                    }
+                                } else {
+                                    showAddWorkTimeView(work: work)
+                                }
+                            }
                         }
                     }
                 }
@@ -837,7 +899,7 @@ struct ScheduleView: View {
                         }
                         .background(.white)
                         .cornerRadius(12)
-                        .padding(.horizontal, 24)
+                        .padding(.horizontal, 16)
                         .opacity(isYearDetailsBannerAdLoaded ? 1 : 0)
                     }
                     .padding(.bottom, 16)
@@ -851,21 +913,37 @@ struct ScheduleView: View {
             }
         }
         .safeAreaInset(edge: .bottom) {
-            Button {
-                if yearDeleteMode {
-                    deleteSelectedWorks()
-                    yearDeleteMode = false
-                } else {
-                    showAddWorkTimeView()
+            HStack {
+                Button {
+                    if deleteMode {
+                        deleteSelectedWorks()
+                        deleteMode = false
+                    } else {
+                        showAddWorkTimeView()
+                    }
+                } label: {
+                    Text(deleteMode ? "Delete" : "Add work time")
+                        .font(.latoBold(size: 16))
+                        .foregroundStyle(.white)
                 }
-            } label: {
-                Text(yearDeleteMode ? "Delete" : "Add work time")
-                    .font(.latoBold(size: 16))
-                    .foregroundStyle(.white)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 16)
+                .background(.black, in: .rect(cornerRadius: 18))
+                
+                Button {
+                    if selectedWorks.count > 0 {
+                        showDeletionView = true
+                    }
+                } label: {
+                    Text("\(selectedWorks.count)")
+                        .font(.latoBold(size: 16))
+                        .foregroundStyle(.white)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(.black, in: .rect(cornerRadius: 18))
+                        .hide(if: !deleteMode)
+                }
             }
-            .padding(.vertical, 8)
-            .padding(.horizontal, 16)
-            .background(.black, in: .rect(cornerRadius: 18))
             .padding(.bottom, 30)
         }
     }
@@ -940,7 +1018,7 @@ struct ScheduleView: View {
                                             .foregroundColor(.clear)
                                             .overlay {
                                                 Capsule().fill(date.isSameDay(date: viewModel.selectedDay) ?
-                                                    .black : (date.isToday() ? .wildSand : .clear))
+                                                    .black : (date.isToday() ? Color.primary.opacity(0.08) : .clear))
                                                     .padding(.horizontal, 4)
                                             }
                                             .accessibilityHidden(true)
@@ -1069,7 +1147,7 @@ struct ScheduleView: View {
                     .cornerRadius(12)
                     .frame(height: size.height - (maxHeight * progress), alignment: .top)
                     .cornerRadius(12)
-                    .padding(.horizontal, 24)
+                    .padding(.horizontal, 16)
                     .clipped()
                     .contentShape(.rect)
                     .offset(y: -minY)
@@ -1088,7 +1166,8 @@ struct ScheduleView: View {
                                    addNewOption: $showAddJobView,
                                    hint: "Select",
                                    options: ["All"] + jobs.compactMap { $0.name },
-                                   backgroundColor: .white)
+                                   backgroundColor: .white,
+                                   maxWidth: 200)
                     
                     Spacer()
                     
@@ -1104,31 +1183,30 @@ struct ScheduleView: View {
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
                     .background(.black, in: .rect(cornerRadius: 18))
-                    .padding(.horizontal, dayWorks.isEmpty ? 0 : 8)
-                    .hide(if: viewModel.selectedDay.isToday())
+                    .padding(.horizontal, 8)
+                    .opacity(viewModel.selectedDay.isToday() ? 0 : 1)
                     
                     Button {
-                        if dayDeleteMode {
-                            selectedEntries = []
+                        if deleteMode {
+                            selectedWorks = []
                         }
                         
                         withAnimation(.bouncy(duration: 0.4)) {
-                            dayDeleteMode.toggle()
+                            deleteMode.toggle()
                         }
                     } label: {
-                        Text(dayDeleteMode ? "Cancel" : "Delete")
+                        Text(deleteMode ? "Cancel" : "Delete")
                             .font(.latoBold(size: 14))
                             .foregroundStyle(.black)
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
                     .background(.white, in: .rect(cornerRadius: 18))
-                    .hide(if: dayWorks.isEmpty)
                 }
                 .fixedSize(horizontal: false, vertical: true)
                 .background(.wildSand)
                 .offset(y: -minY)
-                .padding(.horizontal, 24)
+                .padding(.horizontal, 16)
                 .zIndex(1001)
                 
                 Rectangle()
@@ -1174,13 +1252,6 @@ extension ScheduleView {
             newItem.hourlyRate = 32.0
             newItem.name = "DAZN"
             
-            saveContext()
-        }
-    }
-    
-    private func deleteWorks(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { works[$0] }.forEach(viewContext.delete)
             saveContext()
         }
     }

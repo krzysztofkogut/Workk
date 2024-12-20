@@ -26,20 +26,44 @@ public extension Resolver {
         }.scope(.application)
         
         register {
+            WorksDeletionViewModel()
+        }.scope(.shared)
+        
+        register {
+            HomeRouter(with: resolve())
+        }.scope(.shared)
+        
+        register {
+            HomeViewModel(router: resolve())
+        }.scope(.shared)
+        
+        register {
+            iCloudSettings()
+        }.scope(.application)
+        
+        register {
+            MoreViewModel()
+        }.scope(.shared)
+        
+        register {
+            NotificationManager()
+        }.scope(.application)
+        
+        register {
             PersistanceManager()
         }.scope(.application)
         
         register {
-            HomeRouter(with: resolve())
-        }.scope(.unique)
+            ProfileRouter(with: resolve())
+        }.scope(.shared)
         
         register {
-            HomeViewModel(router: resolve())
-        }.scope(.unique)
+            ProfileViewModel(router: resolve())
+        }.scope(.shared)
         
         register {
             ScheduleRouter(with: resolve())
-        }.scope(.unique)
+        }.scope(.shared)
         
         register {
             ScheduleViewModel(router: resolve())
@@ -47,6 +71,10 @@ public extension Resolver {
         
         register {
             StatsViewModel()
+        }.scope(.shared)
+        
+        register {
+            StatsFilterViewModel()
         }.scope(.shared)
     }
 }

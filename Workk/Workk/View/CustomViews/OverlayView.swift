@@ -48,7 +48,7 @@ struct OverlayView: View {
                         self.previousImage = nil
                         self.currentImage = nil
                         maskAnimation = false
-                        if let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first(where: { $0.tag == 0320 }) {
+                        if let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first(where: { $0.tag == 0322 }) {
                             /// Removing all views from the Overlay Window
                             for view in window.subviews {
                                 view.removeFromSuperview()

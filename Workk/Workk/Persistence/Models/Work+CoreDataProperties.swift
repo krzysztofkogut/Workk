@@ -14,7 +14,7 @@ public extension Work {
         return NSFetchRequest<Work>(entityName: "Work")
     }
 
-    @NSManaged var id: UUID?
+    @NSManaged var id: UUID
     @NSManaged var startDate: Date
     @NSManaged var endDate: Date
     @NSManaged var hourlyRate: Float
@@ -22,7 +22,8 @@ public extension Work {
     @NSManaged var project: String?
     @NSManaged var note: String?
     @NSManaged var moneyEarned: Float
-    @NSManaged var periodType: String?
+    @NSManaged var hoursWorked: Float
+    @NSManaged var periodType: String
     @NSManaged var isPaid: Bool
     @NSManaged var job: Job?
 }
@@ -30,12 +31,21 @@ public extension Work {
 extension Work: Identifiable {}
 
 public extension Work {
-    var hoursWorked: Float {
-        startDate.timeDifferenceInHours(to: endDate)
-    }
-
-    var hoursWorkedString: String {
+    var hoursWorkedTimeDifference: String {
         startDate.timeDifference(to: endDate)
+    }
+    
+    var hoursWorkedString: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 2
+
+        guard let formattedAmount = formatter.string(from: NSNumber(value: hoursWorked)) else {
+            return ""
+        }
+        
+        return formattedAmount + "h"
     }
 
     var hourRateMoneyEarned: Float {

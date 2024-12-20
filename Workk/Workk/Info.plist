@@ -2,29 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>arialbold</string>
-		<string>Lato-Black.ttf</string>
-		<string>Lato-Bold.ttf</string>
-		<string>Lato-Regular.ttf</string>
-		<string>Lato-Light.ttf</string>
-		<string>Nunito-Bold.ttf</string>
-		<string>Nunito-Light.ttf</string>
-		<string>Nunito-Regular.ttf</string>
-		<string>Nunito-SemiBold.ttf</string>
-	</array>
-	<key>UILaunchScreen</key>
-	<dict>
-		<key>UIColorName</key>
-		<string>wildSand</string>
-		<key>UIImageName</key>
-		<string>logo</string>
-		<key>UILaunchScreen</key>
-		<dict/>
-	</dict>
 	<key>GADApplicationIdentifier</key>
 	<string>REDACTED_SERVICE_CONFIGURATION</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>instagram</string>
+		<string>fb</string>
+		<string>twitter</string>
+	</array>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
@@ -224,5 +209,23 @@
 			<string>3qcr597p9d.skadnetwork</string>
 		</dict>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>arialbold</string>
+		<string>Lato-Black.ttf</string>
+		<string>Lato-Bold.ttf</string>
+		<string>Lato-Regular.ttf</string>
+		<string>Lato-Light.ttf</string>
+		<string>Nunito-Bold.ttf</string>
+		<string>Nunito-Light.ttf</string>
+		<string>Nunito-Regular.ttf</string>
+		<string>Nunito-SemiBold.ttf</string>
+		<string>Nunito-Black.ttf</string>
+	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>wildSand</string>
+	</dict>
 </dict>
 </plist>

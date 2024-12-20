@@ -15,8 +15,8 @@ struct PeriodDropDownPicker: View {
     var backgroundColor: Color
     var maxWidth: CGFloat = 130
     
-    @SceneStorage("drop_down_zindex") private var index = 1000.0
-    @State var zindex = 1000.0
+    @SceneStorage("period_drop_down_zindex") private var index = 3000.0
+    @State var zIndex = 3000.0
     @State var showDropdown = false
     
     var body: some View {
@@ -59,7 +59,7 @@ struct PeriodDropDownPicker: View {
                 .contentShape(.rect)
                 .onTapGesture {
                     index += 1
-                    zindex = index
+                    zIndex = index
                     withAnimation(.snappy) {
                         showDropdown.toggle()
                     }
@@ -78,7 +78,7 @@ struct PeriodDropDownPicker: View {
         }
         .frame(maxWidth: maxWidth, alignment: state == .leading ? .leading : .trailing)
         .frame(height: 38, alignment: state == .leading ? .leading : .trailing)
-        .zIndex(zindex)
+        .zIndex(zIndex)
     }
     
     func OptionsView() -> some View {

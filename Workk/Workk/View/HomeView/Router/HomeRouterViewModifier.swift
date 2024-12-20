@@ -12,7 +12,7 @@ public extension View {
         self.navigationDestination(for: HomeRoute.self) { destination in
             switch destination {
             case .addJobView:
-                AddJobView()
+                AddJobView(selectedJob: .constant(nil))
             case .subscriptionPlanView:
                 SubscriptionPlanView()
             }
