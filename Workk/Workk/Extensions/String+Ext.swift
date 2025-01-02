@@ -8,6 +8,10 @@
 import SwiftUI
 
 extension String {
+    var localized: String {
+        NSLocalizedString(self, comment: "")
+    }
+    
     func widthOfString(usingFont font: UIFont) -> CGFloat {
         let fontAttributes = [NSAttributedString.Key.font: font]
         let size = self.size(withAttributes: fontAttributes)

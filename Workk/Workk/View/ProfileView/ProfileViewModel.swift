@@ -12,8 +12,6 @@ import Resolver
 protocol ProfileViewModelProtocol where Self: ObservableObject {
     var workkPremiumTitle: AttributedString { get }
     var goalsTitle: AttributedString { get }
-    var moneyGoalTitle: AttributedString { get }
-    var hoursGoalTitle: AttributedString { get }
     var dailyGoalTitle: AttributedString { get }
     var weeklyGoalTitle: AttributedString { get }
     var monthlyGoalTitle: AttributedString { get }
@@ -27,14 +25,16 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     
     @Published var iCloudSettings: iCloudSettings = Resolver.resolve()
     let notificationManager: NotificationManager = Resolver.resolve()
+    let regionCode = Locale.current.region?.identifier
+    let currencyCode = Locale.current.currency?.identifier
     
     private let router: ProfileRouter
     
     var workkPremiumTitle: AttributedString {
-        var string = AttributedString("Wypróbuj Workk premium")
+        var string = AttributedString("try_workk_premium_title".localized)
         string.font = .latoRegular(size: 14)
         
-        if let range = string.range(of: "Workk") {
+        if let range = string.range(of: "workk_title".localized) {
             string[range].font = .nunitoBlack(size: 14)
         }
         
@@ -42,70 +42,56 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     }
     
     var goalsTitle: AttributedString {
-        var string = AttributedString("GOALS")
-        string.kern = 3
-        string.font = .latoBlack(size: 12)
-        return string
-    }
-    
-    var moneyGoalTitle: AttributedString {
-        var string = AttributedString("HOURS GOAL")
-        string.kern = 3
-        string.font = .latoBlack(size: 12)
-        return string
-    }
-    
-    var hoursGoalTitle: AttributedString {
-        var string = AttributedString("MONEY GOAL")
+        var string = AttributedString("goals_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var dailyGoalTitle: AttributedString {
-        var string = AttributedString("DAYILY")
+        var string = AttributedString("daily_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
 
     var weeklyGoalTitle: AttributedString {
-        var string = AttributedString("WEEKLY")
+        var string = AttributedString("weekly_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var monthlyGoalTitle: AttributedString {
-        var string = AttributedString("MONTHLY")
+        var string = AttributedString("monthly_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var yearlyGoalTitle: AttributedString {
-        var string = AttributedString("YEARLY")
+        var string = AttributedString("yearly_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var jobsTitle: AttributedString {
-        var string = AttributedString("JOBS")
+        var string = AttributedString("jobs_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var currencyTitle: AttributedString {
-        var string = AttributedString("CURRENCY")
+        var string = AttributedString("currency_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var dailyNotificationTitle: AttributedString {
-        var string = AttributedString("DAILY NOTIFICATION")
+        var string = AttributedString("notification_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string

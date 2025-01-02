@@ -16,9 +16,9 @@ struct Intro: Identifiable {
 }
 
 var intros: [Intro] = [
-    .init(title: "Track", description: "Add your work time and earned money \nby adding entries or using clock"),
-    .init(title: "Analyze", description: "Check data on summary view \nor on stats view"),
-    .init(title: "Keep data", description: "All your data will be stored in iCloud \nand shared between your Apple devices"),
+    .init(title: "track_title".localized, description: "track_description".localized),
+    .init(title: "analyze_title".localized, description: "analyze_description".localized),
+    .init(title: "keep_data_title".localized, description: "keep_data_description".localized),
 ]
 
 struct OnboardingView: View {
@@ -30,20 +30,19 @@ struct OnboardingView: View {
     @State var showHomeView: Bool = false
 
     var skipTitle: AttributedString {
-        var string = AttributedString("SKIP")
+        var string = AttributedString("skip_title".localized)
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var welcomeDescription: AttributedString {
-        var attributedString = AttributedString("Stay organised. Track your work time \nand earned money with Workk")
+        var attributedString = AttributedString("workk_description".localized)
         attributedString.font = .latoRegular(size: 16)
-        attributedString.foregroundColor = .black
+        attributedString.foregroundColor = .blackWhite
  
-        if let range = attributedString.range(of: "Workk") {
+        if let range = attributedString.range(of: "workk_title".localized) {
             attributedString[range].font = .nunitoBlack(size: 16)
-            attributedString[range].foregroundColor = .black
         }
         
         return attributedString
@@ -94,13 +93,13 @@ struct OnboardingView: View {
                     Image(systemName: "chevron.forward")
                         .font(.title3)
                         .fontWeight(.semibold)
-                        .foregroundColor(.white)
+                        .foregroundColor(.whiteBlack)
                         .scaleEffect(!isLast ? 1 : 0.001)
                         .opacity(!isLast ? 1 : 0)
                     
-                    Text("Continue")
+                    Text("continue_title".localized)
                         .font(.latoBold(size: 16))
-                        .foregroundColor(.white)
+                        .foregroundColor(.whiteBlack)
                         .padding(.horizontal, 15)
                         .scaleEffect(isLast ? 1 : 0.001)
                         .frame(height: isLast ? nil : 0)
@@ -109,7 +108,7 @@ struct OnboardingView: View {
                 .frame(width: isLast ? size.width / 2 : 55, height: isLast ? 50 : 55)
                 .background {
                     RoundedRectangle(cornerRadius: 30, style: isLast ? .continuous : .circular)
-                        .fill(.black)
+                        .fill(.blackWhite)
                 }
                 .onTapGesture {
                     if currentIndex == intros.count {
@@ -142,7 +141,7 @@ struct OnboardingView: View {
                     .overlay {
                         if currentIndex == index {
                             Circle()
-                                .fill(.black)
+                                .fill(.blackWhite)
                                 .frame(width: 8, height: 8)
                                 .matchedGeometryEffect(id: "INDICATOR", in: animation)
                         }
@@ -159,6 +158,7 @@ struct OnboardingView: View {
         VStack(spacing: 16) {
             Text(intro.title)
                 .font(.latoBlack(size: 32))
+                .foregroundStyle(.blackWhite)
                 .offset(x: -size.width * CGFloat(currentIndex - index))
 
                 // My Delay Starts From Top
@@ -170,6 +170,7 @@ struct OnboardingView: View {
             
             Text(intro.description)
                 .font(.latoRegular(size: 16))
+                .foregroundStyle(.blackWhite)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 30)
                 .offset(x: -size.width * CGFloat(currentIndex - index))
@@ -183,12 +184,14 @@ struct OnboardingView: View {
     @ViewBuilder
     func WelcomeView(size: CGSize, index: Int)->some View {
         VStack(spacing: 16) {
-            Text("Welcome")
+            Text("welcome_title".localized)
                 .font(.latoBlack(size: 40))
+                .foregroundStyle(.blackWhite)
                 .offset(x: -size.width * CGFloat(currentIndex - index))
                 .animation(.interactiveSpring(response: 0.9, dampingFraction: 0.8, blendDuration: 0.5).delay(0.1).delay(currentIndex == index ? 0.1 : 0), value: currentIndex)
             
             Text(welcomeDescription)
+                .foregroundStyle(.blackWhite)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 30)
                 .padding(.bottom, 100)
@@ -246,14 +249,14 @@ struct OnboardingView: View {
                     .frame(width: size.width / 2, height: size.height / 4)
                     .padding(.top, 160)
                                 
-                Text("Begin")
+                Text("begin_title".localized)
                     .font(.latoBold(size: 16))
                     .padding(.horizontal, 40)
                     .padding(.vertical, 14)
-                    .foregroundColor(.white)
+                    .foregroundColor(.whiteBlack)
                     .background {
                         Capsule()
-                            .fill(.black)
+                            .fill(.blackWhite)
                     }
                     .onTapGesture {
                         showWalkThroughScreens.toggle()

@@ -25,18 +25,18 @@ struct DateTextField: View {
                             .labelsHidden()
                             .datePickerStyle(.wheel)
                             .frame(maxWidth: .infinity)
-                            .background(.wildSand, in: .rect(cornerRadius: 12))
+                            .background(.whiteTheme, in: .rect(cornerRadius: 12))
 
                         Button {
                             isActive = false
                         } label: {
-                            Text("Done")
+                            Text("done_title".localized)
                                 .font(.latoBold(size: 18))
-                                .foregroundStyle(.black)
+                                .foregroundStyle(.blackWhite)
                                 .padding(.top, 16)
                                 .padding(.bottom, 20)
                                 .frame(maxWidth: .infinity)
-                                .background(.wildSand, in: .rect(cornerRadius: 12))
+                                .background(.whiteTheme, in: .rect(cornerRadius: 12))
                         }
                     }
                     .padding(.horizontal, 16)
@@ -61,11 +61,11 @@ private struct AddInputViewToTextField<Content: View>: UIViewRepresentable {
 
         DispatchQueue.main.async {
             if let window = view.window, let textField = window.allSubViews(type: UITextField.self).first(where: { $0.placeholder == id }) {
-                textField.tintColor = .white
+                textField.tintColor = .blackWhite
 
                 // Convert SwiftUI View to UIKit View (for the inputView)
                 let hostView = UIHostingController(rootView: content).view!
-                hostView.backgroundColor = .white
+                hostView.backgroundColor = .wildSand
                 hostView.frame.size = hostView.intrinsicContentSize
 
                 // Adding custom DatePicker as the inputView

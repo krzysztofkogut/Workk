@@ -12,6 +12,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 protocol MoreViewModelProtocol where Self: ObservableObject {
+    var appVersion: String { get }
     var socialSectionTitle: AttributedString { get }
     var accountSectionTitle: AttributedString { get }
     var helpSectionTitle: AttributedString { get }
@@ -25,40 +26,44 @@ protocol MoreViewModelProtocol where Self: ObservableObject {
 
 final class MoreViewModel: MoreViewModelProtocol {
     private let appURL = URL(string: "https://apps.apple.com/app/id1312926037")!
-    private let shareMessage = "Check out this amazing app!"
+    private let shareMessage = "check_out_app_description".localized
+    
+    var appVersion: String {
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
+    }
     
     var selectedMailOption: MailOption = .contactUs
     
     var socialSectionTitle: AttributedString {
-        var string = AttributedString("SOCIAL")
+        var string = AttributedString("community_title".localized)
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
 
     var accountSectionTitle: AttributedString {
-        var string = AttributedString("ACCOUNT")
+        var string = AttributedString("account_title".localized)
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var shareAppMessage: String {
-        return "Check out this amazing app: \(appURL.absoluteString)"
+        return "check_out_app_colon_description".localized + " \(appURL.absoluteString)"
     }
 
     var helpSectionTitle: AttributedString {
-        var string = AttributedString("HELP & SUPPORT")
+        var string = AttributedString("help_and_support_title".localized)
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var appVersionTitle: AttributedString {
-        var string = AttributedString("Workk v1.0.0")
+        var string = AttributedString("workk_title".localized + " v\(appVersion)")
         string.font = .latoBold(size: 14)
         
-        if let range = string.range(of: "Workk") {
+        if let range = string.range(of: "workk_title".localized) {
             string[range].font = .nunitoBlack(size: 14)
         }
         
@@ -66,8 +71,8 @@ final class MoreViewModel: MoreViewModelProtocol {
     }
     
     func openInstagram() {
-        let instagramURL = URL(string: "instagram://user?username=coniewiesz.kris")!
-        let webURL = URL(string: "https://instagram.com/coniewiesz.kris")!
+        let instagramURL = URL(string: "instagram://user?username=workkapp")!
+        let webURL = URL(string: "https://instagram.com/workkapp")!
         
         if UIApplication.shared.canOpenURL(instagramURL) {
             UIApplication.shared.open(instagramURL)
@@ -88,8 +93,8 @@ final class MoreViewModel: MoreViewModelProtocol {
     }
     
     func openX() {
-        let xAppURL = URL(string: "twitter://user?screen_name=manchesterunited")!
-        let xWebURL = URL(string: "https://x.com/manchesterunited")!
+        let xAppURL = URL(string: "twitter://user?screen_name=workkapp")!
+        let xWebURL = URL(string: "https://x.com/workkapp")!
         
         if UIApplication.shared.canOpenURL(xAppURL) {
             UIApplication.shared.open(xAppURL)
@@ -113,7 +118,7 @@ final class MoreViewModel: MoreViewModelProtocol {
     
     func getCurrentLanguageName() -> String {
         let currentLanguageCode = Locale.preferredLanguages.first ?? "en"
-        return Locale.current.localizedString(forLanguageCode: currentLanguageCode) ?? "Unknown Language"
+        return Locale.current.localizedString(forLanguageCode: currentLanguageCode) ?? "unknown_language_title".localized
     }
     
     func saveCSVToFile(context: NSManagedObjectContext) -> URL? {

@@ -57,7 +57,7 @@ struct HomeView: View {
     @State private var countWorkTime = false
     @State private var pauseTimer = false
     @State private var toggleDynamicIsland: Bool = true
-    @State private var selectedWorkName: String? = "All"
+    @State private var selectedWorkName: String? = "all_title".localized
     @State private var selectedJob: Job? = nil
     @State private var showAddJobView: Bool = false
     @State private var showAddWorkTimeView: Bool = false
@@ -83,56 +83,56 @@ struct HomeView: View {
     var dayPaidMoney: Float {
         works
             .filter { $0.startDate.isSameDay(date: viewModel.selectedDay) && $0.isPaid && $0.periodType == "day" }
-            .filter { $0.jobName == selectedWorkName || selectedWorkName == "All" }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
     
     var dayUnpaidMoney: Float {
         works
             .filter { $0.startDate.isSameDay(date: viewModel.selectedDay) && !$0.isPaid && $0.periodType == "day" }
-            .filter { $0.jobName == selectedWorkName || selectedWorkName == "All" }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
     
     var weekPaidMoney: Float {
         works
             .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) && $0.isPaid && $0.periodType == "week" }
-            .filter { $0.jobName == selectedWorkName || selectedWorkName == "All" }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
     
     var weekUnpaidMoney: Float {
         works
             .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) && !$0.isPaid && $0.periodType == "week" }
-            .filter { $0.jobName == selectedWorkName || selectedWorkName == "All" }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
     
     var monthPaidMoney: Float {
         works
             .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) && $0.isPaid && $0.periodType == "month" }
-            .filter { $0.jobName == selectedWorkName || selectedWorkName == "All" }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
     
     var monthUnpaidMoney: Float {
         works
             .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) && !$0.isPaid && $0.periodType == "month" }
-            .filter { $0.jobName == selectedWorkName || selectedWorkName == "All" }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
     
     var yearPaidMoney: Float {
         works
             .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) && $0.isPaid && $0.periodType == "year" }
-            .filter { $0.jobName == selectedWorkName || selectedWorkName == "All" }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
     
     var yearUnpaidMoney: Float {
         works
             .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) && !$0.isPaid && $0.periodType == "year" }
-            .filter { $0.jobName == selectedWorkName || selectedWorkName == "All" }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
 
@@ -143,8 +143,8 @@ struct HomeView: View {
                     DropDownPicker(
                         selection: $selectedWorkName,
                         addNewOption: $showAddJobView,
-                        hint: "Select",
-                        options: ["All"] + jobs.compactMap { $0.name },
+                        hint: "select_title".localized,
+                        options: ["all_title".localized] + jobs.compactMap { $0.name },
                         backgroundColor: .wildSand,
                         maxWidth: 220)
 
@@ -156,19 +156,19 @@ struct HomeView: View {
                     } label: {
                         Image(systemName: "person.crop.circle.fill")
                             .addSymbolEffect(isSelected: isProfileButtonSelected)
-                            .foregroundColor(.black)
+                            .foregroundStyle(.blackWhite)
                             .font(.title)
                     }
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
                 .zIndex(1000)
-                .background(.white)
+                .background(.whiteTheme)
 
                 headerActionsView
                     .padding(.vertical, 16)
                     .frame(maxWidth: .infinity)
-                    .background(.white)
+                    .background(.whiteTheme)
                     .clipShape(RoundedShape(corners: [.bottomLeft, .bottomRight]))
 
                 detailsView
@@ -182,10 +182,6 @@ struct HomeView: View {
                 Task {
                     await updateProgressBar()
                 }
-                
-                if reviewThresholds.contains(works.count) {
-                    requestReview()
-                }
             })
             .onReceive(timeReciver) { _ in
                 withAnimation(Animation.linear(duration: 0.01)) {
@@ -195,6 +191,11 @@ struct HomeView: View {
             .onChange(of: selectedFilter) { _ in
                 Task {
                     await updateProgressBar()
+                }
+            }
+            .onChange(of: works.count) { newValue in
+                if reviewThresholds.contains(newValue) {
+                    requestReview()
                 }
             }
             .withHomeRoutes()
@@ -217,12 +218,12 @@ struct HomeView: View {
             }
             .floatingBottomSheet(isPresented: $showAlertSheet) {
                 SheetView(
-                    title: "Select job",
-                    content: "Select job to start counting work time",
+                    title: "select_job_title".localized,
+                    content: "select_job_description".localized,
                     button1: .init(
-                        content: "OK",
-                        tint: .black,
-                        foreground: .white,
+                        content: "ok_title".localized,
+                        tint: .blackWhite,
+                        foreground: .whiteBlack,
                         action: {
                             showAlertSheet = false
                         }))
@@ -238,10 +239,14 @@ extension HomeView {
             ZStack(alignment: .center) {
                 HStack(alignment: .firstTextBaseline, spacing: 0) {
                     RollingText(font: .latoBlack(size: 56), value: $viewModel.stopwatch.hours)
+                        .foregroundStyle(.blackWhite)
                     Text(":")
+                        .foregroundStyle(.blackWhite)
                         .font(.latoBold(size: 56))
                     RollingText(font: .latoBlack(size: 56), value: $viewModel.stopwatch.minutes)
+                        .foregroundStyle(.blackWhite)
                     RollingText(font: .latoLight(size: 16), value: $viewModel.stopwatch.seconds)
+                        .foregroundStyle(.blackWhite)
                         .padding(.leading, 2)
                 }
                 .transition(.opacity)
@@ -250,10 +255,14 @@ extension HomeView {
 
                 HStack(alignment: .firstTextBaseline, spacing: 0) {
                     RollingText(font: .latoBlack(size: 56), value: $viewModel.currentTime.hour)
+                        .foregroundStyle(.blackWhite)
                     Text(":")
+                        .foregroundStyle(.blackWhite)
                         .font(.latoBold(size: 56))
                     RollingText(font: .latoBlack(size: 56), value: $viewModel.currentTime.min)
+                        .foregroundStyle(.blackWhite)
                     RollingText(font: .latoLight(size: 16), value: $viewModel.currentTime.sec)
+                        .foregroundStyle(.blackWhite)
                         .padding(.leading, 2)
                 }
                 .transition(.opacity)
@@ -263,6 +272,7 @@ extension HomeView {
 
             Text(viewModel.currentDateString)
                 .font(.latoRegular(size: 16))
+                .foregroundStyle(.blackWhite)
                 .padding(.bottom, 16)
 
             addWorkTimeButtons
@@ -273,7 +283,7 @@ extension HomeView {
     var addWorkTimeButtons: some View {
         HStack {
             Button {
-                guard selectedWorkName != nil && selectedWorkName != "All" else {
+                guard selectedWorkName != nil && selectedWorkName != "all_title".localized else {
                     showAlertSheet = true
                     return
                 }
@@ -293,12 +303,12 @@ extension HomeView {
                     startLiveActivityTimer(elapsedTime: viewModel.stopwatch.elapsedTime)
                 }
             } label: {
-                Text(countWorkTime ? (pauseTimer ? "Start" : "Stop") : "Start timer")
+                Text(countWorkTime ? (pauseTimer ? "start_title".localized : "stop_title".localized) : "measure_time_title".localized)
                     .font(.latoBold(size: 16))
                     .frame(width: countWorkTime ? 90 : 120, height: 44)
             }
             .modifier(FilledButton())
-            .background(.black)
+            .background(.blackWhite)
             .cornerRadius(24)
 
             if countWorkTime {
@@ -309,9 +319,9 @@ extension HomeView {
                         VStack(spacing: 0) {
                             HStack {
                                 VStack(alignment: .leading, spacing: 2) {
-                                        Text("Saved your work time")
+                                    Text("saved_your_work_title".localized)
                                             .font(.latoBold(size: 18))
-                                            .foregroundStyle(.white)
+                                            .foregroundStyle(.athensGray)
 
                                         Text(viewModel.currentDateString)
                                             .font(.latoRegular(size: 14))
@@ -341,6 +351,8 @@ extension HomeView {
                         }
                     }
 
+                    addItem()
+                    
                     viewModel.stopwatch.reset()
                     stopLiveActivityTimer()
 
@@ -349,13 +361,14 @@ extension HomeView {
                         pauseTimer = false
                     }
                 } label: {
-                    Text("Save")
+                    Text("save_title".localized)
                         .font(.latoBold(size: 16))
+                        .foregroundStyle(.blackWhite)
                         .frame(width: 90, height: 44)
                 }
                 .overlay {
                     RoundedRectangle(cornerRadius: 24)
-                        .stroke(.black, lineWidth: 4)
+                        .stroke(.blackWhite, lineWidth: 4)
                 }
                 .modifier(BorderedRoundedButton())
                 .cornerRadius(24)
@@ -375,12 +388,12 @@ extension HomeView {
 
                 viewModel.stopwatch.reset()
             } label: {
-                Text(countWorkTime ? "Reset" : "Save time")
+                Text(countWorkTime ? "reset_title".localized : "save_time_title".localized)
                     .font(.latoBold(size: 16))
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.blackWhite)
                     .frame(width: countWorkTime ? 90 : 120, height: 44)
             }
-            .background(Color.primary.opacity(0.08))
+            .background(.grayTheme)
             .cornerRadius(24)
         }
     }
@@ -447,7 +460,7 @@ extension HomeView {
                         Button(action: viewModel.backwardToLastDaysWeek) {
                             Image(systemName: "chevron.left")
                                 .frame(width: 24, height: 24)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.blackWhite)
                         }
                         .padding(.leading, 12)
                         .padding(.trailing, -8)
@@ -457,7 +470,7 @@ extension HomeView {
                         Button(action: viewModel.forwardToNextDaysWeek) {
                             Image(systemName: "chevron.right")
                                 .frame(width: 24, height: 24)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.blackWhite)
                         }
                         .padding(.leading, -8)
                         .padding(.trailing, 12)
@@ -465,7 +478,7 @@ extension HomeView {
                 }
                 .id("top")
                 .frame(height: 62)
-                .background(.white)
+                .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, isDayDetailsBannerAdLoaded ? 2 : -16)
                 
@@ -473,7 +486,7 @@ extension HomeView {
                     Button {
                         showSubscriptionPlanView.toggle()
                     } label: {
-                        Text("Buy subscription to remove ads")
+                        Text("buy_subscription_title".localized)
                             .font(.nunitoBold(size: 18))
                             .foregroundColor(.blueRibbon)
                     }
@@ -484,21 +497,22 @@ extension HomeView {
                             .cornerRadius(6)
                             .overlay {
                                 RoundedRectangle(cornerRadius: 6)
-                                    .stroke(.white, lineWidth: 3)
+                                    .stroke(.whiteTheme, lineWidth: 3)
                             }
                             .padding(6)
                     }
-                    .background(.white)
+                    .background(.whiteTheme)
                     .cornerRadius(12)
                     .opacity(isDayDetailsBannerAdLoaded ? 1 : 0)
                 }
                 .padding(.bottom, isDayDetailsBannerAdLoaded ? 2 : -16)
                 
-                VStack {
+                VStack(spacing: 0) {
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Earned")
+                            Text("earned_title".localized)
                                 .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
                             
                             Text(viewModel.selectedDay.currentDateString)
                                 .font(.latoRegular(size: 12))
@@ -507,30 +521,42 @@ extension HomeView {
                         
                         Spacer()
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 16)
-                    
-                    Text(viewModel.totalTitle)
-                        .foregroundStyle(.gray)
-                        .padding(.horizontal, 16)
-                    
+                    .padding([.top, .horizontal], 12)
+                    .padding(.bottom, 16)
+                                        
                     VStack(spacing: 8) {
                         HStack(spacing: 8) {
-                            Text("Paid")
+                            Text("paid_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
                             Spacer()
                             Text("\(dayPaidMoney.formatFloatToString()) PLN")
                                 .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
                         
                         HStack(spacing: 8) {
-                            Text("Unpaid")
+                            Text("unpaid_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
                             Spacer()
                             Text("\(dayUnpaidMoney.formatFloatToString()) PLN")
                                 .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        HStack(spacing: 8) {
+                            Text("total_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text((dayPaidMoney + dayUnpaidMoney).formatFloatToString() + " PLN")
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
@@ -543,42 +569,45 @@ extension HomeView {
                         .padding(.horizontal, 16)
                     
                     ProgressBar(percent: $dayProgressValue)
-                        .padding(.vertical, 8)
+                        .padding(.top, 12)
+                        .padding(.bottom, 16)
                         .padding(.horizontal, 16)
                     
                     HStack(spacing: 6) {
-                        Text("Plan done in:")
+                        Text("plan_done_title".localized)
                             .font(.latoRegular(size: 16))
                             .foregroundColor(.gray)
                         Text(String(format: "%0.f", self.dayProgressValue * 100) + "%")
+                            .animation(nil, value: dayProgressValue)
                             .font(.nunitoSemiBold(size: 16))
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                         Spacer()
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 2)
                     
                     HStack(spacing: 6) {
-                        Text("Left to be earned:")
+                        Text("left_to_earned_title".localized)
                             .font(.latoRegular(size: 16))
                             .foregroundColor(.gray)
                         Text("600 PLN")
                             .font(.nunitoSemiBold(size: 16))
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                         Spacer()
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 16)
                 }
-                .background(.white)
+                .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 2)
                 
-                VStack {
+                VStack(spacing: 0) {
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Worked")
+                            Text("worked_title".localized)
                                 .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
                             
                             Text(viewModel.selectedDay.currentDateString)
                                 .font(.latoRegular(size: 12))
@@ -586,46 +615,45 @@ extension HomeView {
                         }
                         
                         Spacer()
-                        
-                        Text("1600h / 2000h")
-                            .multilineTextAlignment(.trailing)
-                            .font(.nunitoSemiBold(size: 16))
                     }
-                    .padding(12)
+                    .padding([.top, .horizontal], 12)
+                    .padding(.bottom, 16)
                     
                     Text(viewModel.goalTitle)
                         .foregroundStyle(.gray)
                         .padding(.horizontal, 16)
                     
                     ProgressBar(percent: $dayProgressValue)
-                        .padding(.vertical, 8)
+                        .padding(.top, 12)
+                        .padding(.bottom, 16)
                         .padding(.horizontal, 16)
                     
                     HStack(spacing: 6) {
-                        Text("Plan done in:")
+                        Text("plan_done_title".localized)
                             .font(.latoRegular(size: 16))
                             .foregroundColor(.gray)
                         Text(String(format: "%0.f", self.dayProgressValue * 100) + "%")
+                            .animation(nil, value: dayProgressValue)
                             .font(.nunitoSemiBold(size: 16))
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                         Spacer()
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 2)
                     
                     HStack(spacing: 6) {
-                        Text("Left to be done:")
+                        Text("hours_worked_title".localized)
                             .font(.latoRegular(size: 16))
                             .foregroundColor(.gray)
-                        Text("4h")
+                        Text("1600h / 2000h")
                             .font(.nunitoSemiBold(size: 16))
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                         Spacer()
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 16)
                 }
-                .background(.white)
+                .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 2)
                 
@@ -635,14 +663,14 @@ extension HomeView {
                         .cornerRadius(6)
                         .overlay {
                             RoundedRectangle(cornerRadius: 6)
-                                .stroke(.white, lineWidth: 3)
+                                .stroke(.whiteTheme, lineWidth: 3)
                         }
                         .padding(6)
                         .onAppear {
                             nativeDayDetailsViewModel.refreshAd()
                         }
                 }
-                .background(.white)
+                .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 16)
             }
@@ -654,13 +682,13 @@ extension HomeView {
                         proxy.scrollTo("top", anchor: .top)
                     }
                 } label: {
-                    Text("Today")
+                    Text("today_title".localized)
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                 }
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
-                .background(.black, in: .rect(cornerRadius: 18))
+                .background(.blackWhite, in: .rect(cornerRadius: 18))
                 .padding(.bottom, 30)
                 .hide(if: viewModel.selectedDay.isToday())
             }
@@ -675,7 +703,7 @@ extension HomeView {
                         Button(action: viewModel.backwardToLastWeek) {
                             Image(systemName: "chevron.left")
                                 .frame(width: 24, height: 24)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.blackWhite)
                         }
                         .padding(.leading, 24)
                         
@@ -688,7 +716,7 @@ extension HomeView {
                         Button(action: viewModel.forwardToNextWeek) {
                             Image(systemName: "chevron.right")
                                 .frame(width: 24, height: 24)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.blackWhite)
                         }
                         .padding(.trailing, 24)
                     }
@@ -696,7 +724,7 @@ extension HomeView {
                 }
                 .id("top")
                 .frame(height: 62)
-                .background(.white)
+                .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, isWeekDetailsBannerAdLoaded ? 2 : -16)
                 
@@ -704,7 +732,7 @@ extension HomeView {
                     Button {
                         showSubscriptionPlanView.toggle()
                     } label: {
-                        Text("Buy subscription to remove ads")
+                        Text("buy_subscription_title".localized)
                             .font(.nunitoBold(size: 18))
                             .foregroundColor(.blueRibbon)
                     }
@@ -715,11 +743,11 @@ extension HomeView {
                             .cornerRadius(6)
                             .overlay {
                                 RoundedRectangle(cornerRadius: 6)
-                                    .stroke(.white, lineWidth: 3)
+                                    .stroke(.whiteTheme, lineWidth: 3)
                             }
                             .padding(6)
                     }
-                    .background(.white)
+                    .background(.whiteTheme)
                     .cornerRadius(12)
                     .opacity(isWeekDetailsBannerAdLoaded ? 1 : 0)
                 }
@@ -728,8 +756,9 @@ extension HomeView {
                 VStack(spacing: 0) {
                     HStack(alignment: .top) {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Earned")
+                            Text("earned_title".localized)
                                 .font(.latoBold(size: 18))
+                                .foregroundColor(.blackWhite)
                             
                             Text(viewModel.selectedWeek.currentWeekString)
                                 .font(.latoRegular(size: 12))
@@ -737,140 +766,140 @@ extension HomeView {
                         }
                         
                         Spacer()
-                        
-                        VStack(alignment: .trailing) {
-                            HStack {
-                                ProgressBar(percent: $weekProgressValue)
-                                
-                                Text(String(format: "%0.f", self.weekProgressValue * 100) + "%")
-                                    .font(.nunitoSemiBold(size: 16))
-                                    .foregroundColor(.black)
-                            }
-                            
-//                            HStack {
-//                                Text("Plan done in:")
-//                                    .font(.latoRegular(size: 16))
-//                                    .foregroundColor(.gray)
-//
-//                                Text(String(format: "%0.f", self.weekProgressValue * 100) + "%")
-//                                    .font(.nunitoSemiBold(size: 16))
-//                                    .foregroundColor(.black)
-//                            }
-                            
-//                            Text("36h / 40h")
-//                                .font(.latoRegular(size: 16))
-                        }
-                        .padding(.leading, 16)
                     }
-                    .padding(12)
-                    
-                    Text(viewModel.daysTitle)
-                        .foregroundStyle(.gray)
-                        .padding(.horizontal, 16)
-                    
+                    .padding([.top, .horizontal], 12)
+                    .padding(.bottom, 16)
+                                        
                     VStack(spacing: 8) {
                         HStack(spacing: 8) {
-                            Text("Paid")
+                            Text("paid_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
+                                .foregroundColor(.blackWhite)
                             Spacer()
                             Text("\(weekPaidMoney.formatFloatToString()) PLN")
                                 .font(.latoBold(size: 18))
+                                .foregroundColor(.blackWhite)
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
                         
                         HStack(spacing: 8) {
-                            Text("Unpaid")
+                            Text("unpaid_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
+                                .foregroundColor(.blackWhite)
                             Spacer()
                             Text("\(weekUnpaidMoney.formatFloatToString()) PLN")
                                 .font(.latoBold(size: 18))
-                                .minimumScaleFactor(0.2)
-                                .lineLimit(1)
-                        }
-                    }
-                    .padding(.horizontal, 16)
-                    
-                    Text(viewModel.weekTitle)
-                        .foregroundStyle(.gray)
-                        .padding(.horizontal, 16)
-                        .padding(.top, 24)
-                    
-                    VStack(spacing: 8) {
-                        HStack(spacing: 8) {
-                            Text("Paid")
-                                .font(.nunitoSemiBold(size: 16))
-                            Spacer()
-                            Text("\(weekPaidMoney.formatFloatToString()) PLN")
-                                .font(.latoBold(size: 18))
+                                .foregroundColor(.blackWhite)
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
                         
                         HStack(spacing: 8) {
-                            Text("Unpaid")
+                            Text("total_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
+                                .foregroundColor(.blackWhite)
                             Spacer()
-                            Text("\(weekUnpaidMoney.formatFloatToString()) PLN")
+                            Text((weekPaidMoney + weekUnpaidMoney).formatFloatToString() + " PLN")
                                 .font(.latoBold(size: 18))
+                                .foregroundColor(.blackWhite)
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 16)
-                }
-                .background(.white)
-                .cornerRadius(12)
-                .padding(.bottom, 2)
-                
-                VStack {
-                    HStack {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text("Worked")
-                                .font(.latoBold(size: 18))
-                            
-                            Text(viewModel.selectedWeek.currentWeekString)
-                                .font(.latoRegular(size: 12))
-                                .foregroundColor(.gray)
-                        }
-                        
-                        Spacer()
-                        
-                        Text("36h / 40h")
-                            .font(.latoRegular(size: 16))
-                    }
-                    .padding(12)
+                    
+                    Text(viewModel.goalTitle)
+                        .foregroundStyle(.gray)
+                        .padding(.horizontal, 16)
                     
                     ProgressBar(percent: $weekProgressValue)
-                        .padding(.vertical, 8)
+                        .padding(.top, 12)
+                        .padding(.bottom, 16)
                         .padding(.horizontal, 16)
                     
                     HStack(spacing: 6) {
-                        Text("Plan done in:")
+                        Text("plan_done_title".localized)
                             .font(.latoRegular(size: 16))
                             .foregroundColor(.gray)
                         Text(String(format: "%0.f", self.weekProgressValue * 100) + "%")
+                            .animation(nil, value: weekProgressValue)
                             .font(.nunitoSemiBold(size: 16))
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                         Spacer()
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 2)
                     
                     HStack(spacing: 6) {
-                        Text("Left to be done:")
+                        Text("left_to_earned_title".localized)
                             .font(.latoRegular(size: 16))
                             .foregroundColor(.gray)
-                        Text("4h")
+                        Text("600 PLN")
                             .font(.nunitoSemiBold(size: 16))
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                         Spacer()
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 16)
                 }
-                .background(.white)
+                .background(.whiteTheme)
+                .cornerRadius(12)
+                .padding(.bottom, 2)
+                
+                VStack(spacing: 0) {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("worked_title".localized)
+                                .font(.latoBold(size: 18))
+                                .foregroundColor(.blackWhite)
+                            
+                            Text(viewModel.selectedWeek.currentWeekString)
+                                .font(.latoRegular(size: 12))
+                                .foregroundColor(.gray)
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding([.top, .horizontal], 12)
+                    .padding(.bottom, 16)
+                    
+                    Text(viewModel.goalTitle)
+                        .foregroundStyle(.gray)
+                        .padding(.horizontal, 16)
+                    
+                    ProgressBar(percent: $weekProgressValue)
+                        .padding(.top, 12)
+                        .padding(.bottom, 16)
+                        .padding(.horizontal, 16)
+                    
+                    HStack(spacing: 6) {
+                        Text("plan_done_title".localized)
+                            .font(.latoRegular(size: 16))
+                            .foregroundColor(.gray)
+                        Text(String(format: "%0.f", self.weekProgressValue * 100) + "%")
+                            .animation(nil, value: weekProgressValue)
+                            .font(.nunitoSemiBold(size: 16))
+                            .foregroundColor(.blackWhite)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 2)
+                    
+                    HStack(spacing: 6) {
+                        Text("hours_worked_title".localized)
+                            .font(.latoRegular(size: 16))
+                            .foregroundColor(.gray)
+                        Text("4h / 40h")
+                            .font(.nunitoSemiBold(size: 16))
+                            .foregroundColor(.blackWhite)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
+                }
+                .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 2)
                 
@@ -880,14 +909,14 @@ extension HomeView {
                         .cornerRadius(6)
                         .overlay {
                             RoundedRectangle(cornerRadius: 6)
-                                .stroke(.white, lineWidth: 3)
+                                .stroke(.whiteTheme, lineWidth: 3)
                         }
                         .padding(6)
                         .onAppear {
                             nativeWeekDetailsViewModel.refreshAd()
                         }
                 }
-                .background(.white)
+                .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 16)
             }
@@ -899,13 +928,13 @@ extension HomeView {
                         proxy.scrollTo("top", anchor: .top)
                     }
                 } label: {
-                    Text("Today")
+                    Text("today_title".localized)
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                 }
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
-                .background(.black, in: .rect(cornerRadius: 18))
+                .background(.blackWhite, in: .rect(cornerRadius: 18))
                 .padding(.bottom, 30)
                 .hide(if: viewModel.selectedWeek.isThisWeek())
             }
@@ -920,7 +949,7 @@ extension HomeView {
                         Button(action: viewModel.backwardToLastMonth) {
                             Image(systemName: "chevron.left")
                                 .frame(width: 24, height: 24)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.blackWhite)
                         }
                         .padding(.leading, 24)
                         
@@ -933,7 +962,7 @@ extension HomeView {
                         Button(action: viewModel.forwardToNextMonth) {
                             Image(systemName: "chevron.right")
                                 .frame(width: 24, height: 24)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.blackWhite)
                         }
                         .padding(.trailing, 24)
                     }
@@ -941,7 +970,7 @@ extension HomeView {
                 }
                 .id("top")
                 .frame(height: 62)
-                .background(.white)
+                .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, isMonthDetailsBannerAdLoaded ? 2 : -16)
                 
@@ -949,7 +978,7 @@ extension HomeView {
                     Button {
                         showSubscriptionPlanView.toggle()
                     } label: {
-                        Text("Buy subscription to remove ads")
+                        Text("buy_subscription_title".localized)
                             .font(.nunitoBold(size: 18))
                             .foregroundColor(.blueRibbon)
                     }
@@ -960,11 +989,11 @@ extension HomeView {
                             .cornerRadius(6)
                             .overlay {
                                 RoundedRectangle(cornerRadius: 6)
-                                    .stroke(.white, lineWidth: 3)
+                                    .stroke(.whiteTheme, lineWidth: 3)
                             }
                             .padding(6)
                     }
-                    .background(.white)
+                    .background(.whiteTheme)
                     .cornerRadius(12)
                     .opacity(isMonthDetailsBannerAdLoaded ? 1 : 0)
                 }
@@ -973,8 +1002,9 @@ extension HomeView {
                 VStack(spacing: 0) {
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Earned")
+                            Text("earned_title".localized)
                                 .font(.latoBold(size: 18))
+                                .foregroundColor(.blackWhite)
                             
                             Text(viewModel.selectedMonth.currentMonthString)
                                 .font(.latoRegular(size: 12))
@@ -983,143 +1013,140 @@ extension HomeView {
                         
                         Spacer()
                     }
-                    .padding(12)
+                    .padding([.top, .horizontal], 12)
+                    .padding(.bottom, 16)
                     
-                    Text(viewModel.daysTitle)
-                        .foregroundStyle(.gray)
-                        .padding(.horizontal, 16)
                     
                     VStack(spacing: 8) {
                         HStack(spacing: 8) {
-                            Text("Paid")
+                            Text("paid_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
+                                .foregroundColor(.blackWhite)
                             Spacer()
                             Text("\(monthPaidMoney.formatFloatToString()) PLN")
                                 .font(.latoBold(size: 18))
+                                .foregroundColor(.blackWhite)
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
                         
                         HStack(spacing: 8) {
-                            Text("Unpaid")
+                            Text("unpaid_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
+                                .foregroundColor(.blackWhite)
                             Spacer()
                             Text("\(monthUnpaidMoney.formatFloatToString()) PLN")
                                 .font(.latoBold(size: 18))
-                                .minimumScaleFactor(0.2)
-                                .lineLimit(1)
-                        }
-                    }
-                    .padding(.horizontal, 16)
-                    
-                    Text(viewModel.weeksTitle)
-                        .foregroundStyle(.gray)
-                        .padding(.horizontal, 16)
-                        .padding(.top, 24)
-                    
-                    VStack(spacing: 8) {
-                        HStack(spacing: 8) {
-                            Text("Paid")
-                                .font(.nunitoSemiBold(size: 16))
-                            Spacer()
-                            Text("\(monthPaidMoney.formatFloatToString()) PLN")
-                                .font(.latoBold(size: 18))
+                                .foregroundColor(.blackWhite)
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
                         
                         HStack(spacing: 8) {
-                            Text("Unpaid")
+                            Text("total_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
+                                .foregroundColor(.blackWhite)
                             Spacer()
-                            Text("\(monthUnpaidMoney.formatFloatToString()) PLN")
+                            Text((monthPaidMoney + monthUnpaidMoney).formatFloatToString() + " PLN")
                                 .font(.latoBold(size: 18))
-                                .minimumScaleFactor(0.2)
-                                .lineLimit(1)
-                        }
-                    }
-                    .padding(.horizontal, 16)
-                    
-                    Text(viewModel.monthTitle)
-                        .foregroundStyle(.gray)
-                        .padding(.horizontal, 16)
-                        .padding(.top, 24)
-                    
-                    VStack(spacing: 8) {
-                        HStack(spacing: 8) {
-                            Text("Paid")
-                                .font(.nunitoSemiBold(size: 16))
-                            Spacer()
-                            Text("\(monthPaidMoney.formatFloatToString()) PLN")
-                                .font(.latoBold(size: 18))
-                                .minimumScaleFactor(0.2)
-                                .lineLimit(1)
-                        }
-                        
-                        HStack(spacing: 8) {
-                            Text("Unpaid")
-                                .font(.nunitoSemiBold(size: 16))
-                            Spacer()
-                            Text("\(monthUnpaidMoney.formatFloatToString()) PLN")
-                                .font(.latoBold(size: 18))
+                                .foregroundColor(.blackWhite)
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 16)
-                }
-                .background(.white)
-                .cornerRadius(12)
-                .padding(.bottom, 2)
-                
-                VStack {
-                    HStack {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text("Worked")
-                                .font(.latoBold(size: 18))
-                            
-                            Text(viewModel.selectedMonth.currentMonthString)
-                                .font(.latoRegular(size: 12))
-                                .foregroundColor(.gray)
-                        }
-                        
-                        Spacer()
-                        
-                        Text("36h / 40h")
-                            .font(.latoRegular(size: 16))
-                    }
-                    .padding(12)
                     
+                    Text(viewModel.goalTitle)
+                        .foregroundStyle(.gray)
+                        .padding(.horizontal, 16)
+                   
                     ProgressBar(percent: $monthProgressValue)
-                        .padding(.vertical, 8)
+                        .padding(.top, 12)
+                        .padding(.bottom, 16)
                         .padding(.horizontal, 16)
                     
                     HStack(spacing: 6) {
-                        Text("Plan done in:")
+                        Text("plan_done_title".localized)
                             .font(.latoRegular(size: 16))
                             .foregroundColor(.gray)
                         Text(String(format: "%0.f", self.monthProgressValue * 100) + "%")
+                            .animation(nil, value: monthProgressValue)
                             .font(.nunitoSemiBold(size: 16))
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                         Spacer()
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 2)
                     
                     HStack(spacing: 6) {
-                        Text("Left to be done:")
+                        Text("left_to_earned_title".localized)
                             .font(.latoRegular(size: 16))
                             .foregroundColor(.gray)
-                        Text("4h")
+                        Text("600 PLN")
                             .font(.nunitoSemiBold(size: 16))
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                         Spacer()
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 16)
                 }
-                .background(.white)
+                .background(.whiteTheme)
+                .cornerRadius(12)
+                .padding(.bottom, 2)
+                
+                VStack(spacing: 0) {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("worked_title".localized)
+                                .font(.latoBold(size: 18))
+                                .foregroundColor(.blackWhite)
+                            
+                            Text(viewModel.selectedMonth.currentMonthString)
+                                .font(.latoRegular(size: 12))
+                                .foregroundColor(.gray)
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding([.top, .horizontal], 12)
+                    .padding(.bottom, 16)
+                    
+                    Text(viewModel.goalTitle)
+                        .foregroundStyle(.gray)
+                        .padding(.horizontal, 16)
+                    
+                    ProgressBar(percent: $monthProgressValue)
+                        .padding(.top, 12)
+                        .padding(.bottom, 16)
+                        .padding(.horizontal, 16)
+                    
+                    HStack(spacing: 6) {
+                        Text("plan_done_title".localized)
+                            .font(.latoRegular(size: 16))
+                            .foregroundColor(.gray)
+                        Text(String(format: "%0.f", self.monthProgressValue * 100) + "%")
+                            .animation(nil, value: monthProgressValue)
+                            .font(.nunitoSemiBold(size: 16))
+                            .foregroundColor(.blackWhite)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 2)
+                    
+                    HStack(spacing: 6) {
+                        Text("hours_worked_title".localized)
+                            .font(.latoRegular(size: 16))
+                            .foregroundColor(.gray)
+                        Text("4h / 160h")
+                            .font(.nunitoSemiBold(size: 16))
+                            .foregroundColor(.blackWhite)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
+                }
+                .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 2)
                 
@@ -1129,14 +1156,14 @@ extension HomeView {
                         .cornerRadius(6)
                         .overlay {
                             RoundedRectangle(cornerRadius: 6)
-                                .stroke(.white, lineWidth: 3)
+                                .stroke(.whiteTheme, lineWidth: 3)
                         }
                         .padding(6)
                         .onAppear {
                             nativeMonthDetailsViewModel.refreshAd()
                         }
                 }
-                .background(.white)
+                .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 16)
             }
@@ -1148,13 +1175,13 @@ extension HomeView {
                         proxy.scrollTo("top", anchor: .top)
                     }
                 } label: {
-                    Text("Today")
+                    Text("today_title".localized)
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                 }
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
-                .background(.black, in: .rect(cornerRadius: 18))
+                .background(.blackWhite, in: .rect(cornerRadius: 18))
                 .padding(.bottom, 30)
                 .hide(if: viewModel.selectedMonth.isThisMonth())
             }
@@ -1169,7 +1196,7 @@ extension HomeView {
                         Button(action: viewModel.backwardToLastYear) {
                             Image(systemName: "chevron.left")
                                 .frame(width: 24, height: 24)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.blackWhite)
                         }
                         .padding(.leading, 24)
                         
@@ -1182,7 +1209,7 @@ extension HomeView {
                         Button(action: viewModel.forwardToNextYear) {
                             Image(systemName: "chevron.right")
                                 .frame(width: 24, height: 24)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.blackWhite)
                         }
                         .padding(.trailing, 24)
                     }
@@ -1190,7 +1217,7 @@ extension HomeView {
                 }
                 .id("top")
                 .frame(height: 62)
-                .background(.white)
+                .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, isYearDetailsBannerAdLoaded ? 2 : -16)
                 
@@ -1198,7 +1225,7 @@ extension HomeView {
                     Button {
                         showSubscriptionPlanView.toggle()
                     } label: {
-                        Text("Buy subscription to remove ads")
+                        Text("buy_subscription_title".localized)
                             .font(.nunitoBold(size: 18))
                             .foregroundColor(.blueRibbon)
                     }
@@ -1209,20 +1236,20 @@ extension HomeView {
                             .cornerRadius(6)
                             .overlay {
                                 RoundedRectangle(cornerRadius: 6)
-                                    .stroke(.white, lineWidth: 3)
+                                    .stroke(.whiteTheme, lineWidth: 3)
                             }
                             .padding(6)
                     }
-                    .background(.white)
+                    .background(.whiteTheme)
                     .cornerRadius(12)
                     .opacity(isYearDetailsBannerAdLoaded ? 1 : 0)
                 }
                 .padding(.bottom, isYearDetailsBannerAdLoaded ? 2 : -16)
                 
-                VStack {
+                VStack(spacing: 0) {
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Earned")
+                            Text("earned_title".localized)
                                 .font(.latoBold(size: 18))
                             
                             Text(viewModel.selectedYear.currentYearString)
@@ -1232,11 +1259,12 @@ extension HomeView {
                         
                         Spacer()
                     }
-                    .padding(12)
+                    .padding([.top, .horizontal], 12)
+                    .padding(.bottom, 16)
                     
                     VStack(spacing: 8) {
                         HStack(spacing: 8) {
-                            Text("Paid")
+                            Text("paid_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
                             Spacer()
                             Text("\(yearPaidMoney.formatFloatToString()) PLN")
@@ -1246,7 +1274,7 @@ extension HomeView {
                         }
                         
                         HStack(spacing: 8) {
-                            Text("Unpaid")
+                            Text("unpaid_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
                             Spacer()
                             Text("\(yearUnpaidMoney.formatFloatToString()) PLN")
@@ -1254,19 +1282,64 @@ extension HomeView {
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
+                        
+                        HStack(spacing: 8) {
+                            Text("total_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                            Spacer()
+                            Text((yearPaidMoney + yearUnpaidMoney).formatFloatToString() + " PLN")
+                                .font(.latoBold(size: 18))
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
+                    
+                    Text(viewModel.goalTitle)
+                        .foregroundStyle(.gray)
+                        .padding(.horizontal, 16)
+                    
+                    ProgressBar(percent: $yearProgressValue)
+                        .padding(.top, 12)
+                        .padding(.bottom, 16)
+                        .padding(.horizontal, 16)
+                    
+                    HStack(spacing: 6) {
+                        Text("plan_done_title".localized)
+                            .font(.latoRegular(size: 16))
+                            .foregroundColor(.gray)
+                        Text(String(format: "%0.f", self.yearProgressValue * 100) + "%")
+                            .animation(nil, value: yearProgressValue)
+                            .font(.nunitoSemiBold(size: 16))
+                            .foregroundColor(.blackWhite)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 2)
+                    
+                    HStack(spacing: 6) {
+                        Text("left_to_earned_title".localized)
+                            .font(.latoRegular(size: 16))
+                            .foregroundColor(.gray)
+                        Text("600 PLN")
+                            .font(.nunitoSemiBold(size: 16))
+                            .foregroundColor(.blackWhite)
+                        Spacer()
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 16)
                 }
-                .background(.white)
+                .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 2)
                 
-                VStack {
+                VStack(spacing: 0) {
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Worked")
+                            Text("worked_title".localized)
                                 .font(.latoBold(size: 18))
+                                .foregroundColor(.blackWhite)
                             
                             Text(viewModel.selectedYear.currentYearString)
                                 .font(.latoRegular(size: 12))
@@ -1274,41 +1347,45 @@ extension HomeView {
                         }
                         
                         Spacer()
-                        
-                        Text("36h / 40h")
-                            .font(.latoRegular(size: 16))
                     }
-                    .padding(12)
+                    .padding([.top, .horizontal], 12)
+                    .padding(.bottom, 16)
+                    
+                    Text(viewModel.goalTitle)
+                        .foregroundStyle(.gray)
+                        .padding(.horizontal, 16)
                     
                     ProgressBar(percent: $yearProgressValue)
-                        .padding(.vertical, 8)
+                        .padding(.top, 12)
+                        .padding(.bottom, 16)
                         .padding(.horizontal, 16)
                     
                     HStack(spacing: 6) {
-                        Text("Plan done in:")
+                        Text("plan_done_title".localized)
                             .font(.latoRegular(size: 16))
                             .foregroundColor(.gray)
                         Text(String(format: "%0.f", self.yearProgressValue * 100) + "%")
+                            .animation(nil, value: yearProgressValue)
                             .font(.nunitoSemiBold(size: 16))
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                         Spacer()
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 2)
                     
                     HStack(spacing: 6) {
-                        Text("Left to be done:")
+                        Text("hours_worked_title".localized)
                             .font(.latoRegular(size: 16))
                             .foregroundColor(.gray)
-                        Text("4h")
+                        Text("4h / 1980h")
                             .font(.nunitoSemiBold(size: 16))
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                         Spacer()
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 16)
                 }
-                .background(.white)
+                .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 2)
                 
@@ -1318,14 +1395,14 @@ extension HomeView {
                         .cornerRadius(6)
                         .overlay {
                             RoundedRectangle(cornerRadius: 6)
-                                .stroke(.white, lineWidth: 3)
+                                .stroke(.whiteTheme, lineWidth: 3)
                         }
                         .padding(6)
                         .onAppear {
                             nativeYearDetailsViewModel.refreshAd()
                         }
                 }
-                .background(.white)
+                .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 16)
             }
@@ -1337,13 +1414,13 @@ extension HomeView {
                         proxy.scrollTo("top", anchor: .top)
                     }
                 } label: {
-                    Text("Today")
+                    Text("today_title".localized)
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                 }
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
-                .background(.black, in: .rect(cornerRadius: 18))
+                .background(.blackWhite, in: .rect(cornerRadius: 18))
                 .padding(.bottom, 30)
                 .hide(if: viewModel.selectedYear.isThisYear())
             }
@@ -1358,7 +1435,7 @@ extension HomeView {
                         .font(selectedFilter == item ? .latoBlack(size: 16) : .latoRegular(size: 16))
                         .lineLimit(1)
                         .minimumScaleFactor(0.01)
-                        .foregroundColor(selectedFilter == item ? .black : .gray)
+                        .foregroundColor(selectedFilter == item ? .blackWhite : .gray)
                         .onAppear {
                             filtersWidthDict[item] = item.title.widthOfString(usingFont: .latoBold(size: 16))
                         }
@@ -1380,6 +1457,38 @@ extension HomeView {
                     self.selectedFilter = item
                 }
             }
+        }
+    }
+}
+
+extension HomeView {
+    private func addItem() {
+        let formatter = NumberFormatter()
+        formatter.locale = Locale.current
+        formatter.numberStyle = .decimal
+        
+        let newItem = Work(context: viewContext)
+        newItem.id = UUID()
+        newItem.periodType = PeriodFilter.day.rawValue
+        newItem.startDate = .now.addingTimeInterval(-viewModel.stopwatch.elapsedTime)
+        newItem.endDate = .now
+        newItem.isPaid = false
+        
+        if let selectedJob = jobs.first(where: { $0.name == selectedWorkName }) {
+            newItem.job = selectedJob
+            newItem.hourlyRate = selectedJob.hourlyRate
+            newItem.moneyEarned = selectedJob.hourlyRate * newItem.startDate.timeDifferenceInHours(to: newItem.endDate)
+            
+            saveContext()
+        }
+    }
+    
+    private func saveContext() {
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
 }

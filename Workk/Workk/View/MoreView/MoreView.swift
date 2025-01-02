@@ -30,14 +30,15 @@ struct MoreView: View {
                     .padding(.bottom, 4)
                 
                 HStack {
-                    Text("Review the app")
+                    Text("review_app_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                     
                     Spacer()
                     
                     Image(systemName: "chevron.right")
                         .font(.footnote)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.blackWhite)
                 }
                 .padding(.vertical, 16)
                 .padding(.horizontal, 16)
@@ -49,15 +50,15 @@ struct MoreView: View {
                                 
                 ShareLink(item: viewModel.shareAppMessage) {
                     HStack {
-                        Text("Share the app")
+                        Text("share_app_title".localized)
+                            .foregroundStyle(.blackWhite)
                             .font(.latoRegular(size: 16))
-                            .foregroundStyle(.blackTheme)
                         
                         Spacer()
                         
                         Image(systemName: "chevron.right")
                             .font(.footnote)
-                            .foregroundColor(.primary)
+                            .foregroundColor(.blackWhite)
                     }
                 }
                 .padding(.vertical, 16)
@@ -66,14 +67,15 @@ struct MoreView: View {
                 .cornerRadius(12)
                 
                 HStack {
-                    Text("Instagram")
+                    Text("instagram_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                     
                     Spacer()
                     
                     Image(systemName: "chevron.right")
                         .font(.footnote)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.blackWhite)
                 }
                 .padding(.vertical, 16)
                 .padding(.horizontal, 16)
@@ -84,14 +86,15 @@ struct MoreView: View {
                 }
                 
                 HStack {
-                    Text("X")
+                    Text("x_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                     
                     Spacer()
                     
                     Image(systemName: "chevron.right")
                         .font(.footnote)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.blackWhite)
                 }
                 .padding(.vertical, 16)
                 .padding(.horizontal, 16)
@@ -109,14 +112,15 @@ struct MoreView: View {
                     .padding(.bottom, 4)
                 
                 HStack {
-                    Text("Premium")
+                    Text("premium_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                     
                     Spacer()
                     
                     Image(systemName: "chevron.right")
                         .font(.footnote)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.blackWhite)
                 }
                 .padding(.vertical, 16)
                 .padding(.horizontal, 16)
@@ -127,14 +131,15 @@ struct MoreView: View {
                 }
                 
                 HStack {
-                    Text("Notifications")
+                    Text("notifications_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                     
                     Spacer()
                     
                     Image(systemName: "chevron.right")
                         .font(.footnote)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.blackWhite)
                 }
                 .padding(.vertical, 16)
                 .padding(.horizontal, 16)
@@ -149,14 +154,15 @@ struct MoreView: View {
                 }
                 
                 HStack {
-                    Text("Export data")
+                    Text("export_data_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                     
                     Spacer()
                     
                     Image(systemName: "chevron.right")
                         .font(.footnote)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.blackWhite)
                 }
                 .padding(.vertical, 16)
                 .padding(.horizontal, 16)
@@ -171,18 +177,20 @@ struct MoreView: View {
                 }
                 
                 HStack(spacing: 0) {
-                    Text("Language")
+                    Text("language_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                     
                     Spacer()
                     
                     Text(viewModel.getCurrentLanguageName())
+                        .foregroundStyle(.blackWhite)
                         .font(.latoBlack(size: 16))
                         .padding(.horizontal, 8)
                     
                     Image(systemName: "chevron.right")
                         .font(.footnote)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.blackWhite)
                 }
                 .padding(.vertical, 16)
                 .padding(.horizontal, 16)
@@ -197,18 +205,20 @@ struct MoreView: View {
                 }
                 
                 HStack(spacing: 0) {
-                    Text("Color Theme")
+                    Text("color_theme_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                     
                     Spacer()
                     
-                    Text(userTheme.rawValue)
+                    Text(userTheme.title)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoBlack(size: 16))
                         .padding(.horizontal, 8)
                     
                     Image(systemName: "chevron.right")
                         .font(.footnote)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.blackWhite)
                 }
                 .padding(.vertical, 16)
                 .padding(.horizontal, 16)
@@ -226,14 +236,15 @@ struct MoreView: View {
                     .padding(.bottom, 4)
                 
                 HStack {
-                    Text("Contact us")
+                    Text("contact_us_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                     
                     Spacer()
                     
                     Image(systemName: "chevron.right")
                         .font(.footnote)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.blackWhite)
                 }
                 .padding(.vertical, 16)
                 .padding(.horizontal, 16)
@@ -247,14 +258,15 @@ struct MoreView: View {
                 }
                 
                 HStack {
-                    Text("Report a bug")
+                    Text("report_bug_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                     
                     Spacer()
                     
                     Image(systemName: "chevron.right")
                         .font(.footnote)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.blackWhite)
                 }
                 .padding(.vertical, 16)
                 .padding(.horizontal, 16)
@@ -268,14 +280,15 @@ struct MoreView: View {
                 }
                 
                 HStack {
-                    Text("Report a wrong translation")
+                    Text("report_wrong_translation_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                     
                     Spacer()
                     
                     Image(systemName: "chevron.right")
                         .font(.footnote)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.blackWhite)
                 }
                 .padding(.vertical, 16)
                 .padding(.horizontal, 16)
@@ -289,14 +302,15 @@ struct MoreView: View {
                 }
                 
                 HStack {
-                    Text("Sugest a new functionality")
+                    Text("sugest_new_functionality_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                     
                     Spacer()
                     
                     Image(systemName: "chevron.right")
                         .font(.footnote)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.blackWhite)
                 }
                 .padding(.vertical, 16)
                 .padding(.horizontal, 16)
@@ -312,6 +326,7 @@ struct MoreView: View {
                 Spacer()
                 
                 Text(viewModel.appVersionTitle)
+                    .foregroundStyle(.blackWhite)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.top, 40)
                     .padding(.bottom, 48)
@@ -324,10 +339,10 @@ struct MoreView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
         }
-        .preferredColorScheme(userTheme.colorScheme)
+//        .preferredColorScheme(userTheme.colorScheme)
         .sheet(isPresented: $showChangeThemeView) {
             ThemeChangeView(scheme: scheme)
-                .presentationDetents([.height(410)])
+                .presentationDetents([.height(440)])
                 .presentationBackground(.clear)
         }
         .sheet(isPresented: $showMailView) {

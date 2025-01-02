@@ -9,12 +9,13 @@ import Combine
 import SwiftUI
 
 protocol StatsViewModelProtocol where Self: ObservableObject {
+    var workkPremiumTitle: AttributedString { get }
     var selectedPeriodFilter: PeriodFilter { get set }
 }
 
 final class StatsViewModel: StatsViewModelProtocol {
     @Published var selectedPeriodFilter: PeriodFilter = .day
-    @Published var selectedWorkName: String? = "All"
+    @Published var selectedWorkName: String? = "all_title".localized
     @Published var selectedPaymentStatus: PaymentStatus = .paid
 
     @Published var selectedWeek: Date = .init()
@@ -39,6 +40,17 @@ final class StatsViewModel: StatsViewModelProtocol {
     
     var daysOfCurrentWeek: [Date] = Calendar(identifier: .iso8601).daysOfWeek()
     let daysInWeek = 7
+    
+    var workkPremiumTitle: AttributedString {
+        var string = AttributedString("try_workk_premium_title".localized)
+        string.font = .latoRegular(size: 14)
+        
+        if let range = string.range(of: "workk_title".localized) {
+            string[range].font = .nunitoBlack(size: 14)
+        }
+        
+        return string
+    }
     
     var isDataEmpty: Bool {
         switch selectedPeriodFilter {
@@ -213,7 +225,7 @@ final class StatsViewModel: StatsViewModelProtocol {
     
     func generateDaySiteViews(works: FetchedResults<Work>) -> [SiteView] {
         let filteredWorks = works
-            .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+            .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
             .filter { $0.periodType == PeriodFilter.day.rawValue }
         
         let groupedByDay = Dictionary(grouping: filteredWorks, by: { $0.startDate.startOfDay() })
@@ -230,7 +242,7 @@ final class StatsViewModel: StatsViewModelProtocol {
     
     func generateWeekSiteViews(works: FetchedResults<Work>) -> [SiteView] {
         let filteredWorks = works
-            .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+            .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
             .filter { weekFilters.contains(PeriodFilter(rawValue: $0.periodType) ?? .week) }
         
         let groupedByDay = Dictionary(grouping: filteredWorks, by: { $0.startDate.startOfWeek() })
@@ -247,7 +259,7 @@ final class StatsViewModel: StatsViewModelProtocol {
     
     func generateMonthsOfYearSiteViews(works: FetchedResults<Work>) -> [SiteView] {
         let filteredWorks = works
-            .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+            .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
             .filter { monthFilters.contains(PeriodFilter(rawValue: $0.periodType) ?? .week) }
         
         let groupedByMonth = Dictionary(grouping: filteredWorks, by: { $0.startDate.startOfMonth() })
@@ -264,7 +276,7 @@ final class StatsViewModel: StatsViewModelProtocol {
     
     func generateYearSiteViews(works: FetchedResults<Work>) -> [SiteView] {
         let filteredWorks = works
-            .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+            .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
             .filter { yearFilters.contains(PeriodFilter(rawValue: $0.periodType) ?? .week) }
         
         let groupedByYear = Dictionary(grouping: filteredWorks, by: { $0.startDate.startOfYear() })

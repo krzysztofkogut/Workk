@@ -23,21 +23,21 @@ struct JobsDeletionView: View {
     @State private var deleteMode = false
     
     var jobsTitle: AttributedString {
-        var string = AttributedString("JOBS")
+        var string = AttributedString("jobs_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var deleteTitle: AttributedString {
-        var string = AttributedString("DELETE")
+        var string = AttributedString("delete_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var cancelTitle: AttributedString {
-        var string = AttributedString("CANCEL")
+        var string = AttributedString("cancel_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
@@ -46,16 +46,16 @@ struct JobsDeletionView: View {
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
-                Text("Edit jobs")
+                Text("edit_jobs_title".localized)
                     .font(.latoBold(size: 18))
-                    .foregroundColor(.black)
+                    .foregroundColor(.blackWhite)
 
                 HStack {
                     Button {
                         dismiss()
                     } label: {
                         Image(systemName: "chevron.backward.circle.fill")
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                             .font(.title)
                     }
                     
@@ -96,12 +96,13 @@ struct JobsDeletionView: View {
                             Image(systemName: selectedJobs.contains(where: { $0.id == job.id }) ?
                                   "checkmark.circle.fill" : "circle")
                                 .resizable()
+                                .foregroundStyle(.blackWhite)
                                 .frame(width: 20, height: 20)
                                 .hide(if: !deleteMode)
                         }
                         .padding(.vertical, 16)
                         .padding(.horizontal, 16)
-                        .background(.white)
+                        .background(.whiteTheme)
                         .cornerRadius(12)
                         .transition(.opacity)
                         .onTapGesture {
@@ -140,20 +141,20 @@ struct JobsDeletionView: View {
                         showAddJobView()
                     }
                 } label: {
-                    Text(deleteMode ? "Delete" : "Add new job")
+                    Text(deleteMode ? "delete_title".localized : "add_new_job_title".localized)
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                 }
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
-                .background(.black, in: .rect(cornerRadius: 18))
+                .background(.blackWhite, in: .rect(cornerRadius: 18))
                     
                 Text("\(selectedJobs.count)")
                     .font(.latoBold(size: 16))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.whiteBlack)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .background(.black, in: .rect(cornerRadius: 18))
+                    .background(.blackWhite, in: .rect(cornerRadius: 18))
                     .hide(if: !deleteMode)
             }
             .padding(.bottom, 30)

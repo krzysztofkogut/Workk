@@ -14,17 +14,18 @@ struct SubscriptionPlanView: View {
     
     var selectedPlanString: String {
         guard let plan = selectedPlan?.price else {
-            return "Continue"
+            return "continue_title".localized
         }
         
-        return "Continue - \(String(format: "%.2f", plan))$"
+        return "continue_title".localized + " - \(String(format: "%.2f", plan))"
     }
     
     var workkPremiumTitle: AttributedString {
-        var string = AttributedString("Workk premium")
+        var string = AttributedString("workk_premium_title".localized)
         string.font = .latoBlack(size: 28)
+        string.foregroundColor = .blackWhite
         
-        if let range = string.range(of: "Workk") {
+        if let range = string.range(of: "workk_title".localized) {
             string[range].font = .nunitoBlack(size: 28)
         }
         
@@ -41,7 +42,7 @@ struct SubscriptionPlanView: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                             .font(.title)
                     }
                 }
@@ -56,15 +57,15 @@ struct SubscriptionPlanView: View {
                     VStack(alignment: .leading, spacing: 16) {
                         HStack(spacing: 16) {
                             Circle()
-                                .fill(.black)
+                                .fill(.blackWhite)
                                 .frame(width: 12, height: 12)
                             
                             VStack(alignment: .leading) {
-                                Text("Access to the stats view")
+                                Text("stats_access_title".localized)
                                     .font(.latoBold(size: 16))
-                                    .foregroundStyle(.black)
+                                    .foregroundStyle(.blackWhite)
                                 
-                                Text("Check and compare all you working hours and earned money")
+                                Text("stats_access_description".localized)
                                     .font(.latoRegular(size: 14))
                                     .foregroundStyle(.gray)
                             }
@@ -75,15 +76,15 @@ struct SubscriptionPlanView: View {
                         
                         HStack(spacing: 16) {
                             Circle()
-                                .fill(.black)
+                                .fill(.blackWhite)
                                 .frame(width: 12, height: 12)
                             
                             VStack(alignment: .leading) {
-                                Text("iCloud sync")
+                                Text("icloud_title".localized)
                                     .font(.latoBold(size: 16))
-                                    .foregroundStyle(.black)
+                                    .foregroundStyle(.blackWhite)
                                 
-                                Text("Synchronize your data between all your Apple devices by iCloud")
+                                Text("icloud_description".localized)
                                     .font(.latoRegular(size: 14))
                                     .foregroundStyle(.gray)
                             }
@@ -94,15 +95,15 @@ struct SubscriptionPlanView: View {
                         
                         HStack(spacing: 16) {
                             Circle()
-                                .fill(.black)
+                                .fill(.blackWhite)
                                 .frame(width: 12, height: 12)
                             
                             VStack(alignment: .leading) {
-                                Text("Export data")
+                                Text("export_data_title".localized)
                                     .font(.latoBold(size: 16))
-                                    .foregroundStyle(.black)
+                                    .foregroundStyle(.blackWhite)
                                 
-                                Text("Export your data to .cvs, .xls and use it anywhere")
+                                Text("export_data_description".localized)
                                     .font(.latoRegular(size: 14))
                                     .foregroundStyle(.gray)
                             }
@@ -113,15 +114,15 @@ struct SubscriptionPlanView: View {
                         
                         HStack(spacing: 16) {
                             Circle()
-                                .fill(.black)
+                                .fill(.blackWhite)
                                 .frame(width: 12, height: 12)
                             
                             VStack(alignment: .leading) {
-                                Text("No more ads")
+                                Text("ads_title".localized)
                                     .font(.latoBold(size: 16))
-                                    .foregroundStyle(.black)
+                                    .foregroundStyle(.blackWhite)
                                 
-                                Text("Do not be disturbed by any ads")
+                                Text("ads_description".localized)
                                     .font(.latoRegular(size: 14))
                                     .foregroundStyle(.gray)
                             }
@@ -134,8 +135,8 @@ struct SubscriptionPlanView: View {
                     .padding(.top, 16)
                     .padding(.bottom, 32)
                     
-                    Text("50% off in the premiere month")
-                        .foregroundStyle(.black)
+                    Text("promo_description".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.nunitoBold(size: 18))
                         .multilineTextAlignment(.center)
                         .padding(.top, -8)
@@ -145,9 +146,10 @@ struct SubscriptionPlanView: View {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(item.title)
                                     .font(.latoBold(size: 18))
+                                    .foregroundStyle(.blackWhite)
                                 Text(item.description)
                                     .font(.latoRegular(size: 14))
-                                    .foregroundColor(.gray)
+                                    .foregroundStyle(.gray)
                             }
                             .padding()
                             
@@ -156,11 +158,11 @@ struct SubscriptionPlanView: View {
                         .frame(height: selectedPlan == item ? 90 : 80)
                         .background {
                             RoundedRectangle(cornerRadius: 15, style: .continuous)
-                                .fill(.white)
+                                .fill(.whiteTheme)
                         }
                         .overlay {
                             RoundedRectangle(cornerRadius: 15)
-                                .stroke(selectedPlan == item ? .black : .clear, lineWidth: 2)
+                                .stroke(selectedPlan == item ? .blackWhite : .clear, lineWidth: 2)
                         }
                         .onTapGesture {
                             withAnimation(.easeOut) {
@@ -173,9 +175,9 @@ struct SubscriptionPlanView: View {
                     Button {
                         print("privacy")
                     } label: {
-                        Text("Terms & Conditions")
+                        Text("terms_conditions_title".localized)
                             .font(.nunitoBold(size: 16))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.blackWhite)
                     }
                     .padding(.top, 8)
                     .padding(.bottom, 24)
@@ -193,11 +195,12 @@ struct SubscriptionPlanView: View {
                 } label: {
                     Text(selectedPlanString)
                         .font(.latoBold(size: 16))
+                        .foregroundStyle(.whiteBlack)
                         .padding(.vertical, 16)
                         .padding(.horizontal, 16)
                 }
                 .modifier(FilledButton())
-                .background(selectedPlan == nil ? .gray : .black, in: .rect(cornerRadius: 24))
+                .background(selectedPlan == nil ? .gray : .blackWhite, in: .rect(cornerRadius: 24))
                 .disabled(selectedPlan == nil)
             }
             .padding(.bottom, 16)

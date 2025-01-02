@@ -5,6 +5,7 @@
 //  Created by Krzysztof Kogut on 02/11/2024.
 //
 
+import SwiftUI
 import Foundation
 
 enum MailOption: String {
@@ -47,8 +48,8 @@ enum MailOption: String {
 
             (Thank you for your help! - Workk team)
 
-            version:
-            iOS:
+            version: \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown")
+            iOS: \(UIDevice.current.systemVersion)
             """
         case .reportWrongTranslation:
             """
@@ -64,8 +65,8 @@ enum MailOption: String {
 
             (Thank you for your help! - Workk team)
 
-            version:
-            iOS:
+            version: \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown")
+            iOS: \(UIDevice.current.systemVersion)
             """
         case .suggestNewFunc:
             """

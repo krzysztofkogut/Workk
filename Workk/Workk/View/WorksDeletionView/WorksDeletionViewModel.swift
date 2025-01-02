@@ -19,28 +19,28 @@ protocol WorksDeletionViewModelProtocol where Self: ObservableObject {
 final class WorksDeletionViewModel: WorksDeletionViewModelProtocol {
     
     var dayTitle: AttributedString {
-        var string = AttributedString("DAY")
+        var string = AttributedString("day_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
 
     var weekTitle: AttributedString {
-        var string = AttributedString("WEEK")
+        var string = AttributedString("week_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var monthTitle: AttributedString {
-        var string = AttributedString("MONTH")
+        var string = AttributedString("month_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var yearTitle: AttributedString {
-        var string = AttributedString("YEAR")
+        var string = AttributedString("year_title".localized)
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string

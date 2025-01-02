@@ -35,12 +35,9 @@
 		A229ABA12CA7170200BB97F6 /* Float+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A229ABA02CA7170200BB97F6 /* Float+Ext.swift */; };
 		A22A93222CF6880200F859FD /* ThemeChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22A93212CF6880200F859FD /* ThemeChangeView.swift */; };
 		A22A93292CF925AA00F859FD /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22A93282CF925AA00F859FD /* OnboardingView.swift */; };
-		A22A932C2CF9272800F859FD /* AppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22A932B2CF9272800F859FD /* AppRootView.swift */; };
 		A22A932E2CF92E7C00F859FD /* UserDefaults+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22A932D2CF92E7C00F859FD /* UserDefaults+Ext.swift */; };
 		A22A93312CFBE0DE00F859FD /* ProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22A93302CFBE0DE00F859FD /* ProfileRouter.swift */; };
 		A22A93332CFBE14B00F859FD /* ProfileRouterViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22A93322CFBE14B00F859FD /* ProfileRouterViewModifier.swift */; };
-		A22A93392D0A324B00F859FD /* Avayo-DemiBoldDemo.otf in Resources */ = {isa = PBXBuildFile; fileRef = A22A93382D0A324B00F859FD /* Avayo-DemiBoldDemo.otf */; };
-		A22A933A2D0A324B00F859FD /* Avayo-DemiBoldDemo.otf in Resources */ = {isa = PBXBuildFile; fileRef = A22A93382D0A324B00F859FD /* Avayo-DemiBoldDemo.otf */; };
 		A22C3D722B4DBD5F00AE7021 /* OffsetKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22C3D712B4DBD5F00AE7021 /* OffsetKey.swift */; };
 		A240212F2C1744DD007A5988 /* AddJobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A240212E2C1744DD007A5988 /* AddJobView.swift */; };
 		A242B3D42CD3D3730089E3AD /* Image+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A242B3D32CD3D3730089E3AD /* Image+Ext.swift */; };
@@ -77,7 +74,6 @@
 		A272C34F2B27C16700536B60 /* WorkTimeStatusAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A272C34E2B27C16700536B60 /* WorkTimeStatusAttributes.swift */; };
 		A272C3502B27C16700536B60 /* WorkTimeStatusAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A272C34E2B27C16700536B60 /* WorkTimeStatusAttributes.swift */; };
 		A272C3512B27C41200536B60 /* Font+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A375102B004BB500ED51E9 /* Font+Ext.swift */; };
-		A285D1E52B10096100070835 /* CircleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A285D1E42B10096100070835 /* CircleProgressBar.swift */; };
 		A289924E2B1BF105004DEA9D /* DropDownPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A289924D2B1BF105004DEA9D /* DropDownPicker.swift */; };
 		A28992512B1CC592004DEA9D /* RectKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28992502B1CC592004DEA9D /* RectKey.swift */; };
 		A28992532B1CCE79004DEA9D /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28992522B1CCE79004DEA9D /* UIView+Ext.swift */; };
@@ -150,7 +146,6 @@
 		A2EFF4C42CE7AA970021341E /* StatsFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFF4C32CE7AA970021341E /* StatsFilterView.swift */; };
 		A2EFF4C62CE7AAA10021341E /* StatsFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFF4C52CE7AAA10021341E /* StatsFilterViewModel.swift */; };
 		A2EFF4C82CE7B0060021341E /* FilterOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFF4C72CE7B0060021341E /* FilterOptionView.swift */; };
-		A2FCACBC2B8FE73000B94E35 /* WorkPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FCACBB2B8FE73000B94E35 /* WorkPeriod.swift */; };
 		A2FCACBE2B93592300B94E35 /* UIScreen+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FCACBD2B93592300B94E35 /* UIScreen+Ext.swift */; };
 		A2FCACC02B93AD7000B94E35 /* ScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FCACBF2B93AD7000B94E35 /* ScheduleViewModel.swift */; };
 		A2FCACC32B93AE4C00B94E35 /* ScheduleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FCACC22B93AE4C00B94E35 /* ScheduleRouter.swift */; };
@@ -230,11 +225,9 @@
 		A229ABA02CA7170200BB97F6 /* Float+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+Ext.swift"; sourceTree = "<group>"; };
 		A22A93212CF6880200F859FD /* ThemeChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeChangeView.swift; sourceTree = "<group>"; };
 		A22A93282CF925AA00F859FD /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		A22A932B2CF9272800F859FD /* AppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootView.swift; sourceTree = "<group>"; };
 		A22A932D2CF92E7C00F859FD /* UserDefaults+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Ext.swift"; sourceTree = "<group>"; };
 		A22A93302CFBE0DE00F859FD /* ProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRouter.swift; sourceTree = "<group>"; };
 		A22A93322CFBE14B00F859FD /* ProfileRouterViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRouterViewModifier.swift; sourceTree = "<group>"; };
-		A22A93382D0A324B00F859FD /* Avayo-DemiBoldDemo.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avayo-DemiBoldDemo.otf"; sourceTree = "<group>"; };
 		A22C3D712B4DBD5F00AE7021 /* OffsetKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetKey.swift; sourceTree = "<group>"; };
 		A240212E2C1744DD007A5988 /* AddJobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddJobView.swift; sourceTree = "<group>"; };
 		A242B3D32CD3D3730089E3AD /* Image+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Ext.swift"; sourceTree = "<group>"; };
@@ -266,7 +259,6 @@
 		A272C3422B27BC9000536B60 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A272C3442B27BC9000536B60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A272C34E2B27C16700536B60 /* WorkTimeStatusAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTimeStatusAttributes.swift; sourceTree = "<group>"; };
-		A285D1E42B10096100070835 /* CircleProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressBar.swift; sourceTree = "<group>"; };
 		A289924D2B1BF105004DEA9D /* DropDownPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownPicker.swift; sourceTree = "<group>"; };
 		A28992502B1CC592004DEA9D /* RectKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectKey.swift; sourceTree = "<group>"; };
 		A28992522B1CCE79004DEA9D /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
@@ -340,7 +332,6 @@
 		A2EFF4C32CE7AA970021341E /* StatsFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsFilterView.swift; sourceTree = "<group>"; };
 		A2EFF4C52CE7AAA10021341E /* StatsFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsFilterViewModel.swift; sourceTree = "<group>"; };
 		A2EFF4C72CE7B0060021341E /* FilterOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOptionView.swift; sourceTree = "<group>"; };
-		A2FCACBB2B8FE73000B94E35 /* WorkPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkPeriod.swift; sourceTree = "<group>"; };
 		A2FCACBD2B93592300B94E35 /* UIScreen+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Ext.swift"; sourceTree = "<group>"; };
 		A2FCACBF2B93AD7000B94E35 /* ScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewModel.swift; sourceTree = "<group>"; };
 		A2FCACC22B93AE4C00B94E35 /* ScheduleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRouter.swift; sourceTree = "<group>"; };
@@ -415,7 +406,6 @@
 				A2FD643F2B20F96000E3BDFF /* AnimatedNotificationView.swift */,
 				A2AAA8352B841BAA00AD7ACA /* BannerAd.swift */,
 				A2B0AE3B2AE2D4B500F535F3 /* CalendarView.swift */,
-				A285D1E42B10096100070835 /* CircleProgressBar.swift */,
 				A21FF5DD2C876F6E00DD1111 /* DateTextField.swift */,
 				A289924D2B1BF105004DEA9D /* DropDownPicker.swift */,
 				A2945FD32B7575EE00DD8281 /* DayCard.swift */,
@@ -447,14 +437,6 @@
 				A22A93282CF925AA00F859FD /* OnboardingView.swift */,
 			);
 			path = OnboardingView;
-			sourceTree = "<group>";
-		};
-		A22A932A2CF9271E00F859FD /* AppRootView */ = {
-			isa = PBXGroup;
-			children = (
-				A22A932B2CF9272800F859FD /* AppRootView.swift */,
-			);
-			path = AppRootView;
 			sourceTree = "<group>";
 		};
 		A22A932F2CFBE0CD00F859FD /* Router */ = {
@@ -584,7 +566,6 @@
 		A295782A2AE1866300206D9B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A22A932A2CF9271E00F859FD /* AppRootView */,
 				A240212D2C1744A8007A5988 /* AddJobView */,
 				A20173822C8677C00096DB85 /* AddWorkTimeView */,
 				A2B0AE432AE55B1600F535F3 /* Components */,
@@ -676,7 +657,6 @@
 				A2C547FF2B44AAF400A7A0CC /* Stopwatch.swift */,
 				A221D0CB2AF8248200A492F1 /* Time.swift */,
 				A22C3D712B4DBD5F00AE7021 /* OffsetKey.swift */,
-				A2FCACBB2B8FE73000B94E35 /* WorkPeriod.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -769,7 +749,6 @@
 		A2B0AE472AE562C800F535F3 /* Files */ = {
 			isa = PBXGroup;
 			children = (
-				A22A93382D0A324B00F859FD /* Avayo-DemiBoldDemo.otf */,
 				A21637762AEC5F61006F05E7 /* Lato-Black.ttf */,
 				A216377C2AEC5F9F006F05E7 /* Lato-Bold.ttf */,
 				A216377A2AEC5F7C006F05E7 /* Lato-Regular.ttf */,
@@ -1027,7 +1006,6 @@
 				A24B3FC72B2A27060037B569 /* Nunito-SemiBold.ttf in Resources */,
 				A272C3432B27BC9000536B60 /* Assets.xcassets in Resources */,
 				A24B3FC82B2A27090037B569 /* arialbold.ttf in Resources */,
-				A22A933A2D0A324B00F859FD /* Avayo-DemiBoldDemo.otf in Resources */,
 				A24B3FC02B2A26F40037B569 /* Lato-Regular.ttf in Resources */,
 				A24B3FC42B2A26FF0037B569 /* Nunito-Light.ttf in Resources */,
 				A24B3FC22B2A26F90037B569 /* Nunito-Black.ttf in Resources */,
@@ -1054,7 +1032,6 @@
 				A2B0AE4F2AE5637200F535F3 /* arialbold.ttf in Resources */,
 				A21637872AEC6006006F05E7 /* Nunito-Bold.ttf in Resources */,
 				A29578052AE1865200206D9B /* Assets.xcassets in Resources */,
-				A22A93392D0A324B00F859FD /* Avayo-DemiBoldDemo.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1106,7 +1083,6 @@
 				A22C3D722B4DBD5F00AE7021 /* OffsetKey.swift in Sources */,
 				A2EFF4AF2CDE75FF0021341E /* FloatingSheet.swift in Sources */,
 				A2B0AE3C2AE2D4B500F535F3 /* CalendarView.swift in Sources */,
-				A285D1E52B10096100070835 /* CircleProgressBar.swift in Sources */,
 				A2AAA8362B841BAA00AD7ACA /* BannerAd.swift in Sources */,
 				A2945FD22B7573D500DD8281 /* DayPicker.swift in Sources */,
 				A2EFF4C42CE7AA970021341E /* StatsFilterView.swift in Sources */,
@@ -1195,8 +1171,6 @@
 				A2EFF4BB2CE2A01C0021341E /* ProfileView.swift in Sources */,
 				A242B4532AE97B12006123B6 /* SubscriptionPlanView.swift in Sources */,
 				A2D4D7732B7D77E40096FDFF /* RollingText.swift in Sources */,
-				A2FCACBC2B8FE73000B94E35 /* WorkPeriod.swift in Sources */,
-				A22A932C2CF9272800F859FD /* AppRootView.swift in Sources */,
 				A221D0CC2AF8248200A492F1 /* Time.swift in Sources */,
 				A28992512B1CC592004DEA9D /* RectKey.swift in Sources */,
 				A2FCACC02B93AD7000B94E35 /* ScheduleViewModel.swift in Sources */,
@@ -1270,7 +1244,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 94UC5J8424;
+				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WorkTimeStatus/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WorkTimeStatus;
@@ -1298,7 +1272,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 94UC5J8424;
+				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WorkTimeStatus/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WorkTimeStatus;
@@ -1454,24 +1428,23 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Workk/Preview Content\"";
-				DEVELOPMENT_TEAM = 94UC5J8424;
+				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Workk/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.Workk";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1490,24 +1463,23 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Workk/Preview Content\"";
-				DEVELOPMENT_TEAM = 94UC5J8424;
+				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Workk/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.Workk";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1524,6 +1496,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
@@ -1543,6 +1516,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
@@ -1561,6 +1535,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.WorkkUITests";
@@ -1578,6 +1553,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.WorkkUITests";

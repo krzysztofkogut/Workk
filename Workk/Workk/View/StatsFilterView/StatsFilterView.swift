@@ -31,9 +31,9 @@ struct StatsFilterView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text("Filters")
+                Text("filters_title".localized)
                     .font(.latoBlack(size: 28))
-                    .foregroundColor(.black)
+                    .foregroundColor(.blackWhite)
                     .padding(.bottom, 8)
                 
                 Spacer()
@@ -42,7 +42,7 @@ struct StatsFilterView: View {
                     dismiss()
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.black)
+                        .foregroundColor(.blackWhite)
                         .font(.title)
                 }
             }
@@ -55,7 +55,7 @@ struct StatsFilterView: View {
                         .padding(.bottom, 4)
                         .padding(.horizontal, 16)
                     
-                    FilterOptionView(title: "Days", isSelected: $isDaysForWeekSelected)
+                    FilterOptionView(title: "days_title".localized, isSelected: $isDaysForWeekSelected)
                         .onTapGesture {
                             withAnimation(.bouncy(duration: 0.2)) {
                                 if weekFilters.contains(.day), weekFilters.count > 1 {
@@ -68,7 +68,7 @@ struct StatsFilterView: View {
                             }
                         }
                     
-                    FilterOptionView(title: "Week", isSelected: $isWeekForWeekSelected)
+                    FilterOptionView(title: "week_title".localized, isSelected: $isWeekForWeekSelected)
                         .onTapGesture {
                             withAnimation(.bouncy(duration: 0.2)) {
                                 if weekFilters.contains(.week), weekFilters.count > 1 {
@@ -88,7 +88,7 @@ struct StatsFilterView: View {
                         .padding(.bottom, 4)
                         .padding(.horizontal, 16)
                     
-                    FilterOptionView(title: "Days", isSelected: $isDaysForMonthSelected)
+                    FilterOptionView(title: "days_title".localized, isSelected: $isDaysForMonthSelected)
                         .onTapGesture {
                             withAnimation(.bouncy(duration: 0.2)) {
                                 if monthFilters.contains(.day), monthFilters.count > 1 {
@@ -101,7 +101,7 @@ struct StatsFilterView: View {
                             }
                         }
                     
-                    FilterOptionView(title: "Weeks", isSelected: $isWeeksForMonthSelected)
+                    FilterOptionView(title: "weeks_title".localized, isSelected: $isWeeksForMonthSelected)
                         .onTapGesture {
                             withAnimation(.bouncy(duration: 0.2)) {
                                 if monthFilters.contains(.week), monthFilters.count > 1 {
@@ -114,7 +114,7 @@ struct StatsFilterView: View {
                             }
                         }
                     
-                    FilterOptionView(title: "Month", isSelected: $isMonthForMonthSelected)
+                    FilterOptionView(title: "month_title".localized, isSelected: $isMonthForMonthSelected)
                         .onTapGesture {
                             withAnimation(.bouncy(duration: 0.2)) {
                                 if monthFilters.contains(.month), monthFilters.count > 1 {
@@ -134,7 +134,7 @@ struct StatsFilterView: View {
                         .padding(.bottom, 4)
                         .padding(.horizontal, 16)
                     
-                    FilterOptionView(title: "Days", isSelected: $isDaysForYearSelected)
+                    FilterOptionView(title: "days_title".localized, isSelected: $isDaysForYearSelected)
                         .onTapGesture {
                             withAnimation(.bouncy(duration: 0.2)) {
                                 if yearFilters.contains(.day), yearFilters.count > 1 {
@@ -147,7 +147,7 @@ struct StatsFilterView: View {
                             }
                         }
                     
-                    FilterOptionView(title: "Weeks", isSelected: $isWeeksForYearSelected)
+                    FilterOptionView(title: "weeks_title".localized, isSelected: $isWeeksForYearSelected)
                         .onTapGesture {
                             withAnimation(.bouncy(duration: 0.2)) {
                                 if yearFilters.contains(.week), yearFilters.count > 1 {
@@ -160,7 +160,7 @@ struct StatsFilterView: View {
                             }
                         }
                     
-                    FilterOptionView(title: "Months", isSelected: $isMonthsForYearSelected)
+                    FilterOptionView(title: "months_title".localized, isSelected: $isMonthsForYearSelected)
                         .onTapGesture {
                             withAnimation(.bouncy(duration: 0.2)) {
                                 if yearFilters.contains(.month), yearFilters.count > 1 {
@@ -173,7 +173,7 @@ struct StatsFilterView: View {
                             }
                         }
                     
-                    FilterOptionView(title: "Year", isSelected: $isYearForYearSelected)
+                    FilterOptionView(title: "year_title".localized, isSelected: $isYearForYearSelected)
                         .onTapGesture {
                             withAnimation(.bouncy(duration: 0.2)) {
                                 if yearFilters.contains(.year), yearFilters.count > 1 {

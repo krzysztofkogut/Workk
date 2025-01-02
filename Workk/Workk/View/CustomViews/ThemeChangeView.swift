@@ -43,17 +43,19 @@ struct ThemeChangeView: View {
                         .compositingGroup()
                 )
             
-            Text("Choose a Style")
+            Text("choose_style_title".localized)
                 .font(.latoBold(size: 24))
+                .foregroundStyle(.blackWhite)
                 .padding(.top, 24)
             
-            Text("Pop or subtle, Day or night.\nCustomize your interface.")
+            Text("choose_style_description".localized)
                 .font(.latoRegular(size: 16))
+                .foregroundStyle(.blackWhite)
                 .multilineTextAlignment(.center)
             
             HStack(spacing: 0) {
                 ForEach(Theme.allCases, id: \.rawValue) { theme in
-                    Text(theme.rawValue)
+                    Text(theme.title)
                         .font(.latoBold(size: 14))
                         .padding(.vertical, 10)
                         .frame(width: 100)
@@ -61,7 +63,7 @@ struct ThemeChangeView: View {
                             ZStack {
                                 if userTheme == theme {
                                     Capsule()
-                                        .fill(.wildSand)
+                                        .fill(.whiteBlack)
                                         .matchedGeometryEffect(id: "activeTab", in: animation)
                                 }
                             }
@@ -78,8 +80,8 @@ struct ThemeChangeView: View {
             .padding(.vertical, 24)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .frame(height: safeArea.bottom == .zero ? 395 : 410)
-        .background(.white)
+        .frame(height: safeArea.bottom == .zero ? 425 : 440)
+        .background(.whiteTheme)
         .clipShape(.rect(cornerRadius: 30))
         .padding(.horizontal, 15)
         .padding(.bottom, safeArea.bottom == .zero ? 15 : 0)
@@ -114,28 +116,6 @@ enum Theme: String, CaseIterable {
     case light = "Light"
     case dark = "Dark"
     
-    func color(_ scheme: ColorScheme) -> Color {
-        switch self {
-        case .systemDefault:
-            return scheme == .dark ? .black : .black
-        case .light:
-            return .black
-        case .dark:
-            return .white
-        }
-    }
-    
-    func backgroundColor(_ scheme: ColorScheme) -> Color {
-        switch self {
-        case .systemDefault:
-            return scheme == .dark ? .black : .white
-        case .light:
-           return .white
-        case .dark:
-            return .black
-        }
-    }
-    
     var colorScheme: ColorScheme? {
         switch self {
         case .systemDefault:
@@ -144,6 +124,39 @@ enum Theme: String, CaseIterable {
             return .light
         case .dark:
             return .dark
+        }
+    }
+    
+    var title: String {
+        switch self {
+        case .systemDefault:
+            return "default_title".localized
+        case .light:
+            return "light_title".localized
+        case .dark:
+            return "dark_title".localized
+        }
+    }
+    
+    func color(_ scheme: ColorScheme) -> Color {
+        switch self {
+        case .systemDefault:
+            return scheme == .dark ? .athensGray : .black
+        case .light:
+            return .black
+        case .dark:
+            return .athensGray
+        }
+    }
+    
+    func backgroundColor(_ scheme: ColorScheme) -> Color {
+        switch self {
+        case .systemDefault:
+            return scheme == .dark ? .black : .athensGray
+        case .light:
+           return .athensGray
+        case .dark:
+            return .black
         }
     }
 }

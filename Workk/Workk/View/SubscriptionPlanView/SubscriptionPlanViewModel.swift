@@ -15,22 +15,22 @@ enum SubscriptionPlanViewModel: Int, CaseIterable {
     var title: String {
         switch self {
         case .month:
-            return "Monthly"
+            return "monthly_subscription_title".localized
         case .year:
-            return "Yearly"
+            return "yearly_subscription_title".localized
         case .forLife:
-            return "For life"
+            return "for_life_title".localized
         }
     }
 
     var description: String {
         switch self {
         case .month:
-            return "3.99$ for month"
+            return "3.99$ " + "for_month_title".localized
         case .year:
-            return "29.99$ for year"
+            return "29.99$ " + "for_year_title".localized
         case .forLife:
-            return "Forever for one time payment 99.99$"
+            return  "for_life_description".localized + " 99.99$"
         }
     }
     

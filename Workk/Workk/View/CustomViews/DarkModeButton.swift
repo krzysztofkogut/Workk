@@ -22,7 +22,7 @@ struct DarkModeButton: View {
             Image(systemName: userTheme == .dark ? "sun.max.fill" : "moon.fill")
                 .addSymbolEffect(isSelected: isButtonSelected)
                 .font(.title2)
-                .foregroundStyle(Color.primary)
+                .foregroundStyle(.blackWhite)
                 .frame(width: 40, height: 40)
         })
         .buttonStyle(.plain)

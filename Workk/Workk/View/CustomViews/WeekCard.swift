@@ -21,7 +21,7 @@ struct WeekCard: View {
             Text(week.currentWeekString)
                 .lineLimit(1)
                 .font(week.isThisWeek() || isSelected ? .latoBold(size: 16) : .latoRegular(size: 16))
-                .foregroundColor(week.isThisWeek() || isSelected ? .black : .gray)
+                .foregroundColor(week.isThisWeek() || isSelected ? .blackWhite : .gray)
         }
     }
 }

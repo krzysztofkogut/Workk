@@ -18,12 +18,17 @@ struct ProfileView: View {
     @State private var showJobsDeletionView = false
     @State private var showSubscriptionPlanView = false
     
-    @State private var dailyGoal: String = "" // User settings
-    @State private var weeklyGoal: String = "" // User settings
-    @State private var monthlyGoal: String = "" // User settings
-    @State private var yearlyGoal: String = "" // User settings
+    @State private var dailyMoneyGoal: String = "" // User settings
+    @State private var weeklyMoneyGoal: String = "" // User settings
+    @State private var monthlyMoneyGoal: String = "" // User settings
+    @State private var yearlyMoneyGoal: String = "" // User settings
     
-    @State private var currency: String = "PLN" // User settings
+    @State private var dailyHoursGoal: String = "" // User settings
+    @State private var weeklyHoursGoal: String = "" // User settings
+    @State private var monthlyHoursGoal: String = "" // User settings
+    @State private var yearlyHoursGoal: String = "" // User settings
+    
+    @State private var currency: String = Locale.current.currency?.identifier ?? "" // User settings
     
     @State private var isDailyNotificationEnabled = true // User settings
     @State private var dailyNotificationTime: Date = .now // User settings
@@ -38,16 +43,16 @@ struct ProfileView: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                             .font(.title)
                     }
                 }
                 .padding(.top, 16)
                 
                 HStack {
-                    Text("Your profile")
+                    Text("your_profile_title".localized)
                         .font(.latoBlack(size: 28))
-                        .foregroundColor(.black)
+                        .foregroundColor(.blackWhite)
                         .padding(.bottom, 8)
                     
                     Spacer()
@@ -59,22 +64,22 @@ struct ProfileView: View {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 4) {
                         VStack(spacing: 8) {
-                            Text("Odblokuj złożone statystyki, synchronizację iCloud, export danych \ni usuń reklamy")
+                            Text("premium_description".localized)
                                 .font(.latoBlack(size: 16))
-                                .foregroundStyle(.white)
+                                .foregroundStyle(.whiteBlack)
                                 .multilineTextAlignment(.center)
                                 .padding([.top, .horizontal], 24)
                             
                             Text(viewModel.workkPremiumTitle)
-                                .foregroundStyle(.white)
+                                .foregroundStyle(.whiteBlack)
                                 .padding(.horizontal, 24)
                             
                             Button {
                                 showSubscriptionPlanView = true
                             } label: {
-                                Text("Wypróbuj 7 dni za darmo")
-                                    .font(.latoBold(size: 16))
-                                    .foregroundStyle(.black)
+                                Text("try_for_free_button_title".localized)
+                                    .font(.latoBlack(size: 16))
+                                    .foregroundStyle(.blackWhite)
                             }
                             .padding(.vertical, 16)
                             .padding(.horizontal, 24)
@@ -83,7 +88,7 @@ struct ProfileView: View {
                             .padding(.horizontal, 16)
                         }
                         .padding(16)
-                        .background(.black, in: .rect(cornerRadius: 12))
+                        .background(.blackWhite, in: .rect(cornerRadius: 12))
                         .padding(.vertical, 16)
                         
                         Text(viewModel.jobsTitle)
@@ -96,18 +101,19 @@ struct ProfileView: View {
                             }
                         
                         HStack {
-                            Text("Jobs list")
+                            Text("jobs_list_title".localized)
                                 .font(.latoRegular(size: 16))
+                                .foregroundColor(.blackWhite)
                             
                             Spacer()
                             
                             Image(systemName: "chevron.right")
                                 .font(.footnote)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.blackWhite)
                         }
                         .padding(.vertical, 16)
                         .padding(.horizontal, 16)
-                        .background(.white)
+                        .background(.whiteTheme)
                         .cornerRadius(12)
                         .onTapGesture {
                             viewModel.showJobListView()
@@ -120,9 +126,9 @@ struct ProfileView: View {
                             .padding(.bottom, 4)
                         
                         VStack(alignment: .center, spacing: 0) {
-                            Text("Money goals")
+                            Text("money_goals_title")
                                 .font(.latoBold(size: 20))
-                                .foregroundColor(.black)
+                                .foregroundColor(.blackWhite)
                                 .padding(.top, 16)
                                 .padding(.bottom, 8)
                                 .onTapGesture {
@@ -138,11 +144,11 @@ struct ProfileView: View {
                                             UIApplication.shared.dismissKeyboard()
                                         }
                                     
-                                    TextField(currency.uppercased(), text: $dailyGoal)
+                                    TextField(currency.uppercased(), text: $dailyMoneyGoal)
                                         .multilineTextAlignment(.center)
                                         .keyboardType(.decimalPad)
                                         .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.black)
+                                        .foregroundStyle(.blackWhite)
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 32)
                                         .background(.wildSand, in: .rect(cornerRadius: 12))
@@ -156,11 +162,11 @@ struct ProfileView: View {
                                             UIApplication.shared.dismissKeyboard()
                                         }
                                     
-                                    TextField(currency.uppercased(), text: $weeklyGoal)
+                                    TextField(currency.uppercased(), text: $weeklyMoneyGoal)
                                         .multilineTextAlignment(.center)
                                         .keyboardType(.decimalPad)
                                         .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.black)
+                                        .foregroundStyle(.blackWhite)
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 32)
                                         .background(.wildSand, in: .rect(cornerRadius: 12))
@@ -177,11 +183,11 @@ struct ProfileView: View {
                                             UIApplication.shared.dismissKeyboard()
                                         }
                                     
-                                    TextField(currency.uppercased(), text: $monthlyGoal)
+                                    TextField(currency.uppercased(), text: $monthlyMoneyGoal)
                                         .multilineTextAlignment(.center)
                                         .keyboardType(.decimalPad)
                                         .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.black)
+                                        .foregroundStyle(.blackWhite)
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 32)
                                         .background(.wildSand, in: .rect(cornerRadius: 12))
@@ -195,11 +201,11 @@ struct ProfileView: View {
                                             UIApplication.shared.dismissKeyboard()
                                         }
                                     
-                                    TextField(currency.uppercased(), text: $yearlyGoal)
+                                    TextField(currency.uppercased(), text: $yearlyMoneyGoal)
                                         .multilineTextAlignment(.center)
                                         .keyboardType(.decimalPad)
                                         .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.black)
+                                        .foregroundStyle(.blackWhite)
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 32)
                                         .background(.wildSand, in: .rect(cornerRadius: 12))
@@ -209,7 +215,7 @@ struct ProfileView: View {
                         }
                         .padding(.horizontal, 8)
                         .padding(.bottom, 8)
-                        .background(.white, in: .rect(cornerRadius: 12))
+                        .background(.whiteTheme, in: .rect(cornerRadius: 12))
                         .background(
                             Color.clear
                                 .contentShape(Rectangle())
@@ -220,9 +226,9 @@ struct ProfileView: View {
                         .padding(.bottom, 4)
                         
                         VStack(alignment: .center, spacing: 0) {
-                            Text("Hours goals")
+                            Text("hours_goals_title".localized)
                                 .font(.latoBold(size: 20))
-                                .foregroundColor(.black)
+                                .foregroundColor(.blackWhite)
                                 .padding(.top, 16)
                                 .padding(.bottom, 8)
                                 .onTapGesture {
@@ -238,11 +244,11 @@ struct ProfileView: View {
                                             UIApplication.shared.dismissKeyboard()
                                         }
                                     
-                                    TextField("hours", text: $dailyGoal)
+                                    TextField("hours_title".localized, text: $dailyHoursGoal)
                                         .multilineTextAlignment(.center)
                                         .keyboardType(.decimalPad)
                                         .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.black)
+                                        .foregroundStyle(.blackWhite)
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 32)
                                         .background(.wildSand, in: .rect(cornerRadius: 12))
@@ -256,11 +262,11 @@ struct ProfileView: View {
                                             UIApplication.shared.dismissKeyboard()
                                         }
                                     
-                                    TextField("hours", text: $weeklyGoal)
+                                    TextField("hours_title".localized, text: $weeklyHoursGoal)
                                         .multilineTextAlignment(.center)
                                         .keyboardType(.decimalPad)
                                         .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.black)
+                                        .foregroundStyle(.blackWhite)
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 32)
                                         .background(.wildSand, in: .rect(cornerRadius: 12))
@@ -277,11 +283,11 @@ struct ProfileView: View {
                                             UIApplication.shared.dismissKeyboard()
                                         }
                                     
-                                    TextField("hours", text: $monthlyGoal)
+                                    TextField("hours_title".localized, text: $monthlyHoursGoal)
                                         .multilineTextAlignment(.center)
                                         .keyboardType(.decimalPad)
                                         .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.black)
+                                        .foregroundStyle(.blackWhite)
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 32)
                                         .background(.wildSand, in: .rect(cornerRadius: 12))
@@ -295,11 +301,11 @@ struct ProfileView: View {
                                             UIApplication.shared.dismissKeyboard()
                                         }
                                     
-                                    TextField("hours", text: $yearlyGoal)
+                                    TextField("hours_title".localized, text: $yearlyHoursGoal)
                                         .multilineTextAlignment(.center)
                                         .keyboardType(.decimalPad)
                                         .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.black)
+                                        .foregroundStyle(.blackWhite)
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 32)
                                         .background(.wildSand, in: .rect(cornerRadius: 12))
@@ -309,7 +315,7 @@ struct ProfileView: View {
                         }
                         .padding(.horizontal, 8)
                         .padding(.bottom, 8)
-                        .background(.white, in: .rect(cornerRadius: 12))
+                        .background(.whiteTheme, in: .rect(cornerRadius: 12))
                         .background(
                             Color.clear
                                 .contentShape(Rectangle())
@@ -335,14 +341,14 @@ struct ProfileView: View {
                             UIApplication.shared.dismissKeyboard()
                         }
                     
-                    TextField(currency.uppercased(), text: $currency)
+                    TextField(viewModel.currencyCode?.uppercased() ?? "", text: $currency)
                         .font(.latoRegular(size: 16))
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.blackWhite)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 18)
-                        .background(.white, in: .rect(cornerRadius: 12))
+                        .background(.whiteTheme, in: .rect(cornerRadius: 12))
                     
-                    Text("Changing currency will not convert the money earned")
+                    Text("currency_description".localized)
                         .font(.nunitoSemiBold(size: 12))
                         .foregroundStyle(.gray)
                         .multilineTextAlignment(.center)
@@ -358,8 +364,9 @@ struct ProfileView: View {
                         }
                     
                     HStack(spacing: 0) {
-                        Text("Notifications enabled")
+                        Text("notifications_enabled_title".localized)
                             .font(.latoRegular(size: 16))
+                            .foregroundStyle(.blackWhite)
                             .padding(.vertical, 18)
                         
                         Spacer()
@@ -367,24 +374,26 @@ struct ProfileView: View {
                         CustomToggle(isOn: $isDailyNotificationEnabled)
                     }
                     .padding(.horizontal, 16)
-                    .background(.white, in: .rect(cornerRadius: 12))
+                    .background(.whiteTheme, in: .rect(cornerRadius: 12))
                     
                     HStack(spacing: 0) {
-                        Text("Daily notification time")
+                        Text("daily_notification_time_title".localized)
                             .font(.latoRegular(size: 16))
+                            .foregroundStyle(.blackWhite)
                         
                         DateTextField(date: $dailyNotificationTime, components: [.hourAndMinute]) { date in
                             let formatter = DateFormatter()
                             formatter.dateFormat = "HH:mm"
                             return formatter.string(from: date)
                         }
+                        .foregroundStyle(.blackWhite)
                         .presentationBackground(.clear)
                         .multilineTextAlignment(.trailing)
                         .font(.latoBold(size: 16))
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
-                    .background(.white, in: .rect(cornerRadius: 12))
+                    .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 }
             }
             .padding(.horizontal, 16)
@@ -413,13 +422,13 @@ struct ProfileView: View {
                     dismiss()
                     saveContext()
                 } label: {
-                    Text("Save")
+                    Text("save_title".localized)
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                 }
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
-                .background(.black, in: .rect(cornerRadius: 18))
+                .background(.blackWhite, in: .rect(cornerRadius: 18))
                 .padding(.bottom, 30)
             }
             .onChange(of: dailyNotificationTime) { newValue in

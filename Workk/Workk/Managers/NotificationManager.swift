@@ -28,8 +28,8 @@ class NotificationManager {
         let minute = calendar.component(.minute, from: time)
 
         let content = UNMutableNotificationContent()
-        content.title = "⏱️ Daily Reminder"
-        content.body = "This is your daily notification at the specified time!"
+        content.title = "daily_notification_title".localized
+        content.body = "daily_notification_body".localized
         content.sound = .default
 
         // Create a trigger for the selected time
@@ -57,8 +57,8 @@ class NotificationManager {
 
     func scheduleDailyNotification(at hour: Int, minute: Int) {
         let content = UNMutableNotificationContent()
-        content.title = "Daily Reminder"
-        content.body = "This is your daily notification at the specified time!"
+        content.title = "daily_notification_title".localized
+        content.body = "daily_notification_body".localized
         content.sound = .default
 
         // Configure the trigger for the specified time
@@ -86,8 +86,8 @@ class NotificationManager {
 
     func scheduleWeeklyNotification(on weekday: Int, at hour: Int, minute: Int) {
         let content = UNMutableNotificationContent()
-        content.title = "💫🍀💸💰 Weekly Reminder"
-        content.body = "This is your weekly notification!"
+        content.title = "weekly_notification_title".localized
+        content.body = "weekly_notification_body".localized
         content.sound = .default
 
         // Set up the trigger for a specific weekday and time

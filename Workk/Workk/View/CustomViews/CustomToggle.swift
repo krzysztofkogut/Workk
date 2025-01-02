@@ -17,7 +17,7 @@ struct CustomToggle: View {
             }
         }) {
             RoundedRectangle(cornerRadius: 16)
-                .fill(isOn ? .blackTheme : .gray)
+                .fill(isOn ? .blackWhite : .gray)
                 .frame(width: 50, height: 30)
                 .overlay {
                     Circle()

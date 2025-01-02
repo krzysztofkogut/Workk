@@ -21,11 +21,11 @@ struct FilterOptionView: View {
             Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                 .resizable()
                 .frame(width: 20, height: 20)
-                .foregroundColor(.primary)
+                .foregroundColor(.blackWhite)
         }
         .padding(.vertical, 16)
         .padding(.horizontal, 16)
-        .background(.white)
+        .background(.whiteTheme)
         .cornerRadius(12)
     }
 }

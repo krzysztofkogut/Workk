@@ -11,6 +11,6 @@ struct FilledButton: ViewModifier {
     func body(content: Content) -> some View {
         content
             .font(.latoBold(size: 16))
-            .foregroundColor(.white)
+            .foregroundColor(.whiteBlack)
     }
 }

@@ -116,9 +116,9 @@ struct AddWorkTimeView: View {
             HStack {
                 DropDownPicker(selection: $selectedWorkName,
                                addNewOption: $showAddJobView,
-                               hint: "Select",
+                               hint: "select_title".localized,
                                options: jobs.compactMap { $0.name },
-                               backgroundColor: .white,
+                               backgroundColor: .whiteTheme,
                                maxWidth: 220)
                 
                 Spacer()
@@ -127,7 +127,7 @@ struct AddWorkTimeView: View {
                     dismiss()
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.blackTheme)
+                        .foregroundColor(.blackWhite)
                         .font(.title)
                 }
             }
@@ -136,9 +136,9 @@ struct AddWorkTimeView: View {
             .padding(.top, 16)
             .padding(.bottom, 24)
             
-            Text(selectedWork == nil ? "Add new work time" : "Update work time")
+            Text(selectedWork == nil ? "add_work_time_title".localized : "update_work_time_title".localized)
                 .font(.latoBlack(size: 28))
-                .foregroundColor(.blackTheme)
+                .foregroundColor(.blackWhite)
                 .padding(.bottom, 32)
                 .onTapGesture {
                     UIApplication.shared.dismissKeyboard()
@@ -289,14 +289,16 @@ struct AddWorkTimeView: View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 4) {
                 HStack(spacing: 0) {
-                    Text("Start Date")
+                    Text("start_date_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                     
                     DateTextField(date: $dayStartDate, components: [.date, .hourAndMinute]) { date in
                         let formatter = DateFormatter()
-                        formatter.dateFormat = "dd MMM yyyy, HH:mm"
+                        formatter.dateFormat = "d MMM yyyy, HH:mm"
                         return formatter.string(from: date)
                     }
+                    .foregroundStyle(.blackWhite)
                     .multilineTextAlignment(.trailing)
                     .font(.latoBold(size: 16))
                 }
@@ -305,14 +307,16 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
-                    Text("End Date")
+                    Text("end_date_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                     
                     DateTextField(date: $dayEndDate, components: [.date, .hourAndMinute]) { date in
                         let formatter = DateFormatter()
-                        formatter.dateFormat = "dd MMM yyyy, HH:mm"
+                        formatter.dateFormat = "d MMM yyyy, HH:mm"
                         return formatter.string(from: date)
                     }
+                    .foregroundStyle(.blackWhite)
                     .multilineTextAlignment(.trailing)
                     .font(.latoBold(size: 16))
                 }
@@ -321,8 +325,9 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
-                    Text("Is paid")
+                    Text("is_paid_title".localized)
                         .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
                         .padding(.vertical, 18)
                     
                     Spacer()
@@ -333,7 +338,8 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
-                    Text("Hourly rate")
+                    Text("hourly_rate_title".localized)
+                        .foregroundStyle(.blackWhite)
                         .font(.latoRegular(size: 16))
                         .padding(.vertical, 18)
                     
@@ -345,7 +351,8 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
-                    TextField(isHourlyRateDay ? "Hourly rate" : "Money earned", text: isHourlyRateDay ? $hourlyRateDay : $moneyEarnedDay)
+                    TextField(isHourlyRateDay ? "hourly_rate_title".localized : "money_earned_title".localized, text: isHourlyRateDay ? $hourlyRateDay : $moneyEarnedDay)
+                        .foregroundStyle(.blackWhite)
                         .keyboardType(.decimalPad)
                         .font(.latoRegular(size: 16))
                         .foregroundStyle(.black)
@@ -355,26 +362,27 @@ struct AddWorkTimeView: View {
                     Spacer()
                     
                     Text("PLN")
+                        .foregroundStyle(.blackWhite)
                         .font(.latoBold(size: 16))
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("Project", text: $projectDay)
+                TextField("project_title".localized, text: $projectDay)
                     .font(.latoRegular(size: 16))
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.blackWhite)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
                     .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("Task", text: $taskDay)
+                TextField("task_title".localized, text: $taskDay)
                     .font(.latoRegular(size: 16))
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.blackWhite)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
                     .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                MultilineTextField(placeHolder: "Note", text: $noteDay)
+                MultilineTextField(placeHolder: "note_title".localized, text: $noteDay)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                     .frame(height: 150)
@@ -387,14 +395,14 @@ struct AddWorkTimeView: View {
                 selectedWork == nil ? addItem() : updateItem()
                 dismiss()
             } label: {
-                Text("Save")
+                Text("save_title".localized)
                     .font(.latoBold(size: 16))
                     .foregroundStyle(.whiteBlack)
             }
             .disabled(!isDaySaveButtonEnabled)
             .padding(.vertical, 8)
             .padding(.horizontal, 16)
-            .background(isDaySaveButtonEnabled ? .blackTheme : .gray, in: .rect(cornerRadius: 18))
+            .background(isDaySaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             .padding(.bottom, 16)
         }
     }
@@ -430,8 +438,9 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
-                    Text("Is paid")
+                    Text("is_paid_title".localized)
                         .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
                         .padding(.vertical, 18)
                     
                     Spacer()
@@ -442,26 +451,27 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
-                    TextField("Money earned", text: $moneyEarnedWeek)
+                    TextField("money_earned_title".localized, text: $moneyEarnedWeek)
                         .keyboardType(.decimalPad)
                         .font(.latoRegular(size: 16))
-                        .foregroundStyle(.blackTheme)
+                        .foregroundStyle(.blackWhite)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 18)
                     
                     Spacer()
                     
                     Text("PLN")
+                        .foregroundStyle(.blackWhite)
                         .font(.latoBold(size: 16))
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
-                    TextField("Hours worked", text: $hoursWorkedWeek)
+                    TextField("hours_worked_title".localized, text: $hoursWorkedWeek)
                         .keyboardType(.decimalPad)
                         .font(.latoRegular(size: 16))
-                        .foregroundStyle(.blackTheme)
+                        .foregroundStyle(.blackWhite)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 18)
                     
@@ -469,25 +479,26 @@ struct AddWorkTimeView: View {
                     
                     Text("h")
                         .font(.latoBold(size: 16))
+                        .foregroundStyle(.blackWhite)
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("Project", text: $projectWeek)
+                TextField("project_title".localized, text: $projectWeek)
                     .font(.latoRegular(size: 16))
-                    .foregroundStyle(.blackTheme)
+                    .foregroundStyle(.blackWhite)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
                     .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("Task", text: $taskWeek)
+                TextField("task_title".localized, text: $taskWeek)
                     .font(.latoRegular(size: 16))
-                    .foregroundStyle(.blackTheme)
+                    .foregroundStyle(.blackWhite)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
                     .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                MultilineTextField(placeHolder: "Note", text: $noteWeek)
+                MultilineTextField(placeHolder: "note_title".localized, text: $noteWeek)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                     .frame(height: 150)
@@ -500,14 +511,14 @@ struct AddWorkTimeView: View {
                 selectedWork == nil ? addItem() : updateItem()
                 dismiss()
             } label: {
-                Text("Save")
+                Text("save_title".localized)
                     .font(.latoBold(size: 16))
                     .foregroundStyle(.whiteBlack)
             }
             .disabled(!isWeekSaveButtonEnabled)
             .padding(.vertical, 8)
             .padding(.horizontal, 16)
-            .background(isWeekSaveButtonEnabled ? .blackTheme : .gray, in: .rect(cornerRadius: 18))
+            .background(isWeekSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             .padding(.bottom, 16)
         }
     }
@@ -543,8 +554,9 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
-                    Text("Is paid")
+                    Text("is_paid_title".localized)
                         .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
                         .padding(.vertical, 18)
                     
                     Spacer()
@@ -555,26 +567,27 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
-                    TextField("Money earned", text: $moneyEarnedMonth)
+                    TextField("money_earned_title".localized, text: $moneyEarnedMonth)
                         .keyboardType(.decimalPad)
                         .font(.latoRegular(size: 16))
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.blackWhite)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 18)
                     
                     Spacer()
                     
                     Text("PLN")
+                        .foregroundStyle(.blackWhite)
                         .font(.latoBold(size: 16))
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
-                    TextField("Hours worked", text: $hoursWorkedMonth)
+                    TextField("hours_worked_title".localized, text: $hoursWorkedMonth)
                         .keyboardType(.decimalPad)
                         .font(.latoRegular(size: 16))
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.blackWhite)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 18)
                     
@@ -582,25 +595,26 @@ struct AddWorkTimeView: View {
                     
                     Text("h")
                         .font(.latoBold(size: 16))
+                        .foregroundStyle(.blackWhite)
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("Project", text: $projectMonth)
+                TextField("project_title".localized, text: $projectMonth)
                     .font(.latoRegular(size: 16))
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.blackWhite)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
                     .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("Task", text: $taskMonth)
+                TextField("task_title".localized, text: $taskMonth)
                     .font(.latoRegular(size: 16))
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.blackWhite)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
                     .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                MultilineTextField(placeHolder: "Note", text: $noteMonth)
+                MultilineTextField(placeHolder: "note_title".localized, text: $noteMonth)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                     .frame(height: 150)
@@ -613,14 +627,14 @@ struct AddWorkTimeView: View {
                 selectedWork == nil ? addItem() : updateItem()
                 dismiss()
             } label: {
-                Text("Save")
+                Text("save_title".localized)
                     .font(.latoBold(size: 16))
                     .foregroundStyle(.whiteBlack)
             }
             .disabled(!isMonthSaveButtonEnabled)
             .padding(.vertical, 8)
             .padding(.horizontal, 16)
-            .background(isMonthSaveButtonEnabled ? .blackTheme : .gray, in: .rect(cornerRadius: 18))
+            .background(isMonthSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             .padding(.bottom, 16)
         }
     }
@@ -656,8 +670,9 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
-                    Text("Is paid")
+                    Text("is_paid_title".localized)
                         .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
                         .padding(.vertical, 18)
                     
                     Spacer()
@@ -668,51 +683,53 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
-                    TextField("Money earned", text: $moneyEarnedYear)
+                    TextField("money_earned_title".localized, text: $moneyEarnedYear)
                         .keyboardType(.decimalPad)
                         .font(.latoRegular(size: 16))
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.blackWhite)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 18)
                     
                     Spacer()
                     
                     Text("PLN")
+                        .foregroundStyle(.blackWhite)
                         .font(.latoBold(size: 16))
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
-                    TextField("Hours worked", text: $hoursWorkedYear)
+                    TextField("hours_worked_title".localized, text: $hoursWorkedYear)
                         .keyboardType(.decimalPad)
                         .font(.latoRegular(size: 16))
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.blackWhite)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 18)
                     Spacer()
                     
                     Text("h")
                         .font(.latoBold(size: 16))
+                        .foregroundStyle(.blackWhite)
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("Project", text: $projectYear)
+                TextField("project_title".localized, text: $projectYear)
                     .font(.latoRegular(size: 16))
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.blackWhite)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
                     .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("Task", text: $taskYear)
+                TextField("task_title".localized, text: $taskYear)
                     .font(.latoRegular(size: 16))
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.blackWhite)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 18)
                     .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                MultilineTextField(placeHolder: "Note", text: $noteYear)
+                MultilineTextField(placeHolder: "note_title".localized, text: $noteYear)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                     .frame(height: 150)
@@ -725,14 +742,14 @@ struct AddWorkTimeView: View {
                 selectedWork == nil ? addItem() : updateItem()
                 dismiss()
             } label: {
-                Text("Save")
+                Text("save_title".localized)
                     .font(.latoBold(size: 16))
                     .foregroundStyle(.whiteBlack)
             }
             .disabled(!isYearSaveButtonEnabled)
             .padding(.vertical, 8)
             .padding(.horizontal, 16)
-            .background(isYearSaveButtonEnabled ? .blackTheme : .gray, in: .rect(cornerRadius: 18))
+            .background(isYearSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             .padding(.bottom, 16)
         }
     }
@@ -745,7 +762,7 @@ struct AddWorkTimeView: View {
                         .font(selectedFilter == item ? .latoBlack(size: 18) : .latoRegular(size: 18))
                         .minimumScaleFactor(0.01)
                         .lineLimit(1)
-                        .foregroundColor(selectedFilter == item ? .blackTheme : .gray)
+                        .foregroundColor(selectedFilter == item ? .blackWhite : .gray)
                         .onAppear {
                             filtersWidthDict[item] = item.title.widthOfString(usingFont: .latoBold(size: 18))
                         }

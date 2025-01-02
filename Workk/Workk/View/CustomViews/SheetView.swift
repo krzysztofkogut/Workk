@@ -22,10 +22,12 @@ struct SheetView: View {
             
             Text(title)
                 .font(.latoBold(size: 24))
+                .foregroundStyle(.blackWhite)
                 .padding(.top, 8)
             
             Text(content)
                 .font(.latoRegular(size: 16))
+                .foregroundStyle(.blackWhite)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .padding(.bottom, 24)
@@ -41,8 +43,8 @@ struct SheetView: View {
         .frame(maxWidth: .infinity)
         .padding([.horizontal, .bottom], 15)
         .background {
-            RoundedRectangle(cornerRadius: 15)
-                .fill(.background)
+            RoundedRectangle(cornerRadius: 30)
+                .fill(.whiteTheme)
         }
         .shadow(color: .black.opacity(0.12), radius: 8)
         .padding(.horizontal, 15)

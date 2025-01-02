@@ -13,7 +13,7 @@ struct AddJobView: View {
     
     @Binding var selectedJob: Job?
     
-    @State private var isSaveButtonEnabled = true
+    @State private var isSaveButtonEnabled = false
     @State private var name: String = ""
     @State private var hourlyRate: String = ""
     
@@ -26,26 +26,28 @@ struct AddJobView: View {
                     dismiss()
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.blackTheme)
+                        .foregroundColor(.blackWhite)
                         .font(.title)
                 }
             }
             .padding(.top, 16)
             .padding(.bottom, 24)
             
-            Text(selectedJob == nil ? "Add new job" : "Update job")
+            Text(selectedJob == nil ? "add_new_job_title".localized : "update_job_title".localized)
                 .font(.latoBlack(size: 28))
-                .foregroundColor(.blackTheme)
+                .foregroundColor(.blackWhite)
                 .padding(.bottom, 32)
             
-            TextField("Job name", text: $name)
+            TextField("job_name_title".localized, text: $name)
+                .foregroundStyle(.blackWhite)
                 .font(.latoRegular(size: 18))
                 .padding(.horizontal, 16)
                 .padding(.vertical, 16)
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
             
             HStack(spacing: 0) {
-                TextField("Hourly rate", text: $hourlyRate)
+                TextField("hourly_rate_title".localized, text: $hourlyRate)
+                    .foregroundStyle(.blackWhite)
                     .keyboardType(.decimalPad)
                     .font(.latoRegular(size: 18))
                     .padding(.horizontal, 16)
@@ -54,12 +56,13 @@ struct AddJobView: View {
                 Spacer()
                 
                 Text("PLN")
+                    .foregroundStyle(.blackWhite)
                     .font(.latoBold(size: 16))
                     .padding(.trailing, 16)
             }
             .background(.whiteTheme, in: .rect(cornerRadius: 12))
             
-            Text("Updating hourly rate will not change previous entries for this job")
+            Text("updating_hourly_rate_description".localized)
                 .font(.nunitoSemiBold(size: 12))
                 .foregroundStyle(.gray)
                 .multilineTextAlignment(.center)
@@ -92,22 +95,24 @@ struct AddJobView: View {
         .onAppear {
             setupView()
         }
+        .onChange(of: name) { _ in updateSaveButtonState() }
         .onChange(of: hourlyRate) { newValue in
             hourlyRate = newValue.formatNumberInput()
+            updateSaveButtonState()
         }
         .safeAreaInset(edge: .bottom) {
             Button {
                 selectedJob == nil ? addItem() : updateItem()
                 dismiss()
             } label: {
-                Text("Save")
+                Text("save_title".localized)
                     .font(.latoBold(size: 16))
                     .foregroundStyle(.whiteBlack)
             }
             .disabled(!isSaveButtonEnabled)
             .padding(.vertical, 8)
             .padding(.horizontal, 16)
-            .background(isSaveButtonEnabled ? .blackTheme : .gray, in: .rect(cornerRadius: 18))
+            .background(isSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             .padding(.bottom, 16)
         }
     }
@@ -121,6 +126,27 @@ extension AddJobView {
         
         name = job.name
         hourlyRate = job.hourlyRate.formatFloatToString()
+    }
+    
+    private func updateSaveButtonState() {
+        withAnimation(.easeInOut(duration: 0.2)) {
+            isSaveButtonEnabled = (!name.isEmpty && !hourlyRate.isEmpty)
+        }
+        
+        guard let job = selectedJob else {
+            return
+        }
+        
+        isSaveButtonEnabled = false
+        
+        var hasChanged = false
+        
+        hasChanged = name != job.name ||
+        hourlyRate != job.hourlyRate.formatFloatToString()
+        
+        withAnimation(.easeInOut(duration: 0.2)) {
+            isSaveButtonEnabled = (!name.isEmpty && !hourlyRate.isEmpty) && hasChanged
+        }
     }
 }
 

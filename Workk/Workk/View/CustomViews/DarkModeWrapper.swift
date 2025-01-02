@@ -17,7 +17,7 @@ struct DarkModeWrapper<Content: View>: View {
                 if overlayWindow == nil {
                     if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
                         let overlayWindow = UIWindow(windowScene: windowScene)
-                        overlayWindow.tag = 0320
+                        overlayWindow.tag = 0322
                         overlayWindow.isHidden = false
                         overlayWindow.isUserInteractionEnabled = false
                         self.overlayWindow = overlayWindow

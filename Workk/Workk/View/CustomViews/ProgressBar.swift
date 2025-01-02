@@ -15,12 +15,12 @@ struct ProgressBar: View {
             Rectangle()
                 .frame(height: 6)
                 .cornerRadius(3)
-                .foregroundColor(.athensGray)
+                .foregroundColor(.wildSand)
 
             Rectangle()
                 .frame(width: calculateWidth(), height: 6)
                 .cornerRadius(3)
-                .foregroundColor(.black)
+                .foregroundColor(.blackWhite)
         }
     }
 

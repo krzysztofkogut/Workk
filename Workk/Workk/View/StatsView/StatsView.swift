@@ -38,6 +38,7 @@ struct StatsView: View {
     
     @State private var showAddNewJobView: Bool = false
     @State private var showFilterView: Bool = false
+    @State private var showSubscribePlanView: Bool = false
     @State private var filtersWidthDict: [PaymentStatus: CGFloat] = [:]
     @State private var moneyYScale: Float = 0.0
     @State private var hoursYScale: Float = 0.0
@@ -63,10 +64,10 @@ struct StatsView: View {
             ZStack(alignment: .leading) {
                 DropDownPicker(selection: $viewModel.selectedWorkName,
                                addNewOption: $showAddNewJobView,
-                               hint: "All",
-                               options: ["All"] + jobs.compactMap { $0.name },
-                               backgroundColor: .white,
-                               maxWidth:  UIScreen.main.bounds.width > smallDeviceWidth ? 180 : 160)
+                               hint: "all_title".localized,
+                               options: ["all_title".localized] + jobs.compactMap { $0.name },
+                               backgroundColor: .whiteTheme,
+                               maxWidth: UIScreen.main.bounds.width > smallDeviceWidth ? 180 : 160)
                     .zIndex(2001)
                     .padding(.leading,
                              viewModel.selectedPeriodFilter.title.widthOfString(usingFont: .latoBlack(size: 18)) + 70)
@@ -74,7 +75,7 @@ struct StatsView: View {
                 HStack(spacing: 0) {
                     PeriodDropDownPicker(selection: $viewModel.selectedPeriodFilter,
                                          options: [.day, .week, .month, .year],
-                                         backgroundColor: .white)
+                                         backgroundColor: .whiteTheme)
                     
                     Spacer()
                     
@@ -82,7 +83,7 @@ struct StatsView: View {
                         showFilterView = true
                     } label: {
                         Image(systemName: "line.3.horizontal.decrease.circle.fill")
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                             .font(.title)
                     }
                 }
@@ -96,9 +97,9 @@ struct StatsView: View {
             
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
-                    Text("Money earned")
+                    Text("money_earned_title".localized)
                         .font(.nunitoBold(size: 24))
-                        .foregroundColor(.black)
+                        .foregroundColor(.blackWhite)
                     
                     Spacer()
                 }
@@ -106,9 +107,11 @@ struct StatsView: View {
                 if let currentActiveMoneyItem = currentActiveMoneyItem {
                     Text(currentActiveMoneyItem.moneyEarned.stringFormat + " USD")
                         .font(.latoBold(size: 20))
+                        .foregroundColor(.blackWhite)
                 } else {
                     Text(viewModel.moneyEarned.stringFormat + " USD")
                         .font(.latoBold(size: 20))
+                        .foregroundColor(.blackWhite)
                 }
                 
                 animatedMoneyChart()
@@ -119,9 +122,9 @@ struct StatsView: View {
             
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
-                    Text("Hours worked")
+                    Text("hours_worked_stats_title".localized)
                         .font(.nunitoBold(size: 24))
-                        .foregroundColor(.black)
+                        .foregroundColor(.blackWhite)
                     
                     Spacer()
                 }
@@ -129,9 +132,11 @@ struct StatsView: View {
                 if let currentActiveHoursItem = currentActiveHoursItem {
                     Text(currentActiveHoursItem.workingHours.stringFormat + " h")
                         .font(.latoBold(size: 20))
+                        .foregroundColor(.blackWhite)
                 } else {
                     Text(viewModel.workingHours.stringFormat + " h")
                         .font(.latoBold(size: 20))
+                        .foregroundColor(.blackWhite)
                 }
                 
                 animatedHoursChart()
@@ -149,7 +154,7 @@ struct StatsView: View {
                 } label: {
                     Image(systemName: "chevron.left")
                         .frame(width: 24, height: 24)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.blackWhite)
                 }
                 .padding(.leading, 24)
                 
@@ -174,12 +179,12 @@ struct StatsView: View {
                 } label: {
                     Image(systemName: "chevron.right")
                         .frame(width: 24, height: 24)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.blackWhite)
                 }
                 .padding(.trailing, 24)
             }
             .frame(height: 62)
-            .background(.white)
+            .background(.whiteTheme)
             .cornerRadius(12)
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
@@ -259,8 +264,47 @@ struct StatsView: View {
             moneyYScale = viewModel.maxForMoney()
             hoursYScale = viewModel.maxForHours()
         }
+//        .overlay(
+////            if true {
+//                ZStack {
+//                    Color.wildSand.opacity(0.9)
+//                        .ignoresSafeArea()
+//                        .blur(radius: 0, opaque: false)
+//                    
+//                    VStack(spacing: 8) {
+//                        Text("premium_description".localized)
+//                            .font(.latoBlack(size: 16))
+//                            .foregroundStyle(.whiteBlack)
+//                            .multilineTextAlignment(.center)
+//                            .padding([.top, .horizontal], 24)
+//                        
+//                        Text(viewModel.workkPremiumTitle)
+//                            .foregroundStyle(.whiteBlack)
+//                            .padding(.horizontal, 24)
+//                        
+//                        Button {
+//                            showSubscribePlanView = true
+//                        } label: {
+//                            Text("try_for_free_button_title".localized)
+//                                .font(.latoBlack(size: 16))
+//                                .foregroundStyle(.blackWhite)
+//                        }
+//                        .padding(.vertical, 16)
+//                        .padding(.horizontal, 24)
+//                        .background(.wildSand, in: .rect(cornerRadius: 30))
+//                        .padding(.vertical, 24)
+//                        .padding(.horizontal, 16)
+//                    }
+//                    .padding(16)
+//                    .background(.blackWhite, in: .rect(cornerRadius: 12))
+//                }
+////            }
+//        )
         .fullScreenCover(isPresented: $showAddNewJobView) {
             AddJobView(selectedJob: $selectedJob)
+        }
+        .fullScreenCover(isPresented: $showSubscribePlanView) {
+            SubscriptionPlanView()
         }
         .sheet(isPresented: $showFilterView) {
             StatsFilterView(weekFilters: $viewModel.weekFilters,
@@ -271,21 +315,20 @@ struct StatsView: View {
     }
     
     var paymentStatusFilterBar: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 8) {
             ForEach(PaymentStatus.allCases, id: \.rawValue) { item in
                 Text(item.title)
                     .font(.latoBold(size: 14))
                     .minimumScaleFactor(0.01)
                     .lineLimit(1)
-                    .foregroundColor(viewModel.selectedPaymentStatus == item ? .white : .black)
+                    .foregroundColor(viewModel.selectedPaymentStatus == item ? .whiteBlack : .blackWhite)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .background(viewModel.selectedPaymentStatus == item ? .black : .white, in: .rect(cornerRadius: 18))
-                    .animation(.bouncy(duration: 0.4), value: viewModel.selectedPaymentStatus)
+                    .background(viewModel.selectedPaymentStatus == item ? .blackWhite : .whiteTheme, in: .rect(cornerRadius: 18))
                     .onTapGesture {
-                        withAnimation(.bouncy(duration: 0.4)) {
-                            self.viewModel.selectedPaymentStatus = item
-                        }
+//                        withAnimation(.bouncy(duration: 0.4)) {
+                        self.viewModel.selectedPaymentStatus = item
+//                        }
                     }
             }
             
@@ -295,14 +338,14 @@ struct StatsView: View {
             Button {
                 viewModel.showToday()
             } label: {
-                Text("Today")
+                Text("today_title".localized)
                     .font(.latoBold(size: 14))
                     .minimumScaleFactor(0.5)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.whiteBlack)
             }
             .padding(.vertical, 8)
             .padding(.horizontal, 16)
-            .background(.black, in: .rect(cornerRadius: 18))
+            .background(.blackWhite, in: .rect(cornerRadius: 18))
             .hide(if: viewModel.isToday())
         }
         .animation(.easeInOut, value: viewModel.isToday())
@@ -323,7 +366,7 @@ struct StatsView: View {
                             .cornerRadius(4)
                     } else if let chartData {
                         createAnimatedBarMark(for: dayOfWeek, from: chartData)
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.blackWhite)
                             .cornerRadius(4)
                     } else {
                         createEmptyBarMark(for: dayOfWeek)
@@ -339,7 +382,7 @@ struct StatsView: View {
                             .cornerRadius(4)
                     } else if let chartData {
                         createAnimatedBarMark(for: weekOfMonth, from: chartData)
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.blackWhite)
                             .cornerRadius(4)
                     } else {
                         createEmptyBarMark(for: weekOfMonth)
@@ -355,7 +398,7 @@ struct StatsView: View {
                             .cornerRadius(4)
                     } else if let chartData {
                         createAnimatedBarMark(for: monthOfYear, from: chartData)
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.blackWhite)
                             .cornerRadius(4)
                     } else {
                         createEmptyBarMark(for: monthOfYear)
@@ -371,7 +414,7 @@ struct StatsView: View {
                             .cornerRadius(4)
                     } else if let chartData {
                         createAnimatedBarMark(for: year, from: chartData)
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.blackWhite)
                             .cornerRadius(4)
                     } else {
                         createEmptyBarMark(for: year)
@@ -463,7 +506,7 @@ struct StatsView: View {
                             x: .value("Day", dayOfWeek, unit: .day),
                             y: .value("Hours", chartData.animate ? chartData.workingHours : 0)
                         )
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.blackWhite)
                         .cornerRadius(4)
                     } else {
                         BarMark(
@@ -488,7 +531,7 @@ struct StatsView: View {
                             x: .value("Week", weekOfMonth, unit: .weekOfYear),
                             y: .value("Hours", chartData.animate ? chartData.workingHours : 0)
                         )
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.blackWhite)
                         .cornerRadius(4)
                     } else {
                         BarMark(
@@ -513,7 +556,7 @@ struct StatsView: View {
                             x: .value("Month", monthOfYear, unit: .month),
                             y: .value("Hours", chartData.animate ? chartData.workingHours : 0)
                         )
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.blackWhite)
                         .cornerRadius(4)
                     } else {
                         BarMark(
@@ -538,7 +581,7 @@ struct StatsView: View {
                             x: .value("Year", year, unit: .year),
                             y: .value("Money", chartData.animate ? chartData.workingHours : 0)
                         )
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.blackWhite)
                         .cornerRadius(4)
                     } else {
                         BarMark(

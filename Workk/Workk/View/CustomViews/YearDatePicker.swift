@@ -28,7 +28,7 @@ struct YearDatePicker: View {
             .padding()
 
             // Done Button
-            Button("Done") {
+            Button("done_title".localized) {
                 // Handle Done action, if needed
                 print("Selected Year: \(selectedYear)")
             }

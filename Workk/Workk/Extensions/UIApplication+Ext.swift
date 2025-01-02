@@ -31,7 +31,7 @@ extension UIApplication {
             let frame = activeWindow.frame
             let safeArea = activeWindow.safeAreaInsets
             
-            var tag = 1002
+            var tag = 1100
             let checkForDynamicIsland = adaptForDynamicIsland && safeArea.top >= 51
             
             if let previousTag = UserDefaults.standard.value(forKey: "in_app_notification_tag") as? Int {

@@ -11,7 +11,7 @@ struct BorderedRoundedButton: ViewModifier {
     func body(content: Content) -> some View {
         content
             .font(.latoBold(size: 16))
-            .foregroundColor(.black)
-            .background(.white)
+            .foregroundColor(.blackWhite)
+            .background(.whiteTheme)
     }
 }

@@ -14,9 +14,9 @@ enum PaymentStatus: String, CaseIterable {
     var title: String {
         switch self {
         case .paid:
-            return "Paid"
+            return "paid_title".localized
         case .unpaid:
-            return "Unpaid"
+            return "unpaid_title".localized
         }
     }
 

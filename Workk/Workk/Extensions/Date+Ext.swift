@@ -14,7 +14,7 @@ extension Date {
                                     endOfWeekMonth: String)
     
     var currentDateString: String {
-        let currentDateFormatter = DateFormatter(dateFormat: "dd MMMM, yyyy", calendar: Calendar.current)
+        let currentDateFormatter = DateFormatter(dateFormat: "d MMMM, yyyy", calendar: Calendar.current)
         return currentDateFormatter.string(from: self)
     }
     

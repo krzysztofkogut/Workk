@@ -21,21 +21,21 @@ final class StatsFilterViewModel: StatsFilterViewModelProtocol {
     @Published var iCloudSettings: iCloudSettings = Resolver.resolve()
     
     var weeklyStatsTitle: AttributedString {
-        var string = AttributedString("WEEKLY STATISTICS")
+        var string = AttributedString("weekly_stats_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var monthlyStatsTitle: AttributedString {
-        var string = AttributedString("MONTHLY STATISTICS")
+        var string = AttributedString("monthly_stats_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var yearlyStatsTitle: AttributedString {
-        var string = AttributedString("YEARLY STATISTICS")
+        var string = AttributedString("yearly_stats_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string

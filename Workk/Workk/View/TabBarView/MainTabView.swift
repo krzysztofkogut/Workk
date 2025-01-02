@@ -19,8 +19,8 @@ struct MainTabView: View {
                 .background(.wildSand)
                 .tag(0)
                 .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Home")
+                    Image(systemName: "timer.circle.fill")
+                    Text("home_tab_title".localized)
                 }
             
             ScheduleView(calendar: MainTabView.calendar)
@@ -28,7 +28,7 @@ struct MainTabView: View {
                 .tag(1)
                 .tabItem {
                     Image(systemName: "chart.bar.doc.horizontal")
-                    Text("Schedule")
+                    Text("schedule_tab_title".localized)
                 }
             
             StatsView()
@@ -36,7 +36,7 @@ struct MainTabView: View {
                 .tag(2)
                 .tabItem {
                     Image(systemName: "chart.bar.xaxis.ascending")
-                    Text("Stats")
+                    Text("stats_tab_title".localized)
                 }
             
             DarkModeWrapper {
@@ -46,7 +46,7 @@ struct MainTabView: View {
             .tag(3)
             .tabItem {
                 Image(systemName: "ellipsis")
-                Text("More")
+                Text("more_tab_title".localized)
             }
         }
         .fullScreenCover(isPresented: $showSubscriptionPlanView, onDismiss: {
@@ -66,15 +66,15 @@ struct MainTabView: View {
             let itemAppearance = UITabBarItemAppearance()
             itemAppearance.selected.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Lato-Black", size: 11)!]
             itemAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Lato-Bold", size: 11)!]
-            itemAppearance.normal.iconColor = UIColor(.aluminium)
-            itemAppearance.selected.iconColor = UIColor(.blackTheme)
+            itemAppearance.normal.iconColor = UIColor(.gray)
+            itemAppearance.selected.iconColor = UIColor(.blackWhite)
             standardAppearance.inlineLayoutAppearance = itemAppearance
             standardAppearance.stackedLayoutAppearance = itemAppearance
             standardAppearance.compactInlineLayoutAppearance = itemAppearance
             
             UITabBar.appearance().standardAppearance = standardAppearance
         }
-        .accentColor(.blackTheme)
+        .accentColor(.blackWhite)
     }
 }
 

@@ -29,7 +29,7 @@ struct AnimatedNotificationView<Content: View>: View {
             .background(content: {
                 if adaptForDynamicIsland {
                     Rectangle()
-//                        .fill(.black)
+                        .fill(.black)
                 }
             })
             .mask {

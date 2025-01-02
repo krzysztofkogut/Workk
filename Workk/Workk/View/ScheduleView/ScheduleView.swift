@@ -11,6 +11,7 @@ import SwiftUI
 struct ScheduleView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.safeAreaInsets) private var safeAreaInsets
+    @Environment(\.requestReview) private var requestReview
     
     @Namespace var filterAnimation
     
@@ -21,6 +22,11 @@ struct ScheduleView: View {
         entity: Job.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \Job.name, ascending: true)]
     ) private var jobs: FetchedResults<Job>
+    
+    @FetchRequest(
+        entity: Work.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Work.startDate, ascending: true)]
+    ) private var works: FetchedResults<Work>
         
     @FetchRequest(
         entity: Work.entity(),
@@ -53,8 +59,7 @@ struct ScheduleView: View {
     @State private var selectedFilter: PeriodFilter = .day
     @State private var filtersWidthDict: [PeriodFilter: CGFloat] = [:]
     @State private var deleteMode = false
-    @State private var selectedEntries: [WorkPeriod] = []
-    @State private var selectedWorkName: String? = "All"
+    @State private var selectedWorkName: String? = "all_title".localized
     @State private var showAddWorkTime = false
     @State private var showAddJobView: Bool = false
     @State private var showSubscriptionPlanView = false
@@ -71,6 +76,8 @@ struct ScheduleView: View {
     private let weekScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
     private let monthScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
     private let yearScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
+    
+    private let reviewThresholds: Set<Int> = [30, 100, 500]
     
     @State private var periodFilterSize: CGSize = .zero
     private let calendarTitleViewHeight: CGFloat = 56.0
@@ -132,6 +139,11 @@ struct ScheduleView: View {
             .background(.wildSand)
         }
         .background(ViewSizeReader(size: $screenSize))
+        .onChange(of: works.count) { newValue in
+            if reviewThresholds.contains(newValue) {
+                requestReview()
+            }
+        }
         .fullScreenCover(isPresented: $showAddWorkTime) {
             AddWorkTimeView(
                 addWorkTimePlace: .schedule,
@@ -160,7 +172,7 @@ struct ScheduleView: View {
                         .padding(.bottom, 64)
                     
                     if dayWorks
-                        .filter({ selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true })
+                        .filter({ selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true })
                         .filter({ $0.startDate.isSameDay(date: viewModel.selectedDay) })
                         .isEmpty
                     {
@@ -169,7 +181,7 @@ struct ScheduleView: View {
                                 Button {
                                     showSubscriptionPlanView.toggle()
                                 } label: {
-                                    Text("Buy subscription to remove ads")
+                                    Text("buy_subscription_title".localized)
                                         .font(.nunitoBold(size: 18))
                                         .foregroundColor(.blueRibbon)
                                 }
@@ -180,19 +192,20 @@ struct ScheduleView: View {
                                         .cornerRadius(6)
                                         .overlay {
                                             RoundedRectangle(cornerRadius: 6)
-                                                .stroke(.white, lineWidth: 3)
+                                                .stroke(.whiteTheme, lineWidth: 3)
                                         }
                                         .padding(6)
                                 }
-                                .background(.white)
+                                .background(.whiteTheme)
                                 .cornerRadius(12)
                                 .padding(.horizontal, 16)
                                 .opacity(isDayDetailsBannerAdLoaded ? 1 : 0)
                             }
                             .padding(.bottom, 16)
                             
-                            Text("No Entries Found")
+                            Text("no_entries_title".localized)
                                 .font(.latoRegular(size: 18))
+                                .foregroundStyle(.blackWhite)
                         }
                         .padding(.top, calendarHeight + 62)
                     }
@@ -200,17 +213,18 @@ struct ScheduleView: View {
                 .zIndex(1002)
                                 
                 ForEach(dayWorks
-                    .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+                    .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
                     .filter { $0.startDate.isSameDay(date: viewModel.selectedDay) })
                 { work in
                     HStack(spacing: 0) {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(work.jobName)
                                 .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
                                 
                             Text(work.startDate.currentHourString + " - " + work.endDate.currentHourString)
                                 .font(.latoRegular(size: 12))
-                                .foregroundColor(.black)
+                                .foregroundColor(.blackWhite)
                         }
                         .padding(16)
                             
@@ -218,6 +232,7 @@ struct ScheduleView: View {
                             
                         VStack(alignment: .trailing, spacing: 2) {
                             Text("\(work.moneyEarned.formatFloatToString())" + " PLN")
+                                .foregroundStyle(.blackWhite)
                                 .font(.latoBold(size: 16))
                                 
                             Text(work.hoursWorkedTimeDifference + " | " + "\(work.hourlyRate.formatFloatToString())" + " PLN/h")
@@ -225,19 +240,21 @@ struct ScheduleView: View {
                                 .foregroundColor(.gray)
                                 .padding(.bottom, 2)
                             
-                            Text(work.isPaid ? "Paid" : "Unpaid")
+                            Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
                                 .font(.latoBold(size: 14))
+                                .foregroundStyle(.blackWhite)
                         }
                         .padding(.horizontal, 16)
                         .padding(.vertical, 10)
                             
                         Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
                             .resizable()
+                            .foregroundStyle(.blackWhite)
                             .frame(width: 20, height: 20)
                             .padding([.trailing, .vertical], 16)
                             .hide(if: !deleteMode)
                     }
-                    .background(.white)
+                    .background(.whiteTheme)
                     .cornerRadius(12)
                     .padding(.horizontal, 16)
                     .padding(.bottom, 4)
@@ -268,13 +285,13 @@ struct ScheduleView: View {
                         showAddWorkTimeView()
                     }
                 } label: {
-                    Text(deleteMode ? "Delete" : "Add work time")
+                    Text(deleteMode ? "delete_title".localized : "add_work_time_title".localized)
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                 }
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
-                .background(.black, in: .rect(cornerRadius: 18))
+                .background(.blackWhite, in: .rect(cornerRadius: 18))
                 
                 Button {
                     if selectedWorks.count > 0 {
@@ -283,10 +300,10 @@ struct ScheduleView: View {
                 } label: {
                     Text("\(selectedWorks.count)")
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
-                        .background(.black, in: .rect(cornerRadius: 18))
+                        .background(.blackWhite, in: .rect(cornerRadius: 18))
                         .hide(if: !deleteMode)
                 }
             }
@@ -301,7 +318,7 @@ struct ScheduleView: View {
                     Button(action: viewModel.backwardToLastWeek) {
                         Image(systemName: "chevron.left")
                             .frame(width: 24, height: 24)
-                            .foregroundColor(.primary)
+                            .foregroundColor(.blackWhite)
                     }
                     .padding(.leading, 24)
                     
@@ -314,14 +331,14 @@ struct ScheduleView: View {
                     Button(action: viewModel.forwardToNextWeek) {
                         Image(systemName: "chevron.right")
                             .frame(width: 24, height: 24)
-                            .foregroundColor(.primary)
+                            .foregroundColor(.blackWhite)
                     }
                     .padding(.trailing, 24)
                 }
                 .padding(.horizontal, 4)
                 .padding(.vertical, 12)
             }
-            .background(.white)
+            .background(.whiteTheme)
             .cornerRadius(12)
             .padding(.horizontal, 16)
             .padding(.bottom, 12)
@@ -330,9 +347,9 @@ struct ScheduleView: View {
                 HStack(spacing: 0) {
                     DropDownPicker(selection: $selectedWorkName,
                                    addNewOption: $showAddJobView,
-                                   hint: "Select",
-                                   options: ["All"] + jobs.compactMap { $0.name },
-                                   backgroundColor: .white,
+                                   hint: "select_title".localized,
+                                   options: ["all_title".localized] + jobs.compactMap { $0.name },
+                                   backgroundColor: .whiteTheme,
                                    maxWidth: 200)
                     
                     Spacer()
@@ -342,13 +359,13 @@ struct ScheduleView: View {
                             viewModel.selectedWeek = .now
                         }
                     } label: {
-                        Text("Today")
+                        Text("today_title".localized)
                             .font(.latoBold(size: 14))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.whiteBlack)
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .background(.black, in: .rect(cornerRadius: 18))
+                    .background(.blackWhite, in: .rect(cornerRadius: 18))
                     .padding(.horizontal, 8)
                     .hide(if: viewModel.selectedWeek.isThisWeek())
                     
@@ -361,13 +378,13 @@ struct ScheduleView: View {
                             deleteMode.toggle()
                         }
                     } label: {
-                        Text(deleteMode ? "Cancel" : "Delete")
+                        Text(deleteMode ? "cancel_title".localized : "delete_title".localized)
                             .font(.latoBold(size: 14))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.blackWhite)
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .background(.white, in: .rect(cornerRadius: 18))
+                    .background(.whiteTheme, in: .rect(cornerRadius: 18))
                 }
             }
             .zIndex(1000)
@@ -376,24 +393,25 @@ struct ScheduleView: View {
             .padding(.horizontal, 16)
             
             if !weekWorks
-                .filter({ selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true })
+                .filter({ selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true })
                 .filter({ $0.startDate.isSameWeek(date: viewModel.selectedWeek) })
                 .isEmpty
             {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 4) {
                         ForEach(weekWorks
-                            .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+                            .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
                             .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) })
                         { work in
                             HStack(spacing: 0) {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(work.jobName)
                                         .font(.latoBold(size: 18))
+                                        .foregroundStyle(.blackWhite)
                                     
                                     Text(work.startDate.currentWeekScheduleString)
                                         .font(.latoRegular(size: 12))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.blackWhite)
                                 }
                                 .padding(16)
                                 
@@ -402,25 +420,28 @@ struct ScheduleView: View {
                                 VStack(alignment: .trailing, spacing: 2) {
                                     Text("\(work.moneyEarned.formatFloatToString())" + " PLN")
                                         .font(.latoBold(size: 16))
+                                        .foregroundStyle(.blackWhite)
                                     
                                     Text(work.hoursWorkedString + " | " + "\(work.hourlyRate.formatFloatToString())" + " PLN/h")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
                                     
-                                    Text(work.isPaid ? "Paid" : "Unpaid")
+                                    Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
                                         .font(.latoBold(size: 14))
+                                        .foregroundStyle(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
                                 
                                 Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
                                     .resizable()
+                                    .foregroundStyle(.blackWhite)
                                     .frame(width: 20, height: 20)
                                     .padding([.trailing, .vertical], 16)
                                     .hide(if: !deleteMode)
                             }
-                            .background(.white)
+                            .background(.whiteTheme)
                             .cornerRadius(12)
                             .padding(.horizontal, 16)
                             .transition(.opacity)
@@ -446,7 +467,7 @@ struct ScheduleView: View {
                         Button {
                             showSubscriptionPlanView.toggle()
                         } label: {
-                            Text("Buy subscription to remove ads")
+                            Text("buy_subscription_title".localized)
                                 .font(.nunitoBold(size: 18))
                                 .foregroundColor(.blueRibbon)
                         }
@@ -457,19 +478,20 @@ struct ScheduleView: View {
                                 .cornerRadius(6)
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 6)
-                                        .stroke(.white, lineWidth: 3)
+                                        .stroke(.whiteTheme, lineWidth: 3)
                                 }
                                 .padding(6)
                         }
-                        .background(.white)
+                        .background(.whiteTheme)
                         .cornerRadius(12)
                         .padding(.horizontal, 16)
                         .opacity(isWeekDetailsBannerAdLoaded ? 1 : 0)
                     }
                     .padding(.bottom, 16)
                     
-                    Text("No Entries Found")
+                    Text("no_entries_title".localized)
                         .font(.latoRegular(size: 18))
+                        .foregroundStyle(.blackWhite)
                         .padding()
                     
                     Spacer()
@@ -486,13 +508,13 @@ struct ScheduleView: View {
                         showAddWorkTimeView()
                     }
                 } label: {
-                    Text(deleteMode ? "Delete" : "Add work time")
+                    Text(deleteMode ? "delete_title".localized : "add_work_time_title".localized)
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                 }
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
-                .background(.black, in: .rect(cornerRadius: 18))
+                .background(.blackWhite, in: .rect(cornerRadius: 18))
                 
                 Button {
                     if selectedWorks.count > 0 {
@@ -501,10 +523,10 @@ struct ScheduleView: View {
                 } label: {
                     Text("\(selectedWorks.count)")
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
-                        .background(.black, in: .rect(cornerRadius: 18))
+                        .background(.blackWhite, in: .rect(cornerRadius: 18))
                         .hide(if: !deleteMode)
                 }
             }
@@ -519,7 +541,7 @@ struct ScheduleView: View {
                     Button(action: viewModel.backwardToLastMonth) {
                         Image(systemName: "chevron.left")
                             .frame(width: 24, height: 24)
-                            .foregroundColor(.primary)
+                            .foregroundColor(.blackWhite)
                     }
                     .padding(.leading, 24)
                     
@@ -532,14 +554,14 @@ struct ScheduleView: View {
                     Button(action: viewModel.forwardToNextMonth) {
                         Image(systemName: "chevron.right")
                             .frame(width: 24, height: 24)
-                            .foregroundColor(.primary)
+                            .foregroundColor(.blackWhite)
                     }
                     .padding(.trailing, 24)
                 }
                 .padding(.horizontal, 4)
                 .padding(.vertical, 12)
             }
-            .background(.white)
+            .background(.whiteTheme)
             .cornerRadius(12)
             .padding(.horizontal, 16)
             .padding(.bottom, 12)
@@ -548,9 +570,9 @@ struct ScheduleView: View {
                 HStack(spacing: 0) {
                     DropDownPicker(selection: $selectedWorkName,
                                    addNewOption: $showAddJobView,
-                                   hint: "Select",
-                                   options: ["All"] + jobs.compactMap { $0.name },
-                                   backgroundColor: .white,
+                                   hint: "select_title".localized,
+                                   options: ["all_title".localized] + jobs.compactMap { $0.name },
+                                   backgroundColor: .whiteTheme,
                                    maxWidth: 200)
                     
                     Spacer()
@@ -560,13 +582,13 @@ struct ScheduleView: View {
                             viewModel.selectedMonth = .now
                         }
                     } label: {
-                        Text("Today")
+                        Text("today_title".localized)
                             .font(.latoBold(size: 14))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.whiteBlack)
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .background(.black, in: .rect(cornerRadius: 18))
+                    .background(.blackWhite, in: .rect(cornerRadius: 18))
                     .padding(.horizontal, 8)
                     .hide(if: viewModel.selectedMonth.isThisMonth())
                     
@@ -579,13 +601,13 @@ struct ScheduleView: View {
                             deleteMode.toggle()
                         }
                     } label: {
-                        Text(deleteMode ? "Cancel" : "Delete")
+                        Text(deleteMode ? "cancel_title".localized : "delete_title".localized)
                             .font(.latoBold(size: 14))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.blackWhite)
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .background(.white, in: .rect(cornerRadius: 18))
+                    .background(.whiteTheme, in: .rect(cornerRadius: 18))
                 }
             }
             .zIndex(1000)
@@ -594,24 +616,25 @@ struct ScheduleView: View {
             .padding(.horizontal, 16)
             
             if !monthWorks
-                .filter({ selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true })
+                .filter({ selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true })
                 .filter({ $0.startDate.isSameMonth(date: viewModel.selectedMonth) })
                 .isEmpty
             {
                 ScrollView {
                     VStack(spacing: 4) {
                         ForEach(monthWorks
-                            .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+                            .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
                             .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) })
                         { work in
                             HStack(spacing: 4) {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(work.jobName)
                                         .font(.latoBold(size: 18))
+                                        .foregroundStyle(.blackWhite)
                                     
                                     Text(work.startDate.currentMonthString)
                                         .font(.latoRegular(size: 12))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.blackWhite)
                                 }
                                 .padding(16)
                                 
@@ -620,25 +643,28 @@ struct ScheduleView: View {
                                 VStack(alignment: .trailing, spacing: 2) {
                                     Text(work.moneyEarned.formatFloatToString() + " PLN")
                                         .font(.latoBold(size: 16))
+                                        .foregroundStyle(.blackWhite)
                                     
                                     Text(work.hoursWorkedString + " | " + work.hourlyRate.formatFloatToString() + " PLN/h")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
                                     
-                                    Text(work.isPaid ? "Paid" : "Unpaid")
+                                    Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
                                         .font(.latoBold(size: 14))
+                                        .foregroundStyle(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
                                 
                                 Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
                                     .resizable()
+                                    .foregroundStyle(.blackWhite)
                                     .frame(width: 20, height: 20)
                                     .padding(.trailing, 16)
                                     .hide(if: !deleteMode)
                             }
-                            .background(.white)
+                            .background(.whiteTheme)
                             .cornerRadius(12)
                             .padding(.horizontal, 16)
                             .transition(.opacity)
@@ -664,7 +690,7 @@ struct ScheduleView: View {
                         Button {
                             showSubscriptionPlanView.toggle()
                         } label: {
-                            Text("Buy subscription to remove ads")
+                            Text("buy_subscription_title".localized)
                                 .font(.nunitoBold(size: 18))
                                 .foregroundColor(.blueRibbon)
                         }
@@ -675,19 +701,20 @@ struct ScheduleView: View {
                                 .cornerRadius(6)
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 6)
-                                        .stroke(.white, lineWidth: 3)
+                                        .stroke(.whiteTheme, lineWidth: 3)
                                 }
                                 .padding(6)
                         }
-                        .background(.white)
+                        .background(.whiteTheme)
                         .cornerRadius(12)
                         .padding(.horizontal, 16)
                         .opacity(isMonthDetailsBannerAdLoaded ? 1 : 0)
                     }
                     .padding(.bottom, 16)
                     
-                    Text("No Entries Found")
+                    Text("no_entries_title".localized)
                         .font(.latoRegular(size: 18))
+                        .foregroundStyle(.blackWhite)
                         .padding()
                     
                     Spacer()
@@ -704,13 +731,13 @@ struct ScheduleView: View {
                         showAddWorkTimeView()
                     }
                 } label: {
-                    Text(deleteMode ? "Delete" : "Add work time")
+                    Text(deleteMode ? "delete_title".localized : "add_work_time_title".localized)
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                 }
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
-                .background(.black, in: .rect(cornerRadius: 18))
+                .background(.blackWhite, in: .rect(cornerRadius: 18))
                 
                 Button {
                     if selectedWorks.count > 0 {
@@ -719,10 +746,10 @@ struct ScheduleView: View {
                 } label: {
                     Text("\(selectedWorks.count)")
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
-                        .background(.black, in: .rect(cornerRadius: 18))
+                        .background(.blackWhite, in: .rect(cornerRadius: 18))
                         .hide(if: !deleteMode)
                 }
             }
@@ -737,7 +764,7 @@ struct ScheduleView: View {
                     Button(action: viewModel.backwardToLastYear) {
                         Image(systemName: "chevron.left")
                             .frame(width: 24, height: 24)
-                            .foregroundColor(.primary)
+                            .foregroundColor(.blackWhite)
                     }
                     .padding(.leading, 24)
                     
@@ -750,14 +777,14 @@ struct ScheduleView: View {
                     Button(action: viewModel.forwardToNextYear) {
                         Image(systemName: "chevron.right")
                             .frame(width: 24, height: 24)
-                            .foregroundColor(.primary)
+                            .foregroundColor(.blackWhite)
                     }
                     .padding(.trailing, 24)
                 }
                 .padding(.horizontal, 4)
                 .padding(.vertical, 20)
             }
-            .background(.white)
+            .background(.whiteTheme)
             .cornerRadius(12)
             .padding(.horizontal, 16)
             .padding(.bottom, 12)
@@ -766,9 +793,9 @@ struct ScheduleView: View {
                 HStack(spacing: 0) {
                     DropDownPicker(selection: $selectedWorkName,
                                    addNewOption: $showAddJobView,
-                                   hint: "Select",
-                                   options: ["All"] + jobs.compactMap { $0.name },
-                                   backgroundColor: .white,
+                                   hint: "select_title".localized,
+                                   options: ["all_title".localized] + jobs.compactMap { $0.name },
+                                   backgroundColor: .whiteTheme,
                                    maxWidth: 200)
                     
                     Spacer()
@@ -778,13 +805,13 @@ struct ScheduleView: View {
                             viewModel.selectedYear = .now
                         }
                     } label: {
-                        Text("Today")
+                        Text("today_title".localized)
                             .font(.latoBold(size: 14))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.whiteBlack)
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .background(.black, in: .rect(cornerRadius: 18))
+                    .background(.blackWhite, in: .rect(cornerRadius: 18))
                     .padding(.horizontal, 8)
                     .hide(if: viewModel.selectedYear.isThisYear())
                     
@@ -797,13 +824,13 @@ struct ScheduleView: View {
                             deleteMode.toggle()
                         }
                     } label: {
-                        Text(deleteMode ? "Cancel" : "Delete")
+                        Text(deleteMode ? "cancel_title".localized : "delete_title".localized)
                             .font(.latoBold(size: 14))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.blackWhite)
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .background(.white, in: .rect(cornerRadius: 18))
+                    .background(.whiteTheme, in: .rect(cornerRadius: 18))
                 }
             }
             .zIndex(1000)
@@ -812,24 +839,25 @@ struct ScheduleView: View {
             .padding(.horizontal, 16)
             
             if !yearWorks
-                .filter({ selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true })
+                .filter({ selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true })
                 .filter({ $0.startDate.isSameYear(date: viewModel.selectedYear) })
                 .isEmpty
             {
                 ScrollView {
                     VStack(spacing: 4) {
                         ForEach(yearWorks
-                            .filter { selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true }
+                            .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
                             .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) })
                         { work in
                             HStack(spacing: 0) {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(work.jobName)
                                         .font(.latoBold(size: 18))
+                                        .foregroundStyle(.blackWhite)
                                     
                                     Text(work.startDate.currentYearString)
                                         .font(.latoRegular(size: 12))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.blackWhite)
                                 }
                                 .padding(16)
                                 
@@ -838,25 +866,28 @@ struct ScheduleView: View {
                                 VStack(alignment: .trailing, spacing: 2) {
                                     Text(work.moneyEarned.formatFloatToString() + " PLN")
                                         .font(.latoBold(size: 16))
+                                        .foregroundStyle(.blackWhite)
                                     
                                     Text(work.hoursWorkedString + " | " + work.hourlyRate.formatFloatToString() + " PLN/h")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
                                     
-                                    Text(work.isPaid ? "Paid" : "Unpaid")
+                                    Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
                                         .font(.latoBold(size: 14))
+                                        .foregroundStyle(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
                                 
                                 Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
                                     .resizable()
+                                    .foregroundStyle(.blackWhite)
                                     .frame(width: 20, height: 20)
                                     .padding(.trailing, 16)
                                     .hide(if: !deleteMode)
                             }
-                            .background(.white)
+                            .background(.whiteTheme)
                             .cornerRadius(12)
                             .padding(.horizontal, 16)
                             .transition(.opacity)
@@ -882,7 +913,7 @@ struct ScheduleView: View {
                         Button {
                             showSubscriptionPlanView.toggle()
                         } label: {
-                            Text("Buy subscription to remove ads")
+                            Text("buy_subscription_title".localized)
                                 .font(.nunitoBold(size: 18))
                                 .foregroundColor(.blueRibbon)
                         }
@@ -893,19 +924,20 @@ struct ScheduleView: View {
                                 .cornerRadius(6)
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 6)
-                                        .stroke(.white, lineWidth: 3)
+                                        .stroke(.whiteTheme, lineWidth: 3)
                                 }
                                 .padding(6)
                         }
-                        .background(.white)
+                        .background(.whiteTheme)
                         .cornerRadius(12)
                         .padding(.horizontal, 16)
                         .opacity(isYearDetailsBannerAdLoaded ? 1 : 0)
                     }
                     .padding(.bottom, 16)
                     
-                    Text("No Entries Found")
+                    Text("no_entries_title".localized)
                         .font(.latoRegular(size: 18))
+                        .foregroundStyle(.blackWhite)
                         .padding()
                     
                     Spacer()
@@ -922,13 +954,13 @@ struct ScheduleView: View {
                         showAddWorkTimeView()
                     }
                 } label: {
-                    Text(deleteMode ? "Delete" : "Add work time")
+                    Text(deleteMode ? "delete_title".localized : "add_work_time_title".localized)
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                 }
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
-                .background(.black, in: .rect(cornerRadius: 18))
+                .background(.blackWhite, in: .rect(cornerRadius: 18))
                 
                 Button {
                     if selectedWorks.count > 0 {
@@ -937,10 +969,10 @@ struct ScheduleView: View {
                 } label: {
                     Text("\(selectedWorks.count)")
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
-                        .background(.black, in: .rect(cornerRadius: 18))
+                        .background(.blackWhite, in: .rect(cornerRadius: 18))
                         .hide(if: !deleteMode)
                 }
             }
@@ -956,7 +988,7 @@ struct ScheduleView: View {
                         .font(selectedFilter == item ? .latoBlack(size: 18) : .latoRegular(size: 18))
                         .minimumScaleFactor(0.01)
                         .lineLimit(1)
-                        .foregroundColor(selectedFilter == item ? .black : .gray)
+                        .foregroundColor(selectedFilter == item ? .blackWhite : .gray)
                         .onAppear {
                             filtersWidthDict[item] = item.title.widthOfString(usingFont: .latoBold(size: 18))
                         }
@@ -1018,7 +1050,7 @@ struct ScheduleView: View {
                                             .foregroundColor(.clear)
                                             .overlay {
                                                 Capsule().fill(date.isSameDay(date: viewModel.selectedDay) ?
-                                                    .black : (date.isToday() ? Color.primary.opacity(0.08) : .clear))
+                                                    .blackWhite : (date.isToday() ? Color.primary.opacity(0.08) : .clear))
                                                     .padding(.horizontal, 4)
                                             }
                                             .accessibilityHidden(true)
@@ -1027,16 +1059,16 @@ struct ScheduleView: View {
                                                     .minimumScaleFactor(0.5)
                                                     .font(date.isSameDay(date: viewModel.selectedDay) ?
                                                         .latoBlack(size: 14) : (date.isToday() ? .latoBlack(size: 14) : .latoRegular(size: 14)))
-                                                    .foregroundColor(date.isSameDay(date: viewModel.selectedDay) ? .white : .black)
+                                                    .foregroundColor(date.isSameDay(date: viewModel.selectedDay) ? .whiteBlack : .blackWhite)
                                             }
                                             .overlay {
                                                 if !dayWorks
-                                                    .filter({ selectedWorkName != "All" ? $0.job?.name == selectedWorkName : true })
+                                                    .filter({ selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true })
                                                     .filter({ $0.startDate.isSameDay(date: date) })
                                                     .isEmpty
                                                 {
                                                     Circle()
-                                                        .fill(date.isSameDay(date: viewModel.selectedDay) ? .white : .black)
+                                                        .fill(date.isSameDay(date: viewModel.selectedDay) ? .whiteBlack : .blackWhite)
                                                         .frame(width: screenSize.height < 700 ? 4 : 5,
                                                                height: screenSize.height < 700 ? 4 : 5)
                                                         .padding(.top, screenSize.height < 700 ? 22 : 26)
@@ -1059,7 +1091,7 @@ struct ScheduleView: View {
                         } header: {
                             ZStack {
                                 Rectangle()
-                                    .fill(.white)
+                                    .fill(.whiteTheme)
                                     .ignoresSafeArea()
                                 VStack {
                                     HStack {
@@ -1081,6 +1113,7 @@ struct ScheduleView: View {
                                                 icon: { Image(systemName: "chevron.left") }
                                             )
                                             .labelStyle(IconOnlyLabelStyle())
+                                            .foregroundStyle(.blackWhite)
                                             .padding(.horizontal)
                                             .frame(maxHeight: .infinity)
                                         }
@@ -1095,6 +1128,7 @@ struct ScheduleView: View {
                                             
                                             Text(month.currentMonthString)
                                                 .font(.latoBlack(size: 26))
+                                                .foregroundStyle(.blackWhite)
                                                 .minimumScaleFactor(0.5)
                                         }
                                         .padding()
@@ -1130,6 +1164,7 @@ struct ScheduleView: View {
                                                 .minimumScaleFactor(0.01)
                                                 .fixedSize(horizontal: true, vertical: false)
                                                 .font(.nunitoSemiBold(size: 14))
+                                                .foregroundStyle(.blackWhite)
                                                 .frame(maxWidth: .infinity)
                                         }
                                     }
@@ -1137,13 +1172,13 @@ struct ScheduleView: View {
                             }
                             .padding(.top, 12)
                             .padding(.bottom, 6)
-                            .background(.white)
+                            .background(.whiteTheme)
                             .zIndex(1001)
                         }
                     }
                     .padding(.bottom, 12)
                     .padding(.horizontal, 12)
-                    .background(.white)
+                    .background(.whiteTheme)
                     .cornerRadius(12)
                     .frame(height: size.height - (maxHeight * progress), alignment: .top)
                     .cornerRadius(12)
@@ -1164,9 +1199,9 @@ struct ScheduleView: View {
                 HStack(spacing: 0) {
                     DropDownPicker(selection: $selectedWorkName,
                                    addNewOption: $showAddJobView,
-                                   hint: "Select",
-                                   options: ["All"] + jobs.compactMap { $0.name },
-                                   backgroundColor: .white,
+                                   hint: "select_title".localized,
+                                   options: ["all_title".localized] + jobs.compactMap { $0.name },
+                                   backgroundColor: .whiteTheme,
                                    maxWidth: 200)
                     
                     Spacer()
@@ -1176,13 +1211,13 @@ struct ScheduleView: View {
                             viewModel.selectedDay = .now
                         }
                     } label: {
-                        Text("Today")
+                        Text("today_title".localized)
                             .font(.latoBold(size: 14))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.whiteBlack)
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .background(.black, in: .rect(cornerRadius: 18))
+                    .background(.blackWhite, in: .rect(cornerRadius: 18))
                     .padding(.horizontal, 8)
                     .opacity(viewModel.selectedDay.isToday() ? 0 : 1)
                     
@@ -1195,13 +1230,13 @@ struct ScheduleView: View {
                             deleteMode.toggle()
                         }
                     } label: {
-                        Text(deleteMode ? "Cancel" : "Delete")
+                        Text(deleteMode ? "cancel_title".localized : "delete_title".localized)
                             .font(.latoBold(size: 14))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.blackWhite)
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .background(.white, in: .rect(cornerRadius: 18))
+                    .background(.whiteTheme, in: .rect(cornerRadius: 18))
                 }
                 .fixedSize(horizontal: false, vertical: true)
                 .background(.wildSand)
@@ -1245,17 +1280,6 @@ extension ScheduleView {
 }
 
 extension ScheduleView {
-    private func addItem() {
-        withAnimation {
-            let newItem = Job(context: viewContext)
-            newItem.id = UUID()
-            newItem.hourlyRate = 32.0
-            newItem.name = "DAZN"
-            
-            saveContext()
-        }
-    }
-    
     private func deleteSelectedWorks() {
         withAnimation {
             for item in selectedWorks {

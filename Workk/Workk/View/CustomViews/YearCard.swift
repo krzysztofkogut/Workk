@@ -15,7 +15,7 @@ struct YearCard: View {
         VStack(spacing: 0) {
             Text(year.currentYearString)
                 .font(year.isThisYear() || isSelected ? .latoBold(size: 16) : .latoRegular(size: 16))
-                .foregroundColor(year.isThisYear() || isSelected ? .black : .gray)
+                .foregroundColor(year.isThisYear() || isSelected ? .blackWhite : .gray)
         }
     }
 }

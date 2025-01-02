@@ -16,26 +16,13 @@ enum PeriodFilter: String, CaseIterable {
     var title: String {
         switch self {
         case .day:
-            return "Day"
+            return "day_title".localized
         case .week:
-            return "Week"
+            return "week_title".localized
         case .month:
-            return "Month"
+            return "month_title".localized
         case .year:
-            return "Year"
-        }
-    }
-    
-    var statsTitle: String {
-        switch self {
-        case .day:
-            return "Today"
-        case .week:
-            return "This week"
-        case .month:
-            return "This month"
-        case .year:
-            return "This year"
+            return "year_title".localized
         }
     }
     

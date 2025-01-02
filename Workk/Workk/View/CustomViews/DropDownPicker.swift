@@ -35,13 +35,13 @@ struct DropDownPicker: View {
                 HStack {
                     if state == .leading {
                         Text(selection == nil ? hint : selection!)
-                            .foregroundColor(selection != nil ? .black : .gray)
+                            .foregroundColor(selection != nil ? .blackWhite : .gray)
                             .font(.latoBlack(size: 18))
                             .lineLimit(1)
                     } else {
                         Image(systemName: "chevron.down")
                             .frame(width: 20, height: 20)
-                            .foregroundColor(selection != nil ? .black : .gray)
+                            .foregroundColor(selection != nil ? .blackWhite : .gray)
                             .rotationEffect(.degrees(showDropdown ? -180 : 0))
                     }
                     
@@ -52,11 +52,11 @@ struct DropDownPicker: View {
                     if state == .leading {
                         Image(systemName: "chevron.down")
                             .frame(width: 20, height: 20)
-                            .foregroundColor(selection != nil ? .black : .gray)
+                            .foregroundColor(selection != nil ? .blackWhite : .gray)
                             .rotationEffect(.degrees(showDropdown ? -180 : 0))
                     } else {
                         Text(selection == nil ? hint : selection!)
-                            .foregroundColor(selection != nil ? .black : .gray)
+                            .foregroundColor(selection != nil ? .blackWhite : .gray)
                             .font(.latoBlack(size: 18))
                             .lineLimit(1)
                     }
@@ -76,10 +76,12 @@ struct DropDownPicker: View {
                 
                 if showDropdown {
                     OptionsView()
+                        .transition(.opacity) // Use an opacity transition
+                        .background(backgroundColor)
                 }
             }
             .clipped()
-            .background(.white)
+            .background(backgroundColor)
             .cornerRadius(6)
             .frame(height: size.height, alignment: .top)
             .offset(x: (state == .trailing && !showDropdown) ? maxWidth - (selection == nil ? hint : selection!).widthOfString(usingFont: .latoBlack(size: 18)) - 60 : 0)
@@ -162,6 +164,7 @@ struct DropDownPicker: View {
                     HStack {
                         Image(systemName: "plus")
                             .font(.body)
+                            .foregroundStyle(.blackWhite)
                         
                         Spacer()
                         
@@ -174,7 +177,7 @@ struct DropDownPicker: View {
                             } label: {
                                 Image(systemName: "chevron.down.circle.fill")
                                     .font(.body)
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.blackWhite)
                             }
                         }
                     }
@@ -199,5 +202,5 @@ struct DropDownPicker: View {
 #Preview {
     @State var selection: String? = nil
     @State var addNewOption = false
-    return DropDownPicker(selection: $selection, addNewOption: $addNewOption, hint: "Select", state: .trailing, options: ["YouTube", "Instagram", "Facebook", "Twitter"], backgroundColor: .wildSand)
+    return DropDownPicker(selection: $selection, addNewOption: $addNewOption, hint: "select_title".localized, state: .trailing, options: ["YouTube", "Instagram", "Facebook", "Twitter"], backgroundColor: .wildSand)
 }

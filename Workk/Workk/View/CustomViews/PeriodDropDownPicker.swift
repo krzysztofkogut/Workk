@@ -27,7 +27,7 @@ struct PeriodDropDownPicker: View {
                 HStack {
                     if state == .leading {
                         Text(selection.title)
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                             .font(.latoBlack(size: 18))
                             .lineLimit(1)
                     } else {
@@ -44,11 +44,11 @@ struct PeriodDropDownPicker: View {
                     if state == .leading {
                         Image(systemName: "chevron.down")
                             .frame(width: 20, height: 20)
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                             .rotationEffect(.degrees(showDropdown ? -180 : 0))
                     } else {
                         Text(selection.title)
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                             .font(.latoBlack(size: 18))
                             .lineLimit(1)
                     }
@@ -68,10 +68,12 @@ struct PeriodDropDownPicker: View {
                 
                 if showDropdown {
                     OptionsView()
+                        .transition(.opacity) // Use an opacity transition
+                        .background(backgroundColor)
                 }
             }
             .clipped()
-            .background(.white)
+            .background(backgroundColor)
             .cornerRadius(6)
             .frame(height: size.height, alignment: .top)
             .offset(x: (state == .trailing && !showDropdown) ? maxWidth - (selection.title).widthOfString(usingFont: .latoBlack(size: 18)) - 60 : 0)

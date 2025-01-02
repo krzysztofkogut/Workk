@@ -19,9 +19,9 @@ struct WorksDeletionView: View {
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
-                Text("Select to delete")
+                Text("select_delete_title".localized)
                     .font(.latoBold(size: 18))
-                    .foregroundColor(.black)
+                    .foregroundColor(.blackWhite)
                 
                 HStack {
                     Spacer()
@@ -30,7 +30,7 @@ struct WorksDeletionView: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.black)
+                            .foregroundColor(.blackWhite)
                             .font(.title)
                     }
                 }
@@ -52,10 +52,11 @@ struct WorksDeletionView: View {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(work.jobName)
                                         .font(.latoBold(size: 18))
+                                        .foregroundColor(.blackWhite)
                                     
                                     Text(work.startDate.currentHourString + " - " + work.endDate.currentHourString)
                                         .font(.latoRegular(size: 12))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 
@@ -64,24 +65,27 @@ struct WorksDeletionView: View {
                                 VStack(alignment: .trailing, spacing: 2) {
                                     Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
                                         .font(.latoBold(size: 16))
+                                        .foregroundColor(.blackWhite)
                                     
                                     Text(work.hoursWorkedTimeDifference + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
                                     
-                                    Text(work.isPaid ? "Paid" : "Unpaid")
+                                    Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
                                         .font(.latoBold(size: 14))
+                                        .foregroundColor(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
                                 
                                 Image(systemName: "checkmark.circle.fill")
                                     .resizable()
+                                    .foregroundColor(.blackWhite)
                                     .frame(width: 20, height: 20)
                                     .padding(.trailing, 16)
                             }
-                            .background(.white)
+                            .background(.whiteTheme)
                             .cornerRadius(12)
                             .transition(.opacity)
                             .onTapGesture {
@@ -113,10 +117,11 @@ struct WorksDeletionView: View {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(work.jobName)
                                         .font(.latoBold(size: 18))
+                                        .foregroundColor(.blackWhite)
                                     
                                     Text(work.startDate.currentWeekScheduleString)
                                         .font(.latoRegular(size: 12))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 
@@ -125,24 +130,27 @@ struct WorksDeletionView: View {
                                 VStack(alignment: .trailing, spacing: 2) {
                                     Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
                                         .font(.latoBold(size: 16))
+                                        .foregroundColor(.blackWhite)
                                     
                                     Text(work.hoursWorkedString + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
                                     
-                                    Text(work.isPaid ? "Paid" : "Unpaid")
+                                    Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
                                         .font(.latoBold(size: 14))
+                                        .foregroundColor(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
                                 
                                 Image(systemName: "checkmark.circle.fill")
                                     .resizable()
+                                    .foregroundColor(.blackWhite)
                                     .frame(width: 20, height: 20)
                                     .padding(.trailing, 16)
                             }
-                            .background(.white)
+                            .background(.whiteTheme)
                             .cornerRadius(12)
                             .transition(.opacity)
                             .onTapGesture {
@@ -174,10 +182,11 @@ struct WorksDeletionView: View {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(work.jobName)
                                         .font(.latoBold(size: 18))
+                                        .foregroundColor(.blackWhite)
                                     
                                     Text(work.startDate.currentMonthString)
                                         .font(.latoRegular(size: 12))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 
@@ -186,24 +195,27 @@ struct WorksDeletionView: View {
                                 VStack(alignment: .trailing, spacing: 2) {
                                     Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
                                         .font(.latoBold(size: 16))
+                                        .foregroundColor(.blackWhite)
                                     
                                     Text(work.hoursWorkedString + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
                                     
-                                    Text(work.isPaid ? "Paid" : "Unpaid")
+                                    Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
                                         .font(.latoBold(size: 14))
+                                        .foregroundColor(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
                                 
                                 Image(systemName: "checkmark.circle.fill")
                                     .resizable()
+                                    .foregroundColor(.blackWhite)
                                     .frame(width: 20, height: 20)
                                     .padding(.trailing, 16)
                             }
-                            .background(.white)
+                            .background(.whiteTheme)
                             .cornerRadius(12)
                             .transition(.opacity)
                             .onTapGesture {
@@ -235,10 +247,11 @@ struct WorksDeletionView: View {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(work.jobName)
                                         .font(.latoBold(size: 18))
+                                        .foregroundColor(.blackWhite)
                                     
                                     Text(work.startDate.currentYearString)
                                         .font(.latoRegular(size: 12))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 
@@ -247,24 +260,27 @@ struct WorksDeletionView: View {
                                 VStack(alignment: .trailing, spacing: 2) {
                                     Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
                                         .font(.latoBold(size: 16))
+                                        .foregroundColor(.blackWhite)
                                     
                                     Text(work.hoursWorkedString + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
                                     
-                                    Text(work.isPaid ? "Paid" : "Unpaid")
+                                    Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
                                         .font(.latoBold(size: 14))
+                                        .foregroundColor(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
                                 
                                 Image(systemName: "checkmark.circle.fill")
                                     .resizable()
+                                    .foregroundColor(.blackWhite)
                                     .frame(width: 20, height: 20)
                                     .padding(.trailing, 16)
                             }
-                            .background(.white)
+                            .background(.whiteTheme)
                             .cornerRadius(12)
                             .transition(.opacity)
                             .onTapGesture {
@@ -292,20 +308,20 @@ struct WorksDeletionView: View {
                     deleteSelectedWorks()
                     dismiss()
                 } label: {
-                    Text("Delete")
+                    Text("delete_title".localized)
                         .font(.latoBold(size: 16))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.whiteBlack)
                 }
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
-                .background(.black, in: .rect(cornerRadius: 18))
+                .background(.blackWhite, in: .rect(cornerRadius: 18))
                 
                 Text("\(selectedWorks.count)")
                     .font(.latoBold(size: 16))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.whiteBlack)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .background(.black, in: .rect(cornerRadius: 18))
+                    .background(.blackWhite, in: .rect(cornerRadius: 18))
             }
             .padding(.bottom, 30)
         }

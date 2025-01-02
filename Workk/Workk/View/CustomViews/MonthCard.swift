@@ -21,7 +21,7 @@ struct MonthCard: View {
             Text(month.currentMonthString)
                 .lineLimit(1)
                 .font(month.isThisMonth() || isSelected ? .latoBold(size: 16) : .latoRegular(size: 16))
-                .foregroundColor(month.isThisMonth() || isSelected ? .black : .gray)
+                .foregroundColor(month.isThisMonth() || isSelected ? .blackWhite : .gray)
         }
     }
 }
