@@ -44,6 +44,7 @@ struct WorkTimeStatusLiveActivity: Widget {
                     VStack(alignment: .leading) {
                         Text("Work time")
                             .font(.caption)
+                            .fontWeight(.bold)
                         
                         Text(Date(timeInterval: Date().timeIntervalSinceNow, since: context.state.workStartTime), style: .timer)
                             .font(.title)
@@ -60,7 +61,7 @@ struct WorkTimeStatusLiveActivity: Widget {
                     Spacer()
                     Text(context.attributes.workName)
                         .font(.headline)
-                        .fontWeight(.bold)
+                        .fontWeight(.black)
                         .padding(.horizontal, 6)
                     Spacer()
                 }

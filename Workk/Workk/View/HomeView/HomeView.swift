@@ -96,42 +96,42 @@ struct HomeView: View {
     
     var weekPaidMoney: Float {
         works
-            .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) && $0.isPaid && $0.periodType == "week" }
+            .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) && $0.isPaid && ($0.periodType == "day" || $0.periodType == "week") }
             .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
     
     var weekUnpaidMoney: Float {
         works
-            .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) && !$0.isPaid && $0.periodType == "week" }
+            .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) && !$0.isPaid && ($0.periodType == "day" || $0.periodType == "week")  }
             .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
     
     var monthPaidMoney: Float {
         works
-            .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) && $0.isPaid && $0.periodType == "month" }
+            .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) && $0.isPaid && ($0.periodType == "day" || $0.periodType == "week" || $0.periodType == "month") }
             .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
     
     var monthUnpaidMoney: Float {
         works
-            .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) && !$0.isPaid && $0.periodType == "month" }
+            .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) && !$0.isPaid && ($0.periodType == "day" || $0.periodType == "week" || $0.periodType == "month") }
             .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
     
     var yearPaidMoney: Float {
         works
-            .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) && $0.isPaid && $0.periodType == "year" }
+            .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) && $0.isPaid }
             .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
     
     var yearUnpaidMoney: Float {
         works
-            .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) && !$0.isPaid && $0.periodType == "year" }
+            .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) && !$0.isPaid }
             .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
@@ -1473,6 +1473,7 @@ extension HomeView {
         newItem.startDate = .now.addingTimeInterval(-viewModel.stopwatch.elapsedTime)
         newItem.endDate = .now
         newItem.isPaid = false
+        newItem.hoursWorked = newItem.startDate.timeDifferenceInHours(to: newItem.endDate)
         
         if let selectedJob = jobs.first(where: { $0.name == selectedWorkName }) {
             newItem.job = selectedJob

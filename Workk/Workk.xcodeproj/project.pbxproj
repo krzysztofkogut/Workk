@@ -530,7 +530,6 @@
 				A295782D2AE1869400206D9B /* Persistence */,
 				A20B58022C0521C300BF3FC7 /* Managers */,
 				A29578322AE18AD100206D9B /* Model */,
-				A295782E2AE186A200206D9B /* Network */,
 				A295782A2AE1866300206D9B /* View */,
 				A29578002AE1865000206D9B /* WorkkApp.swift */,
 				A29578062AE1865200206D9B /* Preview Content */,
@@ -626,13 +625,6 @@
 				A2DB57D92C0771FD00670116 /* Workk.xcdatamodeld */,
 			);
 			path = Persistence;
-			sourceTree = "<group>";
-		};
-		A295782E2AE186A200206D9B /* Network */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Network;
 			sourceTree = "<group>";
 		};
 		A295782F2AE186DB00206D9B /* TabBarView */ = {

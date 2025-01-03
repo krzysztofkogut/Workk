@@ -14,7 +14,7 @@ extension Float {
         } else if self > 999999 {
             return String(format: "%.1fM", self / 1000000).replacingOccurrences(of: ".0", with: "")
         } else {
-            return String(format: "%.0f", self)
+            return String(format: "%.2f", self)
         }
     }
     

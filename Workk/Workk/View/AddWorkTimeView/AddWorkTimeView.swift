@@ -808,6 +808,7 @@ extension AddWorkTimeView {
             newItem.project = projectDay
             newItem.task = taskDay
             newItem.note = noteDay
+            newItem.hoursWorked = dayStartDate.timeDifferenceInHours(to: dayEndDate)
             if isHourlyRateDay, let rate = formatter.number(from: hourlyRateDay) {
                 newItem.hourlyRate = rate.floatValue
                 newItem.moneyEarned = rate.floatValue * dayStartDate.timeDifferenceInHours(to: dayEndDate)
