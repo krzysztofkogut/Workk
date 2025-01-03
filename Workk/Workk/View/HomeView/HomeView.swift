@@ -78,7 +78,7 @@ struct HomeView: View {
     private let monthDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
     private let yearDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
     
-    private let reviewThresholds: Set<Int> = [30, 100, 500]
+    private let reviewThresholds: Set<Int> = [30, 100, 600]
     
     var dayPaidMoney: Float {
         works
@@ -143,6 +143,7 @@ struct HomeView: View {
                     DropDownPicker(
                         selection: $selectedWorkName,
                         addNewOption: $showAddJobView,
+                        showSubscriptionPlan: $showSubscriptionPlanView,
                         hint: "select_title".localized,
                         options: ["all_title".localized] + jobs.compactMap { $0.name },
                         backgroundColor: .wildSand,
@@ -305,7 +306,7 @@ extension HomeView {
             } label: {
                 Text(countWorkTime ? (pauseTimer ? "start_title".localized : "stop_title".localized) : "measure_time_title".localized)
                     .font(.latoBold(size: 16))
-                    .frame(width: countWorkTime ? 90 : 120, height: 44)
+                    .frame(width: countWorkTime ? 100 : 130, height: 44)
             }
             .modifier(FilledButton())
             .background(.blackWhite)
@@ -391,7 +392,7 @@ extension HomeView {
                 Text(countWorkTime ? "reset_title".localized : "save_time_title".localized)
                     .font(.latoBold(size: 16))
                     .foregroundStyle(.blackWhite)
-                    .frame(width: countWorkTime ? 90 : 120, height: 44)
+                    .frame(width: countWorkTime ? 100 : 130, height: 44)
             }
             .background(.grayTheme)
             .cornerRadius(24)

@@ -38,7 +38,7 @@ struct StatsView: View {
     
     @State private var showAddNewJobView: Bool = false
     @State private var showFilterView: Bool = false
-    @State private var showSubscribePlanView: Bool = false
+    @State private var showSubscriptionPlanView: Bool = false
     @State private var filtersWidthDict: [PaymentStatus: CGFloat] = [:]
     @State private var moneyYScale: Float = 0.0
     @State private var hoursYScale: Float = 0.0
@@ -64,6 +64,7 @@ struct StatsView: View {
             ZStack(alignment: .leading) {
                 DropDownPicker(selection: $viewModel.selectedWorkName,
                                addNewOption: $showAddNewJobView,
+                               showSubscriptionPlan: $showSubscriptionPlanView,
                                hint: "all_title".localized,
                                options: ["all_title".localized] + jobs.compactMap { $0.name },
                                backgroundColor: .whiteTheme,
@@ -283,7 +284,7 @@ struct StatsView: View {
 //                            .padding(.horizontal, 24)
 //                        
 //                        Button {
-//                            showSubscribePlanView = true
+//                            showSubscriptionPlanView = true
 //                        } label: {
 //                            Text("try_for_free_button_title".localized)
 //                                .font(.latoBlack(size: 16))
@@ -303,7 +304,7 @@ struct StatsView: View {
         .fullScreenCover(isPresented: $showAddNewJobView) {
             AddJobView(selectedJob: $selectedJob)
         }
-        .fullScreenCover(isPresented: $showSubscribePlanView) {
+        .fullScreenCover(isPresented: $showSubscriptionPlanView) {
             SubscriptionPlanView()
         }
         .sheet(isPresented: $showFilterView) {

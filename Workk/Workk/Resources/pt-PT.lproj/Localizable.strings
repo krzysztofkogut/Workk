@@ -1,0 +1,151 @@
+/* 
+  Localizable.strings
+  Workk
+
+  Created by Krzysztof Kogut on 05/12/2023.
+  
+*/
+
+"all_title" = "Todos";
+"select_title" = "Selecionar";
+"select_job_title" = "Selecionar Trabalho";
+"select_job_description" = "Escolha o trabalho para rastrear o tempo trabalhado";
+"ok_title" = "OK";
+"start_title" = "Iniciar";
+"stop_title" = "Parar";
+"measure_time_title" = "Medir Tempo";
+"total_title" = "Total";
+"paid_title" = "Pago";
+"unpaid_title" = "Não Pago";
+"plan_done_title" = "Plano Concluído:";
+"left_to_earned_title" = "Falta Ganhar:";
+"hours_worked_title" = "Horas Trabalhadas:";
+"hours_worked_stats_title" = "Horas Trabalhadas";
+"today_title" = "Hoje";
+"buy_subscription_title" = "Compre uma subscrição para remover os anúncios";
+"no_entries_title" = "Sem Registos";
+"earned_title" = "Ganho";
+"worked_title" = "Trabalhado";
+"save_title" = "Guardar";
+"save_time_title" = "Guardar Tempo";
+"saved_your_work_title" = "O seu tempo de trabalho foi guardado";
+"reset_title" = "Reiniciar";
+"day_title" = "Dia";
+"days_title" = "Dias";
+"week_title" = "Semana";
+"weeks_title" = "Semanas";
+"month_title" = "Mês";
+"months_title" = "Meses";
+"year_title" = "Ano";
+"years_title" = "Anos";
+"goal_title" = "Objetivo";
+"delete_title" = "Eliminar";
+"cancel_title" = "Cancelar";
+"add_work_time_title" = "Adicionar Tempo de Trabalho";
+"update_work_time_title" = "Atualizar Tempo de Trabalho";
+"add_new_job_title" = "Adicionar Novo Trabalho";
+"update_job_title" = "Atualizar Trabalho";
+"job_name_title" = "Nome do Trabalho";
+"hourly_rate_title" = "Taxa Horária";
+"money_earned_title" = "Dinheiro Ganho";
+"updating_hourly_rate_description" = "Atualizar a taxa horária não alterará os registos anteriores deste trabalho";
+"edit_jobs_title" = "Editar Trabalhos";
+"start_date_title" = "Data de Início";
+"end_date_title" = "Data de Fim";
+"is_paid_title" = "Está Pago";
+"project_title" = "Projeto";
+"task_title" = "Tarefa";
+"note_title" = "Nota";
+"select_delete_title" = "Selecionar para Eliminar";
+"filters_title" = "Filtros";
+"weekly_stats_title" = "Estatísticas Semanais";
+"monthly_stats_title" = "Estatísticas Mensais";
+"yearly_stats_title" = "Estatísticas Anuais";
+"your_profile_title" = "O Seu Perfil";
+"jobs_list_title" = "Lista de Trabalhos";
+"money_goals_title" = "Objetivos Monetários";
+"hours_goals_title" = "Objetivos de Horas";
+"hours_title" = "Horas";
+"goals_title" = "Objetivos";
+"daily_title" = "Diário";
+"weekly_title" = "Semanal";
+"monthly_title" = "Mensal";
+"yearly_title" = "Anual";
+"jobs_title" = "Trabalhos";
+"currency_title" = "Moeda";
+"currency_description" = "Alterar a moeda não converterá os ganhos";
+"daily_notification_title" = "Notificação Diária";
+"notifications_enabled_title" = "Notificações Ativadas";
+"daily_notification_time_title" = "Hora da Notificação Diária";
+"try_for_free_button_title" = "Experimente Grátis por 7 Dias";
+"premium_description" = "Desbloqueie estatísticas detalhadas, sincronização com iCloud, exportação de dados e remova anúncios";
+"try_workk_premium_title" = "Experimente o Workk Premium";
+"workk_title" = "Workk";
+"workk_premium_title" = "Workk Premium";
+"continue_title" = "Continuar";
+"stats_access_title" = "Acesso às Estatísticas";
+"stats_access_description" = "Veja e compare todo o tempo trabalhado e ganhos";
+"icloud_title" = "Sincronização com iCloud";
+"icloud_description" = "Sincronize os dados entre dispositivos Apple usando o iCloud";
+"export_data_title" = "Exportar Dados";
+"export_data_description" = "Exporte os dados em formato .csv e use-os em qualquer lugar";
+"ads_title" = "Sem Anúncios";
+"ads_description" = "Sem interrupções de anúncios";
+"promo_description" = "50% de desconto no primeiro mês";
+"terms_conditions_title" = "Termos e Condições";
+"monthly_subscription_title" = "Mensal";
+"yearly_subscription_title" = "Anual";
+"for_life_title" = "Vitalício";
+"for_month_title" = "Por Mês";
+"for_year_title" = "Por Ano";
+"for_life_description" = "Pagamento único para acesso vitalício";
+
+"review_app_title" = "Avaliar a App";
+"share_app_title" = "Partilhe o Workk com os seus Amigos";
+"instagram_title" = "Instagram";
+"x_title" = "X";
+"premium_title" = "Premium";
+"notifications_title" = "Notificações";
+"language_title" = "Idioma";
+"color_theme_title" = "Tema de Cores";
+"contact_us_title" = "Contacte-nos";
+"report_bug_title" = "Reportar um Erro";
+"report_wrong_translation_title" = "Reportar Tradução Errada";
+"sugest_new_functionality_title" = "Sugerir Nova Funcionalidade";
+"community_title" = "Comunidade";
+"account_title" = "Conta";
+"help_and_support_title" = "Ajuda e Suporte";
+"unknown_language_title" = "Idioma Desconhecido";
+"check_out_app_description" = "Experimente esta app incrível";
+"check_out_app_colon_description" = "Experimente esta app incrível:";
+
+"default_title" = "Padrão";
+"light_title" = "Claro";
+"dark_title" = "Escuro";
+"choose_style_title" = "Escolha o Estilo";
+"choose_style_description" = "Personalize a aparência\npara dia e noite";
+
+"track_title" = "Rastrear";
+"track_description" = "Adicione manualmente ou utilize o cronómetro\npara registar o tempo trabalhado e ganhos";
+"analyze_title" = "Analisar";
+"analyze_description" = "Veja os seus dados\nde relance ou em estatísticas";
+"keep_data_title" = "Guardar Dados";
+"keep_data_description" = "Todos os dados são armazenados no iCloud\ne partilhados entre dispositivos Apple";
+"workk_description" = "Rastreie tudo. Com Workk, pode registar o tempo trabalhado e os ganhos";
+"skip_title" = "Saltar";
+"begin_title" = "Começar";
+"welcome_title" = "Bem-vindo";
+"done_title" = "Concluído";
+
+"home_tab_title" = "Início";
+"schedule_tab_title" = "Agenda";
+"stats_tab_title" = "Estatísticas";
+"more_tab_title" = "Mais";
+
+"unlimited_entries_title" = "Entradas ilimitadas";
+"unlimited_entries_description" = "Adicione tantos tempos de trabalho e empregos quanto precisar";
+
+"daily_notification_title" = "💰 Tempo é dinheiro!";
+"daily_notification_body" = "Comece a registar o seu tempo trabalhado ou adicione ganhos para ver o progresso.";
+"weekly_notification_title" = "🎉 Nova semana, novos objetivos!";
+"weekly_notification_body" = "Veja os seus ganhos semanais e analise os seus progressos.";

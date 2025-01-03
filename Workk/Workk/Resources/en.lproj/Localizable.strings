@@ -93,8 +93,8 @@
 "ads_description" = "Do not be disturbed by any ads";
 "promo_description" = "50% off in the premiere month";
 "terms_conditions_title" = "Terms & Conditions";
-"monthly_subscription_title" = "Monthly subscription";
-"yearly_subscription_title" = "Yearly subscription";
+"monthly_subscription_title" = "Monthly";
+"yearly_subscription_title" = "Yearly";
 "for_life_title" = "For life";
 "for_month_title" = "for month";
 "for_year_title" = "for year";
@@ -141,6 +141,9 @@
 "schedule_tab_title" = "Schedule";
 "stats_tab_title" = "Stats";
 "more_tab_title" = "More";
+
+"unlimited_entries_title" = "Unlimited entries";
+"unlimited_entries_description" = "Add as many work times and jobs as you need";
 
 "daily_notification_title" = "💰 Time is money!";
 "daily_notification_body" = "Start tracking your work time or add your earned money now to stay on top of your earnings.";

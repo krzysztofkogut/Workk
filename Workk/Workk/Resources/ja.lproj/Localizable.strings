@@ -1,0 +1,151 @@
+/* 
+  Localizable.strings
+  Workk
+
+  Created by Krzysztof Kogut on 05/12/2023.
+  
+*/
+
+"all_title" = "すべて";
+"select_title" = "選択";
+"select_job_title" = "職業を選択";
+"select_job_description" = "勤務時間を追跡する職業を選択してください";
+"ok_title" = "OK";
+"start_title" = "開始";
+"stop_title" = "停止";
+"measure_time_title" = "時間を測定";
+"total_title" = "合計";
+"paid_title" = "支払済み";
+"unpaid_title" = "未払い";
+"plan_done_title" = "計画達成:";
+"left_to_earned_title" = "残りの収入:";
+"hours_worked_title" = "働いた時間:";
+"hours_worked_stats_title" = "労働時間";
+"today_title" = "今日";
+"buy_subscription_title" = "広告を削除するにはサブスクリプションを購入してください";
+"no_entries_title" = "エントリーなし";
+"earned_title" = "収入";
+"worked_title" = "労働";
+"save_title" = "保存";
+"save_time_title" = "時間を保存";
+"saved_your_work_title" = "勤務時間が保存されました";
+"reset_title" = "リセット";
+"day_title" = "日";
+"days_title" = "日間";
+"week_title" = "週";
+"weeks_title" = "週間";
+"month_title" = "月";
+"months_title" = "ヶ月間";
+"year_title" = "年";
+"years_title" = "年間";
+"goal_title" = "目標";
+"delete_title" = "削除";
+"cancel_title" = "キャンセル";
+"add_work_time_title" = "勤務時間を追加";
+"update_work_time_title" = "勤務時間を更新";
+"add_new_job_title" = "新しい仕事を追加";
+"update_job_title" = "職業を更新";
+"job_name_title" = "職業名";
+"hourly_rate_title" = "時給";
+"money_earned_title" = "稼いだ金額";
+"updating_hourly_rate_description" = "時給を更新しても、この職業の以前の記録は変更されません";
+"edit_jobs_title" = "職業を編集";
+"start_date_title" = "開始日";
+"end_date_title" = "終了日";
+"is_paid_title" = "支払済み";
+"project_title" = "プロジェクト";
+"task_title" = "タスク";
+"note_title" = "メモ";
+"select_delete_title" = "削除を選択";
+"filters_title" = "フィルター";
+"weekly_stats_title" = "週次統計";
+"monthly_stats_title" = "月次統計";
+"yearly_stats_title" = "年次統計";
+"your_profile_title" = "プロフィール";
+"jobs_list_title" = "職業リスト";
+"money_goals_title" = "収入目標";
+"hours_goals_title" = "時間目標";
+"hours_title" = "時間";
+"goals_title" = "目標";
+"daily_title" = "毎日";
+"weekly_title" = "毎週";
+"monthly_title" = "毎月";
+"yearly_title" = "毎年";
+"jobs_title" = "職業";
+"currency_title" = "通貨";
+"currency_description" = "通貨を変更しても収入は変換されません";
+"daily_notification_title" = "毎日の通知";
+"notifications_enabled_title" = "通知が有効";
+"daily_notification_time_title" = "毎日の通知時間";
+"try_for_free_button_title" = "7日間無料で試す";
+"premium_description" = "詳細な統計、iCloud同期、データエクスポートを解除し、広告を削除";
+"try_workk_premium_title" = "Workk Premiumを試す";
+"workk_title" = "Workk";
+"workk_premium_title" = "Workk Premium";
+"continue_title" = "続ける";
+"stats_access_title" = "統計へのアクセス";
+"stats_access_description" = "勤務時間と収入の全てを表示して比較";
+"icloud_title" = "iCloud同期";
+"icloud_description" = "iCloudを使用してAppleデバイス間でデータを同期";
+"export_data_title" = "データをエクスポート";
+"export_data_description" = ".csv形式でデータをエクスポートし、どこでも使用可能";
+"ads_title" = "広告なし";
+"ads_description" = "広告による中断なし";
+"promo_description" = "初月50％オフ";
+"terms_conditions_title" = "利用規約";
+"monthly_subscription_title" = "月額";
+"yearly_subscription_title" = "年額";
+"for_life_title" = "永久";
+"for_month_title" = "月あたり";
+"for_year_title" = "年あたり";
+"for_life_description" = "一回払いで永続的に利用可能";
+
+"review_app_title" = "アプリをレビューする";
+"share_app_title" = "Workkを友達と共有";
+"instagram_title" = "Instagram";
+"x_title" = "X";
+"premium_title" = "プレミアム";
+"notifications_title" = "通知";
+"language_title" = "言語";
+"color_theme_title" = "カラーテーマ";
+"contact_us_title" = "お問い合わせ";
+"report_bug_title" = "バグを報告";
+"report_wrong_translation_title" = "誤訳を報告";
+"sugest_new_functionality_title" = "新機能を提案";
+"community_title" = "コミュニティ";
+"account_title" = "アカウント";
+"help_and_support_title" = "ヘルプ＆サポート";
+"unknown_language_title" = "不明な言語";
+"check_out_app_description" = "この素晴らしいアプリをチェック";
+"check_out_app_colon_description" = "この素晴らしいアプリをチェックしてください:";
+
+"default_title" = "デフォルト";
+"light_title" = "ライト";
+"dark_title" = "ダーク";
+"choose_style_title" = "スタイルを選択";
+"choose_style_description" = "昼も夜も\n外観をカスタマイズ";
+
+"track_title" = "追跡";
+"track_description" = "勤務時間と収入を\n記録またはタイマーで追加";
+"analyze_title" = "分析";
+"analyze_description" = "データを一目で\nまたは統計で確認";
+"keep_data_title" = "データを保持";
+"keep_data_description" = "すべてのデータがiCloudに保存され\nAppleデバイス間で共有";
+"workk_description" = "すべてを追跡。Workkを使えば勤務時間と収入を追跡可能";
+"skip_title" = "スキップ";
+"begin_title" = "開始";
+"welcome_title" = "ようこそ";
+"done_title" = "完了";
+
+"home_tab_title" = "ホーム";
+"schedule_tab_title" = "スケジュール";
+"stats_tab_title" = "統計";
+"more_tab_title" = "その他";
+
+"unlimited_entries_title" = "無制限のエントリー";
+"unlimited_entries_description" = "必要なだけの作業時間と仕事を追加できます";
+
+"daily_notification_title" = "💰 時間はお金!";
+"daily_notification_body" = "勤務時間を追跡開始するか収入を追加して進捗を確認";
+"weekly_notification_title" = "🎉 新しい週、新しい目標!";
+"weekly_notification_body" = "週の収入を確認して成果を確認してください。";

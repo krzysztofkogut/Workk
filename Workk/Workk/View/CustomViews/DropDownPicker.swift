@@ -15,6 +15,12 @@ enum DropDownPickerState {
 struct DropDownPicker: View {
     @Binding var selection: String?
     @Binding var addNewOption: Bool
+    @Binding var showSubscriptionPlan: Bool
+    
+    @FetchRequest(
+        entity: Job.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Job.name, ascending: true)]
+    ) private var jobs: FetchedResults<Job>
     
     var hint: String
     var state: DropDownPickerState = .leading
@@ -188,7 +194,11 @@ struct DropDownPicker: View {
                     .padding(.horizontal, 16)
                     .onTapGesture {
                         withAnimation(.snappy) {
-                            addNewOption.toggle()
+                            if jobs.count < 3 {
+                                addNewOption = true
+                            } else {
+                                showSubscriptionPlan = true
+                            }
                             showDropdown.toggle()
                         }
                     }
@@ -202,5 +212,6 @@ struct DropDownPicker: View {
 #Preview {
     @State var selection: String? = nil
     @State var addNewOption = false
-    return DropDownPicker(selection: $selection, addNewOption: $addNewOption, hint: "select_title".localized, state: .trailing, options: ["YouTube", "Instagram", "Facebook", "Twitter"], backgroundColor: .wildSand)
+    @State var showSubscriptionPlan = false
+    return DropDownPicker(selection: $selection, addNewOption: $addNewOption, showSubscriptionPlan: $showSubscriptionPlan, hint: "select_title".localized, state: .trailing, options: ["YouTube", "Instagram", "Facebook", "Twitter"], backgroundColor: .wildSand)
 }

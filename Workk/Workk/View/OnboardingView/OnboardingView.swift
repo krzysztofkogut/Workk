@@ -261,13 +261,13 @@ struct OnboardingView: View {
                     .onTapGesture {
                         showWalkThroughScreens.toggle()
                     }
-                    .padding(.top, 340)
-                    .padding(.bottom, 30)
+//                    .padding(.top, 340)
+//                    .padding(.bottom, 30)
+//                    .position(y: size.height - 200)
+                    .offset(y: size.height / 2 - 90)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .offset(y: showWalkThroughScreens ? -size.height : 0)
-            .overlay(alignment: .bottom) {
-            }
         }
         .ignoresSafeArea()
     }

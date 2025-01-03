@@ -1,0 +1,151 @@
+/* 
+  Localizable.strings
+  Workk
+
+  Created by Krzysztof Kogut on 05/12/2023.
+  
+*/
+
+"all_title" = "Όλα";
+"select_title" = "Επιλογή";
+"select_job_title" = "Επιλογή εργασίας";
+"select_job_description" = "Επιλέξτε μια εργασία για να παρακολουθείτε τον χρόνο εργασίας σας";
+"ok_title" = "Εντάξει";
+"start_title" = "Έναρξη";
+"stop_title" = "Διακοπή";
+"measure_time_title" = "Μέτρηση χρόνου";
+"total_title" = "Σύνολο";
+"paid_title" = "Πληρωμένα";
+"unpaid_title" = "Απλήρωτα";
+"plan_done_title" = "Πλάνο ολοκληρωμένο:";
+"left_to_earned_title" = "Απομένει να κερδίσετε:";
+"hours_worked_title" = "Ώρες εργασίας:";
+"hours_worked_stats_title" = "Ώρες εργασίας";
+"today_title" = "Σήμερα";
+"buy_subscription_title" = "Αγοράστε συνδρομή για να αφαιρέσετε τις διαφημίσεις";
+"no_entries_title" = "Δεν υπάρχουν καταχωρήσεις";
+"earned_title" = "Κερδισμένα";
+"worked_title" = "Ώρες εργασίας";
+"save_title" = "Αποθήκευση";
+"save_time_title" = "Αποθήκευση χρόνου";
+"saved_your_work_title" = "Η εργασία σας αποθηκεύτηκε";
+"reset_title" = "Επαναφορά";
+"day_title" = "Ημέρα";
+"days_title" = "Ημέρες";
+"week_title" = "Εβδομάδα";
+"weeks_title" = "Εβδομάδες";
+"month_title" = "Μήνας";
+"months_title" = "Μήνες";
+"year_title" = "Έτος";
+"years_title" = "Έτη";
+"goal_title" = "Στόχος";
+"delete_title" = "Διαγραφή";
+"cancel_title" = "Ακύρωση";
+"add_work_time_title" = "Προσθήκη χρόνου εργασίας";
+"update_work_time_title" = "Ενημέρωση χρόνου εργασίας";
+"add_new_job_title" = "Προσθήκη νέας εργασίας";
+"update_job_title" = "Ενημέρωση εργασίας";
+"job_name_title" = "Όνομα εργασίας";
+"hourly_rate_title" = "Ωριαία αμοιβή";
+"money_earned_title" = "Κερδισμένα χρήματα";
+"updating_hourly_rate_description" = "Η ενημέρωση της ωριαίας αμοιβής δεν θα αλλάξει προηγούμενες καταχωρήσεις για αυτήν την εργασία";
+"edit_jobs_title" = "Επεξεργασία εργασιών";
+"start_date_title" = "Ημερομηνία έναρξης";
+"end_date_title" = "Ημερομηνία λήξης";
+"is_paid_title" = "Πληρωμένο";
+"project_title" = "Έργο";
+"task_title" = "Εργασία";
+"note_title" = "Σημείωση";
+"select_delete_title" = "Επιλογή για διαγραφή";
+"filters_title" = "Φίλτρα";
+"weekly_stats_title" = "Εβδομαδιαία στατιστικά";
+"monthly_stats_title" = "Μηνιαία στατιστικά";
+"yearly_stats_title" = "Ετήσια στατιστικά";
+"your_profile_title" = "Το προφίλ σας";
+"jobs_list_title" = "Λίστα εργασιών";
+"money_goals_title" = "Χρηματικοί στόχοι";
+"hours_goals_title" = "Στόχοι ωρών";
+"hours_title" = "Ώρες";
+"goals_title" = "Στόχοι";
+"daily_title" = "Καθημερινά";
+"weekly_title" = "Εβδομαδιαία";
+"monthly_title" = "Μηνιαία";
+"yearly_title" = "Ετήσια";
+"jobs_title" = "Εργασίες";
+"currency_title" = "Νόμισμα";
+"currency_description" = "Η αλλαγή νομίσματος δεν μετατρέπει τα κέρδη";
+"daily_notification_title" = "Καθημερινή ειδοποίηση";
+"notifications_enabled_title" = "Ειδοποιήσεις ενεργοποιημένες";
+"daily_notification_time_title" = "Ώρα καθημερινής ειδοποίησης";
+"try_for_free_button_title" = "Δοκιμάστε δωρεάν για 7 ημέρες";
+"premium_description" = "Ξεκλειδώστε λεπτομερή στατιστικά, συγχρονισμό iCloud, εξαγωγή δεδομένων και αφαιρέστε τις διαφημίσεις";
+"try_workk_premium_title" = "Δοκιμάστε το Workk Premium";
+"workk_title" = "Workk";
+"workk_premium_title" = "Workk Premium";
+"continue_title" = "Συνέχεια";
+"stats_access_title" = "Πρόσβαση στα στατιστικά";
+"stats_access_description" = "Προβάλετε και συγκρίνετε τον χρόνο και τα κέρδη εργασίας σας";
+"icloud_title" = "Συγχρονισμός με iCloud";
+"icloud_description" = "Συγχρονίστε τα δεδομένα σας μεταξύ συσκευών Apple μέσω iCloud";
+"export_data_title" = "Εξαγωγή δεδομένων";
+"export_data_description" = "Εξάγετε δεδομένα σε μορφή .csv και χρησιμοποιήστε τα οπουδήποτε";
+"ads_title" = "Χωρίς διαφημίσεις";
+"ads_description" = "Καμία διακοπή από διαφημίσεις";
+"promo_description" = "Έκπτωση 50% για τον πρώτο μήνα";
+"terms_conditions_title" = "Όροι και Προϋποθέσεις";
+"monthly_subscription_title" = "Μηνιαία";
+"yearly_subscription_title" = "Ετήσια";
+"for_life_title" = "Δια βίου";
+"for_month_title" = "Ανά μήνα";
+"for_year_title" = "Ανά έτος";
+"for_life_description" = "Μια εφάπαξ πληρωμή για δια βίου πρόσβαση";
+
+"review_app_title" = "Αξιολογήστε την εφαρμογή";
+"share_app_title" = "Μοιραστείτε το Workk με φίλους";
+"instagram_title" = "Instagram";
+"x_title" = "X";
+"premium_title" = "Premium";
+"notifications_title" = "Ειδοποιήσεις";
+"language_title" = "Γλώσσα";
+"color_theme_title" = "Χρωματικό θέμα";
+"contact_us_title" = "Επικοινωνήστε μαζί μας";
+"report_bug_title" = "Αναφορά σφάλματος";
+"report_wrong_translation_title" = "Αναφορά λανθασμένης μετάφρασης";
+"sugest_new_functionality_title" = "Προτείνετε νέα λειτουργία";
+"community_title" = "Κοινότητα";
+"account_title" = "Λογαριασμός";
+"help_and_support_title" = "Βοήθεια και υποστήριξη";
+"unknown_language_title" = "Άγνωστη γλώσσα";
+"check_out_app_description" = "Δοκιμάστε αυτήν την καταπληκτική εφαρμογή";
+"check_out_app_colon_description" = "Δοκιμάστε αυτήν την καταπληκτική εφαρμογή:";
+
+"default_title" = "Προεπιλεγμένο";
+"light_title" = "Φωτεινό";
+"dark_title" = "Σκοτεινό";
+"choose_style_title" = "Επιλογή στυλ";
+"choose_style_description" = "Προσαρμόστε την εμφάνιση για ημέρα και νύχτα";
+
+"track_title" = "Παρακολούθηση";
+"track_description" = "Προσθέστε χειροκίνητα ή χρησιμοποιήστε χρονόμετρο για να καταγράψετε χρόνο και κέρδη";
+"analyze_title" = "Ανάλυση";
+"analyze_description" = "Προβάλετε δεδομένα και στατιστικά με μια ματιά";
+"keep_data_title" = "Διατήρηση δεδομένων";
+"keep_data_description" = "Όλα τα δεδομένα αποθηκεύονται στο iCloud και συγχρονίζονται";
+"workk_description" = "Καταγράψτε χρόνο και κέρδη εργασίας με το Workk";
+"skip_title" = "Παράλειψη";
+"begin_title" = "Έναρξη";
+"welcome_title" = "Καλώς ήρθατε";
+"done_title" = "Τέλος";
+
+"home_tab_title" = "Αρχική";
+"schedule_tab_title" = "Πρόγραμμα";
+"stats_tab_title" = "Στατιστικά";
+"more_tab_title" = "Περισσότερα";
+
+"unlimited_entries_title" = "Απεριόριστες καταχωρίσεις";
+"unlimited_entries_description" = "Προσθέστε όσες ώρες εργασίας και δουλειές χρειάζεστε";
+
+"daily_notification_title" = "💰 Ο χρόνος είναι χρήμα!";
+"daily_notification_body" = "Ξεκινήστε να καταγράφετε τον χρόνο ή τα κέρδη σας για να δείτε την πρόοδο.";
+"weekly_notification_title" = "🎉 Νέα εβδομάδα, νέοι στόχοι!";
+"weekly_notification_body" = "Δείτε τα εβδομαδιαία σας κέρδη και αναλύστε την πρόοδο σας.";

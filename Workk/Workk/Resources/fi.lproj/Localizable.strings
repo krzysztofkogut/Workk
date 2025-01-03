@@ -1,0 +1,151 @@
+/* 
+  Localizable.strings
+  Workk
+
+  Created by Krzysztof Kogut on 05/12/2023.
+  
+*/
+
+"all_title" = "Kaikki";
+"select_title" = "Valitse";
+"select_job_title" = "Valitse työ";
+"select_job_description" = "Valitse työsi ajan seurannan aloittamiseksi";
+"ok_title" = "OK";
+"start_title" = "Aloita";
+"stop_title" = "Pysäytä";
+"measure_time_title" = "Ajan mittaus";
+"total_title" = "Yhteensä";
+"paid_title" = "Maksettu";
+"unpaid_title" = "Maksamaton";
+"plan_done_title" = "Suunnitelma valmis:";
+"left_to_earned_title" = "Jäljellä ansaittavaksi:";
+"hours_worked_title" = "Tehdyt tunnit:";
+"hours_worked_stats_title" = "Tehdyt tunnit";
+"today_title" = "Tänään";
+"buy_subscription_title" = "Osta tilaus poistaaksesi mainokset";
+"no_entries_title" = "Ei merkintöjä";
+"earned_title" = "Ansaittu";
+"worked_title" = "Tehdyt tunnit";
+"save_title" = "Tallenna";
+"save_time_title" = "Tallenna aika";
+"saved_your_work_title" = "Työsi on tallennettu";
+"reset_title" = "Nollaa";
+"day_title" = "Päivä";
+"days_title" = "Päivät";
+"week_title" = "Viikko";
+"weeks_title" = "Viikot";
+"month_title" = "Kuukausi";
+"months_title" = "Kuukaudet";
+"year_title" = "Vuosi";
+"years_title" = "Vuosia";
+"goal_title" = "Tavoite";
+"delete_title" = "Poista";
+"cancel_title" = "Peruuta";
+"add_work_time_title" = "Lisää työaika";
+"update_work_time_title" = "Päivitä työaika";
+"add_new_job_title" = "Lisää uusi työ";
+"update_job_title" = "Päivitä työ";
+"job_name_title" = "Työn nimi";
+"hourly_rate_title" = "Tuntipalkka";
+"money_earned_title" = "Ansaittu raha";
+"updating_hourly_rate_description" = "Tuntipalkan päivitys ei vaikuta aiempiin merkintöihin tästä työstä";
+"edit_jobs_title" = "Muokkaa töitä";
+"start_date_title" = "Aloituspäivä";
+"end_date_title" = "Päättymispäivä";
+"is_paid_title" = "Maksettu";
+"project_title" = "Projekti";
+"task_title" = "Tehtävä";
+"note_title" = "Muistiinpano";
+"select_delete_title" = "Valitse poistettavat";
+"filters_title" = "Suodattimet";
+"weekly_stats_title" = "Viikkotilastot";
+"monthly_stats_title" = "Kuukausitilastot";
+"yearly_stats_title" = "Vuosittaiset tilastot";
+"your_profile_title" = "Profiilisi";
+"jobs_list_title" = "Työlista";
+"money_goals_title" = "Rahalliset tavoitteet";
+"hours_goals_title" = "Tuntitavoitteet";
+"hours_title" = "Tunnit";
+"goals_title" = "Tavoitteet";
+"daily_title" = "Päivittäinen";
+"weekly_title" = "Viikottainen";
+"monthly_title" = "Kuukausittainen";
+"yearly_title" = "Vuosittainen";
+"jobs_title" = "Työt";
+"currency_title" = "Valuutta";
+"currency_description" = "Valuutan vaihto ei muuta ansaittuja summia";
+"daily_notification_title" = "Päivittäinen ilmoitus";
+"notifications_enabled_title" = "Ilmoitukset käytössä";
+"daily_notification_time_title" = "Päivittäisen ilmoituksen aika";
+"try_for_free_button_title" = "Kokeile ilmaiseksi 7 päivää";
+"premium_description" = "Avaa tarkemmat tilastot, iCloud-synkronointi, tiedon vienti ja poista mainokset";
+"try_workk_premium_title" = "Kokeile Workk Premiumia";
+"workk_title" = "Workk";
+"workk_premium_title" = "Workk Premium";
+"continue_title" = "Jatka";
+"stats_access_title" = "Tilastojen käyttö";
+"stats_access_description" = "Katso ja vertaa työaikojasi ja tulojasi";
+"icloud_title" = "Synkronointi iCloudin kanssa";
+"icloud_description" = "Synkronoi tiedot Apple-laitteiden välillä iCloudin avulla";
+"export_data_title" = "Vie tiedot";
+"export_data_description" = "Vie tiedot .csv-muodossa ja käytä niitä missä tahansa";
+"ads_title" = "Ei mainoksia";
+"ads_description" = "Ei mainosten aiheuttamia keskeytyksiä";
+"promo_description" = "50% alennus ensimmäisestä kuukaudesta";
+"terms_conditions_title" = "Ehdot ja käyttöehdot";
+"monthly_subscription_title" = "Kuukausittain";
+"yearly_subscription_title" = "Vuosittain";
+"for_life_title" = "Elinikäinen";
+"for_month_title" = "Kuukaudessa";
+"for_year_title" = "Vuodessa";
+"for_life_description" = "Kertamaksu elinikäiseen käyttöoikeuteen";
+
+"review_app_title" = "Arvostele sovellus";
+"share_app_title" = "Jaa Workk ystävillesi";
+"instagram_title" = "Instagram";
+"x_title" = "X";
+"premium_title" = "Premium";
+"notifications_title" = "Ilmoitukset";
+"language_title" = "Kieli";
+"color_theme_title" = "Väriteema";
+"contact_us_title" = "Ota yhteyttä";
+"report_bug_title" = "Ilmoita virheestä";
+"report_wrong_translation_title" = "Ilmoita virheellisestä käännöksestä";
+"sugest_new_functionality_title" = "Ehdota uutta toiminnallisuutta";
+"community_title" = "Yhteisö";
+"account_title" = "Tili";
+"help_and_support_title" = "Apua ja tuki";
+"unknown_language_title" = "Tuntematon kieli";
+"check_out_app_description" = "Kokeile tätä mahtavaa sovellusta";
+"check_out_app_colon_description" = "Kokeile tätä mahtavaa sovellusta:";
+
+"default_title" = "Oletus";
+"light_title" = "Vaalea";
+"dark_title" = "Tumma";
+"choose_style_title" = "Valitse tyyli";
+"choose_style_description" = "Mukauta päivän ja yön ulkoasu";
+
+"track_title" = "Seuranta";
+"track_description" = "Lisää manuaalisesti tai käytä ajastinta työaikojen ja tulojen seuraamiseen";
+"analyze_title" = "Analysoi";
+"analyze_description" = "Katso tietoja ja tilastoja yhdellä silmäyksellä";
+"keep_data_title" = "Säilytä tiedot";
+"keep_data_description" = "Kaikki tiedot tallennetaan iCloudiin ja synkronoidaan";
+"workk_description" = "Seuraa työaikojasi ja tulojasi Workkilla";
+"skip_title" = "Ohita";
+"begin_title" = "Aloita";
+"welcome_title" = "Tervetuloa";
+"done_title" = "Valmis";
+
+"home_tab_title" = "Koti";
+"schedule_tab_title" = "Aikataulu";
+"stats_tab_title" = "Tilastot";
+"more_tab_title" = "Lisää";
+
+"unlimited_entries_title" = "Rajoittamattomat merkinnät";
+"unlimited_entries_description" = "Lisää niin monta työaikaa ja työtehtävää kuin tarvitset";
+
+"daily_notification_title" = "💰 Aika on rahaa!";
+"daily_notification_body" = "Aloita työajan tai tulojen seuranta nähdäksesi edistymisesi.";
+"weekly_notification_title" = "🎉 Uusi viikko, uudet tavoitteet!";
+"weekly_notification_body" = "Katso viikkotulosi ja analysoi edistymistäsi.";

@@ -77,7 +77,7 @@ struct ScheduleView: View {
     private let monthScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
     private let yearScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
     
-    private let reviewThresholds: Set<Int> = [30, 100, 500]
+    private let reviewThresholds: Set<Int> = [30, 100, 600]
     
     @State private var periodFilterSize: CGSize = .zero
     private let calendarTitleViewHeight: CGFloat = 56.0
@@ -347,6 +347,7 @@ struct ScheduleView: View {
                 HStack(spacing: 0) {
                     DropDownPicker(selection: $selectedWorkName,
                                    addNewOption: $showAddJobView,
+                                   showSubscriptionPlan: $showSubscriptionPlanView,
                                    hint: "select_title".localized,
                                    options: ["all_title".localized] + jobs.compactMap { $0.name },
                                    backgroundColor: .whiteTheme,
@@ -570,6 +571,7 @@ struct ScheduleView: View {
                 HStack(spacing: 0) {
                     DropDownPicker(selection: $selectedWorkName,
                                    addNewOption: $showAddJobView,
+                                   showSubscriptionPlan: $showSubscriptionPlanView,
                                    hint: "select_title".localized,
                                    options: ["all_title".localized] + jobs.compactMap { $0.name },
                                    backgroundColor: .whiteTheme,
@@ -793,6 +795,7 @@ struct ScheduleView: View {
                 HStack(spacing: 0) {
                     DropDownPicker(selection: $selectedWorkName,
                                    addNewOption: $showAddJobView,
+                                   showSubscriptionPlan: $showSubscriptionPlanView,
                                    hint: "select_title".localized,
                                    options: ["all_title".localized] + jobs.compactMap { $0.name },
                                    backgroundColor: .whiteTheme,
@@ -1199,6 +1202,7 @@ struct ScheduleView: View {
                 HStack(spacing: 0) {
                     DropDownPicker(selection: $selectedWorkName,
                                    addNewOption: $showAddJobView,
+                                   showSubscriptionPlan: $showSubscriptionPlanView,
                                    hint: "select_title".localized,
                                    options: ["all_title".localized] + jobs.compactMap { $0.name },
                                    backgroundColor: .whiteTheme,

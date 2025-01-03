@@ -20,6 +20,7 @@ struct JobsDeletionView: View {
     @State var selectedJob: Job? = nil
     @State private var selectedJobs: Set<Job> = []
     @State private var showAddJobView = false
+    @State private var showSubscriptionPlanView = false
     @State private var deleteMode = false
     
     var jobsTitle: AttributedString {
@@ -131,6 +132,9 @@ struct JobsDeletionView: View {
         .sheet(isPresented: $showAddJobView) {
             AddJobView(selectedJob: $selectedJob)
         }
+        .fullScreenCover(isPresented: $showSubscriptionPlanView) {
+            SubscriptionPlanView()
+        }
         .safeAreaInset(edge: .bottom) {
             HStack {
                 Button {
@@ -138,7 +142,7 @@ struct JobsDeletionView: View {
                         deleteSelectedJobs()
                         deleteMode = false
                     } else {
-                        showAddJobView()
+                        jobs.count < 3 ? showAddJobView() : showSubscriptionPlanView.toggle()
                     }
                 } label: {
                     Text(deleteMode ? "delete_title".localized : "add_new_job_title".localized)

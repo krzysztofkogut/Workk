@@ -93,8 +93,8 @@
 "ads_description" = "Nie bądź rozpraszany przez żadne reklamy";
 "promo_description" = "50% taniej w miesiącu premierowym";
 "terms_conditions_title" = "Zasady i Warunki";
-"monthly_subscription_title" = "Miesięczna subskrypcja";
-"yearly_subscription_title" = "Roczna subskrypcja";
+"monthly_subscription_title" = "Miesięczna";
+"yearly_subscription_title" = "Roczna";
 "for_life_title" = "Na zawsze";
 "for_month_title" = "za miesiąc";
 "for_year_title" = "za rok";
@@ -141,6 +141,9 @@
 "schedule_tab_title" = "Harmonogram";
 "stats_tab_title" = "Statystyki";
 "more_tab_title" = "Więcej";
+
+"unlimited_entries_title" = "Nielimitowane wpisy";
+"unlimited_entries_description" = "Dodaj tyle czasów pracy i prac ile potrzebujesz";
 
 "daily_notification_title" = "💰 Czas to pieniądz!";
 "daily_notification_body" = "Zacznij śledzić swój czas pracy lub dodaj zarobione pieniądze, aby mieć kontrolę nad swoimi zarobkami.";

@@ -69,7 +69,6 @@ struct SubscriptionPlanView: View {
                                     .font(.latoRegular(size: 14))
                                     .foregroundStyle(.gray)
                             }
-                            .lineLimit(2)
                             .multilineTextAlignment(.leading)
                             .frame(maxWidth: 250, alignment: .leading)
                         }
@@ -88,7 +87,6 @@ struct SubscriptionPlanView: View {
                                     .font(.latoRegular(size: 14))
                                     .foregroundStyle(.gray)
                             }
-                            .lineLimit(2)
                             .multilineTextAlignment(.leading)
                             .frame(maxWidth: 250, alignment: .leading)
                         }
@@ -107,9 +105,8 @@ struct SubscriptionPlanView: View {
                                     .font(.latoRegular(size: 14))
                                     .foregroundStyle(.gray)
                             }
-                            .lineLimit(2)
                             .multilineTextAlignment(.leading)
-                            .frame(maxWidth: 250, alignment: .leading)
+//                            .frame(maxWidth: 250, alignment: .leading)
                         }
                         
                         HStack(spacing: 16) {
@@ -126,14 +123,34 @@ struct SubscriptionPlanView: View {
                                     .font(.latoRegular(size: 14))
                                     .foregroundStyle(.gray)
                             }
-                            .lineLimit(2)
                             .multilineTextAlignment(.leading)
-                            .frame(maxWidth: 250, alignment: .leading)
+//                            .frame(maxWidth: 250, alignment: .leading)
+                        }
+                        
+                        HStack(spacing: 16) {
+                            Circle()
+                                .fill(.blackWhite)
+                                .frame(width: 12, height: 12)
+                            
+                            VStack(alignment: .leading) {
+                                Text("unlimited_entries_title".localized)
+                                    .font(.latoBold(size: 16))
+                                    .foregroundStyle(.blackWhite)
+                                
+                                Text("unlimited_entries_description".localized)
+                                    .font(.latoRegular(size: 14))
+                                    .foregroundStyle(.gray)
+                            }
+                            .multilineTextAlignment(.leading)
+//                            .frame(maxWidth: 250, alignment: .leading)
                         }
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 16)
+//                    .frame(maxWidth: 300)
+//                    .padding(.vertical, 16)
+//                    .background(.whiteBlack, in: .rect(cornerRadius: 12))
+                    .padding(.top, 8)
                     .padding(.bottom, 32)
+                    .padding(.horizontal, 24)
                     
                     Text("promo_description".localized)
                         .foregroundStyle(.blackWhite)
@@ -141,35 +158,69 @@ struct SubscriptionPlanView: View {
                         .multilineTextAlignment(.center)
                         .padding(.top, -8)
                     
-                    ForEach(SubscriptionPlanViewModel.allCases, id: \.rawValue) { item in
-                        HStack {
-                            VStack(alignment: .leading, spacing: 4) {
+//                    ForEach(SubscriptionPlanViewModel.allCases, id: \.rawValue) { item in
+//                        HStack {
+//                            VStack(alignment: .leading, spacing: 4) {
+//                                Text(item.title)
+//                                    .font(.latoBold(size: 18))
+//                                    .foregroundStyle(.blackWhite)
+//                                Text(item.description)
+//                                    .font(.latoRegular(size: 14))
+//                                    .foregroundStyle(.gray)
+//                            }
+//                            .padding()
+//                            
+//                            Spacer()
+//                        }
+//                        .frame(height: selectedPlan == item ? 90 : 80)
+//                        .background {
+//                            RoundedRectangle(cornerRadius: 15, style: .continuous)
+//                                .fill(.whiteTheme)
+//                        }
+//                        .overlay {
+//                            RoundedRectangle(cornerRadius: 15)
+//                                .stroke(selectedPlan == item ? .blackWhite : .clear, lineWidth: 1.8)
+//                        }
+//                        .onTapGesture {
+//                            withAnimation(.easeOut) {
+//                                self.selectedPlan = item
+//                            }
+//                        }
+//                    }
+//                    .padding(.horizontal, 24)
+                    
+                    HStack(spacing: 4) {
+                        ForEach(SubscriptionPlanViewModel.allCases, id: \.rawValue) { item in
+                            VStack(spacing: 4) {
                                 Text(item.title)
-                                    .font(.latoBold(size: 18))
+                                    .font(.latoBold(size: 16))
                                     .foregroundStyle(.blackWhite)
+                                
                                 Text(item.description)
                                     .font(.latoRegular(size: 14))
                                     .foregroundStyle(.gray)
+                                
+                                Spacer()
                             }
-                            .padding()
-                            
-                            Spacer()
-                        }
-                        .frame(height: selectedPlan == item ? 90 : 80)
-                        .background {
-                            RoundedRectangle(cornerRadius: 15, style: .continuous)
-                                .fill(.whiteTheme)
-                        }
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(selectedPlan == item ? .blackWhite : .clear, lineWidth: 2)
-                        }
-                        .onTapGesture {
-                            withAnimation(.easeOut) {
-                                self.selectedPlan = item
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 16)
+                            .frame(width: 115, height: 130)
+                            .background {
+                                RoundedRectangle(cornerRadius: 15, style: .continuous)
+                                    .fill(.whiteTheme)
+                            }
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(selectedPlan == item ? .blackWhite : .clear, lineWidth: 1.8)
+                            }
+                            .onTapGesture {
+                                withAnimation(.easeOut) {
+                                    self.selectedPlan = item
+                                }
                             }
                         }
                     }
+                    .padding(.top, 16)
                     .padding(.horizontal, 24)
                     
                     Button {

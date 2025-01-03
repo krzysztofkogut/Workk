@@ -1,0 +1,151 @@
+/* 
+  Localizable.strings
+  Workk
+
+  Created by Krzysztof Kogut on 05/12/2023.
+  
+*/
+
+"all_title" = "Усі";
+"select_title" = "Вибрати";
+"select_job_title" = "Вибрати роботу";
+"select_job_description" = "Оберіть роботу для відстеження робочого часу";
+"ok_title" = "ОК";
+"start_title" = "Почати";
+"stop_title" = "Зупинити";
+"measure_time_title" = "Виміряти час";
+"total_title" = "Загалом";
+"paid_title" = "Оплачено";
+"unpaid_title" = "Неоплачено";
+"plan_done_title" = "План виконано:";
+"left_to_earned_title" = "Залишилося заробити:";
+"hours_worked_title" = "Відпрацьовано годин:";
+"hours_worked_stats_title" = "Відпрацьовані години";
+"today_title" = "Сьогодні";
+"buy_subscription_title" = "Придбайте підписку, щоб видалити рекламу";
+"no_entries_title" = "Немає записів";
+"earned_title" = "Зароблено";
+"worked_title" = "Відпрацьовано";
+"save_title" = "Зберегти";
+"save_time_title" = "Зберегти час";
+"saved_your_work_title" = "Ваш робочий час збережено";
+"reset_title" = "Скинути";
+"day_title" = "День";
+"days_title" = "Дні";
+"week_title" = "Тиждень";
+"weeks_title" = "Тижні";
+"month_title" = "Місяць";
+"months_title" = "Місяці";
+"year_title" = "Рік";
+"years_title" = "Роки";
+"goal_title" = "Мета";
+"delete_title" = "Видалити";
+"cancel_title" = "Скасувати";
+"add_work_time_title" = "Додати робочий час";
+"update_work_time_title" = "Оновити робочий час";
+"add_new_job_title" = "Додати нову роботу";
+"update_job_title" = "Оновити роботу";
+"job_name_title" = "Назва роботи";
+"hourly_rate_title" = "Погодинна ставка";
+"money_earned_title" = "Зароблені гроші";
+"updating_hourly_rate_description" = "Оновлення погодинної ставки не змінить попередні записи цієї роботи";
+"edit_jobs_title" = "Редагувати роботи";
+"start_date_title" = "Дата початку";
+"end_date_title" = "Дата закінчення";
+"is_paid_title" = "Оплачено";
+"project_title" = "Проєкт";
+"task_title" = "Завдання";
+"note_title" = "Нотатка";
+"select_delete_title" = "Вибрати для видалення";
+"filters_title" = "Фільтри";
+"weekly_stats_title" = "Щотижнева статистика";
+"monthly_stats_title" = "Щомісячна статистика";
+"yearly_stats_title" = "Щорічна статистика";
+"your_profile_title" = "Ваш профіль";
+"jobs_list_title" = "Список робіт";
+"money_goals_title" = "Фінансові цілі";
+"hours_goals_title" = "Цілі за годинами";
+"hours_title" = "Години";
+"goals_title" = "Цілі";
+"daily_title" = "Щодня";
+"weekly_title" = "Щотижня";
+"monthly_title" = "Щомісяця";
+"yearly_title" = "Щороку";
+"jobs_title" = "Роботи";
+"currency_title" = "Валюта";
+"currency_description" = "Зміна валюти не конвертує заробітки";
+"daily_notification_title" = "Щоденне сповіщення";
+"notifications_enabled_title" = "Сповіщення увімкнено";
+"daily_notification_time_title" = "Час щоденного сповіщення";
+"try_for_free_button_title" = "Спробуйте безкоштовно протягом 7 днів";
+"premium_description" = "Розблокуйте детальну статистику, синхронізацію з iCloud, експорт даних та видаліть рекламу";
+"try_workk_premium_title" = "Спробуйте Workk Premium";
+"workk_title" = "Workk";
+"workk_premium_title" = "Workk Premium";
+"continue_title" = "Продовжити";
+"stats_access_title" = "Доступ до статистики";
+"stats_access_description" = "Переглядайте та порівнюйте весь робочий час і заробітки";
+"icloud_title" = "Синхронізація з iCloud";
+"icloud_description" = "Синхронізуйте дані між пристроями Apple через iCloud";
+"export_data_title" = "Експорт даних";
+"export_data_description" = "Експортуйте дані у форматі .csv та використовуйте їх будь-де";
+"ads_title" = "Без реклами";
+"ads_description" = "Жодних переривань через рекламу";
+"promo_description" = "50% знижка на перший місяць";
+"terms_conditions_title" = "Умови та положення";
+"monthly_subscription_title" = "Щомісячно";
+"yearly_subscription_title" = "Щорічно";
+"for_life_title" = "Довічно";
+"for_month_title" = "За місяць";
+"for_year_title" = "За рік";
+"for_life_description" = "Одноразова оплата для довічного доступу";
+
+"review_app_title" = "Оцініть застосунок";
+"share_app_title" = "Поділіться Workk з друзями";
+"instagram_title" = "Instagram";
+"x_title" = "X";
+"premium_title" = "Premium";
+"notifications_title" = "Сповіщення";
+"language_title" = "Мова";
+"color_theme_title" = "Тема кольорів";
+"contact_us_title" = "Зв’яжіться з нами";
+"report_bug_title" = "Повідомити про помилку";
+"report_wrong_translation_title" = "Повідомити про неправильний переклад";
+"sugest_new_functionality_title" = "Запропонувати нову функцію";
+"community_title" = "Спільнота";
+"account_title" = "Акаунт";
+"help_and_support_title" = "Допомога та підтримка";
+"unknown_language_title" = "Невідома мова";
+"check_out_app_description" = "Спробуйте цей дивовижний застосунок";
+"check_out_app_colon_description" = "Спробуйте цей дивовижний застосунок:";
+
+"default_title" = "За замовчуванням";
+"light_title" = "Світла";
+"dark_title" = "Темна";
+"choose_style_title" = "Обрати стиль";
+"choose_style_description" = "Налаштуйте зовнішній вигляд\nдля дня та ночі";
+
+"track_title" = "Відстежувати";
+"track_description" = "Додайте вручну або використовуйте секундомір,\nщоб записати робочий час і заробітки";
+"analyze_title" = "Аналізувати";
+"analyze_description" = "Переглядайте свої дані\nодним поглядом або в статистиці";
+"keep_data_title" = "Зберігайте дані";
+"keep_data_description" = "Усі дані зберігаються в iCloud\nта синхронізуються між пристроями Apple";
+"workk_description" = "Відстежуйте все. З Workk ви можете записувати робочий час і заробітки";
+"skip_title" = "Пропустити";
+"begin_title" = "Почати";
+"welcome_title" = "Ласкаво просимо";
+"done_title" = "Готово";
+
+"home_tab_title" = "Головна";
+"schedule_tab_title" = "Розклад";
+"stats_tab_title" = "Статистика";
+"more_tab_title" = "Більше";
+
+"unlimited_entries_title" = "Необмежені записи";
+"unlimited_entries_description" = "Додавайте стільки робочих годин і завдань, скільки потрібно";
+
+"daily_notification_title" = "💰 Час — це гроші!";
+"daily_notification_body" = "Почніть відстежувати свій робочий час або додайте заробітки, щоб побачити прогрес.";
+"weekly_notification_title" = "🎉 Новий тиждень, нові цілі!";
+"weekly_notification_body" = "Перегляньте свої тижневі заробітки та аналізуйте свій прогрес.";

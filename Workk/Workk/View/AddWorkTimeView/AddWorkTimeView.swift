@@ -35,6 +35,7 @@ struct AddWorkTimeView: View {
     @State var selectedJob: Job? = nil
     
     @State private var showAddJobView: Bool = false
+    @State private var showSubscriptionPlanView: Bool = false
     @State private var filtersWidthDict: [PeriodFilter: CGFloat] = [:]
     
     @State private var dayStartDate: Date = .now
@@ -116,6 +117,7 @@ struct AddWorkTimeView: View {
             HStack {
                 DropDownPicker(selection: $selectedWorkName,
                                addNewOption: $showAddJobView,
+                               showSubscriptionPlan: $showSubscriptionPlanView,
                                hint: "select_title".localized,
                                options: jobs.compactMap { $0.name },
                                backgroundColor: .whiteTheme,
@@ -282,6 +284,9 @@ struct AddWorkTimeView: View {
         )
         .fullScreenCover(isPresented: $showAddJobView) {
             AddJobView(selectedJob: $selectedJob)
+        }
+        .fullScreenCover(isPresented: $showSubscriptionPlanView) {
+            SubscriptionPlanView()
         }
     }
     

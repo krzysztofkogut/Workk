@@ -306,6 +306,11 @@
 		A2B0AE562AE59A9200F535F3 /* MoreRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreRowView.swift; sourceTree = "<group>"; };
 		A2B0AE582AE5A87A00F535F3 /* PeriodFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodFilter.swift; sourceTree = "<group>"; };
 		A2B2C6732BE8FEEB0032E2D1 /* StatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
+		A2B63FF82D27EDE800A7D737 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A2B63FF92D27EE0100A7D737 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A2B63FFA2D27EE0E00A7D737 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A2B63FFB2D27EE1800A7D737 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A2B63FFC2D27EE6800A7D737 /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A2C09B522CF10C3800FB50F9 /* JobsDeletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsDeletionView.swift; sourceTree = "<group>"; };
 		A2C547FF2B44AAF400A7A0CC /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		A2C548012B44CCBA00A7A0CC /* TimeInterval+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Ext.swift"; sourceTree = "<group>"; };
@@ -966,6 +971,11 @@
 				cs,
 				da,
 				sv,
+				ja,
+				"pt-PT",
+				uk,
+				el,
+				fi,
 			);
 			mainGroup = A29577F42AE1865000206D9B;
 			packageReferences = (
@@ -1222,6 +1232,11 @@
 				A251B41C2CEFDC2100060440 /* cs */,
 				A251B41D2CEFDC2500060440 /* da */,
 				A251B41E2CEFDC2C00060440 /* sv */,
+				A2B63FF82D27EDE800A7D737 /* ja */,
+				A2B63FF92D27EE0100A7D737 /* pt-PT */,
+				A2B63FFA2D27EE0E00A7D737 /* uk */,
+				A2B63FFB2D27EE1800A7D737 /* el */,
+				A2B63FFC2D27EE6800A7D737 /* fi */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
