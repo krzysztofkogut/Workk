@@ -78,7 +78,7 @@
 "notifications_enabled_title" = "Meldingen ingeschakeld";
 "daily_notification_time_title" = "Tijd van de dagelijkse melding";
 "try_for_free_button_title" = "Probeer gratis voor 7 dagen";
-"premium_description" = "Ontgrendel geavanceerde statistieken, iCloud-synchronisatie, data-export \nen verwijder advertenties";
+"premium_description" = "Ontgrendel geavanceerde statistieken, iCloud-synchronisatie, data-export en verwijder advertenties";
 "try_workk_premium_title" = "Probeer Workk Premium";
 "workk_title" = "Workk";
 "workk_premium_title" = "Workk Premium";
@@ -144,6 +144,8 @@
 
 "unlimited_entries_title" = "Onbeperkte invoer";
 "unlimited_entries_description" = "Voeg zoveel werktijden en banen toe als je nodig hebt";
+"application_title" = "TOEPASSING";
+"privacy_policy_title" = "Privacybeleid";
 
 "daily_notification_title" = "💰 Tijd is geld!";
 "daily_notification_body" = "Begin nu je werktijd bij te houden of voeg inkomsten toe om je verdiensten te volgen";

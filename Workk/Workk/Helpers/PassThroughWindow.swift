@@ -12,4 +12,8 @@ class PassThroughWindow: UIWindow {
         guard let view = super.hitTest(point, with: event) else { return nil }
         return rootViewController?.view == view ? nil : view
     }
+
+    override var canBecomeKey: Bool {
+        return false // Prevent this window from becoming the key window
+    }
 }

@@ -23,6 +23,15 @@ extension TimeInterval {
         return ti % 60
     }
     
+    var wholeSeconds: TimeInterval {
+        self.rounded(.down)
+    }
+    
+    var hoursFloat: Float {
+        let ti = Float(self.wholeSeconds)
+        return ti / 3600
+    }
+    
     var hourString: String {
         hours < 10 ? "0\(hours)" : "\(hours)"
     }

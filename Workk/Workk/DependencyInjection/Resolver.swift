@@ -38,7 +38,15 @@ public extension Resolver {
         }.scope(.shared)
         
         register {
-            iCloudSettings()
+            InterstitialAdManager()
+        }.scope(.application)
+        
+        register {
+            UserSubscriptionViewModel()
+        }.scope(.application)
+        
+        register {
+            PurchasesDelegateHandler()
         }.scope(.application)
         
         register {
@@ -48,11 +56,7 @@ public extension Resolver {
         register {
             NotificationManager()
         }.scope(.application)
-        
-        register {
-            PersistanceManager()
-        }.scope(.application)
-        
+                
         register {
             ProfileRouter(with: resolve())
         }.scope(.shared)
@@ -68,6 +72,10 @@ public extension Resolver {
         register {
             ScheduleViewModel(router: resolve())
         }.scope(.shared)
+        
+        register {
+            SubscriptionPlanViewModel(userSubscriptionViewModel: resolve())
+        }.scope(.unique)
         
         register {
             StatsViewModel()

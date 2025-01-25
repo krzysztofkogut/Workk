@@ -11,6 +11,7 @@ struct Time {
     var hour: Int
     var min: Int
     var sec: Int
+    var amPm: String = ""
     
     var hourString: String {
         hour < 10 ? "0\(hour)" : "\(hour)"

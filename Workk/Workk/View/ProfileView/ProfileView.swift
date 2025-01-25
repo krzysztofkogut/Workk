@@ -12,26 +12,31 @@ struct ProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
+    @AppStorage("iCloudSyncEnabled") private var isICloudSyncEnabled: Bool = false
+    @AppStorage("dailyNotificationEnabled") private var isDailyNotificationEnabled: Bool = true
+    @AppStorage("dailyNotificationTimeInterval") private var dailyNotificationTimeInterval: Double = Date.now.setDateAtSpecificHourAndMinute(hour: 8, minute: 0)?.timeIntervalSince1970 ?? Date.now.timeIntervalSince1970
+    
+    @AppStorage("currencyIdentifier") private var currencyIdentifier: String = Locale.current.currency?.identifier ?? "USD"
+    
+    @AppStorage("dailyMoneyGoal") private var dailyMoneyGoal: String = ""
+    @AppStorage("weeklyMoneyGoal") private var weeklyMoneyGoal: String = ""
+    @AppStorage("monthlyMoneyGoal") private var monthlyMoneyGoal: String = ""
+    @AppStorage("yearlyMoneyGoal") private var yearlyMoneyGoal: String = ""
+    
+    @AppStorage("dailyHoursGoal") private var dailyHoursGoal: String = ""
+    @AppStorage("weeklyHoursGoal") private var weeklyHoursGoal: String = ""
+    @AppStorage("monthlyHoursGoal") private var monthlyHoursGoal: String = ""
+    @AppStorage("yearlyHoursGoal") private var yearlyHoursGoal: String = ""
+    
     @ObservedObject private var viewModel: ProfileViewModel = Resolver.resolve()
     @ObservedObject private var appRouter: AppRouter = Resolver.resolve()
+    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
     
     @State private var showJobsDeletionView = false
     @State private var showSubscriptionPlanView = false
+    @State private var showICloudAlertSheet = false
     
-    @State private var dailyMoneyGoal: String = "" // User settings
-    @State private var weeklyMoneyGoal: String = "" // User settings
-    @State private var monthlyMoneyGoal: String = "" // User settings
-    @State private var yearlyMoneyGoal: String = "" // User settings
-    
-    @State private var dailyHoursGoal: String = "" // User settings
-    @State private var weeklyHoursGoal: String = "" // User settings
-    @State private var monthlyHoursGoal: String = "" // User settings
-    @State private var yearlyHoursGoal: String = "" // User settings
-    
-    @State private var currency: String = Locale.current.currency?.identifier ?? "" // User settings
-    
-    @State private var isDailyNotificationEnabled = true // User settings
-    @State private var dailyNotificationTime: Date = .now // User settings
+    @State private var dailyNotificationTime: Date = .now
     
     var body: some View {
         NavigationStack(path: $appRouter.path) {
@@ -80,16 +85,18 @@ struct ProfileView: View {
                                 Text("try_for_free_button_title".localized)
                                     .font(.latoBlack(size: 16))
                                     .foregroundStyle(.blackWhite)
+                                    .padding(.vertical, 16)
+                                    .padding(.horizontal, 24)
+                                    .background(.wildSand, in: .rect(cornerRadius: 30))
+                                    .padding(.vertical, 24)
+                                    .padding(.horizontal, 16)
                             }
-                            .padding(.vertical, 16)
-                            .padding(.horizontal, 24)
-                            .background(.wildSand, in: .rect(cornerRadius: 30))
-                            .padding(.vertical, 24)
-                            .padding(.horizontal, 16)
                         }
                         .padding(16)
+                        .frame(maxWidth: .infinity)
                         .background(.blackWhite, in: .rect(cornerRadius: 12))
-                        .padding(.vertical, 16)
+                        .padding(.top, 16)
+                        .hide(if: userSubscriptionViewModel.subscriptionActive)
                         
                         Text(viewModel.jobsTitle)
                             .foregroundStyle(.gray)
@@ -144,14 +151,23 @@ struct ProfileView: View {
                                             UIApplication.shared.dismissKeyboard()
                                         }
                                     
-                                    TextField(currency.uppercased(), text: $dailyMoneyGoal)
-                                        .multilineTextAlignment(.center)
-                                        .keyboardType(.decimalPad)
-                                        .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.blackWhite)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 32)
-                                        .background(.wildSand, in: .rect(cornerRadius: 12))
+                                    ZStack(alignment: .top) {
+                                        TextField(currencyIdentifier.uppercased(), text: $dailyMoneyGoal)
+                                            .multilineTextAlignment(.center)
+                                            .keyboardType(.decimalPad)
+                                            .font(.latoRegular(size: 16))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 32)
+                                            .background(.wildSand, in: .rect(cornerRadius: 12))
+                                        
+                                        Text(currencyIdentifier.uppercased())
+                                            .font(.latoBold(size: 12))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.top, 16)
+                                            .hide(if: dailyMoneyGoal.isEmpty)
+                                    }
+                                    .fixedSize(horizontal: false, vertical: false)
                                 }
                                 
                                 VStack(spacing: 4) {
@@ -161,21 +177,30 @@ struct ProfileView: View {
                                         .onTapGesture {
                                             UIApplication.shared.dismissKeyboard()
                                         }
-                                    
-                                    TextField(currency.uppercased(), text: $weeklyMoneyGoal)
-                                        .multilineTextAlignment(.center)
-                                        .keyboardType(.decimalPad)
-                                        .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.blackWhite)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 32)
-                                        .background(.wildSand, in: .rect(cornerRadius: 12))
+                                                                        
+                                    ZStack(alignment: .top) {
+                                        TextField(currencyIdentifier.uppercased(), text: $weeklyMoneyGoal)
+                                            .multilineTextAlignment(.center)
+                                            .keyboardType(.decimalPad)
+                                            .font(.latoRegular(size: 16))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 32)
+                                            .background(.wildSand, in: .rect(cornerRadius: 12))
+                                        
+                                        Text(currencyIdentifier.uppercased())
+                                            .font(.latoBold(size: 12))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.top, 16)
+                                            .hide(if: weeklyMoneyGoal.isEmpty)
+                                    }
+                                    .fixedSize(horizontal: false, vertical: false)
                                 }
                             }
                             .padding(.top, 16)
                             
                             HStack(spacing: 8) {
-                                VStack {
+                                VStack(spacing: 4) {
                                     Text(viewModel.monthlyGoalTitle)
                                         .foregroundStyle(.gray)
                                         .padding(.horizontal, 16)
@@ -183,17 +208,26 @@ struct ProfileView: View {
                                             UIApplication.shared.dismissKeyboard()
                                         }
                                     
-                                    TextField(currency.uppercased(), text: $monthlyMoneyGoal)
-                                        .multilineTextAlignment(.center)
-                                        .keyboardType(.decimalPad)
-                                        .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.blackWhite)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 32)
-                                        .background(.wildSand, in: .rect(cornerRadius: 12))
+                                    ZStack(alignment: .top) {
+                                        TextField(currencyIdentifier.uppercased(), text: $monthlyMoneyGoal)
+                                            .multilineTextAlignment(.center)
+                                            .keyboardType(.decimalPad)
+                                            .font(.latoRegular(size: 16))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 32)
+                                            .background(.wildSand, in: .rect(cornerRadius: 12))
+                                        
+                                        Text(currencyIdentifier.uppercased())
+                                            .font(.latoBold(size: 12))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.top, 16)
+                                            .hide(if: monthlyMoneyGoal.isEmpty)
+                                    }
+                                    .fixedSize(horizontal: false, vertical: false)
                                 }
                                 
-                                VStack {
+                                VStack(spacing: 4) {
                                     Text(viewModel.yearlyGoalTitle)
                                         .foregroundStyle(.gray)
                                         .padding(.horizontal, 16)
@@ -201,14 +235,23 @@ struct ProfileView: View {
                                             UIApplication.shared.dismissKeyboard()
                                         }
                                     
-                                    TextField(currency.uppercased(), text: $yearlyMoneyGoal)
-                                        .multilineTextAlignment(.center)
-                                        .keyboardType(.decimalPad)
-                                        .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.blackWhite)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 32)
-                                        .background(.wildSand, in: .rect(cornerRadius: 12))
+                                    ZStack(alignment: .top) {
+                                        TextField(currencyIdentifier.uppercased(), text: $yearlyMoneyGoal)
+                                            .multilineTextAlignment(.center)
+                                            .keyboardType(.decimalPad)
+                                            .font(.latoRegular(size: 16))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 32)
+                                            .background(.wildSand, in: .rect(cornerRadius: 12))
+                                        
+                                        Text(currencyIdentifier.uppercased())
+                                            .font(.latoBold(size: 12))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.top, 16)
+                                            .hide(if: yearlyMoneyGoal.isEmpty)
+                                    }
+                                    .fixedSize(horizontal: false, vertical: false)
                                 }
                             }
                             .padding(.top, 8)
@@ -244,14 +287,23 @@ struct ProfileView: View {
                                             UIApplication.shared.dismissKeyboard()
                                         }
                                     
-                                    TextField("hours_title".localized, text: $dailyHoursGoal)
-                                        .multilineTextAlignment(.center)
-                                        .keyboardType(.decimalPad)
-                                        .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.blackWhite)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 32)
-                                        .background(.wildSand, in: .rect(cornerRadius: 12))
+                                    ZStack(alignment: .top) {
+                                        TextField("hours_title".localized, text: $dailyHoursGoal)
+                                            .multilineTextAlignment(.center)
+                                            .keyboardType(.decimalPad)
+                                            .font(.latoRegular(size: 16))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 32)
+                                            .background(.wildSand, in: .rect(cornerRadius: 12))
+                                        
+                                        Text("hours_title".localized)
+                                            .font(.latoBold(size: 12))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.top, 16)
+                                            .hide(if: dailyHoursGoal.isEmpty)
+                                    }
+                                    .fixedSize(horizontal: false, vertical: false)
                                 }
                                 
                                 VStack(spacing: 4) {
@@ -262,20 +314,29 @@ struct ProfileView: View {
                                             UIApplication.shared.dismissKeyboard()
                                         }
                                     
-                                    TextField("hours_title".localized, text: $weeklyHoursGoal)
-                                        .multilineTextAlignment(.center)
-                                        .keyboardType(.decimalPad)
-                                        .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.blackWhite)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 32)
-                                        .background(.wildSand, in: .rect(cornerRadius: 12))
+                                    ZStack(alignment: .top) {
+                                        TextField("hours_title".localized, text: $weeklyHoursGoal)
+                                            .multilineTextAlignment(.center)
+                                            .keyboardType(.decimalPad)
+                                            .font(.latoRegular(size: 16))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 32)
+                                            .background(.wildSand, in: .rect(cornerRadius: 12))
+                                        
+                                        Text("hours_title".localized)
+                                            .font(.latoBold(size: 12))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.top, 16)
+                                            .hide(if: weeklyHoursGoal.isEmpty)
+                                    }
+                                    .fixedSize(horizontal: false, vertical: false)
                                 }
                             }
                             .padding(.top, 8)
                             
                             HStack(spacing: 8) {
-                                VStack {
+                                VStack(spacing: 4) {
                                     Text(viewModel.monthlyGoalTitle)
                                         .foregroundStyle(.gray)
                                         .padding(.horizontal, 16)
@@ -283,32 +344,50 @@ struct ProfileView: View {
                                             UIApplication.shared.dismissKeyboard()
                                         }
                                     
-                                    TextField("hours_title".localized, text: $monthlyHoursGoal)
-                                        .multilineTextAlignment(.center)
-                                        .keyboardType(.decimalPad)
-                                        .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.blackWhite)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 32)
-                                        .background(.wildSand, in: .rect(cornerRadius: 12))
+                                    ZStack(alignment: .top) {
+                                        TextField("hours_title".localized, text: $monthlyHoursGoal)
+                                            .multilineTextAlignment(.center)
+                                            .keyboardType(.decimalPad)
+                                            .font(.latoRegular(size: 16))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 32)
+                                            .background(.wildSand, in: .rect(cornerRadius: 12))
+                                        
+                                        Text("hours_title".localized)
+                                            .font(.latoBold(size: 12))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.top, 16)
+                                            .hide(if: monthlyHoursGoal.isEmpty)
+                                    }
+                                    .fixedSize(horizontal: false, vertical: false)
                                 }
                                 
-                                VStack {
+                                VStack(spacing: 4) {
                                     Text(viewModel.yearlyGoalTitle)
                                         .foregroundStyle(.gray)
                                         .padding(.horizontal, 16)
                                         .onTapGesture {
                                             UIApplication.shared.dismissKeyboard()
                                         }
-                                    
-                                    TextField("hours_title".localized, text: $yearlyHoursGoal)
-                                        .multilineTextAlignment(.center)
-                                        .keyboardType(.decimalPad)
-                                        .font(.nunitoSemiBold(size: 16))
-                                        .foregroundStyle(.blackWhite)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 32)
-                                        .background(.wildSand, in: .rect(cornerRadius: 12))
+                                                                        
+                                    ZStack(alignment: .top) {
+                                        TextField("hours_title".localized, text: $yearlyHoursGoal)
+                                            .multilineTextAlignment(.center)
+                                            .keyboardType(.decimalPad)
+                                            .font(.latoRegular(size: 16))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 32)
+                                            .background(.wildSand, in: .rect(cornerRadius: 12))
+                                        
+                                        Text("hours_title".localized)
+                                            .font(.latoBold(size: 12))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.top, 16)
+                                            .hide(if: yearlyHoursGoal.isEmpty)
+                                    }
+                                    .fixedSize(horizontal: false, vertical: false)
                                 }
                             }
                             .padding(.top, 8)
@@ -341,7 +420,7 @@ struct ProfileView: View {
                             UIApplication.shared.dismissKeyboard()
                         }
                     
-                    TextField(viewModel.currencyCode?.uppercased() ?? "", text: $currency)
+                    TextField(currencyIdentifier, text: $currencyIdentifier)
                         .font(.latoRegular(size: 16))
                         .foregroundStyle(.blackWhite)
                         .padding(.horizontal, 16)
@@ -353,6 +432,36 @@ struct ProfileView: View {
                         .foregroundStyle(.gray)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 16)
+                    
+                    Text(viewModel.iCloudTitle)
+                        .foregroundStyle(.gray)
+                        .padding(.horizontal, 16)
+                        .padding(.top, 32)
+                        .padding(.bottom, 4)
+                        .onTapGesture {
+                            UIApplication.shared.dismissKeyboard()
+                        }
+                                        
+                    HStack(spacing: 0) {
+                        Text("icloud_title".localized)
+                            .font(.latoRegular(size: 16))
+                            .foregroundStyle(.blackWhite)
+                            .padding(.vertical, 18)
+                        
+                        Spacer()
+                        
+                        CustomSubscriptionToggle(isOn: $isICloudSyncEnabled,
+                                                 showSubsciptionView: $showSubscriptionPlanView,
+                                                 subscriptionActive: userSubscriptionViewModel.subscriptionActive)
+                            .onChange(of: isICloudSyncEnabled) { newValue in
+                                if userSubscriptionViewModel.subscriptionActive {
+                                    PersistenceManager.shared = PersistenceManager(useCloud: newValue)
+                                    showICloudAlertSheet = true
+                                }
+                            }
+                    }
+                    .padding(.horizontal, 16)
+                    .background(.whiteTheme, in: .rect(cornerRadius: 12))
                     
                     Text(viewModel.dailyNotificationTitle)
                         .foregroundStyle(.gray)
@@ -382,9 +491,15 @@ struct ProfileView: View {
                             .foregroundStyle(.blackWhite)
                         
                         DateTextField(date: $dailyNotificationTime, components: [.hourAndMinute]) { date in
-                            let formatter = DateFormatter()
-                            formatter.dateFormat = "HH:mm"
-                            return formatter.string(from: date)
+                            let customDateFormatter: DateFormatter = {
+                                let formatter = DateFormatter()
+                                formatter.calendar = Calendar.current
+                                formatter.locale = Locale.current
+                                formatter.timeStyle = .short
+                                return formatter
+                            }()
+                            
+                            return customDateFormatter.string(from: date)
                         }
                         .foregroundStyle(.blackWhite)
                         .presentationBackground(.clear)
@@ -417,21 +532,43 @@ struct ProfileView: View {
                         }
                     }
             )
-            .safeAreaInset(edge: .bottom) {
-                Button {
-                    dismiss()
-                    saveContext()
-                } label: {
-                    Text("save_title".localized)
-                        .font(.latoBold(size: 16))
-                        .foregroundStyle(.whiteBlack)
+            .onAppear {
+                dailyNotificationTime = Date(timeIntervalSince1970: dailyNotificationTimeInterval)
+            }
+            .onChange(of: dailyMoneyGoal) { newValue in
+                dailyMoneyGoal = newValue.formatNumberInput()
+            }
+            .onChange(of: dailyHoursGoal) { newValue in
+                dailyHoursGoal = newValue.formatNumberInput()
+            }
+            .onChange(of: weeklyMoneyGoal) { newValue in
+                weeklyMoneyGoal = newValue.formatNumberInput()
+            }
+            .onChange(of: weeklyHoursGoal) { newValue in
+                weeklyHoursGoal = newValue.formatNumberInput()
+            }
+            .onChange(of: monthlyMoneyGoal) { newValue in
+                monthlyMoneyGoal = newValue.formatNumberInput()
+            }
+            .onChange(of: monthlyHoursGoal) { newValue in
+                monthlyHoursGoal = newValue.formatNumberInput()
+            }
+            .onChange(of: yearlyMoneyGoal) { newValue in
+                yearlyMoneyGoal = newValue.formatNumberInput()
+            }
+            .onChange(of: yearlyHoursGoal) { newValue in
+                yearlyHoursGoal = newValue.formatNumberInput()
+            }
+            .onChange(of: currencyIdentifier) { newValue in
+                // Keep only letters and limit to 3 characters
+                currencyIdentifier = newValue.uppercased().filter { $0.isLetter }
+                if currencyIdentifier.count > 3 {
+                    currencyIdentifier = String(currencyIdentifier.prefix(3))
                 }
-                .padding(.vertical, 8)
-                .padding(.horizontal, 16)
-                .background(.blackWhite, in: .rect(cornerRadius: 18))
-                .padding(.bottom, 30)
             }
             .onChange(of: dailyNotificationTime) { newValue in
+                dailyNotificationTimeInterval = newValue.timeIntervalSince1970
+                
                 if isDailyNotificationEnabled {
                     viewModel.cancelDailyNotification()
                     viewModel.scheduleDailyNotification(at: newValue)
@@ -447,6 +584,19 @@ struct ProfileView: View {
             .sheet(isPresented: $showJobsDeletionView) {
                 JobsDeletionView()
                     .background(.wildSand)
+            }
+            .floatingBottomSheet(isPresented: $showICloudAlertSheet) {
+                SheetView(
+                    title: "icloud_title".localized,
+                    content: "icloud_sync_description".localized,
+                    button1: .init(
+                        content: "ok_title".localized,
+                        tint: .whiteBlack,
+                        foreground: .blackWhite,
+                        action: {
+                            showICloudAlertSheet = false
+                        }))
+                        .presentationDetents([.height(250)])
             }
             .withProfileRoutes()
             .background {

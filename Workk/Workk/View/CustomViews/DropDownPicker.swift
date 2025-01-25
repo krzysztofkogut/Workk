@@ -5,6 +5,7 @@
 //  Created by Krzysztof Kogut on 03/12/2023.
 //
 
+import Resolver
 import SwiftUI
 
 enum DropDownPickerState {
@@ -20,11 +21,13 @@ struct DropDownPicker: View {
     @FetchRequest(
         entity: Job.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \Job.name, ascending: true)]
-    ) private var jobs: FetchedResults<Job>
+    ) private var dropDownJobs: FetchedResults<Job>
+    
+    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
     
     var hint: String
     var state: DropDownPickerState = .leading
-    var options: [String]
+    @State var options: [String]
     var hideAddNewOption: Bool = false
     var backgroundColor: Color
     var maxWidth: CGFloat = 130
@@ -96,6 +99,9 @@ struct DropDownPicker: View {
         .frame(height: 38, alignment: state == .leading ? .leading : .trailing)
         .onAppear {
             showDropdown = false
+        }
+        .onChange(of: dropDownJobs.count) { _ in
+            options = ["all_title".localized] + dropDownJobs.compactMap { $0.name }
         }
         .zIndex(zindex)
     }
@@ -194,7 +200,7 @@ struct DropDownPicker: View {
                     .padding(.horizontal, 16)
                     .onTapGesture {
                         withAnimation(.snappy) {
-                            if jobs.count < 3 {
+                            if dropDownJobs.count < 3 || userSubscriptionViewModel.subscriptionActive {
                                 addNewOption = true
                             } else {
                                 showSubscriptionPlan = true

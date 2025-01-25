@@ -11,7 +11,6 @@ import SwiftUI
 protocol HomeViewModelProtocol where Self: ObservableObject {
     var goalTitle: AttributedString { get }
     
-    var selectedFilter: PeriodFilter { get set }
     var currentTime: Time { get set }
     var timeReciver: Publishers.Autoconnect<Timer.TimerPublisher> { get set }
     var currentDateString: String { get }
@@ -20,7 +19,6 @@ protocol HomeViewModelProtocol where Self: ObservableObject {
 }
 
 final class HomeViewModel: HomeViewModelProtocol {
-    @Published var selectedFilter: PeriodFilter = .day
     @Published var currentTime = Time(hour: 0, min: 0, sec: 0)
     @Published var timeReciver = Timer.publish(every: 1, on: .current, in: .default).autoconnect()
     @Published var stopwatch: Stopwatch = .init()
@@ -34,7 +32,14 @@ final class HomeViewModel: HomeViewModelProtocol {
     
     private let router: HomeRouter
     
-    private let currentDateFormatter = DateFormatter(dateFormat: "d MMMM, yyyy", calendar: Calendar.current)
+    private let currentDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar.current
+        formatter.locale = Locale.current
+        formatter.dateStyle = .long
+        return formatter
+    }()
+    
     private let currentDayFormatter = DateFormatter(dateFormat: "EEEE", calendar: Calendar.current)
     private let currentDayShortFormatter = DateFormatter(dateFormat: "EE", calendar: Calendar.current)
     private let currentDayNumberFormatter = DateFormatter(dateFormat: "dd", calendar: Calendar.current)
@@ -91,12 +96,18 @@ final class HomeViewModel: HomeViewModelProtocol {
     
     func updateCurrentTime() {
         let calendar = Calendar.current
+        let localeRegion = Locale.current.region?.identifier ?? ""
         
         let hour = calendar.component(.hour, from: Date())
         let min = calendar.component(.minute, from: Date())
         let sec = calendar.component(.second, from: Date())
         
-        currentTime = Time(hour: hour, min: min, sec: sec)
+        let is12HourFormat = Constants.monthFirstLocales.contains(localeRegion)
+        
+        let formattedHour = is12HourFormat ? (hour % 12 == 0 ? 12 : hour % 12) : hour
+        let amPmMarker = is12HourFormat ? (hour < 12 ? "AM" : "PM") : ""
+        
+        currentTime = Time(hour: formattedHour, min: min, sec: sec, amPm: amPmMarker)
     }
     
     func showSubscriptionPlanView() {

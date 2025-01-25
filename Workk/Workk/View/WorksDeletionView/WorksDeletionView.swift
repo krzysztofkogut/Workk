@@ -12,6 +12,8 @@ struct WorksDeletionView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
+    @AppStorage("currencyIdentifier") private var currencyIdentifier: String = Locale.current.currency?.identifier ?? "USD"
+    
     @ObservedObject private var viewModel: WorksDeletionViewModel = Resolver.resolve()
     
     @Binding var selectedWorks: Set<Work>
@@ -63,11 +65,12 @@ struct WorksDeletionView: View {
                                 Spacer()
                                 
                                 VStack(alignment: .trailing, spacing: 2) {
-                                    Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
+                                    Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
                                         .font(.latoBold(size: 16))
                                         .foregroundColor(.blackWhite)
                                     
-                                    Text(work.hoursWorkedTimeDifference + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
+                                    Text(work.hoursWorkedTimeDifference + " | " + work.hourlyRate.formatFloatToString() +
+                                        " \(currencyIdentifier.uppercased())" + "/h")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
@@ -128,11 +131,13 @@ struct WorksDeletionView: View {
                                 Spacer()
                                 
                                 VStack(alignment: .trailing, spacing: 2) {
-                                    Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
+                                    Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
                                         .font(.latoBold(size: 16))
                                         .foregroundColor(.blackWhite)
                                     
-                                    Text(work.hoursWorkedString + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
+                                    Text(work.hoursWorkedString + " | " +
+                                        work.moneyEarnedHourRate.formatFloatToString() +
+                                        " \(currencyIdentifier.uppercased())" + "/h")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
@@ -193,11 +198,13 @@ struct WorksDeletionView: View {
                                 Spacer()
                                 
                                 VStack(alignment: .trailing, spacing: 2) {
-                                    Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
+                                    Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
                                         .font(.latoBold(size: 16))
                                         .foregroundColor(.blackWhite)
                                     
-                                    Text(work.hoursWorkedString + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
+                                    Text(work.hoursWorkedString + " | " +
+                                        work.moneyEarnedHourRate.formatFloatToString() +
+                                        " \(currencyIdentifier.uppercased())" + "/h")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
@@ -258,11 +265,13 @@ struct WorksDeletionView: View {
                                 Spacer()
                                 
                                 VStack(alignment: .trailing, spacing: 2) {
-                                    Text("\(String(format: "%.2f", work.moneyEarned))" + " PLN")
+                                    Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
                                         .font(.latoBold(size: 16))
                                         .foregroundColor(.blackWhite)
                                     
-                                    Text(work.hoursWorkedString + " | " + "\(String(format: "%.2f", work.hourlyRate))" + " PLN/h")
+                                    Text(work.hoursWorkedString + " | " +
+                                        work.moneyEarnedHourRate.formatFloatToString() +
+                                        " \(currencyIdentifier.uppercased())" + "/h")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
@@ -311,10 +320,10 @@ struct WorksDeletionView: View {
                     Text("delete_title".localized)
                         .font(.latoBold(size: 16))
                         .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(.blackWhite, in: .rect(cornerRadius: 18))
                 }
-                .padding(.vertical, 8)
-                .padding(.horizontal, 16)
-                .background(.blackWhite, in: .rect(cornerRadius: 18))
                 
                 Text("\(selectedWorks.count)")
                     .font(.latoBold(size: 16))

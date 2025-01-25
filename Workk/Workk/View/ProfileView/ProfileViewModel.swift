@@ -18,12 +18,12 @@ protocol ProfileViewModelProtocol where Self: ObservableObject {
     var yearlyGoalTitle: AttributedString { get }
     var jobsTitle: AttributedString { get }
     var currencyTitle: AttributedString { get }
+    var iCloudTitle: AttributedString { get }
     var dailyNotificationTitle: AttributedString { get }
 }
 
 final class ProfileViewModel: ProfileViewModelProtocol {
     
-    @Published var iCloudSettings: iCloudSettings = Resolver.resolve()
     let notificationManager: NotificationManager = Resolver.resolve()
     let regionCode = Locale.current.region?.identifier
     let currencyCode = Locale.current.currency?.identifier
@@ -89,6 +89,13 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         string.font = .latoBlack(size: 12)
         return string
     }
+        
+    var iCloudTitle: AttributedString {
+        var string = AttributedString("icloud_name_title".localized.uppercased())
+        string.kern = 3
+        string.font = .latoBlack(size: 12)
+        return string
+    }
     
     var dailyNotificationTitle: AttributedString {
         var string = AttributedString("notification_title".localized.uppercased())
@@ -103,7 +110,6 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     
     func scheduleDailyNotification(at time: Date) {
         notificationManager.scheduleDailyNotification(at: time)
-        notificationManager.scheduleWeeklyNotification(on: 1, at: 18, minute: 0)
     }
     
     func cancelDailyNotification() {

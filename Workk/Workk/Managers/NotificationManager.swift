@@ -110,8 +110,17 @@ class NotificationManager {
             }
         }
     }
-
+    
     func cancelDailyNotification() {
+        UNUserNotificationCenter
+            .current()
+            .removePendingNotificationRequests(
+                withIdentifiers: [dailyNotificationIndentifier])
+        
+        print("Notification canceled.")
+    }
+
+    func cancelNotifications() {
         UNUserNotificationCenter
             .current()
             .removePendingNotificationRequests(

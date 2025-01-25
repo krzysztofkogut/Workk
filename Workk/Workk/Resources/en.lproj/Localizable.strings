@@ -78,7 +78,7 @@
 "notifications_enabled_title" = "Notifications enabled";
 "daily_notification_time_title" = "Daily notification time";
 "try_for_free_button_title" = "Try 7 Days Free";
-"premium_description" = "Unlock complex stats, iCloud Sync, data export \nand delete ads";
+"premium_description" = "Unlock complex stats, iCloud Sync, \ndata export and delete ads";
 "try_workk_premium_title" = "Try Workk premium";
 "workk_title" = "Workk";
 "workk_premium_title" = "Workk Premium";
@@ -144,8 +144,12 @@
 
 "unlimited_entries_title" = "Unlimited entries";
 "unlimited_entries_description" = "Add as many work times and jobs as you need";
+"application_title" = "APPLICATION";
+"privacy_policy_title" = "Privacy Policy";
 
 "daily_notification_title" = "💰 Time is money!";
 "daily_notification_body" = "Start tracking your work time or add your earned money now to stay on top of your earnings.";
 "weekly_notification_title" = "🎉 Another week, another win!";
 "weekly_notification_body" = "Check your weekly earnings and see how your hard work adds up.";
+
+"setup_goal_home_description" = "Setup your goal in Your Profile";

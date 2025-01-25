@@ -130,7 +130,7 @@
 "analyze_title" = "Analizuj";
 "analyze_description" = "Sprawdź dane w widoku podsumowania \nlub w widoku statystyk";
 "keep_data_title" = "Przechowuj dane";
-"keep_data_description" = "Wszystkie Twoje dane będą przechowywane w iCloud i udostępniane między twoimi urządzeniami Apple";
+"keep_data_description" = "Wszystkie Twoje dane będą przechowywane w iCloud \ni udostępniane między twoimi urządzeniami Apple";
 "workk_description" = "Zachowaj porządek. Śledź swój czas pracy \ni zarobione pieniądze z Workk";
 "skip_title" = "POMIŃ";
 "begin_title" = "Zacznij";
@@ -144,8 +144,21 @@
 
 "unlimited_entries_title" = "Nielimitowane wpisy";
 "unlimited_entries_description" = "Dodaj tyle czasów pracy i prac ile potrzebujesz";
+"application_title" = "APLIKACJA";
+"privacy_policy_title" = "Polityka Prywatności";
 
 "daily_notification_title" = "💰 Czas to pieniądz!";
 "daily_notification_body" = "Zacznij śledzić swój czas pracy lub dodaj zarobione pieniądze, aby mieć kontrolę nad swoimi zarobkami.";
 "weekly_notification_title" = "🎉 Kolejny tydzień, kolejny sukces!";
 "weekly_notification_body" = "Sprawdź swoje tygodniowe zarobki i zobacz, jak owocna była Twoja praca.";
+
+"earned_now_title" = "Zarobiono:";
+"earned_more_title" = "Zarobiono wiecej o:";
+"setup_goal_title" = "Ustaw swoje cele";
+"setup_goal_description" = "Cele możesz zawsze ustawić później w Twoim Profilu";
+"setup_goal_home_description" = "Ustaw swój cel w Twoim Profilu";
+"icloud_name_title" = "ICLOUD";
+"icloud_sync_description" = "Zrestartuj aplikację aby zastosować ustawienia synchronizacji iCloud";
+"free_plan_description" = "7-dniowy okres próbny";
+"subscription_plan_cancel_anytime" = "Anuluj kiedy chcesz";
+

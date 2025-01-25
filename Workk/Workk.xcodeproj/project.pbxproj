@@ -46,6 +46,10 @@
 		A242B3DB2CD65EA30089E3AD /* MailOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = A242B3DA2CD65EA30089E3AD /* MailOption.swift */; };
 		A242B4532AE97B12006123B6 /* SubscriptionPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A242B4522AE97B11006123B6 /* SubscriptionPlanView.swift */; };
 		A242B4552AE97DB6006123B6 /* SubscriptionPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A242B4542AE97DB6006123B6 /* SubscriptionPlanViewModel.swift */; };
+		A245D69C2D2D4B900040F19E /* InterstitialAdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A245D69B2D2D4B900040F19E /* InterstitialAdManager.swift */; };
+		A245D6B02D2E851C0040F19E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A245D6AF2D2E851C0040F19E /* Constants.swift */; };
+		A245D6B22D2EE80E0040F19E /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A245D6B12D2EE80E0040F19E /* WebView.swift */; };
+		A245D6B42D2EEBD60040F19E /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A245D6B32D2EEBD60040F19E /* SafariView.swift */; };
 		A246EC692B854A2100E7FBB5 /* AdmobSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = A246EC682B854A2100E7FBB5 /* AdmobSwiftUI */; };
 		A246EC6B2B86B65700E7FBB5 /* HideViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A246EC6A2B86B65700E7FBB5 /* HideViewModifier.swift */; };
 		A24B3FBE2B2A26EE0037B569 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21637762AEC5F61006F05E7 /* Lato-Black.ttf */; };
@@ -117,12 +121,26 @@
 		A2B0AE4D2AE562FA00F535F3 /* FontNameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0AE4C2AE562FA00F535F3 /* FontNameManager.swift */; };
 		A2B0AE4F2AE5637200F535F3 /* arialbold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2B0AE4E2AE5637200F535F3 /* arialbold.ttf */; };
 		A2B0AE552AE59A8100F535F3 /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0AE542AE59A8100F535F3 /* MoreView.swift */; };
-		A2B0AE572AE59A9200F535F3 /* MoreRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0AE562AE59A9200F535F3 /* MoreRowView.swift */; };
 		A2B0AE592AE5A87A00F535F3 /* PeriodFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0AE582AE5A87A00F535F3 /* PeriodFilter.swift */; };
 		A2B2C6742BE8FEEB0032E2D1 /* StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B2C6732BE8FEEB0032E2D1 /* StatsViewModel.swift */; };
+		A2B640002D2B186F00A7D737 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B63FFF2D2B186F00A7D737 /* StoreKit.framework */; };
+		A2B640032D2B34FE00A7D737 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = A2B640022D2B34FE00A7D737 /* RevenueCat */; };
+		A2B640052D2B34FE00A7D737 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = A2B640042D2B34FE00A7D737 /* RevenueCatUI */; };
+		A2BC39E52D3292C400C4276D /* Float+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A229ABA02CA7170200BB97F6 /* Float+Ext.swift */; };
+		A2BC39F82D3467DE00C4276D /* PurchasesDelegateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BC39F72D3467DE00C4276D /* PurchasesDelegateHandler.swift */; };
+		A2BC39FB2D34689B00C4276D /* UserSubscriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BC39FA2D34689B00C4276D /* UserSubscriptionViewModel.swift */; };
+		A2BC39FD2D347D6900C4276D /* NSError+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BC39FC2D347D6900C4276D /* NSError+Ext.swift */; };
+		A2BC39FF2D347DB700C4276D /* PackageCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BC39FE2D347DB700C4276D /* PackageCellView.swift */; };
+		A2BC3A012D347F1000C4276D /* Package+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BC3A002D347F1000C4276D /* Package+Ext.swift */; };
+		A2BC3A032D347F4100C4276D /* SubscriptionPeriod+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BC3A022D347F4100C4276D /* SubscriptionPeriod+Ext.swift */; };
 		A2C09B532CF10C3800FB50F9 /* JobsDeletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C09B522CF10C3800FB50F9 /* JobsDeletionView.swift */; };
 		A2C548002B44AAF400A7A0CC /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C547FF2B44AAF400A7A0CC /* Stopwatch.swift */; };
 		A2C548022B44CCBA00A7A0CC /* TimeInterval+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C548012B44CCBA00A7A0CC /* TimeInterval+Ext.swift */; };
+		A2CB555A2D39335700372A06 /* JobData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CB55592D39335700372A06 /* JobData.swift */; };
+		A2CB555C2D39337B00372A06 /* WorkData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CB555B2D39337B00372A06 /* WorkData.swift */; };
+		A2CB555E2D39755000372A06 /* Notification+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CB555D2D39755000372A06 /* Notification+Ext.swift */; };
+		A2CB55612D398BED00372A06 /* GoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CB55602D398BED00372A06 /* GoalsView.swift */; };
+		A2CB55632D3DB9D700372A06 /* CustomSubscriptionToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CB55622D3DB9D700372A06 /* CustomSubscriptionToggle.swift */; };
 		A2D4D7732B7D77E40096FDFF /* RollingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4D7722B7D77E40096FDFF /* RollingText.swift */; };
 		A2D4D7752B7E9BD00096FDFF /* MonthCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4D7742B7E9BD00096FDFF /* MonthCard.swift */; };
 		A2D4D7772B7E9D2F0096FDFF /* MonthPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4D7762B7E9D2F0096FDFF /* MonthPicker.swift */; };
@@ -236,6 +254,10 @@
 		A242B3DA2CD65EA30089E3AD /* MailOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailOption.swift; sourceTree = "<group>"; };
 		A242B4522AE97B11006123B6 /* SubscriptionPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanView.swift; sourceTree = "<group>"; };
 		A242B4542AE97DB6006123B6 /* SubscriptionPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanViewModel.swift; sourceTree = "<group>"; };
+		A245D69B2D2D4B900040F19E /* InterstitialAdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAdManager.swift; sourceTree = "<group>"; };
+		A245D6AF2D2E851C0040F19E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		A245D6B12D2EE80E0040F19E /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		A245D6B32D2EEBD60040F19E /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		A246EC6A2B86B65700E7FBB5 /* HideViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideViewModifier.swift; sourceTree = "<group>"; };
 		A251B4172CEFDAAE00060440 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A251B4182CEFDAB400060440 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -303,7 +325,6 @@
 		A2B0AE4E2AE5637200F535F3 /* arialbold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = arialbold.ttf; sourceTree = "<group>"; };
 		A2B0AE502AE5944E00F535F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A2B0AE542AE59A8100F535F3 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
-		A2B0AE562AE59A9200F535F3 /* MoreRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreRowView.swift; sourceTree = "<group>"; };
 		A2B0AE582AE5A87A00F535F3 /* PeriodFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodFilter.swift; sourceTree = "<group>"; };
 		A2B2C6732BE8FEEB0032E2D1 /* StatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
 		A2B63FF82D27EDE800A7D737 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -311,9 +332,22 @@
 		A2B63FFA2D27EE0E00A7D737 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A2B63FFB2D27EE1800A7D737 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A2B63FFC2D27EE6800A7D737 /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A2B63FFE2D2B186700A7D737 /* Workk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Workk.entitlements; sourceTree = "<group>"; };
+		A2B63FFF2D2B186F00A7D737 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		A2BC39F72D3467DE00C4276D /* PurchasesDelegateHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasesDelegateHandler.swift; sourceTree = "<group>"; };
+		A2BC39FA2D34689B00C4276D /* UserSubscriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSubscriptionViewModel.swift; sourceTree = "<group>"; };
+		A2BC39FC2D347D6900C4276D /* NSError+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSError+Ext.swift"; sourceTree = "<group>"; };
+		A2BC39FE2D347DB700C4276D /* PackageCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageCellView.swift; sourceTree = "<group>"; };
+		A2BC3A002D347F1000C4276D /* Package+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Package+Ext.swift"; sourceTree = "<group>"; };
+		A2BC3A022D347F4100C4276D /* SubscriptionPeriod+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SubscriptionPeriod+Ext.swift"; sourceTree = "<group>"; };
 		A2C09B522CF10C3800FB50F9 /* JobsDeletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsDeletionView.swift; sourceTree = "<group>"; };
 		A2C547FF2B44AAF400A7A0CC /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		A2C548012B44CCBA00A7A0CC /* TimeInterval+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Ext.swift"; sourceTree = "<group>"; };
+		A2CB55592D39335700372A06 /* JobData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobData.swift; sourceTree = "<group>"; };
+		A2CB555B2D39337B00372A06 /* WorkData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkData.swift; sourceTree = "<group>"; };
+		A2CB555D2D39755000372A06 /* Notification+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Ext.swift"; sourceTree = "<group>"; };
+		A2CB55602D398BED00372A06 /* GoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsView.swift; sourceTree = "<group>"; };
+		A2CB55622D3DB9D700372A06 /* CustomSubscriptionToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSubscriptionToggle.swift; sourceTree = "<group>"; };
 		A2D4D7722B7D77E40096FDFF /* RollingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingText.swift; sourceTree = "<group>"; };
 		A2D4D7742B7E9BD00096FDFF /* MonthCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCard.swift; sourceTree = "<group>"; };
 		A2D4D7762B7E9D2F0096FDFF /* MonthPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthPicker.swift; sourceTree = "<group>"; };
@@ -380,7 +414,10 @@
 			files = (
 				A2AAA8342B84177400AD7ACA /* GoogleMobileAds in Frameworks */,
 				A246EC692B854A2100E7FBB5 /* AdmobSwiftUI in Frameworks */,
+				A2B640052D2B34FE00A7D737 /* RevenueCatUI in Frameworks */,
+				A2B640032D2B34FE00A7D737 /* RevenueCat in Frameworks */,
 				A2A8CA352B191E1E00A23B43 /* Resolver in Frameworks */,
+				A2B640002D2B186F00A7D737 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +438,7 @@
 				A21623972C0CFE8D00CC724C /* PersistanceManager.swift */,
 				A2EFF4BE2CE2C2380021341E /* iCloudSettings.swift */,
 				A251B41F2CEFDF6A00060440 /* NotificationManager.swift */,
+				A245D69B2D2D4B900040F19E /* InterstitialAdManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -430,8 +468,12 @@
 				A21FF5DF2C8A63DD00DD1111 /* YearDatePicker.swift */,
 				A21FF5E52C8C8A6C00DD1111 /* MultilineTextField.swift */,
 				A21FF5E72C8CE07F00DD1111 /* CustomToggle.swift */,
+				A2CB55622D3DB9D700372A06 /* CustomSubscriptionToggle.swift */,
 				A2EFF4B02CDE76F70021341E /* SheetView.swift */,
 				A22A93212CF6880200F859FD /* ThemeChangeView.swift */,
+				A245D6B12D2EE80E0040F19E /* WebView.swift */,
+				A245D6B32D2EEBD60040F19E /* SafariView.swift */,
+				A2BC39FE2D347DB700C4276D /* PackageCellView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -476,6 +518,14 @@
 				A242B4542AE97DB6006123B6 /* SubscriptionPlanViewModel.swift */,
 			);
 			path = SubscriptionPlanView;
+			sourceTree = "<group>";
+		};
+		A245D6AE2D2E84B20040F19E /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				A245D6AF2D2E851C0040F19E /* Constants.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		A272C3392B27BC8E00536B60 /* WorkTimeStatus */ = {
@@ -525,6 +575,8 @@
 		A29577FF2AE1865000206D9B /* Workk */ = {
 			isa = PBXGroup;
 			children = (
+				A2B63FFE2D2B186700A7D737 /* Workk.entitlements */,
+				A245D6AE2D2E84B20040F19E /* Constants */,
 				A2FD64412B20F9D400E3BDFF /* Helpers */,
 				A2FD64322B1FC63900E3BDFF /* Resources */,
 				A2B0AE502AE5944E00F535F3 /* Info.plist */,
@@ -533,6 +585,7 @@
 				A2A375142B019CA800ED51E9 /* Router */,
 				A295782B2AE1866B00206D9B /* Extensions */,
 				A295782D2AE1869400206D9B /* Persistence */,
+				A2BC39F92D34687800C4276D /* Subscription */,
 				A20B58022C0521C300BF3FC7 /* Managers */,
 				A29578322AE18AD100206D9B /* Model */,
 				A295782A2AE1866300206D9B /* View */,
@@ -574,6 +627,7 @@
 				A20173822C8677C00096DB85 /* AddWorkTimeView */,
 				A2B0AE432AE55B1600F535F3 /* Components */,
 				A216378A2AECFC16006F05E7 /* CustomViews */,
+				A2CB555F2D398BC700372A06 /* GoalsView */,
 				A2C09B512CF10C1900FB50F9 /* JobsDeletionView */,
 				A2EFF4B22CDFEC200021341E /* WorksDeletionView */,
 				A2B0AE402AE5455300F535F3 /* HomeView */,
@@ -611,6 +665,10 @@
 				A2FCACBD2B93592300B94E35 /* UIScreen+Ext.swift */,
 				A28992522B1CCE79004DEA9D /* UIView+Ext.swift */,
 				A2689A352AE1CEAF00445350 /* View+Ext.swift */,
+				A2BC39FC2D347D6900C4276D /* NSError+Ext.swift */,
+				A2BC3A002D347F1000C4276D /* Package+Ext.swift */,
+				A2BC3A022D347F4100C4276D /* SubscriptionPeriod+Ext.swift */,
+				A2CB555D2D39755000372A06 /* Notification+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -696,6 +754,7 @@
 		A2A8CA2B2B191D2800A23B43 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A2B63FFF2D2B186F00A7D737 /* StoreKit.framework */,
 				A272C3352B27BC8E00536B60 /* WidgetKit.framework */,
 				A272C3372B27BC8E00536B60 /* SwiftUI.framework */,
 			);
@@ -766,9 +825,17 @@
 			children = (
 				A2B0AE542AE59A8100F535F3 /* MoreView.swift */,
 				A242B3D52CD648A00089E3AD /* MoreViewModel.swift */,
-				A2B0AE562AE59A9200F535F3 /* MoreRowView.swift */,
 			);
 			path = MoreView;
+			sourceTree = "<group>";
+		};
+		A2BC39F92D34687800C4276D /* Subscription */ = {
+			isa = PBXGroup;
+			children = (
+				A2BC39F72D3467DE00C4276D /* PurchasesDelegateHandler.swift */,
+				A2BC39FA2D34689B00C4276D /* UserSubscriptionViewModel.swift */,
+			);
+			path = Subscription;
 			sourceTree = "<group>";
 		};
 		A2C09B512CF10C1900FB50F9 /* JobsDeletionView */ = {
@@ -779,13 +846,23 @@
 			path = JobsDeletionView;
 			sourceTree = "<group>";
 		};
+		A2CB555F2D398BC700372A06 /* GoalsView */ = {
+			isa = PBXGroup;
+			children = (
+				A2CB55602D398BED00372A06 /* GoalsView.swift */,
+			);
+			path = GoalsView;
+			sourceTree = "<group>";
+		};
 		A2D1A31D2C07838B0070B12F /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				A2DB57DC2C07827000670116 /* Work+CoreDataClass.swift */,
 				A2DB57DD2C07827000670116 /* Work+CoreDataProperties.swift */,
+				A2CB555B2D39337B00372A06 /* WorkData.swift */,
 				A2DB57DE2C07827000670116 /* Job+CoreDataClass.swift */,
 				A2DB57DF2C07827000670116 /* Job+CoreDataProperties.swift */,
+				A2CB55592D39335700372A06 /* JobData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -889,6 +966,8 @@
 				A2A8CA342B191E1E00A23B43 /* Resolver */,
 				A2AAA8332B84177400AD7ACA /* GoogleMobileAds */,
 				A246EC682B854A2100E7FBB5 /* AdmobSwiftUI */,
+				A2B640022D2B34FE00A7D737 /* RevenueCat */,
+				A2B640042D2B34FE00A7D737 /* RevenueCatUI */,
 			);
 			productName = Workk;
 			productReference = A29577FD2AE1865000206D9B /* Workk.app */;
@@ -976,12 +1055,14 @@
 				uk,
 				el,
 				fi,
+				Base,
 			);
 			mainGroup = A29577F42AE1865000206D9B;
 			packageReferences = (
 				A2A8CA332B191E1E00A23B43 /* XCRemoteSwiftPackageReference "Resolver" */,
 				A2AAA8322B84177400AD7ACA /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 				A246EC672B854A2100E7FBB5 /* XCRemoteSwiftPackageReference "AdmobSwiftUI" */,
+				A2B640012D2B34FD00A7D737 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			productRefGroup = A29577FE2AE1865000206D9B /* Products */;
 			projectDirPath = "";
@@ -1058,6 +1139,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2BC39E52D3292C400C4276D /* Float+Ext.swift in Sources */,
 				A272C33F2B27BC8E00536B60 /* WorkTimeStatus.swift in Sources */,
 				A272C3412B27BC8E00536B60 /* AppIntent.swift in Sources */,
 				A272C3512B27C41200536B60 /* Font+Ext.swift in Sources */,
@@ -1073,7 +1155,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2689A362AE1CEAF00445350 /* View+Ext.swift in Sources */,
-				A2B0AE572AE59A9200F535F3 /* MoreRowView.swift in Sources */,
 				A21637912AEEAA46006F05E7 /* Resolver.swift in Sources */,
 				A2D732782BC6B8250013C02B /* Double+Ext.swift in Sources */,
 				A2945FD62B75769800DD8281 /* Date+Ext.swift in Sources */,
@@ -1089,23 +1170,32 @@
 				A2945FD22B7573D500DD8281 /* DayPicker.swift in Sources */,
 				A2EFF4C42CE7AA970021341E /* StatsFilterView.swift in Sources */,
 				A2B0AE592AE5A87A00F535F3 /* PeriodFilter.swift in Sources */,
+				A245D6B02D2E851C0040F19E /* Constants.swift in Sources */,
 				A251B4202CEFDF6A00060440 /* NotificationManager.swift in Sources */,
 				A21FF5E82C8CE07F00DD1111 /* CustomToggle.swift in Sources */,
 				A224AEB92BB9DD3400124705 /* DateFormatter+Ext.swift in Sources */,
+				A245D6B22D2EE80E0040F19E /* WebView.swift in Sources */,
 				A28992572B1CD68A004DEA9D /* DarkModeWrapper.swift in Sources */,
+				A2BC3A032D347F4100C4276D /* SubscriptionPeriod+Ext.swift in Sources */,
 				A2B0AE422AE5456000F535F3 /* HomeView.swift in Sources */,
 				A240212F2C1744DD007A5988 /* AddJobView.swift in Sources */,
+				A2CB55632D3DB9D700372A06 /* CustomSubscriptionToggle.swift in Sources */,
 				A2A375162B019CCB00ED51E9 /* AppRouter.swift in Sources */,
 				A28992552B1CCED4004DEA9D /* OverlayView.swift in Sources */,
 				A229ABA12CA7170200BB97F6 /* Float+Ext.swift in Sources */,
+				A2BC39F82D3467DE00C4276D /* PurchasesDelegateHandler.swift in Sources */,
 				A242B3D42CD3D3730089E3AD /* Image+Ext.swift in Sources */,
 				A2D4D7752B7E9BD00096FDFF /* MonthCard.swift in Sources */,
 				A289924E2B1BF105004DEA9D /* DropDownPicker.swift in Sources */,
+				A2BC39FF2D347DB700C4276D /* PackageCellView.swift in Sources */,
 				A246EC6B2B86B65700E7FBB5 /* HideViewModifier.swift in Sources */,
+				A245D6B42D2EEBD60040F19E /* SafariView.swift in Sources */,
 				A2DB57E32C07827000670116 /* Job+CoreDataProperties.swift in Sources */,
 				A242B3DB2CD65EA30089E3AD /* MailOption.swift in Sources */,
 				A289925B2B1E87E3004DEA9D /* ProgressBar.swift in Sources */,
+				A2CB555A2D39335700372A06 /* JobData.swift in Sources */,
 				A2D4D7772B7E9D2F0096FDFF /* MonthPicker.swift in Sources */,
+				A2BC39FD2D347D6900C4276D /* NSError+Ext.swift in Sources */,
 				A20173842C8677E10096DB85 /* AddWorkTimeView.swift in Sources */,
 				A2EFF4BD2CE2A02D0021341E /* ProfileViewModel.swift in Sources */,
 				A2D4D7792B7EBDBF0096FDFF /* YearCard.swift in Sources */,
@@ -1115,6 +1205,7 @@
 				A2C09B532CF10C3800FB50F9 /* JobsDeletionView.swift in Sources */,
 				A2B031A42B7FCD3B00296078 /* WeekCard.swift in Sources */,
 				A2B0AE552AE59A8100F535F3 /* MoreView.swift in Sources */,
+				A2CB55612D398BED00372A06 /* GoalsView.swift in Sources */,
 				A2DB57E12C07827000670116 /* Work+CoreDataProperties.swift in Sources */,
 				A22A93222CF6880200F859FD /* ThemeChangeView.swift in Sources */,
 				A2B031A22B7FB41A00296078 /* UIFont+Ext.swift in Sources */,
@@ -1140,6 +1231,7 @@
 				A2EFF4BF2CE2C2380021341E /* iCloudSettings.swift in Sources */,
 				A21623982C0CFE8D00CC724C /* PersistanceManager.swift in Sources */,
 				A21FF5E02C8A63DD00DD1111 /* YearDatePicker.swift in Sources */,
+				A245D69C2D2D4B900040F19E /* InterstitialAdManager.swift in Sources */,
 				A2DB57E22C07827000670116 /* Job+CoreDataClass.swift in Sources */,
 				A2DB57DB2C0771FD00670116 /* Workk.xcdatamodeld in Sources */,
 				A2FCACC52B93AFFC00B94E35 /* ScheduleRouterViewModifier.swift in Sources */,
@@ -1151,12 +1243,16 @@
 				A29578312AE1870B00206D9B /* MainTabView.swift in Sources */,
 				A21B7F9D2C95F90B00B66611 /* UIEdgeInsets+Ext.swift in Sources */,
 				A2A3751D2B019D3B00ED51E9 /* HomeRouterViewModifier.swift in Sources */,
+				A2CB555C2D39337B00372A06 /* WorkData.swift in Sources */,
+				A2CB555E2D39755000372A06 /* Notification+Ext.swift in Sources */,
 				A2B031A02B7FAF8F00296078 /* String+Ext.swift in Sources */,
 				A2B0AE452AE55B2700F535F3 /* RoundedShape.swift in Sources */,
+				A2BC3A012D347F1000C4276D /* Package+Ext.swift in Sources */,
 				A2A23BF42B4D658D0089F670 /* Calendar+Ext.swift in Sources */,
 				A21B7F9B2C95F8DF00B66611 /* EnvironmentValues+Ext.swift in Sources */,
 				A2D4D77B2B7EBF3F0096FDFF /* YearPicker.swift in Sources */,
 				A28992532B1CCE79004DEA9D /* UIView+Ext.swift in Sources */,
+				A2BC39FB2D34689B00C4276D /* UserSubscriptionViewModel.swift in Sources */,
 				A2A3751B2B019D2B00ED51E9 /* HomeRouter.swift in Sources */,
 				A242B4552AE97DB6006123B6 /* SubscriptionPlanViewModel.swift in Sources */,
 				A2FD64432B20F9E400E3BDFF /* StatusBarBasedController.swift in Sources */,
@@ -1250,7 +1346,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WorkTimeStatus/Info.plist;
@@ -1262,7 +1358,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.Workk.WorkTimeStatus";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1278,7 +1374,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WorkTimeStatus/Info.plist;
@@ -1290,7 +1386,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.Workk.WorkTimeStatus";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1432,8 +1528,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = Workk/Workk.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_ASSET_PATHS = "\"Workk/Preview Content\"";
 				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				ENABLE_PREVIEWS = YES;
@@ -1444,7 +1542,7 @@
 				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1467,8 +1565,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = Workk/Workk.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_ASSET_PATHS = "\"Workk/Preview Content\"";
 				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				ENABLE_PREVIEWS = YES;
@@ -1479,7 +1579,7 @@
 				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1502,11 +1602,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.WorkkTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1522,11 +1622,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.WorkkTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1541,10 +1641,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.WorkkUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1559,10 +1659,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.WorkkUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1627,7 +1727,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dearhui/AdmobSwiftUI.git";
 			requirement = {
-				kind = upToNextMajorVersion;
+				kind = upToNextMinorVersion;
 				minimumVersion = 1.0.11;
 			};
 		};
@@ -1643,8 +1743,16 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
 			requirement = {
-				kind = upToNextMajorVersion;
+				kind = upToNextMinorVersion;
 				minimumVersion = 10.6.0;
+			};
+		};
+		A2B640012D2B34FD00A7D737 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.14.5;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1664,6 +1772,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A2AAA8322B84177400AD7ACA /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
+		};
+		A2B640022D2B34FE00A7D737 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2B640012D2B34FD00A7D737 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
+		};
+		A2B640042D2B34FE00A7D737 /* RevenueCatUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2B640012D2B34FD00A7D737 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCatUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 

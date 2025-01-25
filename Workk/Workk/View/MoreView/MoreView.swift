@@ -15,9 +15,12 @@ struct MoreView: View {
     @Environment(\.colorScheme) private var scheme
     
     @ObservedObject private var viewModel: MoreViewModel = Resolver.resolve()
+    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
     
     @State private var showChangeThemeView: Bool = false
     @State private var showSubscriptionPlanView: Bool = false
+    @State private var showTermsAndConditions: Bool = false
+    @State private var showPrivacyPolicy: Bool = false
     @State private var showMailView = false
     @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
     
@@ -169,6 +172,11 @@ struct MoreView: View {
                 .background(.whiteTheme)
                 .cornerRadius(12)
                 .onTapGesture {
+                    guard userSubscriptionViewModel.subscriptionActive else {
+                        showSubscriptionPlanView = true
+                        return
+                    }
+                    
                     if let fileURL = viewModel.saveCSVToFile(context: viewContext) {
                         viewModel.exportFile(fileURL: fileURL)
                     } else {
@@ -323,6 +331,51 @@ struct MoreView: View {
                     }
                 }
                 
+                Text(viewModel.applicationSectionTitle)
+                    .font(.latoBlack(size: 14))
+                    .foregroundStyle(.gray)
+                    .padding(.top, 32)
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 4)
+                
+                HStack {
+                    Text("privacy_policy_title".localized)
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoRegular(size: 16))
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.right")
+                        .font(.footnote)
+                        .foregroundColor(.blackWhite)
+                }
+                .padding(.vertical, 16)
+                .padding(.horizontal, 16)
+                .background(.whiteTheme)
+                .cornerRadius(12)
+                .onTapGesture {
+                    showPrivacyPolicy = true
+                }
+                
+                HStack {
+                    Text("terms_conditions_title".localized)
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoRegular(size: 16))
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.right")
+                        .font(.footnote)
+                        .foregroundColor(.blackWhite)
+                }
+                .padding(.vertical, 16)
+                .padding(.horizontal, 16)
+                .background(.whiteTheme)
+                .cornerRadius(12)
+                .onTapGesture {
+                    showTermsAndConditions = true
+                }
+                
                 Spacer()
                 
                 Text(viewModel.appVersionTitle)
@@ -333,13 +386,7 @@ struct MoreView: View {
             }
             .padding(.horizontal, 16)
         }
-        .padding(.top, 48)
-        .overlay(alignment: .topTrailing) {
-            DarkModeButton()
-                .padding(.horizontal, 16)
-                .padding(.top, 8)
-        }
-//        .preferredColorScheme(userTheme.colorScheme)
+        .padding(.top, 24)
         .sheet(isPresented: $showChangeThemeView) {
             ThemeChangeView(scheme: scheme)
                 .presentationDetents([.height(440)])
@@ -353,6 +400,12 @@ struct MoreView: View {
         }
         .fullScreenCover(isPresented: $showSubscriptionPlanView) {
             SubscriptionPlanView()
+        }
+        .fullScreenCover(isPresented: $showPrivacyPolicy) {
+            SafariView(url: Constants.privacyPolicyURL)
+        }
+        .fullScreenCover(isPresented: $showTermsAndConditions) {
+            SafariView(url: Constants.termsAndConditionsURL)
         }
     }
 }

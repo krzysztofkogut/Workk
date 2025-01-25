@@ -5,43 +5,42 @@
 //  Created by Krzysztof Kogut on 25/10/2023.
 //
 
-import Foundation
+import Combine
+import RevenueCat
+import SwiftUI
 
-enum SubscriptionPlanViewModel: Int, CaseIterable {
-    case month
-    case year
-    case forLife
+protocol SubscriptionPlanViewModelProtocol where Self: ObservableObject {
+    var selectedPackage: Package? { get set }
+    var offering: Offering? { get set }
+    var isSelectedPackageMonthly: Bool { get }
+    
+    func isMonthlySubscription(package: Package) -> Bool
+}
 
-    var title: String {
-        switch self {
-        case .month:
-            return "monthly_subscription_title".localized
-        case .year:
-            return "yearly_subscription_title".localized
-        case .forLife:
-            return "for_life_title".localized
+final class SubscriptionPlanViewModel: SubscriptionPlanViewModelProtocol {
+    @Published var selectedPackage: Package?
+    @Published var offering: Offering?
+    
+    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel
+    
+    var isSelectedPackageMonthly: Bool {
+        if let subscriptionPeriod = selectedPackage?.storeProduct.subscriptionPeriod {
+            return subscriptionPeriod.unit == .month
         }
+        return false
     }
-
-    var description: String {
-        switch self {
-        case .month:
-            return "3.99$ " + "for_month_title".localized
-        case .year:
-            return "29.99$ " + "for_year_title".localized
-        case .forLife:
-            return  "for_life_description".localized + " 99.99$"
-        }
+        
+    init(userSubscriptionViewModel: UserSubscriptionViewModel) {
+        self.userSubscriptionViewModel = userSubscriptionViewModel
+        self.offering = userSubscriptionViewModel.offerings?.current
+        self.selectedPackage = userSubscriptionViewModel.offerings?.current?.availablePackages.first(where: { $0.packageType == .annual })
     }
     
-    var price: Float {
-        switch self {
-        case .month:
-            3.99
-        case .year:
-            29.99
-        case .forLife:
-            99.99
+    func isMonthlySubscription(package: Package) -> Bool {
+        if let subscriptionPeriod = package.storeProduct.subscriptionPeriod {
+            return subscriptionPeriod.unit == .month
         }
+        return false
     }
 }
+

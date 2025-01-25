@@ -78,7 +78,7 @@
 "notifications_enabled_title" = "Notificaciones habilitadas";
 "daily_notification_time_title" = "Hora de la notificación diaria";
 "try_for_free_button_title" = "Prueba 7 días gratis";
-"premium_description" = "Desbloquea estadísticas avanzadas, sincronización con iCloud, exportación de datos \ny elimina anuncios";
+"premium_description" = "Desbloquea estadísticas avanzadas, sincronización con iCloud, exportación de datos y elimina anuncios";
 "try_workk_premium_title" = "Prueba Workk Premium";
 "workk_title" = "Workk";
 "workk_premium_title" = "Workk Premium";
@@ -144,6 +144,8 @@
 
 "unlimited_entries_title" = "Entradas ilimitadas";
 "unlimited_entries_description" = "Añade tantos tiempos de trabajo y trabajos como necesites";
+"application_title" = "APLICACIÓN";
+"privacy_policy_title" = "Política de Privacidad";
 
 "daily_notification_title" = "💰 ¡El tiempo es dinero!";
 "daily_notification_body" = "Comienza a registrar tu tiempo de trabajo o añade el dinero ganado para mantener el control de tus ganancias.";

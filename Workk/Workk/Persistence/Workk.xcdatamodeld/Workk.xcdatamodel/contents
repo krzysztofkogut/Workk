@@ -1,27 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23G80" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23H222" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="Job" representedClassName="Job" syncable="YES">
         <attribute name="hourlyRate" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="name" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" allowsCloudEncryption="YES" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String" defaultValueString="Job"/>
         <relationship name="work" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Work" inverseName="job" inverseEntity="Work"/>
-        <uniquenessConstraints>
-            <uniquenessConstraint>
-                <constraint value="name"/>
-            </uniquenessConstraint>
-        </uniquenessConstraints>
     </entity>
     <entity name="Work" representedClassName="Work" syncable="YES">
-        <attribute name="endDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="endDate" attributeType="Date" defaultDateTimeInterval="757436400" usesScalarValueType="NO"/>
         <attribute name="hourlyRate" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="hoursWorked" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="isPaid" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" allowsCloudEncryption="YES" usesScalarValueType="NO"/>
+        <attribute name="isPaid" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="moneyEarned" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="note" optional="YES" attributeType="String"/>
-        <attribute name="periodType" attributeType="String"/>
+        <attribute name="periodType" attributeType="String" defaultValueString="day"/>
         <attribute name="project" optional="YES" attributeType="String"/>
-        <attribute name="startDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="startDate" attributeType="Date" defaultDateTimeInterval="757407600" usesScalarValueType="NO"/>
         <attribute name="task" optional="YES" attributeType="String"/>
         <relationship name="job" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Job" inverseName="work" inverseEntity="Job"/>
     </entity>

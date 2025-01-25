@@ -18,6 +18,13 @@ extension String {
         return size.width
     }
     
+    func floatValue() -> Float {
+        let formatter = NumberFormatter()
+        formatter.locale = Locale.current
+        
+        return Float(truncating: formatter.number(from: self) ?? 0)
+    }
+    
     func formatNumberInput() -> String {
         // Get the current decimal separator from the locale
         let decimalSeparator = Locale.current.decimalSeparator ?? "."

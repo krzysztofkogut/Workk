@@ -102,10 +102,8 @@ struct AnimatedNotificationView<Content: View>: View {
     func removeNotificationViewFromWindow() {
         if let activeWindow = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first(where: { $0.tag == 0320 }) {
             if let view = activeWindow.viewWithTag(tag) {
-                // print("Removed View with \(tag)")
                 view.removeFromSuperview()
                 
-                /// Resetting Once All the notifications was removed
                 if let controller = activeWindow.rootViewController as? StatusBarBasedController, controller.view.subviews.isEmpty {
                     controller.statusBarStyle = .default
                     controller.setNeedsStatusBarAppearanceUpdate()

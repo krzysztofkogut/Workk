@@ -16,7 +16,7 @@ struct MultilineTextField: UIViewRepresentable {
         let textView = UITextView()
         textView.font = UIFont.latoRegular(size: 16)
         textView.text = placeHolder
-        textView.textColor = UIColor.blackWhite.withAlphaComponent(0.25)
+        textView.textColor = placeHolder == "note_title".localized ? UIColor.blackWhite.withAlphaComponent(0.25) : .blackWhite
         textView.backgroundColor = .clear
         textView.isEditable = true
         textView.isScrollEnabled = true
@@ -53,8 +53,10 @@ struct MultilineTextField: UIViewRepresentable {
 
         func textViewDidEndEditing(_ textView: UITextView) {
             if parent.text.isEmpty {
-                textView.text = parent.placeHolder
+                textView.text = "note_title".localized
                 textView.textColor = UIColor.blackWhite.withAlphaComponent(0.25)
+            } else {
+                textView.textColor = .blackWhite
             }
         }
     }

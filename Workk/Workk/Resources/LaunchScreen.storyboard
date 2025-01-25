@@ -8,6 +8,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Nunito-Black.ttf">
+            <string>Nunito-Black</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
@@ -17,17 +22,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="workk-launch-screen" translatesAutoresizingMaskIntoConstraints="NO" id="wdo-qQ-psr">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Workk" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vqw-NU-sMa">
+                                <rect key="frame" x="118.33333333333333" y="393.33333333333331" width="156.66666666666669" height="65.666666666666686"/>
+                                <color key="tintColor" name="Black White"/>
+                                <fontDescription key="fontDescription" name="Nunito-Black" family="Nunito" pointSize="48"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="workk-small-logo" translatesAutoresizingMaskIntoConstraints="NO" id="19z-ud-pAE">
+                                <rect key="frame" x="146.66666666666666" y="376" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="5xx-bh-8MJ"/>
+                                    <constraint firstAttribute="width" constant="100" id="9JX-w6-MLK"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" name="Wild Sand"/>
                         <constraints>
-                            <constraint firstItem="wdo-qQ-psr" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="1ak-Sn-tNE"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="wdo-qQ-psr" secondAttribute="trailing" id="RXI-Xb-D8E"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="wdo-qQ-psr" secondAttribute="bottom" id="YXL-BO-M5T"/>
-                            <constraint firstItem="wdo-qQ-psr" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" id="bjI-wb-DWj"/>
+                            <constraint firstItem="19z-ud-pAE" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="D4z-0E-B4e"/>
+                            <constraint firstItem="19z-ud-pAE" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="EP2-hK-XJf"/>
+                            <constraint firstItem="Vqw-NU-sMa" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="FQX-jY-2rn"/>
+                            <constraint firstItem="Vqw-NU-sMa" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="UIf-KY-pEi"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -37,9 +53,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="workk-launch-screen" width="495" height="880"/>
+        <image name="workk-small-logo" width="100" height="100"/>
+        <namedColor name="Black White">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="Wild Sand">
-            <color red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94117647058823528" green="0.94901960784313721" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

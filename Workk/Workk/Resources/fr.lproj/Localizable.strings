@@ -144,6 +144,8 @@
 
 "unlimited_entries_title" = "Entrées illimitées";
 "unlimited_entries_description" = "Ajoutez autant de temps de travail et de tâches que vous le souhaitez";
+"application_title" = "APPLICATION";
+"privacy_policy_title" = "Politique de Confidentialité";
 
 "daily_notification_title" = "💰 Le temps, c'est de l'argent !";
 "daily_notification_body" = "Commencez à suivre votre temps de travail ou ajoutez l'argent gagné maintenant pour rester au top de vos gains";

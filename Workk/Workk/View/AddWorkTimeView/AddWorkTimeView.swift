@@ -17,19 +17,29 @@ struct AddWorkTimeView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
-    @Namespace var filterAnimation
+    @Namespace var addWorkFilterAnimation
+    
+    @AppStorage("currencyIdentifier") private var currencyIdentifier: String = Locale.current.currency?.identifier ?? "USD"
     
     @FetchRequest(
         entity: Job.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \Job.name, ascending: true)]
     ) private var jobs: FetchedResults<Job>
     
+    @FetchRequest(
+        entity: Work.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Work.startDate, ascending: true)]
+    ) private var works: FetchedResults<Work>
+    
     @ObservedObject private var homeViewModel: HomeViewModel = Resolver.resolve()
     @ObservedObject private var scheduleViewModel: ScheduleViewModel = Resolver.resolve()
+    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
+    
+    @StateObject private var adManager: InterstitialAdManager = Resolver.resolve()
     
     let addWorkTimePlace: AddWorkTimePlace
+    @State var selectedFilter: PeriodFilter
     @Binding var selectedWork: Work?
-    @Binding var selectedFilter: PeriodFilter
     @Binding var selectedWorkName: String?
 
     @State var selectedJob: Job? = nil
@@ -141,6 +151,7 @@ struct AddWorkTimeView: View {
             Text(selectedWork == nil ? "add_work_time_title".localized : "update_work_time_title".localized)
                 .font(.latoBlack(size: 28))
                 .foregroundColor(.blackWhite)
+                .multilineTextAlignment(.center)
                 .padding(.bottom, 32)
                 .onTapGesture {
                     UIApplication.shared.dismissKeyboard()
@@ -181,6 +192,10 @@ struct AddWorkTimeView: View {
             self.dayStartDate = .now.updatingMonthAndDay(from: selectedDay) ?? .now
             self.dayEndDate = .now.updatingMonthAndDay(from: selectedDay) ?? .now
             setupView()
+                        
+            if !works.isEmpty, works.count.isMultiple(of: 3), !userSubscriptionViewModel.subscriptionActive {
+                showAd()
+            }
         }
         .onChange(of: dayStartDate) { newValue in
             if newValue > dayEndDate {
@@ -299,9 +314,7 @@ struct AddWorkTimeView: View {
                         .font(.latoRegular(size: 16))
                     
                     DateTextField(date: $dayStartDate, components: [.date, .hourAndMinute]) { date in
-                        let formatter = DateFormatter()
-                        formatter.dateFormat = "d MMM yyyy, HH:mm"
-                        return formatter.string(from: date)
+                        date.dayPickerDateString
                     }
                     .foregroundStyle(.blackWhite)
                     .multilineTextAlignment(.trailing)
@@ -317,9 +330,7 @@ struct AddWorkTimeView: View {
                         .font(.latoRegular(size: 16))
                     
                     DateTextField(date: $dayEndDate, components: [.date, .hourAndMinute]) { date in
-                        let formatter = DateFormatter()
-                        formatter.dateFormat = "d MMM yyyy, HH:mm"
-                        return formatter.string(from: date)
+                        date.dayPickerDateString
                     }
                     .foregroundStyle(.blackWhite)
                     .multilineTextAlignment(.trailing)
@@ -360,34 +371,53 @@ struct AddWorkTimeView: View {
                         .foregroundStyle(.blackWhite)
                         .keyboardType(.decimalPad)
                         .font(.latoRegular(size: 16))
-                        .foregroundStyle(.black)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 18)
                     
                     Spacer()
                     
-                    Text("PLN")
+                    Text(currencyIdentifier.uppercased())
                         .foregroundStyle(.blackWhite)
                         .font(.latoBold(size: 16))
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                                
+                HStack(spacing: 0) {
+                    TextField("project_title".localized, text: $projectDay)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    Text("project_title".localized)
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoBold(size: 16))
+                        .padding(.trailing, 16)
+                        .hide(if: projectDay.isEmpty)
+                }
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("project_title".localized, text: $projectDay)
-                    .font(.latoRegular(size: 16))
-                    .foregroundStyle(.blackWhite)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 18)
-                    .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                HStack(spacing: 0) {
+                    TextField("task_title".localized, text: $taskDay)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    Text("task_title".localized)
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoBold(size: 16))
+                        .padding(.trailing, 16)
+                        .hide(if: taskDay.isEmpty)
+                }
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("task_title".localized, text: $taskDay)
-                    .font(.latoRegular(size: 16))
-                    .foregroundStyle(.blackWhite)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 18)
-                    .background(.whiteTheme, in: .rect(cornerRadius: 12))
-                
-                MultilineTextField(placeHolder: "note_title".localized, text: $noteDay)
+                MultilineTextField(placeHolder: noteDay.isEmpty ? "note_title".localized : noteDay, text: $noteDay)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                     .frame(height: 150)
@@ -403,11 +433,11 @@ struct AddWorkTimeView: View {
                 Text("save_title".localized)
                     .font(.latoBold(size: 16))
                     .foregroundStyle(.whiteBlack)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(isDaySaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             }
             .disabled(!isDaySaveButtonEnabled)
-            .padding(.vertical, 8)
-            .padding(.horizontal, 16)
-            .background(isDaySaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             .padding(.bottom, 16)
         }
     }
@@ -465,7 +495,7 @@ struct AddWorkTimeView: View {
                     
                     Spacer()
                     
-                    Text("PLN")
+                    Text(currencyIdentifier.uppercased())
                         .foregroundStyle(.blackWhite)
                         .font(.latoBold(size: 16))
                         .padding(.trailing, 16)
@@ -489,21 +519,41 @@ struct AddWorkTimeView: View {
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("project_title".localized, text: $projectWeek)
-                    .font(.latoRegular(size: 16))
-                    .foregroundStyle(.blackWhite)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 18)
-                    .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                HStack(spacing: 0) {
+                    TextField("project_title".localized, text: $projectWeek)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    Text("project_title".localized)
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoBold(size: 16))
+                        .padding(.trailing, 16)
+                        .hide(if: projectWeek.isEmpty)
+                }
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("task_title".localized, text: $taskWeek)
-                    .font(.latoRegular(size: 16))
-                    .foregroundStyle(.blackWhite)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 18)
-                    .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                HStack(spacing: 0) {
+                    TextField("task_title".localized, text: $taskWeek)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    Text("task_title".localized)
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoBold(size: 16))
+                        .padding(.trailing, 16)
+                        .hide(if: taskWeek.isEmpty)
+                }
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                MultilineTextField(placeHolder: "note_title".localized, text: $noteWeek)
+                MultilineTextField(placeHolder: noteWeek.isEmpty ? "note_title".localized : noteWeek, text: $noteWeek)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                     .frame(height: 150)
@@ -519,11 +569,11 @@ struct AddWorkTimeView: View {
                 Text("save_title".localized)
                     .font(.latoBold(size: 16))
                     .foregroundStyle(.whiteBlack)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(isWeekSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             }
             .disabled(!isWeekSaveButtonEnabled)
-            .padding(.vertical, 8)
-            .padding(.horizontal, 16)
-            .background(isWeekSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             .padding(.bottom, 16)
         }
     }
@@ -581,7 +631,7 @@ struct AddWorkTimeView: View {
                     
                     Spacer()
                     
-                    Text("PLN")
+                    Text(currencyIdentifier.uppercased())
                         .foregroundStyle(.blackWhite)
                         .font(.latoBold(size: 16))
                         .padding(.trailing, 16)
@@ -604,22 +654,42 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                                
+                HStack(spacing: 0) {
+                    TextField("project_title".localized, text: $projectMonth)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    Text("project_title".localized)
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoBold(size: 16))
+                        .padding(.trailing, 16)
+                        .hide(if: projectMonth.isEmpty)
+                }
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("project_title".localized, text: $projectMonth)
-                    .font(.latoRegular(size: 16))
-                    .foregroundStyle(.blackWhite)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 18)
-                    .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                HStack(spacing: 0) {
+                    TextField("task_title".localized, text: $taskMonth)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    Text("task_title".localized)
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoBold(size: 16))
+                        .padding(.trailing, 16)
+                        .hide(if: taskMonth.isEmpty)
+                }
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("task_title".localized, text: $taskMonth)
-                    .font(.latoRegular(size: 16))
-                    .foregroundStyle(.blackWhite)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 18)
-                    .background(.whiteTheme, in: .rect(cornerRadius: 12))
-                
-                MultilineTextField(placeHolder: "note_title".localized, text: $noteMonth)
+                MultilineTextField(placeHolder: noteMonth.isEmpty ? "note_title".localized : noteMonth, text: $noteMonth)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                     .frame(height: 150)
@@ -635,11 +705,11 @@ struct AddWorkTimeView: View {
                 Text("save_title".localized)
                     .font(.latoBold(size: 16))
                     .foregroundStyle(.whiteBlack)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(isMonthSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             }
             .disabled(!isMonthSaveButtonEnabled)
-            .padding(.vertical, 8)
-            .padding(.horizontal, 16)
-            .background(isMonthSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             .padding(.bottom, 16)
         }
     }
@@ -697,7 +767,7 @@ struct AddWorkTimeView: View {
                     
                     Spacer()
                     
-                    Text("PLN")
+                    Text(currencyIdentifier.uppercased())
                         .foregroundStyle(.blackWhite)
                         .font(.latoBold(size: 16))
                         .padding(.trailing, 16)
@@ -720,21 +790,41 @@ struct AddWorkTimeView: View {
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("project_title".localized, text: $projectYear)
-                    .font(.latoRegular(size: 16))
-                    .foregroundStyle(.blackWhite)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 18)
-                    .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                HStack(spacing: 0) {
+                    TextField("project_title".localized, text: $projectYear)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    Text("project_title".localized)
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoBold(size: 16))
+                        .padding(.trailing, 16)
+                        .hide(if: projectYear.isEmpty)
+                }
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                TextField("task_title".localized, text: $taskYear)
-                    .font(.latoRegular(size: 16))
-                    .foregroundStyle(.blackWhite)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 18)
-                    .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                HStack(spacing: 0) {
+                    TextField("task_title".localized, text: $taskYear)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    Text("task_title".localized)
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoBold(size: 16))
+                        .padding(.trailing, 16)
+                        .hide(if: taskYear.isEmpty)
+                }
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
-                MultilineTextField(placeHolder: "note_title".localized, text: $noteYear)
+                MultilineTextField(placeHolder: noteYear.isEmpty ? "note_title".localized : noteYear, text: $noteYear)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                     .frame(height: 150)
@@ -750,11 +840,11 @@ struct AddWorkTimeView: View {
                 Text("save_title".localized)
                     .font(.latoBold(size: 16))
                     .foregroundStyle(.whiteBlack)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(isYearSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             }
             .disabled(!isYearSaveButtonEnabled)
-            .padding(.vertical, 8)
-            .padding(.horizontal, 16)
-            .background(isYearSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             .padding(.bottom, 16)
         }
     }
@@ -765,8 +855,8 @@ struct AddWorkTimeView: View {
                 VStack(spacing: 4) {
                     Text(item.title)
                         .font(selectedFilter == item ? .latoBlack(size: 18) : .latoRegular(size: 18))
-                        .minimumScaleFactor(0.01)
                         .lineLimit(1)
+                        .minimumScaleFactor(0.01)
                         .foregroundColor(selectedFilter == item ? .blackWhite : .gray)
                         .onAppear {
                             filtersWidthDict[item] = item.title.widthOfString(usingFont: .latoBold(size: 18))
@@ -776,7 +866,7 @@ struct AddWorkTimeView: View {
                         Rectangle()
                             .frame(width: filtersWidthDict[selectedFilter], height: 2)
                             .foregroundColor(.blueRibbon)
-                            .matchedGeometryEffect(id: "periodFilter", in: filterAnimation)
+                            .matchedGeometryEffect(id: "addWorkFilterAnimation", in: addWorkFilterAnimation)
                     } else {
                         Rectangle()
                             .frame(width: filtersWidthDict[item], height: 2)
@@ -786,9 +876,7 @@ struct AddWorkTimeView: View {
                 .frame(maxWidth: .infinity)
                 .animation(.easeOut(duration: 0.2), value: selectedFilter)
                 .onTapGesture {
-                    withAnimation(.easeOut(duration: 0.2)) {
-                        self.selectedFilter = item
-                    }
+                    self.selectedFilter = item
                 }
             }
         }
@@ -1055,7 +1143,6 @@ extension AddWorkTimeView {
         let isProperJobSelected = jobs.contains(where: { $0.name == selectedWorkName })
         
         withAnimation(.easeInOut(duration: 0.2)) {
-            /*hourlyRateDay = formatFloatToString(from: jobs.first(where: { $0.name == selectedWorkName })?.hourlyRate)*/ // tutaj do zmiany
             isDaySaveButtonEnabled = (!hourlyRateDay.isEmpty || !moneyEarnedDay.isEmpty)
                 && isProperJobSelected
             isWeekSaveButtonEnabled = !moneyEarnedWeek.isEmpty && !hoursWorkedWeek.isEmpty && isProperJobSelected
@@ -1063,86 +1150,86 @@ extension AddWorkTimeView {
             isYearSaveButtonEnabled = !moneyEarnedYear.isEmpty && !hoursWorkedYear.isEmpty && isProperJobSelected
         }
         
-        guard let work = selectedWork else {
-            return
-        }
+//        guard let work = selectedWork else {
+//            return
+//        }
         
-        isDaySaveButtonEnabled = false
-        isWeekSaveButtonEnabled = false
-        isMonthSaveButtonEnabled = false
-        isYearSaveButtonEnabled = false
-        
-        let periodType = work.periodType
-
-        var hasChanged = false
-        
-        switch periodType {
-        case PeriodFilter.day.rawValue:
-            hasChanged = dayStartDate != work.startDate ||
-                dayEndDate != work.endDate ||
-                isPaidDay != work.isPaid ||
-                hourlyRateDay != work.hourlyRate.formatFloatToString() ||
-                moneyEarnedDay != work.moneyEarned.formatFloatToString() ||
-                projectDay != work.project ||
-                taskDay != work.task ||
-                noteDay != work.note ||
-                selectedWorkName != work.job?.name
-            
-            withAnimation(.easeInOut(duration: 0.2)) {
-                isDaySaveButtonEnabled = (!hourlyRateDay.isEmpty || !moneyEarnedDay.isEmpty)
-                    && isProperJobSelected && hasChanged
-            }
-        case PeriodFilter.week.rawValue:
-            hasChanged = weekDate != work.startDate ||
-                isPaidWeek != work.isPaid ||
-                moneyEarnedWeek != work.moneyEarned.formatFloatToString() ||
-                hoursWorkedWeek != work.hoursWorked.formatFloatToString() ||
-                projectWeek != work.project ||
-                taskWeek != work.task ||
-                noteWeek != work.note ||
-                selectedWorkName != work.job?.name
-            
-            withAnimation(.easeInOut(duration: 0.2)) {
-                isWeekSaveButtonEnabled = !moneyEarnedWeek.isEmpty &&
-                    !hoursWorkedWeek.isEmpty &&
-                    isProperJobSelected &&
-                    hasChanged
-            }
-        case PeriodFilter.month.rawValue:
-            hasChanged = monthDate != work.startDate ||
-                isPaidMonth != work.isPaid ||
-                moneyEarnedMonth != work.moneyEarned.formatFloatToString() ||
-                hoursWorkedMonth != work.hoursWorked.formatFloatToString() ||
-                projectMonth != work.project ||
-                taskMonth != work.task ||
-                noteMonth != work.note ||
-                selectedWorkName != work.job?.name
-            
-            withAnimation(.easeInOut(duration: 0.2)) {
-                isMonthSaveButtonEnabled = !moneyEarnedMonth.isEmpty &&
-                !hoursWorkedWeek.isEmpty &&
-                isProperJobSelected &&
-                hasChanged
-            }
-        case PeriodFilter.year.rawValue:
-            hasChanged = yearDate != work.startDate ||
-                isPaidYear != work.isPaid ||
-                moneyEarnedYear != work.moneyEarned.formatFloatToString() ||
-                hoursWorkedYear != work.hoursWorked.formatFloatToString() ||
-                projectYear != work.project ||
-                taskYear != work.task ||
-                noteYear != work.note ||
-                selectedWorkName != work.job?.name
-            
-            withAnimation(.easeInOut(duration: 0.2)) {
-                isYearSaveButtonEnabled = !moneyEarnedYear.isEmpty &&
-                !hoursWorkedYear.isEmpty &&
-                isProperJobSelected &&
-                hasChanged
-            }
-        default:
-            break
-        }
+//        isDaySaveButtonEnabled = false
+//        isWeekSaveButtonEnabled = false
+//        isMonthSaveButtonEnabled = false
+//        isYearSaveButtonEnabled = false
+//        
+//        let periodType = work.periodType
+//
+//        var hasChanged = false
+//        
+//        switch periodType {
+//        case PeriodFilter.day.rawValue:
+//            hasChanged = dayStartDate != work.startDate ||
+//                dayEndDate != work.endDate ||
+//                isPaidDay != work.isPaid ||
+//                hourlyRateDay != work.hourlyRate.formatFloatToString() ||
+//                moneyEarnedDay != work.moneyEarned.formatFloatToString() ||
+//                projectDay != work.project ||
+//                taskDay != work.task ||
+//                noteDay != work.note ||
+//                selectedWorkName != work.job?.name
+//            
+//            withAnimation(.easeInOut(duration: 0.2)) {
+//                isDaySaveButtonEnabled = (!hourlyRateDay.isEmpty || !moneyEarnedDay.isEmpty)
+//                    && isProperJobSelected && hasChanged
+//            }
+//        case PeriodFilter.week.rawValue:
+//            hasChanged = weekDate != work.startDate ||
+//                isPaidWeek != work.isPaid ||
+//                moneyEarnedWeek != work.moneyEarned.formatFloatToString() ||
+//                hoursWorkedWeek != work.hoursWorked.formatFloatToString() ||
+//                projectWeek != work.project ||
+//                taskWeek != work.task ||
+//                noteWeek != work.note ||
+//                selectedWorkName != work.job?.name
+//            
+//            withAnimation(.easeInOut(duration: 0.2)) {
+//                isWeekSaveButtonEnabled = !moneyEarnedWeek.isEmpty &&
+//                    !hoursWorkedWeek.isEmpty &&
+//                    isProperJobSelected &&
+//                    hasChanged
+//            }
+//        case PeriodFilter.month.rawValue:
+//            hasChanged = monthDate != work.startDate ||
+//                isPaidMonth != work.isPaid ||
+//                moneyEarnedMonth != work.moneyEarned.formatFloatToString() ||
+//                hoursWorkedMonth != work.hoursWorked.formatFloatToString() ||
+//                projectMonth != work.project ||
+//                taskMonth != work.task ||
+//                noteMonth != work.note ||
+//                selectedWorkName != work.job?.name
+//            
+//            withAnimation(.easeInOut(duration: 0.2)) {
+//                isMonthSaveButtonEnabled = !moneyEarnedMonth.isEmpty &&
+//                    !hoursWorkedWeek.isEmpty &&
+//                    isProperJobSelected &&
+//                    hasChanged
+//            }
+//        case PeriodFilter.year.rawValue:
+//            hasChanged = yearDate != work.startDate ||
+//                isPaidYear != work.isPaid ||
+//                moneyEarnedYear != work.moneyEarned.formatFloatToString() ||
+//                hoursWorkedYear != work.hoursWorked.formatFloatToString() ||
+//                projectYear != work.project ||
+//                taskYear != work.task ||
+//                noteYear != work.note ||
+//                selectedWorkName != work.job?.name
+//            
+//            withAnimation(.easeInOut(duration: 0.2)) {
+//                isYearSaveButtonEnabled = !moneyEarnedYear.isEmpty &&
+//                    !hoursWorkedYear.isEmpty &&
+//                    isProperJobSelected &&
+//                    hasChanged
+//            }
+//        default:
+//            break
+//        }
     }
 }
 
@@ -1202,30 +1289,15 @@ extension AddWorkTimeView {
     }
 }
 
-//extension AddWorkTimeView {
-//    private func formatNumberInput(_ value: String) -> String {
-//        // Get the current decimal separator from the locale
-//        let decimalSeparator = Locale.current.decimalSeparator ?? "."
-//        
-//        // Determine the characters to filter, including the localized decimal separator
-//        var filtered = value.filter { "0123456789\(decimalSeparator)".contains($0) }
-//        
-//        // Split by the decimal separator
-//        let components = filtered.split(separator: Character(decimalSeparator))
-//        
-//        // If there are more than two components (more than one decimal separator), join the first two components
-//        if components.count > 2 {
-//            filtered = components[0] + decimalSeparator + components[1]
-//        }
-//        
-//        // If there's a decimal part, limit it to two digits
-//        if let decimalIndex = filtered.firstIndex(of: Character(decimalSeparator)) {
-//            let decimalPart = filtered.suffix(from: decimalIndex)
-//            if decimalPart.count > (1 + 2) { // Include the decimal separator itself, so we check for 3 chars
-//                filtered = String(filtered.prefix(decimalIndex.utf16Offset(in: filtered) + 3))
-//            }
-//        }
-//        
-//        return filtered
-//    }
-//}
+extension AddWorkTimeView {
+    private func showAd() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            guard let topViewController = UIApplication.shared.getTopViewController() else {
+                print("Unable to get top view controller.")
+                return
+            }
+            
+            adManager.showAd(from: topViewController)
+        }
+    }
+}

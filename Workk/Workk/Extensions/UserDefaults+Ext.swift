@@ -9,17 +9,31 @@ import Foundation
 
 extension UserDefaults {
     private static let lastSubscriptionShownKey = "lastSubscriptionShown"
+    private static let lastFullScreenAdShownKey = "lastFullScreenAdShown"
 
-    /// Checks if the subscription plan can be shown based on the given interval (e.g., 7 days).
-    static func canShowSubscriptionPlan(interval: TimeInterval = 7 * 24 * 60 * 60) -> Bool {
-        guard let lastDate = UserDefaults.standard.object(forKey: lastSubscriptionShownKey) as? Date else {
-            return true // No record means we can show it
+    /// Checks if the subscription plan can be shown based on the given interval (e.g., 5 days).
+    static func canShowSubscriptionPlan(interval: TimeInterval = 5 * 24 * 60 * 60) -> Bool {
+        guard let lastShowSubscriptionDate = UserDefaults.standard.object(forKey: lastSubscriptionShownKey) as? Date else {
+            return true
         }
-        return Date().timeIntervalSince(lastDate) > interval
+        
+        return Date().timeIntervalSince(lastShowSubscriptionDate) > interval
+    }
+    
+    static func canShowFullScreenAd(interval: TimeInterval = 24 * 60 * 60) -> Bool {
+        guard let lastShowFullScreenAdDate = UserDefaults.standard.object(forKey: lastFullScreenAdShownKey) as? Date else {
+            return true
+        }
+        
+        return Date().timeIntervalSince(lastShowFullScreenAdDate) > interval
     }
 
     /// Updates the last subscription shown date to the current date.
     static func updateSubscriptionShownDate() {
         UserDefaults.standard.set(Date(), forKey: lastSubscriptionShownKey)
+    }
+    
+    static func updateFullScreenAdShownDate() {
+        UserDefaults.standard.set(Date(), forKey: lastFullScreenAdShownKey)
     }
 }

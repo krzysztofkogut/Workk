@@ -144,6 +144,8 @@
 
 "unlimited_entries_title" = "Entradas ilimitadas";
 "unlimited_entries_description" = "Adicione tantos tempos de trabalho e empregos quanto precisar";
+"application_title" = "APLICAÇÃO";
+"privacy_policy_title" = "Política de Privacidade";
 
 "daily_notification_title" = "💰 Tempo é dinheiro!";
 "daily_notification_body" = "Comece a registar o seu tempo trabalhado ou adicione ganhos para ver o progresso.";

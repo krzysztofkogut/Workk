@@ -25,6 +25,7 @@ struct WorkTimeActivityView: View {
             
             Text(context.attributes.workName)
                 .font(.title2)
+                .fontWeight(.bold)
         }
         .padding()
     }

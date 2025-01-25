@@ -57,9 +57,9 @@ struct SheetView: View {
         } label: {
             Text(config.content)
                 .font(.latoBold(size: 16))
-                .foregroundStyle(config.foreground)
+                .foregroundStyle(config.tint)
                 .frame(width: 120, height: 44)
-                .background(config.tint, in: .rect(cornerRadius: 24))
+                .background(config.foreground, in: .rect(cornerRadius: 24))
         }
     }
     

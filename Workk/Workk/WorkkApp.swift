@@ -5,27 +5,45 @@
 //  Created by Krzysztof Kogut on 19/10/2023.
 //
 
+import ActivityKit
 import GoogleMobileAds
 import Resolver
+import RevenueCat
 import StoreKit
 import SwiftUI
 
 @main
 struct WorkkApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding: Bool = false
     @AppStorage("userTheme") private var userTheme: Theme = .systemDefault
+    @AppStorage("iCloudSyncEnabled") private var isICloudSyncEnabled: Bool = false
+    @AppStorage("dailyNotificationEnabled") private var isDailyNotificationEnabled: Bool = true
+    @AppStorage("dailyNotificationTimeInterval") private var dailyNotificationTimeInterval: Double = Date.now.setDateAtSpecificHourAndMinute(hour: 8, minute: 0)?.timeIntervalSince1970 ?? Date.now.timeIntervalSince1970
     
-    @State private var inAppNotificationWindow: PassThroughWindow?
-    @State private var darkModeAnimationWindow: PassThroughWindow?
+    private let notificationManager: NotificationManager = Resolver.resolve()
+    private let userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
+    private let purchasesDelegateHandler: PurchasesDelegateHandler = Resolver.resolve()
     
-    let notificationManager: NotificationManager = Resolver.resolve()
-    let persistenceManager: PersistanceManager = Resolver.resolve()
+    @StateObject private var persistenceManager: PersistenceManager = PersistenceManager.shared
 
     init() {
         GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
         notificationManager.requestAuthorization()
-        notificationManager.scheduleDailyNotification(at: 8, minute: 0)
         notificationManager.scheduleWeeklyNotification(on: 1, at: 18, minute: 0)
+        
+        if isDailyNotificationEnabled {
+            notificationManager.cancelDailyNotification()
+            notificationManager.scheduleDailyNotification(at: Date(timeIntervalSince1970: dailyNotificationTimeInterval))
+        } else {
+            notificationManager.cancelDailyNotification()
+        }
+        
+        Purchases.logLevel = .debug
+        Purchases.configure(withAPIKey: Constants.revenueCatApiKey)
+        Purchases.shared.delegate = purchasesDelegateHandler
     }
 
     var body: some Scene {
@@ -36,41 +54,38 @@ struct WorkkApp: App {
                         .preferredColorScheme(userTheme.colorScheme)
                         .environment(\.managedObjectContext, persistenceManager.container.viewContext)
                         .transition(.move(edge: .trailing))
-                        .onAppear(perform: {
-                            if inAppNotificationWindow == nil {
-                                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                                    let overlayWindow = PassThroughWindow(windowScene: windowScene)
-                                    overlayWindow.backgroundColor = .clear
-                                    overlayWindow.tag = 0320
-                                    let controller = StatusBarBasedController()
-                                    controller.view.backgroundColor = .clear
-                                    overlayWindow.rootViewController = controller
-                                    overlayWindow.isHidden = false
-                                    overlayWindow.isUserInteractionEnabled = true
-                                    self.inAppNotificationWindow = overlayWindow
-                                }
-                            }
-                            
-                            if darkModeAnimationWindow == nil {
-                                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                                    let overlayWindow = PassThroughWindow(windowScene: windowScene)
-                                    overlayWindow.backgroundColor = .clear
-                                    overlayWindow.tag = 0322
-                                    let controller = StatusBarBasedController()
-                                    controller.view.backgroundColor = .clear
-                                    overlayWindow.rootViewController = controller
-                                    overlayWindow.isHidden = false
-                                    overlayWindow.isUserInteractionEnabled = true
-                                    self.darkModeAnimationWindow = overlayWindow
-                                }
-                            }
-                        })
                 } else {
                     OnboardingView()
                         .preferredColorScheme(userTheme.colorScheme)
                 }
             }
             .animation(.easeInOut, value: hasSeenOnboarding)
+            .task {
+                do {
+                    // Fetch the available offerings
+                    userSubscriptionViewModel.offerings = try await Purchases.shared.offerings()
+                } catch {
+                    print("Error fetching offerings: \(error)")
+                }
+            }
+        }
+    }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func applicationWillTerminate(_ application: UIApplication) {
+        stopLiveActivity()
+    }
+
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+        stopLiveActivity()
+    }
+    
+    private func stopLiveActivity() {
+        for activity in Activity<WorkTimeStatusAttributes>.activities {
+            Task {
+                await activity.end(nil, dismissalPolicy: .immediate)
+            }
         }
     }
 }

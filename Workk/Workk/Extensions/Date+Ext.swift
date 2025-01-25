@@ -14,8 +14,28 @@ extension Date {
                                     endOfWeekMonth: String)
     
     var currentDateString: String {
-        let currentDateFormatter = DateFormatter(dateFormat: "d MMMM, yyyy", calendar: Calendar.current)
+        let currentDateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.calendar = Calendar.current
+            formatter.locale = Locale.current
+            formatter.dateStyle = .long
+            return formatter
+        }()
+        
         return currentDateFormatter.string(from: self)
+    }
+    
+    var dayPickerDateString: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        let localeRegion = Locale.current.region?.identifier ?? ""
+        
+        if Constants.monthFirstLocales.contains(localeRegion) {
+            formatter.dateFormat = "MMM d yyyy, h:mm a"
+        } else {
+            formatter.dateFormat = "d MMM yyyy, HH:mm"
+        }
+        return formatter.string(from: self)
     }
     
     var currentHourString: String {
@@ -46,7 +66,20 @@ extension Date {
             return ""
         }
         
-        let currentWeekFormatter = DateFormatter(dateFormat: "d MMM", calendar: Calendar.current)
+        let currentWeekFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.calendar = Calendar.current
+            formatter.locale = Locale.current
+            let localeRegion = Locale.current.region?.identifier ?? ""
+            
+            if Constants.monthFirstLocales.contains(localeRegion) {
+                formatter.dateFormat = "MMM d"
+            } else {
+                formatter.dateFormat = "d MMM"
+            }
+ 
+            return formatter
+        }()
         
         return currentWeekFormatter.string(from: startOfWeek) + " - " + currentWeekFormatter.string(from: endOfWeek)
     }
@@ -68,7 +101,20 @@ extension Date {
         
         let endOfWeek = calendar.date(byAdding: .day, value: 6, to: self) ?? self
         
-        let currentWeekFormatter = DateFormatter(dateFormat: "d MMM", calendar: calendar)
+        let currentWeekFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.calendar = Calendar.current
+            formatter.locale = Locale.current
+            let localeRegion = Locale.current.region?.identifier ?? ""
+            
+            if Constants.monthFirstLocales.contains(localeRegion) {
+                formatter.dateFormat = "MMM d"
+            } else {
+                formatter.dateFormat = "d MMM"
+            }
+
+            return formatter
+        }()
         
         return "\(currentWeekFormatter.string(from: self))\n\(currentWeekFormatter.string(from: endOfWeek))"
     }
@@ -92,7 +138,6 @@ extension Date {
     
     var currentMonthString: String {
         let currentMonthFormatter = DateFormatter()
-        currentMonthFormatter.locale = Locale(identifier: "pl")
         currentMonthFormatter.formattingContext = .standalone
         currentMonthFormatter.setLocalizedDateFormatFromTemplate("MMMM")
         currentMonthFormatter.calendar = Calendar.current
@@ -255,12 +300,25 @@ extension Date {
     
     func timeDifferenceInHours(to endDate: Date) -> Float {
         let timeInterval = endDate.timeIntervalSince(self) // Time interval in seconds
-        let timeDifferenceInHours = Float(timeInterval) / 3600.0 // Convert seconds to hours
+        let timeDifferenceInHours = Float(timeInterval.wholeSeconds) / 3600.0 // Convert seconds to hours
         return timeDifferenceInHours
     }
     
     func timeDifferenceInMinutes(to endDate: Date) -> Float {
         let timeInterval = endDate.timeIntervalSince(self) // Time interval in seconds
         return Float(timeInterval) / 60.0 // Convert seconds to minutes
+    }
+    
+    func setDateAtSpecificHourAndMinute(hour: Int, minute: Int) -> Date? {
+        var components = DateComponents()
+        components.hour = hour
+        components.minute = minute
+
+        // Use the current calendar and today's date
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: self)
+
+        // Combine today's date with the desired time
+        return calendar.date(byAdding: components, to: today)
     }
 }

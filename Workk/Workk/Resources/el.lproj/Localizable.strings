@@ -144,6 +144,8 @@
 
 "unlimited_entries_title" = "Απεριόριστες καταχωρίσεις";
 "unlimited_entries_description" = "Προσθέστε όσες ώρες εργασίας και δουλειές χρειάζεστε";
+"application_title" = "ΕΦΑΡΜΟΓΗ";
+"privacy_policy_title" = "Πολιτική Απορρήτου";
 
 "daily_notification_title" = "💰 Ο χρόνος είναι χρήμα!";
 "daily_notification_body" = "Ξεκινήστε να καταγράφετε τον χρόνο ή τα κέρδη σας για να δείτε την πρόοδο.";

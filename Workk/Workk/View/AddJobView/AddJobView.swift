@@ -11,11 +11,18 @@ struct AddJobView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
+    @AppStorage("currencyIdentifier") private var currencyIdentifier: String = Locale.current.currency?.identifier ?? "USD"
+    
     @Binding var selectedJob: Job?
     
     @State private var isSaveButtonEnabled = false
     @State private var name: String = ""
     @State private var hourlyRate: String = ""
+    
+    @FetchRequest(
+        entity: Work.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Work.startDate, ascending: true)]
+    ) private var works: FetchedResults<Work>
     
     var body: some View {
         VStack(spacing: 8) {
@@ -36,6 +43,7 @@ struct AddJobView: View {
             Text(selectedJob == nil ? "add_new_job_title".localized : "update_job_title".localized)
                 .font(.latoBlack(size: 28))
                 .foregroundColor(.blackWhite)
+                .multilineTextAlignment(.center)
                 .padding(.bottom, 32)
             
             TextField("job_name_title".localized, text: $name)
@@ -55,7 +63,7 @@ struct AddJobView: View {
                 
                 Spacer()
                 
-                Text("PLN")
+                Text(currencyIdentifier.uppercased())
                     .foregroundStyle(.blackWhite)
                     .font(.latoBold(size: 16))
                     .padding(.trailing, 16)
@@ -108,11 +116,11 @@ struct AddJobView: View {
                 Text("save_title".localized)
                     .font(.latoBold(size: 16))
                     .foregroundStyle(.whiteBlack)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(isSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             }
             .disabled(!isSaveButtonEnabled)
-            .padding(.vertical, 8)
-            .padding(.horizontal, 16)
-            .background(isSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
             .padding(.bottom, 16)
         }
     }
@@ -176,6 +184,12 @@ extension AddJobView {
         
         guard let job = selectedJob else {
             return
+        }
+        
+        let worksForJob = works.filter { $0.jobName == job.name }
+        
+        for work in worksForJob {
+            work.job = job
         }
         
         job.name = name

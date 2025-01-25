@@ -261,9 +261,6 @@ struct OnboardingView: View {
                     .onTapGesture {
                         showWalkThroughScreens.toggle()
                     }
-//                    .padding(.top, 340)
-//                    .padding(.bottom, 30)
-//                    .position(y: size.height - 200)
                     .offset(y: size.height / 2 - 90)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

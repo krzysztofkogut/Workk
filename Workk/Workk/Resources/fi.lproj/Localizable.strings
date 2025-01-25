@@ -144,6 +144,8 @@
 
 "unlimited_entries_title" = "Rajoittamattomat merkinnät";
 "unlimited_entries_description" = "Lisää niin monta työaikaa ja työtehtävää kuin tarvitset";
+"application_title" = "SOVELLUS";
+"privacy_policy_title" = "Tietosuojakäytäntö";
 
 "daily_notification_title" = "💰 Aika on rahaa!";
 "daily_notification_body" = "Aloita työajan tai tulojen seuranta nähdäksesi edistymisesi.";

@@ -144,6 +144,8 @@
 
 "unlimited_entries_title" = "Необмежені записи";
 "unlimited_entries_description" = "Додавайте стільки робочих годин і завдань, скільки потрібно";
+"application_title" = "ДОДАТОК";
+"privacy_policy_title" = "Політика конфіденційності";
 
 "daily_notification_title" = "💰 Час — це гроші!";
 "daily_notification_body" = "Почніть відстежувати свій робочий час або додайте заробітки, щоб побачити прогрес.";

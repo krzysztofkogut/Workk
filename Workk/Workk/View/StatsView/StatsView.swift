@@ -14,8 +14,11 @@ struct StatsView: View {
     
     @Namespace private var filterAnimation
     
+    @AppStorage("currencyIdentifier") private var currencyIdentifier: String = Locale.current.currency?.identifier ?? "USD"
+    
     @ObservedObject private var appRouter: AppRouter = Resolver.resolve()
     @ObservedObject private var viewModel: StatsViewModel = Resolver.resolve()
+    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
     
     @FetchRequest(
         entity: Job.entity(),
@@ -106,11 +109,11 @@ struct StatsView: View {
                 }
                 
                 if let currentActiveMoneyItem = currentActiveMoneyItem {
-                    Text(currentActiveMoneyItem.moneyEarned.stringFormat + " USD")
+                    Text(currentActiveMoneyItem.moneyEarned.stringFormat + " " + currencyIdentifier.uppercased())
                         .font(.latoBold(size: 20))
                         .foregroundColor(.blackWhite)
                 } else {
-                    Text(viewModel.moneyEarned.stringFormat + " USD")
+                    Text(viewModel.moneyEarned.stringFormat + " " + currencyIdentifier.uppercased())
                         .font(.latoBold(size: 20))
                         .foregroundColor(.blackWhite)
                 }
@@ -190,6 +193,13 @@ struct StatsView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
         }
+        .onChange(of: jobs.count) { _ in
+            let isSelectedWorkNameMissing = jobs.allSatisfy { $0.name != viewModel.selectedWorkName }
+                
+            if isSelectedWorkNameMissing {
+                viewModel.selectedWorkName = "all_title".localized
+            }
+        }
         .onAppear {
             viewModel.reloadSiteViews(works: viewModel.selectedPaymentStatus.isPaid ? paidWorks : unpaidWorks)
             moneyYScale = viewModel.maxForMoney()
@@ -265,42 +275,43 @@ struct StatsView: View {
             moneyYScale = viewModel.maxForMoney()
             hoursYScale = viewModel.maxForHours()
         }
-//        .overlay(
-////            if true {
-//                ZStack {
-//                    Color.wildSand.opacity(0.9)
-//                        .ignoresSafeArea()
-//                        .blur(radius: 0, opaque: false)
-//                    
-//                    VStack(spacing: 8) {
-//                        Text("premium_description".localized)
-//                            .font(.latoBlack(size: 16))
-//                            .foregroundStyle(.whiteBlack)
-//                            .multilineTextAlignment(.center)
-//                            .padding([.top, .horizontal], 24)
-//                        
-//                        Text(viewModel.workkPremiumTitle)
-//                            .foregroundStyle(.whiteBlack)
-//                            .padding(.horizontal, 24)
-//                        
-//                        Button {
-//                            showSubscriptionPlanView = true
-//                        } label: {
-//                            Text("try_for_free_button_title".localized)
-//                                .font(.latoBlack(size: 16))
-//                                .foregroundStyle(.blackWhite)
-//                        }
-//                        .padding(.vertical, 16)
-//                        .padding(.horizontal, 24)
-//                        .background(.wildSand, in: .rect(cornerRadius: 30))
-//                        .padding(.vertical, 24)
-//                        .padding(.horizontal, 16)
-//                    }
-//                    .padding(16)
-//                    .background(.blackWhite, in: .rect(cornerRadius: 12))
-//                }
-////            }
-//        )
+        .overlay(
+            ZStack {
+                Color.wildSand.opacity(0.9)
+                    .ignoresSafeArea()
+                    .blur(radius: 0, opaque: false)
+                    
+                VStack(spacing: 8) {
+                    Text("premium_description".localized)
+                        .font(.latoBlack(size: 16))
+                        .foregroundStyle(.whiteBlack)
+                        .multilineTextAlignment(.center)
+                        .padding([.top, .horizontal], 24)
+                        
+                    Text(viewModel.workkPremiumTitle)
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.horizontal, 24)
+                        
+                    Button {
+                        showSubscriptionPlanView = true
+                    } label: {
+                        Text("try_for_free_button_title".localized)
+                            .font(.latoBlack(size: 16))
+                            .foregroundStyle(.blackWhite)
+                            .padding(.vertical, 16)
+                            .padding(.horizontal, 24)
+                            .background(.wildSand, in: .rect(cornerRadius: 30))
+                            .padding(.vertical, 24)
+                            .padding(.horizontal, 16)
+                    }
+                }
+                .padding(16)
+                .frame(maxWidth: .infinity)
+                .background(.blackWhite, in: .rect(cornerRadius: 12))
+                .padding(16)
+            }
+            .hide(if: userSubscriptionViewModel.subscriptionActive)
+        )
         .fullScreenCover(isPresented: $showAddNewJobView) {
             AddJobView(selectedJob: $selectedJob)
         }
@@ -327,9 +338,7 @@ struct StatsView: View {
                     .padding(.horizontal, 16)
                     .background(viewModel.selectedPaymentStatus == item ? .blackWhite : .whiteTheme, in: .rect(cornerRadius: 18))
                     .onTapGesture {
-//                        withAnimation(.bouncy(duration: 0.4)) {
                         self.viewModel.selectedPaymentStatus = item
-//                        }
                     }
             }
             
@@ -343,10 +352,10 @@ struct StatsView: View {
                     .font(.latoBold(size: 14))
                     .minimumScaleFactor(0.5)
                     .foregroundStyle(.whiteBlack)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(.blackWhite, in: .rect(cornerRadius: 18))
             }
-            .padding(.vertical, 8)
-            .padding(.horizontal, 16)
-            .background(.blackWhite, in: .rect(cornerRadius: 18))
             .hide(if: viewModel.isToday())
         }
         .animation(.easeInOut, value: viewModel.isToday())

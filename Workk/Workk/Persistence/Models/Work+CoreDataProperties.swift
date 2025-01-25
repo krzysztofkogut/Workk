@@ -14,7 +14,7 @@ public extension Work {
         return NSFetchRequest<Work>(entityName: "Work")
     }
 
-    @NSManaged var id: UUID
+    @NSManaged var id: UUID?
     @NSManaged var startDate: Date
     @NSManaged var endDate: Date
     @NSManaged var hourlyRate: Float

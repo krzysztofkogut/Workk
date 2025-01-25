@@ -17,43 +17,48 @@ protocol MoreViewModelProtocol where Self: ObservableObject {
     var accountSectionTitle: AttributedString { get }
     var helpSectionTitle: AttributedString { get }
     var appVersionTitle: AttributedString { get }
+    var applicationSectionTitle: AttributedString { get }
     
     func openInstagram()
-    func openFacebook()
     func openX()
     func openAppStoreForReview()
 }
 
 final class MoreViewModel: MoreViewModelProtocol {
-    private let appURL = URL(string: "https://apps.apple.com/app/id1312926037")!
-    private let shareMessage = "check_out_app_description".localized
     
+    var selectedMailOption: MailOption = .contactUs
+
     var appVersion: String {
         return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
     }
     
-    var selectedMailOption: MailOption = .contactUs
-    
     var socialSectionTitle: AttributedString {
-        var string = AttributedString("community_title".localized)
+        var string = AttributedString("community_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
 
     var accountSectionTitle: AttributedString {
-        var string = AttributedString("account_title".localized)
+        var string = AttributedString("account_title".localized.uppercased())
+        string.kern = 3
+        string.font = .latoBlack(size: 12)
+        return string
+    }
+    
+    var applicationSectionTitle: AttributedString {
+        var string = AttributedString("application_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
     }
     
     var shareAppMessage: String {
-        return "check_out_app_colon_description".localized + " \(appURL.absoluteString)"
+        return "check_out_app_colon_description".localized + " \(Constants.appURL.absoluteString)"
     }
 
     var helpSectionTitle: AttributedString {
-        var string = AttributedString("help_and_support_title".localized)
+        var string = AttributedString("help_and_support_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string
@@ -71,42 +76,24 @@ final class MoreViewModel: MoreViewModelProtocol {
     }
     
     func openInstagram() {
-        let instagramURL = URL(string: "instagram://user?username=workkapp")!
-        let webURL = URL(string: "https://instagram.com/workkapp")!
-        
-        if UIApplication.shared.canOpenURL(instagramURL) {
-            UIApplication.shared.open(instagramURL)
+        if UIApplication.shared.canOpenURL(Constants.instagramURL) {
+            UIApplication.shared.open(Constants.instagramURL)
         } else {
-            UIApplication.shared.open(webURL)
-        }
-    }
-    
-    func openFacebook() {
-        let fbAppURL = URL(string: "fb://profile/manutd")!
-        let fbWebURL = URL(string: "https://facebook.com/manchesterunited")!
-        
-        if UIApplication.shared.canOpenURL(fbAppURL) {
-            UIApplication.shared.open(fbAppURL)
-        } else {
-            UIApplication.shared.open(fbWebURL)
+            UIApplication.shared.open(Constants.instagramWebURL)
         }
     }
     
     func openX() {
-        let xAppURL = URL(string: "twitter://user?screen_name=workkapp")!
-        let xWebURL = URL(string: "https://x.com/workkapp")!
-        
-        if UIApplication.shared.canOpenURL(xAppURL) {
-            UIApplication.shared.open(xAppURL)
+        if UIApplication.shared.canOpenURL(Constants.xAppURL) {
+            UIApplication.shared.open(Constants.xAppURL)
         } else {
-            UIApplication.shared.open(xWebURL)
+            UIApplication.shared.open(Constants.xWebURL)
         }
     }
     
     func openAppStoreForReview() {
-        let url = URL(string: "https://apps.apple.com/app/id1312926037?action=write-review")!
-        if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url)
+        if UIApplication.shared.canOpenURL(Constants.appStoreReview) {
+            UIApplication.shared.open(Constants.appStoreReview)
         }
     }
     
@@ -175,7 +162,7 @@ final class MoreViewModel: MoreViewModelProtocol {
             let note = work.note ?? "n/a"
             let project = work.project ?? "n/a"
             let task = work.task ?? "n/a"
-            csvString += "\(id),\(jobName),\(moneyEarned),\(hourlyRate),\(startDate),\(endDate),\(isPaid),\(note),\(project),\(task)\n"
+            csvString += "\(String(describing: id)),\(jobName),\(moneyEarned),\(hourlyRate),\(startDate),\(endDate),\(isPaid),\(note),\(project),\(task)\n"
         }
         
         return csvString

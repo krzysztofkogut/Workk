@@ -20,14 +20,22 @@ struct ProgressBar: View {
             Rectangle()
                 .frame(width: calculateWidth(), height: 6)
                 .cornerRadius(3)
-                .foregroundColor(.blackWhite)
+                .foregroundColor(percent < 1 ? .blackWhite : .bottleGreen)
         }
     }
 
     func calculateWidth() -> CGFloat {
-        let width = UIScreen.main.bounds.width - 80
+        let width = UIScreen.main.bounds.width - 64
 
-        return width * percent
+        return width * min(percent, 1.0)
+    }
+
+    func roundToTwoDecimalsIfNecessary(_ value: CGFloat) -> CGFloat {
+        let roundedToFour = (value * 10000).rounded() / 10000
+        let roundedToThree = (value * 1000).rounded() / 1000
+
+        // If the fourth decimal place changes the number, return the two-decimal version
+        return roundedToFour == roundedToThree ? roundedToThree : (roundedToThree * 10).rounded() / 10
     }
 }
 

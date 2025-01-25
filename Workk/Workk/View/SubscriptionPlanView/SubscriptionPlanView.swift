@@ -5,19 +5,33 @@
 //  Created by Krzysztof Kogut on 25/10/2023.
 //
 
+import Resolver
+import RevenueCat
+import RevenueCatUI
 import SwiftUI
 
 struct SubscriptionPlanView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var selectedPlan: SubscriptionPlanViewModel? = nil
+    
     @State private var dayStartDate: Date = .now
+    @State private var showTermsAndConditions = false
+    @State private var isPurchasing: Bool = false
+    @State private var error: NSError?
+    @State private var displayError: Bool = false
+    
+    @ObservedObject private var viewModel: SubscriptionPlanViewModel = Resolver.resolve()
+    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
     
     var selectedPlanString: String {
-        guard let plan = selectedPlan?.price else {
+        guard let package = viewModel.selectedPackage else {
             return "continue_title".localized
         }
         
-        return "continue_title".localized + " - \(String(format: "%.2f", plan))"
+        if !viewModel.isSelectedPackageMonthly {
+            return "Try for Free"
+        }
+        
+        return "continue_title".localized + " - " + package.localizedPriceString
     }
     
     var workkPremiumTitle: AttributedString {
@@ -55,10 +69,10 @@ struct SubscriptionPlanView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 4) {
                     VStack(alignment: .leading, spacing: 16) {
-                        HStack(spacing: 16) {
+                        HStack(alignment: .firstTextBaseline, spacing: 16) {
                             Circle()
                                 .fill(.blackWhite)
-                                .frame(width: 12, height: 12)
+                                .frame(width: 10, height: 10)
                             
                             VStack(alignment: .leading) {
                                 Text("stats_access_title".localized)
@@ -70,13 +84,12 @@ struct SubscriptionPlanView: View {
                                     .foregroundStyle(.gray)
                             }
                             .multilineTextAlignment(.leading)
-                            .frame(maxWidth: 250, alignment: .leading)
                         }
                         
-                        HStack(spacing: 16) {
+                        HStack(alignment: .firstTextBaseline, spacing: 16) {
                             Circle()
                                 .fill(.blackWhite)
-                                .frame(width: 12, height: 12)
+                                .frame(width: 10, height: 10)
                             
                             VStack(alignment: .leading) {
                                 Text("icloud_title".localized)
@@ -88,13 +101,12 @@ struct SubscriptionPlanView: View {
                                     .foregroundStyle(.gray)
                             }
                             .multilineTextAlignment(.leading)
-                            .frame(maxWidth: 250, alignment: .leading)
                         }
                         
-                        HStack(spacing: 16) {
+                        HStack(alignment: .firstTextBaseline, spacing: 16) {
                             Circle()
                                 .fill(.blackWhite)
-                                .frame(width: 12, height: 12)
+                                .frame(width: 10, height: 10)
                             
                             VStack(alignment: .leading) {
                                 Text("export_data_title".localized)
@@ -106,13 +118,12 @@ struct SubscriptionPlanView: View {
                                     .foregroundStyle(.gray)
                             }
                             .multilineTextAlignment(.leading)
-//                            .frame(maxWidth: 250, alignment: .leading)
                         }
                         
-                        HStack(spacing: 16) {
+                        HStack(alignment: .firstTextBaseline, spacing: 16) {
                             Circle()
                                 .fill(.blackWhite)
-                                .frame(width: 12, height: 12)
+                                .frame(width: 10, height: 10)
                             
                             VStack(alignment: .leading) {
                                 Text("ads_title".localized)
@@ -124,13 +135,12 @@ struct SubscriptionPlanView: View {
                                     .foregroundStyle(.gray)
                             }
                             .multilineTextAlignment(.leading)
-//                            .frame(maxWidth: 250, alignment: .leading)
                         }
                         
-                        HStack(spacing: 16) {
+                        HStack(alignment: .firstTextBaseline, spacing: 16) {
                             Circle()
                                 .fill(.blackWhite)
-                                .frame(width: 12, height: 12)
+                                .frame(width: 10, height: 10)
                             
                             VStack(alignment: .leading) {
                                 Text("unlimited_entries_title".localized)
@@ -142,120 +152,171 @@ struct SubscriptionPlanView: View {
                                     .foregroundStyle(.gray)
                             }
                             .multilineTextAlignment(.leading)
-//                            .frame(maxWidth: 250, alignment: .leading)
                         }
                     }
-//                    .frame(maxWidth: 300)
-//                    .padding(.vertical, 16)
-//                    .background(.whiteBlack, in: .rect(cornerRadius: 12))
                     .padding(.top, 8)
-                    .padding(.bottom, 32)
+                    .padding(.bottom, 24)
                     .padding(.horizontal, 24)
-                    
-                    Text("promo_description".localized)
-                        .foregroundStyle(.blackWhite)
-                        .font(.nunitoBold(size: 18))
-                        .multilineTextAlignment(.center)
-                        .padding(.top, -8)
-                    
-//                    ForEach(SubscriptionPlanViewModel.allCases, id: \.rawValue) { item in
-//                        HStack {
-//                            VStack(alignment: .leading, spacing: 4) {
-//                                Text(item.title)
-//                                    .font(.latoBold(size: 18))
-//                                    .foregroundStyle(.blackWhite)
-//                                Text(item.description)
-//                                    .font(.latoRegular(size: 14))
-//                                    .foregroundStyle(.gray)
-//                            }
-//                            .padding()
-//                            
-//                            Spacer()
-//                        }
-//                        .frame(height: selectedPlan == item ? 90 : 80)
-//                        .background {
-//                            RoundedRectangle(cornerRadius: 15, style: .continuous)
-//                                .fill(.whiteTheme)
-//                        }
-//                        .overlay {
-//                            RoundedRectangle(cornerRadius: 15)
-//                                .stroke(selectedPlan == item ? .blackWhite : .clear, lineWidth: 1.8)
-//                        }
-//                        .onTapGesture {
-//                            withAnimation(.easeOut) {
-//                                self.selectedPlan = item
-//                            }
-//                        }
-//                    }
-//                    .padding(.horizontal, 24)
-                    
-                    HStack(spacing: 4) {
-                        ForEach(SubscriptionPlanViewModel.allCases, id: \.rawValue) { item in
-                            VStack(spacing: 4) {
-                                Text(item.title)
-                                    .font(.latoBold(size: 16))
-                                    .foregroundStyle(.blackWhite)
+                                        
+                    HStack {
+                        ForEach(viewModel.offering?.availablePackages ?? []) { package in
+                            VStack(spacing: 0) {
+                                Image(systemName: "checkmark")
+                                    .font(.caption)
+                                    .foregroundStyle(viewModel.selectedPackage == package ? .whiteTheme : .blackWhite)
+                                    .opacity(viewModel.selectedPackage == package ? 1 : 0)
+                                    .padding(.top, 8)
                                 
-                                Text(item.description)
+                                Text(package.storeProduct.localizedTitle)
+                                    .font(.latoBlack(size: 18))
+                                    .foregroundStyle(viewModel.selectedPackage == package ? .whiteTheme : .blackWhite)
+                                    .padding(.top, 8)
+                                
+                                Text((package.storeProduct.localizedPricePerMonth ?? "") + "/" + "month_title".localized.lowercased())
                                     .font(.latoRegular(size: 14))
-                                    .foregroundStyle(.gray)
+                                    .foregroundStyle(viewModel.selectedPackage == package ? .whiteTheme : .blackWhite)
+                                    .padding(.top, 8)
                                 
-                                Spacer()
+                                Text((package.storeProduct.localizedPricePerYear ?? "") + "/" + "year_title".localized.lowercased())
+                                    .font(.latoRegular(size: 14))
+                                    .foregroundStyle(viewModel.selectedPackage == package ? .whiteTheme : .blackWhite)
+
+                                Text("free_plan_description".localized)
+                                    .font(.latoRegular(size: 12))
+                                    .foregroundStyle(viewModel.selectedPackage == package ? .whiteTheme : .blackWhite)
+                                    .padding(.top, 8)
+                                    .opacity(package.storeProduct.introductoryDiscount == nil ? 0 : 1)
+//                                    .opacity(viewModel.isMonthlySubscription(package: package) ? 0 : 1)
                             }
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 16)
-                            .frame(width: 115, height: 130)
-                            .background {
-                                RoundedRectangle(cornerRadius: 15, style: .continuous)
-                                    .fill(.whiteTheme)
-                            }
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(selectedPlan == item ? .blackWhite : .clear, lineWidth: 1.8)
-                            }
+                            .padding(.horizontal, 16)
+                            .padding(.top, 4)
+                            .padding(.bottom, 32)
+                            .frame(maxWidth: 250)
+                            .background(viewModel.selectedPackage == package ? .blackWhite : .whiteTheme, in: .rect(cornerRadius: 16))
                             .onTapGesture {
-                                withAnimation(.easeOut) {
-                                    self.selectedPlan = item
-                                }
+                                viewModel.selectedPackage = package
                             }
                         }
                     }
-                    .padding(.top, 16)
                     .padding(.horizontal, 24)
                     
                     Button {
-                        print("privacy")
+                        Task {
+                            try? await Purchases.shared.restorePurchases()
+                        }
+                    } label: {
+                        Text("Restore purchase")
+                            .font(.nunitoBold(size: 16))
+                            .foregroundStyle(.blackWhite)
+                    }
+                    .padding(.top, 8)
+                    
+                    Button {
+                        showTermsAndConditions = true
                     } label: {
                         Text("terms_conditions_title".localized)
                             .font(.nunitoBold(size: 16))
                             .foregroundStyle(.blackWhite)
                     }
-                    .padding(.top, 8)
+                    .padding(.top, 2)
                     .padding(.bottom, 24)
                 }
+            }
+            
+            VStack(spacing: 4) {
+                Rectangle()
+                    .frame(height: 0.5)
+                    .foregroundColor(.blackWhite)
+                    .frame(maxWidth: .infinity)
+                
+                Text(viewModel.selectedPackage?.storeProduct.localizedTitle ?? "")
+                    .font(.latoBold(size: 16))
+                    .foregroundStyle(.blackWhite)
+                    .padding(.top, 2)
+
+                HStack(spacing: 4) {
+                    Text((viewModel.selectedPackage?.storeProduct.localizedPricePerYear ?? "") + "/" + "year_title".localized.lowercased())
+                        .font(.latoBold(size: 14))
+                        .hide(if: viewModel.isSelectedPackageMonthly)
+                    
+                    Text((viewModel.selectedPackage?.storeProduct.localizedPricePerMonth ?? "") + "/" + "month_title".localized.lowercased())
+                        .font(.latoBold(size: 14))
+                }
+                .foregroundStyle(.blackWhite)
+                
+                Text("subscription_plan_cancel_anytime".localized)
+                    .font(.latoBold(size: 14))
+                    .foregroundStyle(.blackWhite)
+                    .padding(.bottom, 8)
+                
+                Button {
+                    guard let selectedPackage = viewModel.selectedPackage else {
+                        return
+                    }
+                    
+                    isPurchasing = true
+                    
+                    Task {
+                        do {
+                            let result = try await Purchases.shared.purchase(package: selectedPackage)
+
+                            /// - Set 'isPurchasing' state to `false`
+                            self.isPurchasing = false
+
+                            if !result.userCancelled {
+                                dismiss()
+                            }
+                        } catch {
+                            self.isPurchasing = false
+                            self.error = error as NSError
+                            self.displayError = true
+                        }
+                    }
+                } label: {
+                    Text(selectedPlanString)
+                        .font(.latoBlack(size: 16))
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 16)
+                        .padding(.horizontal, 16)
+                        .background(viewModel.selectedPackage == nil ? .gray : .blackWhite, in: .rect(cornerRadius: 24))
+                        .disabled(viewModel.selectedPackage == nil)
+                }
+                .hide(if: userSubscriptionViewModel.subscriptionActive)
             }
         }
         .background {
             Color(.wildSand)
                 .ignoresSafeArea()
         }
-        .safeAreaInset(edge: .bottom) {
-            VStack {
-                Button {
-                    print("continue")
-                } label: {
-                    Text(selectedPlanString)
-                        .font(.latoBold(size: 16))
-                        .foregroundStyle(.whiteBlack)
-                        .padding(.vertical, 16)
-                        .padding(.horizontal, 16)
+        .overlay {
+            ZStack {
+                Color.wildSand.opacity(0.9)
+                    .blur(radius: 0, opaque: false)
+                
+                ProgressView {
+                    Text("Loading")
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.gray)
                 }
-                .modifier(FilledButton())
-                .background(selectedPlan == nil ? .gray : .blackWhite, in: .rect(cornerRadius: 24))
-                .disabled(selectedPlan == nil)
             }
-            .padding(.bottom, 16)
+            .ignoresSafeArea()
+            .hide(if: !isPurchasing)
         }
+        .sheet(isPresented: $showTermsAndConditions) {
+            WebViewWithCloseButton(url: Constants.termsAndConditionsURL,
+                                   navigationTitle: "terms_conditions_title".localized)
+//            SafariView(url: Constants.termsAndConditionsURL)
+        }
+        .alert(
+            isPresented: $displayError,
+            error: error,
+            actions: { _ in
+                Button(role: .cancel,
+                       action: { self.displayError = false },
+                       label: { Text("ok_title".localized) })
+            },
+            message: { Text($0.recoverySuggestion ?? "Please try again") }
+        )
     }
 }
 

@@ -78,7 +78,7 @@
 "notifications_enabled_title" = "Meddelanden aktiverade";
 "daily_notification_time_title" = "Daglig meddelandetid";
 "try_for_free_button_title" = "Prova gratis i 7 dagar";
-"premium_description" = "Lås upp avancerad statistik, iCloud-synkronisering, dataexport \noch ta bort annonser";
+"premium_description" = "Lås upp avancerad statistik, iCloud-synkronisering, dataexport och ta bort annonser";
 "try_workk_premium_title" = "Prova Workk Premium";
 "workk_title" = "Workk";
 "workk_premium_title" = "Workk Premium";
@@ -144,6 +144,8 @@
 
 "unlimited_entries_title" = "Obegränsade poster";
 "unlimited_entries_description" = "Lägg till så många arbetstider och jobb som du behöver";
+"application_title" = "APPLIKATION";
+"privacy_policy_title" = "Integritetspolicy";
 
 "daily_notification_title" = "💰 Tid är pengar!";
 "daily_notification_body" = "Börja spåra din arbetstid eller lägg till intäkter och se dina framsteg";

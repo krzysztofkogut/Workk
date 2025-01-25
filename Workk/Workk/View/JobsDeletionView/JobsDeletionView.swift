@@ -17,6 +17,8 @@ struct JobsDeletionView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Job.name, ascending: true)]
     ) private var jobs: FetchedResults<Job>
     
+    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
+    
     @State var selectedJob: Job? = nil
     @State private var selectedJobs: Set<Job> = []
     @State private var showAddJobView = false
@@ -142,16 +144,16 @@ struct JobsDeletionView: View {
                         deleteSelectedJobs()
                         deleteMode = false
                     } else {
-                        jobs.count < 3 ? showAddJobView() : showSubscriptionPlanView.toggle()
+                        jobs.count < 3 || userSubscriptionViewModel.subscriptionActive ? showAddJobView() : showSubscriptionPlanView.toggle()
                     }
                 } label: {
                     Text(deleteMode ? "delete_title".localized : "add_new_job_title".localized)
                         .font(.latoBold(size: 16))
                         .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(.blackWhite, in: .rect(cornerRadius: 18))
                 }
-                .padding(.vertical, 8)
-                .padding(.horizontal, 16)
-                .background(.blackWhite, in: .rect(cornerRadius: 18))
                     
                 Text("\(selectedJobs.count)")
                     .font(.latoBold(size: 16))

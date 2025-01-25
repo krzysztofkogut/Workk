@@ -18,8 +18,6 @@ protocol StatsFilterViewModelProtocol where Self: ObservableObject {
 
 final class StatsFilterViewModel: StatsFilterViewModelProtocol {
     
-    @Published var iCloudSettings: iCloudSettings = Resolver.resolve()
-    
     var weeklyStatsTitle: AttributedString {
         var string = AttributedString("weekly_stats_title".localized.uppercased())
         string.kern = 3

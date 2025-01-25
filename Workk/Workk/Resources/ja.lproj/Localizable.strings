@@ -144,6 +144,8 @@
 
 "unlimited_entries_title" = "無制限のエントリー";
 "unlimited_entries_description" = "必要なだけの作業時間と仕事を追加できます";
+"application_title" = "アプリケーション";
+"privacy_policy_title" = "プライバシーポリシー";
 
 "daily_notification_title" = "💰 時間はお金!";
 "daily_notification_body" = "勤務時間を追跡開始するか収入を追加して進捗を確認";

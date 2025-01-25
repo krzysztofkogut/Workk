@@ -144,6 +144,8 @@
 
 "unlimited_entries_title" = "Neomezené záznamy";
 "unlimited_entries_description" = "Přidejte tolik pracovních časů a zaměstnání, kolik potřebujete";
+"application_title" = "APLIKACE";
+"privacy_policy_title" = "Zásady ochrany osobních údajů";
 
 "daily_notification_title" = "💰 Čas jsou peníze!";
 "daily_notification_body" = "Začněte sledovat svůj pracovní čas nebo přidejte výdělky a sledujte své úspěchy";

@@ -28,7 +28,7 @@ enum ScheduleRoute: Hashable {
 
     func hash(into hasher: inout Hasher) {
         switch self {
-        case .addWorkTimeView(let selectedWork, let selectedFilter, let selectedWorkName):
+        case .addWorkTimeView(_, let selectedFilter, _):
             hasher.combine(selectedFilter.wrappedValue)
         }
     }
