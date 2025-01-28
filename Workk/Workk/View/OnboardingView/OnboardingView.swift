@@ -171,6 +171,7 @@ struct OnboardingView: View {
             Text(intro.description)
                 .font(.latoRegular(size: 16))
                 .foregroundStyle(.blackWhite)
+                .frame(maxWidth: 300)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 30)
                 .offset(x: -size.width * CGFloat(currentIndex - index))

@@ -127,11 +127,11 @@
 "choose_style_description" = "Dag eller nat\nTilpas udseendet";
 
 "track_title" = "Spor";
-"track_description" = "Tilføj dine arbejdstimer og indtjening \nved hjælp af registrering eller timer";
+"track_description" = "Tilføj dine arbejdstimer og indtjening ved hjælp af registrering eller timer";
 "analyze_title" = "Analyser";
-"analyze_description" = "Se dine data i et overblik \neller i statistikker";
+"analyze_description" = "Se dine data i et overblik eller i statistikker";
 "keep_data_title" = "Bevar data";
-"keep_data_description" = "Alle dine data gemmes i iCloud \nog deles mellem dine Apple-enheder";
+"keep_data_description" = "Alle dine data gemmes i iCloud og deles mellem dine Apple-enheder";
 "workk_description" = "Hold styr på det hele. Med Workk kan du spore dine arbejdstimer \nog tjente penge";
 "skip_title" = "SPRING OVER";
 "begin_title" = "Start";

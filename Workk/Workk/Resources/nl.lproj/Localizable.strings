@@ -127,11 +127,11 @@
 "choose_style_description" = "Dag of nacht\nPersonaliseer je uitstraling";
 
 "track_title" = "Bijhouden";
-"track_description" = "Voeg je werktijd en verdiende geld toe \ndoor invoer of de klok te gebruiken";
+"track_description" = "Voeg je werktijd en verdiende geld toe door invoer of de klok te gebruiken";
 "analyze_title" = "Analyseren";
-"analyze_description" = "Bekijk gegevens in het overzicht \nof in de statistieken";
+"analyze_description" = "Bekijk gegevens in het overzicht of in de statistieken";
 "keep_data_title" = "Houd gegevens bij";
-"keep_data_description" = "Al je gegevens worden opgeslagen in iCloud \nen gedeeld tussen je Apple-apparaten";
+"keep_data_description" = "Al je gegevens worden opgeslagen in iCloud en gedeeld tussen je Apple-apparaten";
 "workk_description" = "Blijf georganiseerd. Houd je gewerkte uren \nen verdiende geld bij met Workk";
 "skip_title" = "OVERSLAAN";
 "begin_title" = "Begin";

@@ -127,11 +127,11 @@
 "choose_style_description" = "Giorno o notte\nPersonalizza il tuo aspetto";
 
 "track_title" = "Traccia";
-"track_description" = "Aggiungi il tuo tempo lavorativo e denaro guadagnato \naggiungendo voci o utilizzando l'orologio";
+"track_description" = "Aggiungi il tuo tempo lavorativo e denaro guadagnato aggiungendo voci o utilizzando l'orologio";
 "analyze_title" = "Analizza";
-"analyze_description" = "Visualizza i dati nel riepilogo \no nelle statistiche";
+"analyze_description" = "Visualizza i dati nel riepilogo o nelle statistiche";
 "keep_data_title" = "Mantieni i dati";
-"keep_data_description" = "Tutti i tuoi dati saranno salvati in iCloud \ne condivisi tra i tuoi dispositivi Apple";
+"keep_data_description" = "Tutti i tuoi dati saranno salvati in iCloud e condivisi tra i tuoi dispositivi Apple";
 "workk_description" = "Rimani organizzato. Tieni traccia delle tue ore lavorative \ne del denaro guadagnato con Workk";
 "skip_title" = "SALTA";
 "begin_title" = "Inizia";

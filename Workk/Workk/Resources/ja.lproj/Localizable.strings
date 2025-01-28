@@ -127,11 +127,11 @@
 "choose_style_description" = "昼も夜も\n外観をカスタマイズ";
 
 "track_title" = "追跡";
-"track_description" = "勤務時間と収入を\n記録またはタイマーで追加";
+"track_description" = "勤務時間と収入を記録またはタイマーで追加";
 "analyze_title" = "分析";
-"analyze_description" = "データを一目で\nまたは統計で確認";
+"analyze_description" = "データを一目でまたは統計で確認";
 "keep_data_title" = "データを保持";
-"keep_data_description" = "すべてのデータがiCloudに保存され\nAppleデバイス間で共有";
+"keep_data_description" = "すべてのデータがiCloudに保存されAppleデバイス間で共有";
 "workk_description" = "すべてを追跡。Workkを使えば勤務時間と収入を追跡可能";
 "skip_title" = "スキップ";
 "begin_title" = "開始";

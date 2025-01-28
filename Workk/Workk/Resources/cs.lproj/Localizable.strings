@@ -127,11 +127,11 @@
 "choose_style_description" = "Den nebo noc\nPřizpůsobte si vzhled";
 
 "track_title" = "Sledovat";
-"track_description" = "Přidejte své pracovní hodiny a výdělky \npomocí záznamu nebo časovače";
+"track_description" = "Přidejte své pracovní hodiny a výdělky pomocí záznamu nebo časovače";
 "analyze_title" = "Analyzovat";
-"analyze_description" = "Prohlédněte si data v přehledu \nnebo ve statistikách";
+"analyze_description" = "Prohlédněte si data v přehledu nebo ve statistikách";
 "keep_data_title" = "Udržujte data";
-"keep_data_description" = "Všechna vaše data jsou uložena v iCloudu \na sdílena mezi vašimi Apple zařízeními";
+"keep_data_description" = "Všechna vaše data jsou uložena v iCloudu a sdílena mezi vašimi Apple zařízeními";
 "workk_description" = "Zůstaňte organizovaní. S Workk sledujte své odpracované hodiny \na vydělané peníze";
 "skip_title" = "PŘESKOČIT";
 "begin_title" = "Začít";

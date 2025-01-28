@@ -127,11 +127,11 @@
 "choose_style_description" = "Personalize a aparência\npara dia e noite";
 
 "track_title" = "Rastrear";
-"track_description" = "Adicione manualmente ou utilize o cronómetro\npara registar o tempo trabalhado e ganhos";
+"track_description" = "Adicione manualmente ou utilize o cronómetro para registar o tempo trabalhado e ganhos";
 "analyze_title" = "Analisar";
-"analyze_description" = "Veja os seus dados\nde relance ou em estatísticas";
+"analyze_description" = "Veja os seus dados de relance ou em estatísticas";
 "keep_data_title" = "Guardar Dados";
-"keep_data_description" = "Todos os dados são armazenados no iCloud\ne partilhados entre dispositivos Apple";
+"keep_data_description" = "Todos os dados são armazenados no iCloud e partilhados entre dispositivos Apple";
 "workk_description" = "Rastreie tudo. Com Workk, pode registar o tempo trabalhado e os ganhos";
 "skip_title" = "Saltar";
 "begin_title" = "Começar";
