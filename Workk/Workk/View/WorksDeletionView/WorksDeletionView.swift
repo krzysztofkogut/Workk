@@ -59,6 +59,12 @@ struct WorksDeletionView: View {
                                     Text(work.startDate.currentHourString + " - " + work.endDate.currentHourString)
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.blackWhite)
+                                    
+                                    Text("overtime_title".localized)
+                                        .font(.latoBold(size: 14))
+                                        .foregroundStyle(.blackWhite)
+                                        .padding(.top, 1)
+                                        .hide(if: !work.isOvertime)
                                 }
                                 .padding(.horizontal, 16)
                                 
@@ -125,6 +131,12 @@ struct WorksDeletionView: View {
                                     Text(work.startDate.currentWeekScheduleString)
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.blackWhite)
+                                    
+                                    Text("overtime_title".localized)
+                                        .font(.latoBold(size: 14))
+                                        .foregroundStyle(.blackWhite)
+                                        .padding(.top, 1)
+                                        .hide(if: !work.isOvertime)
                                 }
                                 .padding(.horizontal, 16)
                                 
@@ -192,6 +204,12 @@ struct WorksDeletionView: View {
                                     Text(work.startDate.currentMonthString)
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.blackWhite)
+                                    
+                                    Text("overtime_title".localized)
+                                        .font(.latoBold(size: 14))
+                                        .foregroundStyle(.blackWhite)
+                                        .padding(.top, 1)
+                                        .hide(if: !work.isOvertime)
                                 }
                                 .padding(.horizontal, 16)
                                 
@@ -259,6 +277,12 @@ struct WorksDeletionView: View {
                                     Text(work.startDate.currentYearString)
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.blackWhite)
+                                    
+                                    Text("overtime_title".localized)
+                                        .font(.latoBold(size: 14))
+                                        .foregroundStyle(.blackWhite)
+                                        .padding(.top, 1)
+                                        .hide(if: !work.isOvertime)
                                 }
                                 .padding(.horizontal, 16)
                                 

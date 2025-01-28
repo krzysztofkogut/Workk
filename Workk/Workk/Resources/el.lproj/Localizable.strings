@@ -19,7 +19,8 @@
 "unpaid_title" = "Απλήρωτα";
 "plan_done_title" = "Πλάνο ολοκληρωμένο:";
 "left_to_earned_title" = "Απομένει να κερδίσετε:";
-"hours_worked_title" = "Ώρες εργασίας:";
+"hours_worked_title" = "Ώρες εργασίας";
+"hours_worked_colon_title" = "Ώρες εργασίας:";
 "hours_worked_stats_title" = "Ώρες εργασίας";
 "today_title" = "Σήμερα";
 "buy_subscription_title" = "Αγοράστε συνδρομή για να αφαιρέσετε τις διαφημίσεις";
@@ -74,7 +75,7 @@
 "jobs_title" = "Εργασίες";
 "currency_title" = "Νόμισμα";
 "currency_description" = "Η αλλαγή νομίσματος δεν μετατρέπει τα κέρδη";
-"daily_notification_title" = "Καθημερινή ειδοποίηση";
+"notification_title" = "ΕΙΔΟΠΟΙΗΣΕΙΣ";
 "notifications_enabled_title" = "Ειδοποιήσεις ενεργοποιημένες";
 "daily_notification_time_title" = "Ώρα καθημερινής ειδοποίησης";
 "try_for_free_button_title" = "Δοκιμάστε δωρεάν για 7 ημέρες";
@@ -151,3 +152,18 @@
 "daily_notification_body" = "Ξεκινήστε να καταγράφετε τον χρόνο ή τα κέρδη σας για να δείτε την πρόοδο.";
 "weekly_notification_title" = "🎉 Νέα εβδομάδα, νέοι στόχοι!";
 "weekly_notification_body" = "Δείτε τα εβδομαδιαία σας κέρδη και αναλύστε την πρόοδο σας.";
+
+"earned_now_title" = "Κερδισμένα:";
+"earned_more_title" = "Κερδισμένα επιπλέον:";
+"setup_goal_title" = "Ορίστε τους στόχους σας";
+"setup_goal_description" = "Μπορείτε πάντα να ορίσετε τους στόχους σας αργότερα στο Προφίλ σας";
+"setup_goal_home_description" = "Ορίστε τον στόχο σας στο Προφίλ σας";
+"icloud_name_title" = "ICLOUD";
+"icloud_sync_description" = "Επανεκκινήστε την εφαρμογή για να εφαρμόσετε τις ρυθμίσεις συγχρονισμού iCloud";
+"free_plan_description" = "Δωρεάν δοκιμή 7 ημερών";
+"subscription_plan_cancel_anytime" = "Ακύρωση οποιαδήποτε στιγμή";
+"overtime_title" = "Υπερωρίες";
+
+"try_for_free_title" = "Δοκιμάστε δωρεάν";
+"overtime_description" = "Τα χρήματα που κερδίθηκαν κατά τη διάρκεια των υπερωριών θα υπολογιστούν ξανά μετά την αποθήκευση της εγγραφής";
+"overtime_update_description" = "Τα χρήματα που κερδίθηκαν κατά τη διάρκεια των υπερωριών θα υπολογιστούν ξανά αν αλλάξει το ποσοστό της αμοιβής υπερωριών";

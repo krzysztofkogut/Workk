@@ -39,8 +39,17 @@ extension Date {
     }
     
     var currentHourString: String {
-        let currentDayFormatter = DateFormatter(dateFormat: "HH:mm", calendar: Calendar.current)
-        return currentDayFormatter.string(from: self)
+        
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        let localeRegion = Locale.current.region?.identifier ?? ""
+        
+        if Constants.monthFirstLocales.contains(localeRegion) {
+            formatter.dateFormat = "h:mm a"
+        } else {
+            formatter.dateFormat = "HH:mm"
+        }
+        return formatter.string(from: self)
     }
     
     var currentDayString: String {
@@ -99,7 +108,8 @@ extension Date {
         var calendar = Calendar(identifier: .iso8601)
         calendar.timeZone = .current
         
-        let endOfWeek = calendar.date(byAdding: .day, value: 6, to: self) ?? self
+        let startOfWeek = adjustedStartOfWeek(for: self)
+        let endOfWeek = calendar.date(byAdding: .day, value: 6, to: startOfWeek) ?? self
         
         let currentWeekFormatter: DateFormatter = {
             let formatter = DateFormatter()
@@ -116,7 +126,22 @@ extension Date {
             return formatter
         }()
         
-        return "\(currentWeekFormatter.string(from: self))\n\(currentWeekFormatter.string(from: endOfWeek))"
+        return "\(currentWeekFormatter.string(from: startOfWeek))\n\(currentWeekFormatter.string(from: endOfWeek))"
+    }
+    
+    func adjustedStartOfWeek(for date: Date) -> Date {
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        calendar.firstWeekday = 2 // Poniedziałek jako pierwszy dzień tygodnia
+
+        // Oblicz dzień tygodnia dla daty (poniedziałek = 2, niedziela = 1)
+        let weekday = calendar.component(.weekday, from: date)
+
+        // Oblicz przesunięcie (jeśli to np. piątek, przesuń do najbliższego poniedziałku)
+        let daysToNextMonday = (9 - weekday) % 7
+        let adjustedStartOfWeek = calendar.date(byAdding: .day, value: daysToNextMonday, to: date)!
+
+        return adjustedStartOfWeek
     }
     
     var currentWeekBoundryString: WeekBoundaryString {
@@ -262,16 +287,17 @@ extension Date {
         return calendar.dateInterval(of: .year, for: self)?.end ?? self
     }
     
-    func updatingMonthAndDay(from otherDate: Date) -> Date? {
+    func updatingYearMonthAndDay(from otherDate: Date) -> Date? {
         let calendar = Calendar(identifier: .iso8601)
         
         // Extract the current date components (hour, minute, second, etc.)
         var currentComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self)
         
         // Extract the month and day from the other date
-        let newDateComponents = calendar.dateComponents([.month, .day], from: otherDate)
+        let newDateComponents = calendar.dateComponents([.year, .month, .day], from: otherDate)
         
-        // Update the current components with the new month and day
+        // Update the current components with the new year, month and day
+        currentComponents.year = newDateComponents.year
         currentComponents.month = newDateComponents.month
         currentComponents.day = newDateComponents.day
         

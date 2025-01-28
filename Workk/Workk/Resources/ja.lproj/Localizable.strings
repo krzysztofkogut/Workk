@@ -19,7 +19,8 @@
 "unpaid_title" = "未払い";
 "plan_done_title" = "計画達成:";
 "left_to_earned_title" = "残りの収入:";
-"hours_worked_title" = "働いた時間:";
+"hours_worked_title" = "働いた時間";
+"hours_worked_colon_title" = "働いた時間:";
 "hours_worked_stats_title" = "労働時間";
 "today_title" = "今日";
 "buy_subscription_title" = "広告を削除するにはサブスクリプションを購入してください";
@@ -74,7 +75,7 @@
 "jobs_title" = "職業";
 "currency_title" = "通貨";
 "currency_description" = "通貨を変更しても収入は変換されません";
-"daily_notification_title" = "毎日の通知";
+"notification_title" = "通知";
 "notifications_enabled_title" = "通知が有効";
 "daily_notification_time_title" = "毎日の通知時間";
 "try_for_free_button_title" = "7日間無料で試す";
@@ -151,3 +152,18 @@
 "daily_notification_body" = "勤務時間を追跡開始するか収入を追加して進捗を確認";
 "weekly_notification_title" = "🎉 新しい週、新しい目標!";
 "weekly_notification_body" = "週の収入を確認して成果を確認してください。";
+
+"earned_now_title" = "獲得:";
+"earned_more_title" = "さらに獲得:";
+"setup_goal_title" = "目標を設定";
+"setup_goal_description" = "目標はプロフィールで後から設定できます";
+"setup_goal_home_description" = "プロフィールで目標を設定";
+"icloud_name_title" = "ICLOUD";
+"icloud_sync_description" = "iCloud同期設定を適用するにはアプリを再起動してください";
+"free_plan_description" = "7日間の無料トライアル";
+"subscription_plan_cancel_anytime" = "いつでもキャンセル可能";
+"overtime_title" = "残業";
+
+"try_for_free_title" = "無料で試す";
+"overtime_description" = "残業中に稼いだお金はエントリーを保存した後に再計算されます";
+"overtime_update_description" = "残業中に稼いだお金は、残業率が変更された場合に再計算されます";

@@ -73,6 +73,8 @@ struct ScheduleView: View {
     @State private var isMonthDetailsBannerAdLoaded: Bool = false
     @State private var isYearDetailsBannerAdLoaded: Bool = false
     
+    @State var showAdsIsForbidden: Bool = true // TODO: Delete this and change for userSubscriptionViewModel.subscriptionActive
+    
     private let calendar: Calendar
     
     private let dayScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
@@ -214,7 +216,8 @@ struct ScheduleView: View {
                                 .padding(.horizontal, 16)
                                 .opacity(isDayDetailsBannerAdLoaded ? 1 : 0)
                             }
-                            .hide(if: userSubscriptionViewModel.subscriptionActive)
+//                            .hide(if: userSubscriptionViewModel.subscriptionActive)
+                            .hide(if: showAdsIsForbidden)
                             
                             Text("no_entries_title".localized)
                                 .font(.latoRegular(size: 18))
@@ -239,8 +242,14 @@ struct ScheduleView: View {
                             Text(work.startDate.currentHourString + " - " + work.endDate.currentHourString)
                                 .font(.latoRegular(size: 12))
                                 .foregroundColor(.blackWhite)
+                            
+                            Text("overtime_title".localized)
+                                .font(.latoBold(size: 14))
+                                .foregroundStyle(.blackWhite)
+                                .padding(.top, 1)
+                                .hide(if: !work.isOvertime)
                         }
-                        .padding(16)
+                        .padding(.horizontal, 16)
                             
                         Spacer()
                             
@@ -432,8 +441,14 @@ struct ScheduleView: View {
                                     Text(work.startDate.currentWeekScheduleString)
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.blackWhite)
+                                    
+                                    Text("overtime_title".localized)
+                                        .font(.latoBold(size: 14))
+                                        .foregroundStyle(.blackWhite)
+                                        .padding(.top, 1)
+                                        .hide(if: !work.isOvertime)
                                 }
-                                .padding(16)
+                                .padding(.horizontal, 16)
                                 
                                 Spacer()
                                 
@@ -512,7 +527,8 @@ struct ScheduleView: View {
                         .opacity(isWeekDetailsBannerAdLoaded ? 1 : 0)
                     }
                     .padding(.bottom, 16)
-                    .hide(if: userSubscriptionViewModel.subscriptionActive)
+//                    .hide(if: userSubscriptionViewModel.subscriptionActive)
+                    .hide(if: showAdsIsForbidden)
                     
                     Text("no_entries_title".localized)
                         .font(.latoRegular(size: 18))
@@ -665,8 +681,14 @@ struct ScheduleView: View {
                                     Text(work.startDate.currentMonthString)
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.blackWhite)
+                                    
+                                    Text("overtime_title".localized)
+                                        .font(.latoBold(size: 14))
+                                        .foregroundStyle(.blackWhite)
+                                        .padding(.top, 1)
+                                        .hide(if: !work.isOvertime)
                                 }
-                                .padding(16)
+                                .padding(.horizontal, 16)
                                 
                                 Spacer()
                                 
@@ -745,7 +767,8 @@ struct ScheduleView: View {
                         .opacity(isMonthDetailsBannerAdLoaded ? 1 : 0)
                     }
                     .padding(.bottom, 16)
-                    .hide(if: userSubscriptionViewModel.subscriptionActive)
+//                    .hide(if: userSubscriptionViewModel.subscriptionActive)
+                    .hide(if: showAdsIsForbidden)
                     
                     
                     Text("no_entries_title".localized)
@@ -899,8 +922,14 @@ struct ScheduleView: View {
                                     Text(work.startDate.currentYearString)
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.blackWhite)
+                                    
+                                    Text("overtime_title".localized)
+                                        .font(.latoBold(size: 14))
+                                        .foregroundStyle(.blackWhite)
+                                        .padding(.top, 1)
+                                        .hide(if: !work.isOvertime)
                                 }
-                                .padding(16)
+                                .padding(.horizontal, 16)
                                 
                                 Spacer()
                                 
@@ -978,7 +1007,8 @@ struct ScheduleView: View {
                         .opacity(isYearDetailsBannerAdLoaded ? 1 : 0)
                     }
                     .padding(.bottom, 16)
-                    .hide(if: userSubscriptionViewModel.subscriptionActive)
+//                    .hide(if: userSubscriptionViewModel.subscriptionActive)
+                    .hide(if: showAdsIsForbidden)
                     
                     Text("no_entries_title".localized)
                         .font(.latoRegular(size: 18))

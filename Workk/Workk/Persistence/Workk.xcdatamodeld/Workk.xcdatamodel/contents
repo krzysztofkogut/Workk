@@ -11,9 +11,11 @@
         <attribute name="hourlyRate" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="hoursWorked" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" allowsCloudEncryption="YES" usesScalarValueType="NO"/>
+        <attribute name="isOvertime" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isPaid" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="moneyEarned" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="note" optional="YES" attributeType="String"/>
+        <attribute name="overtimePercentage" attributeType="Float" defaultValueString="150" usesScalarValueType="YES"/>
         <attribute name="periodType" attributeType="String" defaultValueString="day"/>
         <attribute name="project" optional="YES" attributeType="String"/>
         <attribute name="startDate" attributeType="Date" defaultDateTimeInterval="757407600" usesScalarValueType="NO"/>

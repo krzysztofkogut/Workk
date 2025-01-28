@@ -19,7 +19,8 @@
 "unpaid_title" = "Unpaid";
 "plan_done_title" = "Plan done in:";
 "left_to_earned_title" = "Left to be earned:";
-"hours_worked_title" = "Hours worked:";
+"hours_worked_title" = "Hours worked";
+"hours_worked_colon_title" = "Hours worked:";
 "hours_worked_stats_title" = "Hours worked";
 "today_title" = "Today";
 "buy_subscription_title" = "Buy subscription to remove ads";
@@ -61,7 +62,7 @@
 "weekly_stats_title" = "WEEKLY STATISTICS";
 "monthly_stats_title" = "MONTHLY STATISTICS";
 "yearly_stats_title" = "YEARLY STATISTICS";
-"your_profile_title" = "Your profile";
+"your_profile_title" = "Your Profile";
 "jobs_list_title" = "Jobs list";
 "money_goals_title" = "Money goals";
 "hours_goals_title" = "Hours goals";
@@ -74,7 +75,7 @@
 "jobs_title" = "JOBS";
 "currency_title" = "CURRENCY";
 "currency_description" = "Changing currency will not convert the money earned";
-"daily_notification_title" = "DAILY NOTIFICATION";
+"notification_title" = "NOTIFICATIONS";
 "notifications_enabled_title" = "Notifications enabled";
 "daily_notification_time_title" = "Daily notification time";
 "try_for_free_button_title" = "Try 7 Days Free";
@@ -152,4 +153,17 @@
 "weekly_notification_title" = "🎉 Another week, another win!";
 "weekly_notification_body" = "Check your weekly earnings and see how your hard work adds up.";
 
-"setup_goal_home_description" = "Setup your goal in Your Profile";
+"earned_now_title" = "Earned:";
+"earned_more_title" = "Earned more:";
+"setup_goal_title" = "Set up your goals";
+"setup_goal_description" = "You can always set up your goals later in Your Profile";
+"setup_goal_home_description" = "Set up your goal in Your Profile";
+"icloud_name_title" = "ICLOUD";
+"icloud_sync_description" = "Restart the app to apply iCloud sync settings";
+"free_plan_description" = "7-day trial period";
+"subscription_plan_cancel_anytime" = "Cancel anytime";
+"overtime_title" = "Overtime";
+
+"try_for_free_title" = "Try for free";
+"overtime_description" = "Money earned during overtime will be recalculated after saving the entry";
+"overtime_update_description" = "Money earned during overtime will be recalculated if the overtime rate percentage has changed";

@@ -19,7 +19,8 @@
 "unpaid_title" = "Onbetaald";
 "plan_done_title" = "Plan voltooid in:";
 "left_to_earned_title" = "Nog te verdienen bedrag:";
-"hours_worked_title" = "Gewerkte uren:";
+"hours_worked_title" = "Gewerkte uren";
+"hours_worked_colon_title" = "Gewerkte uren:";
 "hours_worked_stats_title" = "Gewerkte uren";
 "today_title" = "Vandaag";
 "buy_subscription_title" = "Koop een abonnement om advertenties te verwijderen";
@@ -61,7 +62,7 @@
 "weekly_stats_title" = "WEKELIJKSE STATISTIEKEN";
 "monthly_stats_title" = "MAANDELIJKSE STATISTIEKEN";
 "yearly_stats_title" = "JAARLIJKSE STATISTIEKEN";
-"your_profile_title" = "Jouw profiel";
+"your_profile_title" = "Jouw Profiel";
 "jobs_list_title" = "Banenlijst";
 "money_goals_title" = "Gelddoelen";
 "hours_goals_title" = "Uurdoelen";
@@ -74,7 +75,7 @@
 "jobs_title" = "BANEN";
 "currency_title" = "VALUTA";
 "currency_description" = "Het wijzigen van de valuta zal het verdiende bedrag niet converteren";
-"daily_notification_title" = "DAGELIJKSE MELDING";
+"notification_title" = "MELDINGEN";
 "notifications_enabled_title" = "Meldingen ingeschakeld";
 "daily_notification_time_title" = "Tijd van de dagelijkse melding";
 "try_for_free_button_title" = "Probeer gratis voor 7 dagen";
@@ -151,3 +152,18 @@
 "daily_notification_body" = "Begin nu je werktijd bij te houden of voeg inkomsten toe om je verdiensten te volgen";
 "weekly_notification_title" = "🎉 Een nieuwe week, een nieuwe mijlpaal!";
 "weekly_notification_body" = "Bekijk je wekelijkse verdiensten en ontdek wat je hebt bereikt.";
+
+"earned_now_title" = "Verdiend:";
+"earned_more_title" = "Meer verdiend:";
+"setup_goal_title" = "Stel je doelen in";
+"setup_goal_description" = "Je kunt je doelen later altijd instellen in Je Profiel";
+"setup_goal_home_description" = "Stel je doel in Je Profiel in";
+"icloud_name_title" = "ICLOUD";
+"icloud_sync_description" = "Herstart de app om de iCloud-synchronisatie-instellingen toe te passen";
+"free_plan_description" = "7-daagse proefperiode";
+"subscription_plan_cancel_anytime" = "Annuleer op elk moment";
+"overtime_title" = "Overuren";
+
+"try_for_free_title" = "Probeer gratis";
+"overtime_description" = "Het geld verdiend tijdens overuren wordt opnieuw berekend nadat de invoer is opgeslagen";
+"overtime_update_description" = "Het geld verdiend tijdens overuren wordt opnieuw berekend als het percentage van het overuurtarief is gewijzigd";

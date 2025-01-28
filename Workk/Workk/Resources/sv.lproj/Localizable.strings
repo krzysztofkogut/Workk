@@ -19,7 +19,8 @@
 "unpaid_title" = "Obetald";
 "plan_done_title" = "Plan genomförd på:";
 "left_to_earned_title" = "Återstår att tjäna:";
-"hours_worked_title" = "Arbetade timmar:";
+"hours_worked_title" = "Arbetade timmar";
+"hours_worked_colon_title" = "Arbetade timmar:";
 "hours_worked_stats_title" = "Arbetade timmar";
 "today_title" = "Idag";
 "buy_subscription_title" = "Köp prenumeration för att ta bort annonser";
@@ -61,7 +62,7 @@
 "weekly_stats_title" = "VECKOVIS STATISTIK";
 "monthly_stats_title" = "MÅNADSVIS STATISTIK";
 "yearly_stats_title" = "ÅRLIG STATISTIK";
-"your_profile_title" = "Din profil";
+"your_profile_title" = "Din Profil";
 "jobs_list_title" = "Jobblista";
 "money_goals_title" = "Pengamål";
 "hours_goals_title" = "Timmål";
@@ -74,7 +75,7 @@
 "jobs_title" = "JOBB";
 "currency_title" = "VALUTA";
 "currency_description" = "Ändring av valuta kommer inte att konvertera intjänade belopp";
-"daily_notification_title" = "DAGLIGA MEDDELANDEN";
+"notification_title" = "NOTISER";
 "notifications_enabled_title" = "Meddelanden aktiverade";
 "daily_notification_time_title" = "Daglig meddelandetid";
 "try_for_free_button_title" = "Prova gratis i 7 dagar";
@@ -151,3 +152,18 @@
 "daily_notification_body" = "Börja spåra din arbetstid eller lägg till intäkter och se dina framsteg";
 "weekly_notification_title" = "🎉 Ny vecka, nya mål!";
 "weekly_notification_body" = "Kolla dina veckointäkter och se vad du har uppnått.";
+
+"earned_now_title" = "Tjänat:";
+"earned_more_title" = "Tjänat mer:";
+"setup_goal_title" = "Ställ in dina mål";
+"setup_goal_description" = "Du kan alltid ställa in dina mål senare i Din Profil";
+"setup_goal_home_description" = "Ställ in ditt mål i Din Profil";
+"icloud_name_title" = "ICLOUD";
+"icloud_sync_description" = "Starta om appen för att tillämpa iCloud-synkroniseringsinställningarna";
+"free_plan_description" = "7-dagars provperiod";
+"subscription_plan_cancel_anytime" = "Avbryt när som helst";
+"overtime_title" = "Övertid";
+
+"try_for_free_title" = "Prova gratis";
+"overtime_description" = "Pengar som tjänats in under övertid kommer att omräknas efter att posten sparats";
+"overtime_update_description" = "Pengar som tjänats in under övertid kommer att omräknas om övertidsprocentsatsen har ändrats";

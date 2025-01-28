@@ -27,8 +27,8 @@ struct SubscriptionPlanView: View {
             return "continue_title".localized
         }
         
-        if !viewModel.isSelectedPackageMonthly {
-            return "Try for Free"
+        if package.storeProduct.introductoryDiscount != nil {
+            return "try_for_free_title".localized
         }
         
         return "continue_title".localized + " - " + package.localizedPriceString

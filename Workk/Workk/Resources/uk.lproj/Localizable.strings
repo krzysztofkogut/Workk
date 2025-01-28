@@ -19,7 +19,8 @@
 "unpaid_title" = "Неоплачено";
 "plan_done_title" = "План виконано:";
 "left_to_earned_title" = "Залишилося заробити:";
-"hours_worked_title" = "Відпрацьовано годин:";
+"hours_worked_title" = "Відпрацьовано годин";
+"hours_worked_colon_title" = "Відпрацьовано годин:";
 "hours_worked_stats_title" = "Відпрацьовані години";
 "today_title" = "Сьогодні";
 "buy_subscription_title" = "Придбайте підписку, щоб видалити рекламу";
@@ -74,7 +75,7 @@
 "jobs_title" = "Роботи";
 "currency_title" = "Валюта";
 "currency_description" = "Зміна валюти не конвертує заробітки";
-"daily_notification_title" = "Щоденне сповіщення";
+"notification_title" = "СПОВІЩЕННЯ";
 "notifications_enabled_title" = "Сповіщення увімкнено";
 "daily_notification_time_title" = "Час щоденного сповіщення";
 "try_for_free_button_title" = "Спробуйте безкоштовно протягом 7 днів";
@@ -151,3 +152,18 @@
 "daily_notification_body" = "Почніть відстежувати свій робочий час або додайте заробітки, щоб побачити прогрес.";
 "weekly_notification_title" = "🎉 Новий тиждень, нові цілі!";
 "weekly_notification_body" = "Перегляньте свої тижневі заробітки та аналізуйте свій прогрес.";
+
+"earned_now_title" = "Зароблено:";
+"earned_more_title" = "Зароблено більше:";
+"setup_goal_title" = "Встановіть свої цілі";
+"setup_goal_description" = "Цілі можна встановити пізніше у вашому Профілі";
+"setup_goal_home_description" = "Встановіть свою ціль у вашому Профілі";
+"icloud_name_title" = "ICLOUD";
+"icloud_sync_description" = "Перезапустіть додаток, щоб застосувати налаштування синхронізації iCloud";
+"free_plan_description" = "7-денний пробний період";
+"subscription_plan_cancel_anytime" = "Скасувати у будь-який час";
+"overtime_title" = "Надгодини";
+
+"try_for_free_title" = "Спробуйте безкоштовно";
+"overtime_description" = "Гроші, зароблені під час понаднормової роботи, будуть перераховані після збереження запису";
+"overtime_update_description" = "Гроші, зароблені під час понаднормової роботи, будуть перераховані, якщо змінився відсоток ставки за понаднормову роботу";

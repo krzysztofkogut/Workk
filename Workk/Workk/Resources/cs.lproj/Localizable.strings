@@ -19,7 +19,8 @@
 "unpaid_title" = "Nezaplaceno";
 "plan_done_title" = "Plán splněn za:";
 "left_to_earned_title" = "Zbývá vydělat:";
-"hours_worked_title" = "Odpracované hodiny:";
+"hours_worked_title" = "Odpracované hodiny";
+"hours_worked_colon_title" = "Odpracované hodiny:";
 "hours_worked_stats_title" = "Odpracované hodiny";
 "today_title" = "Dnes";
 "buy_subscription_title" = "Kupte si předplatné pro odstranění reklam";
@@ -61,7 +62,7 @@
 "weekly_stats_title" = "TÝDENNÍ STATISTIKY";
 "monthly_stats_title" = "MĚSÍČNÍ STATISTIKY";
 "yearly_stats_title" = "ROČNÍ STATISTIKY";
-"your_profile_title" = "Váš profil";
+"your_profile_title" = "Váš Profil";
 "jobs_list_title" = "Seznam prací";
 "money_goals_title" = "Cíle v penězích";
 "hours_goals_title" = "Cíle v hodinách";
@@ -74,7 +75,7 @@
 "jobs_title" = "PRÁCE";
 "currency_title" = "MĚNA";
 "currency_description" = "Změna měny nepřevede vydělané částky";
-"daily_notification_title" = "DENNÍ OZNÁMENÍ";
+"notification_title" = "OZNÁMENÍ";
 "notifications_enabled_title" = "Oznámení povolena";
 "daily_notification_time_title" = "Čas denního oznámení";
 "try_for_free_button_title" = "Vyzkoušejte zdarma na 7 dní";
@@ -151,3 +152,18 @@
 "daily_notification_body" = "Začněte sledovat svůj pracovní čas nebo přidejte výdělky a sledujte své úspěchy";
 "weekly_notification_title" = "🎉 Nový týden, nový cíl!";
 "weekly_notification_body" = "Podívejte se na své týdenní výdělky a zjistěte, čeho jste dosáhli.";
+
+"earned_now_title" = "Vyděláno:";
+"earned_more_title" = "Vyděláno více:";
+"setup_goal_title" = "Nastavte si své cíle";
+"setup_goal_description" = "Cíle můžete nastavit později ve Svém Profilu";
+"setup_goal_home_description" = "Nastavte si svůj cíl ve Svém Profilu";
+"icloud_name_title" = "ICLOUD";
+"icloud_sync_description" = "Restartujte aplikaci, aby se použila nastavení synchronizace iCloud";
+"free_plan_description" = "7denní zkušební doba";
+"subscription_plan_cancel_anytime" = "Zrušit kdykoli";
+"overtime_title" = "Přesčasy";
+
+"try_for_free_title" = "Vyzkoušejte zdarma";
+"overtime_description" = "Peníze vydělané během přesčasů budou přepočítány po uložení záznamu";
+"overtime_update_description" = "Peníze vydělané během přesčasů budou přepočítány, pokud se změnil procentuální podíl sazby za přesčasy";

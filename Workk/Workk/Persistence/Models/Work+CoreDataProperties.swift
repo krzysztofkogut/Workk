@@ -25,6 +25,8 @@ public extension Work {
     @NSManaged var hoursWorked: Float
     @NSManaged var periodType: String
     @NSManaged var isPaid: Bool
+    @NSManaged var isOvertime: Bool
+    @NSManaged var overtimePercentage: Float
     @NSManaged var job: Job?
 }
 

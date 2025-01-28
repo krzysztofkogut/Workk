@@ -21,13 +21,14 @@ class InterstitialAdManager: NSObject, GADFullScreenContentDelegate, ObservableO
     }
 
     func showAd(from rootViewController: UIViewController) {
-        DispatchQueue.main.async { [weak self] in
-            if let ad = self?.interstitialAd {
-                ad.present(fromRootViewController: rootViewController)
-            } else {
-                print("Ad wasn't ready")
-            }
-        }
+        //TODO: Uncomment when Gogle will approve Ads
+//        DispatchQueue.main.async { [weak self] in
+//            if let ad = self?.interstitialAd {
+//                ad.present(fromRootViewController: rootViewController)
+//            } else {
+//                print("Ad wasn't ready")
+//            }
+//        }
     }
 
     // MARK: - GADFullScreenContentDelegate Methods

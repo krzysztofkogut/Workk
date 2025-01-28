@@ -19,7 +19,8 @@
 "unpaid_title" = "Non payé";
 "plan_done_title" = "Plan réalisé en:";
 "left_to_earned_title" = "Restant à gagner:";
-"hours_worked_title" = "Heures travaillées:";
+"hours_worked_title" = "Heures travaillées";
+"hours_worked_colon_title" = "Heures travaillées:";
 "hours_worked_stats_title" = "Heures travaillées";
 "today_title" = "Aujourd'hui";
 "buy_subscription_title" = "Achetez un abonnement pour supprimer les publicités";
@@ -61,7 +62,7 @@
 "weekly_stats_title" = "STATISTIQUES HEBDOMADAIRES";
 "monthly_stats_title" = "STATISTIQUES MENSUELLES";
 "yearly_stats_title" = "STATISTIQUES ANNUELLES";
-"your_profile_title" = "Votre profil";
+"your_profile_title" = "Votre Profil";
 "jobs_list_title" = "Liste des travaux";
 "money_goals_title" = "Objectifs financiers";
 "hours_goals_title" = "Objectifs horaires";
@@ -74,7 +75,7 @@
 "jobs_title" = "TRAVAUX";
 "currency_title" = "DEVISE";
 "currency_description" = "Changer de devise ne convertira pas l'argent gagné";
-"daily_notification_title" = "NOTIFICATION QUOTIDIENNE";
+"notification_title" = "NOTIFICATIONS";
 "notifications_enabled_title" = "Notifications activées";
 "daily_notification_time_title" = "Heure de la notification quotidienne";
 "try_for_free_button_title" = "Essayez 7 jours gratuitement";
@@ -151,3 +152,18 @@
 "daily_notification_body" = "Commencez à suivre votre temps de travail ou ajoutez l'argent gagné maintenant pour rester au top de vos gains";
 "weekly_notification_title" = "🎉 Une autre semaine, une autre réussite !";
 "weekly_notification_body" = "Vérifiez vos gains hebdomadaires et voyez les fruits de votre travail.";
+
+"earned_now_title" = "Gagné:";
+"earned_more_title" = "Gagné plus de:";
+"setup_goal_title" = "Définissez vos objectifs";
+"setup_goal_description" = "Vous pouvez toujours définir vos objectifs plus tard dans Votre Profil";
+"setup_goal_home_description" = "Définissez votre objectif dans Votre Profil";
+"icloud_name_title" = "ICLOUD";
+"icloud_sync_description" = "Redémarrez l'application pour appliquer les paramètres de synchronisation iCloud";
+"free_plan_description" = "Période d'essai de 7 jours";
+"subscription_plan_cancel_anytime" = "Annulez à tout moment";
+"overtime_title" = "Heures supplémentaires";
+
+"try_for_free_title" = "Essayez gratuitement";
+"overtime_description" = "L'argent gagné pendant les heures supplémentaires sera recalculé après l'enregistrement de l'entrée";
+"overtime_update_description" = "L'argent gagné pendant les heures supplémentaires sera recalculé si le pourcentage du taux des heures supplémentaires a changé";

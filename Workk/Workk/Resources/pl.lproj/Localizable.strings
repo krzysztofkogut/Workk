@@ -19,7 +19,8 @@
 "unpaid_title" = "Niezapłacone";
 "plan_done_title" = "Plan wykonany w:";
 "left_to_earned_title" = "Pozostało do zarobienia:";
-"hours_worked_title" = "Przepracowane godziny:";
+"hours_worked_title" = "Przepracowane godziny";
+"hours_worked_colon_title" = "Przepracowane godziny:";
 "hours_worked_stats_title" = "Przepracowane godziny";
 "today_title" = "Dzisiaj";
 "buy_subscription_title" = "Kup subskrybcję aby usunąć reklamy";
@@ -61,7 +62,7 @@
 "weekly_stats_title" = "STATYSTYKI TYGODNIOWE";
 "monthly_stats_title" = "STATYSTYKI MIESIĘCZNE";
 "yearly_stats_title" = "STATYSTYKI ROCZNE";
-"your_profile_title" = "Twój profil";
+"your_profile_title" = "Twój Profil";
 "jobs_list_title" = "Lista prac";
 "money_goals_title" = "Cele pieniężne";
 "hours_goals_title" = "Cele godzinowe";
@@ -161,4 +162,8 @@
 "icloud_sync_description" = "Zrestartuj aplikację aby zastosować ustawienia synchronizacji iCloud";
 "free_plan_description" = "7-dniowy okres próbny";
 "subscription_plan_cancel_anytime" = "Anuluj kiedy chcesz";
+"overtime_title" = "Nadgodziny";
 
+"try_for_free_title" = "Wypróbuj za darmo";
+"overtime_description" = "Zarobione pieniądze podczas nadgodzin zostaną przeliczone po zapisaniu wpisu";
+"overtime_update_description" = "Zarobione pieniądze podczas nadgodzin zostaną przeliczone jeśli procentowa stawka za nadgodziny uległa zmianie";

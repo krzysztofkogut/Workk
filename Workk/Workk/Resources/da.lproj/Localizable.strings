@@ -19,7 +19,8 @@
 "unpaid_title" = "Ubetalt";
 "plan_done_title" = "Plan fuldført på:";
 "left_to_earned_title" = "Mangler at tjene:";
-"hours_worked_title" = "Arbejdstimer:";
+"hours_worked_title" = "Arbejdstimer";
+"hours_worked_colon_title" = "Arbejdstimer:";
 "hours_worked_stats_title" = "Arbejdstimer";
 "today_title" = "I dag";
 "buy_subscription_title" = "Køb abonnement for at fjerne reklamer";
@@ -61,7 +62,7 @@
 "weekly_stats_title" = "UGENTLIGE STATISTIKKER";
 "monthly_stats_title" = "MÅNEDLIGE STATISTIKKER";
 "yearly_stats_title" = "ÅRLIGE STATISTIKKER";
-"your_profile_title" = "Din profil";
+"your_profile_title" = "Din Profil";
 "jobs_list_title" = "Jobliste";
 "money_goals_title" = "Pengemål";
 "hours_goals_title" = "Timemål";
@@ -74,7 +75,7 @@
 "jobs_title" = "JOBS";
 "currency_title" = "VALUTA";
 "currency_description" = "Ændring af valuta vil ikke konvertere tjente beløb";
-"daily_notification_title" = "DAGLIGE MEDDELELSER";
+"notification_title" = "MEDDELELSER";
 "notifications_enabled_title" = "Notifikationer aktiveret";
 "daily_notification_time_title" = "Daglig notifikationstid";
 "try_for_free_button_title" = "Prøv gratis i 7 dage";
@@ -151,3 +152,18 @@
 "daily_notification_body" = "Start med at spore din arbejdstid eller tilføj indtjening og se dine fremskridt";
 "weekly_notification_title" = "🎉 Ny uge, nye mål!";
 "weekly_notification_body" = "Tjek dine ugentlige indtægter og se, hvad du har opnået.";
+
+"earned_now_title" = "Tjent:";
+"earned_more_title" = "Tjent mere:";
+"setup_goal_title" = "Indstil dine mål";
+"setup_goal_description" = "Du kan altid indstille dine mål senere i Din Profil";
+"setup_goal_home_description" = "Indstil dit mål i Din Profil";
+"icloud_name_title" = "ICLOUD";
+"icloud_sync_description" = "Genstart appen for at anvende iCloud-synkroniseringsindstillinger";
+"free_plan_description" = "7-dages prøveperiode";
+"subscription_plan_cancel_anytime" = "Annuller når som helst";
+"overtime_title" = "Overarbejde";
+
+"try_for_free_title" = "Prøv gratis";
+"overtime_description" = "Penge tjent under overarbejde bliver genberegnet efter at posten er gemt";
+"overtime_update_description" = "Penge tjent under overarbejde bliver genberegnet, hvis procentsatsen for overarbejdsbetalingen er ændret";

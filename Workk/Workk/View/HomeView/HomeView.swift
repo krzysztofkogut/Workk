@@ -74,6 +74,9 @@ struct HomeView: View {
     @State private var monthHoursProgressValue: CGFloat = 0
     @State private var yearHoursProgressValue: CGFloat = 0
     
+    @State private var isOvertime = false
+    @State private var overtimePercentage: String = "150"
+    
     @State private var timeReciver = Timer.publish(every: 0.5, on: .current, in: .common).autoconnect()
     @State private var countWorkTime = false
     @State private var pauseTimer = false
@@ -100,6 +103,8 @@ struct HomeView: View {
     @State private var isYearDetailsBannerAdLoaded: Bool = false
 
     @State var isProfileButtonSelected: Bool = false
+    
+    @State var showAdsIsForbidden: Bool = true // TODO: Delete this and change for userSubscriptionViewModel.subscriptionActive
 
     private let dayDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
     private let weekDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
@@ -107,6 +112,10 @@ struct HomeView: View {
     private let yearDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
     
     private let reviewThresholds: Set<Int> = [30, 100, 300]
+    
+    var overTimeMultiplier: Float {
+        isOvertime ? (overtimePercentage.floatValue() / 100) : 1.0
+    }
     
     var dayPaidMoney: Float {
         works
@@ -220,17 +229,38 @@ struct HomeView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
                 .zIndex(1000)
-                .background(.whiteTheme)
+                .background(
+                    Color.whiteTheme
+                        .contentShape(Rectangle())
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            UIApplication.shared.dismissKeyboard()
+                        }
+                )
 
                 headerActionsView
                     .padding(.vertical, 16)
                     .frame(maxWidth: .infinity)
-                    .background(.whiteTheme)
+                    .background(
+                        Color.whiteTheme
+                            .contentShape(Rectangle())
+                            .ignoresSafeArea()
+                            .onTapGesture {
+                                UIApplication.shared.dismissKeyboard()
+                            }
+                    )
                     .clipShape(RoundedShape(corners: [.bottomLeft, .bottomRight]))
 
                 detailsView
             }
-            .background(.wildSand)
+            .background(
+                Color.wildSand
+                    .contentShape(Rectangle())
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        UIApplication.shared.dismissKeyboard()
+                    }
+            )
             .onAppear {
                 if !userSubscriptionViewModel.subscriptionActive {
                     Task {
@@ -271,6 +301,9 @@ struct HomeView: View {
             .onChange(of: monthlyHoursGoal) { _ in updateProgressBarInstant() }
             .onChange(of: yearlyMoneyGoal) { _ in updateProgressBarInstant() }
             .onChange(of: yearlyHoursGoal) { _ in updateProgressBarInstant() }
+            .onChange(of: overtimePercentage) { newValue in
+                overtimePercentage = newValue.formatNumberInput()
+            }
             .onChange(of: jobs.count) { _ in
                 let isSelectedWorkNameMissing = jobs.allSatisfy { $0.name != selectedWorkName }
                     
@@ -400,11 +433,17 @@ extension HomeView {
                     ("AM".widthOfString(usingFont: .latoBold(size: 16)) + 2))
                 .opacity(countWorkTime ? 0 : 1)
             }
+            .onTapGesture {
+                UIApplication.shared.dismissKeyboard()
+            }
 
             Text(viewModel.currentDateString)
                 .font(.latoRegular(size: 16))
                 .foregroundStyle(.blackWhite)
                 .padding(.bottom, 16)
+                .onTapGesture {
+                    UIApplication.shared.dismissKeyboard()
+                }
 
             addWorkTimeButtons
             
@@ -416,24 +455,66 @@ extension HomeView {
     }
     
     var nowEarnedMoneyView: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: 2) {
             HStack(alignment: .lastTextBaseline, spacing: 6) {
                 Text("earned_now_title".localized)
                     .font(.nunitoSemiBold(size: 16))
                     .foregroundStyle(.blackWhite)
                 
                 Text(
-                    ((selectedJob?.hourlyRate ?? 0.0) * viewModel.stopwatch.elapsedTime.hoursFloat).formatFloatToString() +
+                    (overTimeMultiplier *
+                        (selectedJob?.hourlyRate ?? 0.0) *
+                        viewModel.stopwatch.elapsedTime.hoursFloat).formatFloatToString() +
                         " " + currencyIdentifier.uppercased())
                     .font(.latoBold(size: 18))
                     .foregroundStyle(.blackWhite)
                     .transition(.opacity)
                     .animation(.easeInOut(duration: 0.1), value: viewModel.stopwatch.elapsedTime)
             }
+            .onTapGesture {
+                UIApplication.shared.dismissKeyboard()
+            }
             
             Text((selectedJob?.hourlyRate ?? 0.0).formatFloatToString() + " " + currencyIdentifier.uppercased() + "/h")
                 .font(.latoRegular(size: 14))
                 .foregroundStyle(.blackWhite)
+                .onTapGesture {
+                    UIApplication.shared.dismissKeyboard()
+                }
+            
+            HStack(spacing: 4) {
+                Spacer()
+                
+                Text("overtime_title".localized)
+                    .font(.latoRegular(size: 16))
+                    .foregroundStyle(.blackWhite)
+                    .onTapGesture {
+                        UIApplication.shared.dismissKeyboard()
+                    }
+                
+                CustomToggle(isOn: $isOvertime)
+                    .padding(.trailing, 4)
+                
+                HStack(spacing: 8) {
+                    TextField("overtime_title".localized, text: $overtimePercentage)
+                        .foregroundStyle(.blackWhite)
+                        .keyboardType(.decimalPad)
+                        .font(.latoRegular(size: 16))
+                        .padding(.leading, 16)
+                        .padding(.vertical, 16)
+                    
+                    Text("%")
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoBold(size: 16))
+                        .padding(.trailing, 16)
+                }
+                .background(.wildSand, in: .rect(cornerRadius: 12))
+                .hide(if: !isOvertime)
+                
+                Spacer()
+            }
+            .padding(.top, 8)
+            .padding(.horizontal, 16)
         }
         .padding(.horizontal, 16)
     }
@@ -522,6 +603,7 @@ extension HomeView {
                 }
 
                 viewModel.stopwatch.reset()
+                isOvertime = false
                 selectedWork = nil
             } label: {
                 Text(countWorkTime ? "reset_title".localized : "save_time_title".localized)
@@ -531,7 +613,6 @@ extension HomeView {
                     .minimumScaleFactor(0.5)
                     .padding(.horizontal, 8)
                     .frame(width: countWorkTime ? 110 : 150, height: 44)
-//                    .background(.grayTheme)
                     .background(.wildSand)
                     .cornerRadius(24)
             }
@@ -592,7 +673,8 @@ extension HomeView {
                 .frame(height: 62)
                 .background(.whiteTheme)
                 .cornerRadius(12)
-                .padding(.bottom, isDayDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
+//                .padding(.bottom, isDayDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
+                .padding(.bottom, isDayDetailsBannerAdLoaded || showAdsIsForbidden ? 2 : -16)
                 
                 ZStack {
                     Button {
@@ -622,7 +704,8 @@ extension HomeView {
                     .opacity(isDayDetailsBannerAdLoaded ? 1 : 0)
                 }
                 .padding(.bottom, isDayDetailsBannerAdLoaded ? 2 : -16)
-                .hide(if: userSubscriptionViewModel.subscriptionActive)
+//                .hide(if: userSubscriptionViewModel.subscriptionActive)
+                .hide(if: showAdsIsForbidden)
                 
                 VStack(spacing: 0) {
                     HStack {
@@ -716,9 +799,9 @@ extension HomeView {
                         
                         HStack(alignment: .lastTextBaseline, spacing: 6) {
                             Text((dailyMoneyGoal.floatValue() - (dayPaidMoney + dayUnpaidMoney)) < 0 ?
-                                 "earned_more_title".localized : "left_to_earned_title".localized)
-                            .font(.latoRegular(size: 16))
-                            .foregroundColor(.gray)
+                                "earned_more_title".localized : "left_to_earned_title".localized)
+                                .font(.latoRegular(size: 16))
+                                .foregroundColor(.gray)
                             Text(abs(dailyMoneyGoal.floatValue() - (dayPaidMoney + dayUnpaidMoney)).formatFloatToString() + " " + currencyIdentifier.uppercased())
                                 .font(.nunitoSemiBold(size: 16))
                                 .foregroundColor(.blackWhite)
@@ -783,7 +866,7 @@ extension HomeView {
                         .padding(.bottom, 2)
                         
                         HStack(alignment: .lastTextBaseline, spacing: 6) {
-                            Text("hours_worked_title".localized)
+                            Text("hours_worked_colon_title".localized)
                                 .font(.latoRegular(size: 16))
                                 .foregroundColor(.gray)
                             Text(dayHours.formatFloatToString() + "h / \(dailyHoursGoal)h")
@@ -817,7 +900,8 @@ extension HomeView {
                 .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 16)
-                .hide(if: userSubscriptionViewModel.subscriptionActive)
+//                .hide(if: userSubscriptionViewModel.subscriptionActive)
+                .hide(if: showAdsIsForbidden)
             }
             .padding(.horizontal, 16)
             .safeAreaInset(edge: .bottom) {
@@ -871,7 +955,8 @@ extension HomeView {
                 .frame(height: 62)
                 .background(.whiteTheme)
                 .cornerRadius(12)
-                .padding(.bottom, isWeekDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
+//                .padding(.bottom, isWeekDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
+                .padding(.bottom, isWeekDetailsBannerAdLoaded || showAdsIsForbidden ? 2 : -16)
                 
                 ZStack {
                     Button {
@@ -900,7 +985,8 @@ extension HomeView {
                     .opacity(isWeekDetailsBannerAdLoaded ? 1 : 0)
                 }
                 .padding(.bottom, isWeekDetailsBannerAdLoaded ? 2 : -16)
-                .hide(if: userSubscriptionViewModel.subscriptionActive)
+//                .hide(if: userSubscriptionViewModel.subscriptionActive)
+                .hide(if: showAdsIsForbidden)
                 
                 VStack(spacing: 0) {
                     HStack(alignment: .top) {
@@ -993,9 +1079,9 @@ extension HomeView {
                         
                         HStack(alignment: .lastTextBaseline, spacing: 6) {
                             Text((weeklyMoneyGoal.floatValue() - (weekPaidMoney + weekUnpaidMoney)) < 0 ?
-                                 "earned_more_title".localized : "left_to_earned_title".localized)
-                            .font(.latoRegular(size: 16))
-                            .foregroundColor(.gray)
+                                "earned_more_title".localized : "left_to_earned_title".localized)
+                                .font(.latoRegular(size: 16))
+                                .foregroundColor(.gray)
                             Text(abs(weeklyMoneyGoal.floatValue() - (weekPaidMoney + weekUnpaidMoney)).formatFloatToString() + " " + currencyIdentifier.uppercased())
                                 .font(.nunitoSemiBold(size: 16))
                                 .foregroundColor(.blackWhite)
@@ -1059,7 +1145,7 @@ extension HomeView {
                         .padding(.bottom, 2)
                         
                         HStack(alignment: .lastTextBaseline, spacing: 6) {
-                            Text("hours_worked_title".localized)
+                            Text("hours_worked_colon_title".localized)
                                 .font(.latoRegular(size: 16))
                                 .foregroundColor(.gray)
                             Text(weekHours.formatFloatToString() + "h / \(weeklyHoursGoal)h")
@@ -1092,7 +1178,8 @@ extension HomeView {
                 .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 16)
-                .hide(if: userSubscriptionViewModel.subscriptionActive)
+//                .hide(if: userSubscriptionViewModel.subscriptionActive)
+                .hide(if: showAdsIsForbidden)
             }
             .padding(.horizontal, 16)
             .safeAreaInset(edge: .bottom) {
@@ -1146,7 +1233,8 @@ extension HomeView {
                 .frame(height: 62)
                 .background(.whiteTheme)
                 .cornerRadius(12)
-                .padding(.bottom, isMonthDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
+//                .padding(.bottom, isMonthDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
+                .padding(.bottom, isMonthDetailsBannerAdLoaded || showAdsIsForbidden ? 2 : -16)
                 
                 ZStack {
                     Button {
@@ -1175,7 +1263,8 @@ extension HomeView {
                     .opacity(isMonthDetailsBannerAdLoaded ? 1 : 0)
                 }
                 .padding(.bottom, isMonthDetailsBannerAdLoaded ? 2 : -16)
-                .hide(if: userSubscriptionViewModel.subscriptionActive)
+//                .hide(if: userSubscriptionViewModel.subscriptionActive)
+                .hide(if: showAdsIsForbidden)
                 
                 VStack(spacing: 0) {
                     HStack {
@@ -1268,9 +1357,9 @@ extension HomeView {
                         
                         HStack(alignment: .lastTextBaseline, spacing: 6) {
                             Text((monthlyMoneyGoal.floatValue() - (monthPaidMoney + monthUnpaidMoney)) < 0 ?
-                                 "earned_more_title".localized : "left_to_earned_title".localized)
-                            .font(.latoRegular(size: 16))
-                            .foregroundColor(.gray)
+                                "earned_more_title".localized : "left_to_earned_title".localized)
+                                .font(.latoRegular(size: 16))
+                                .foregroundColor(.gray)
                             Text(abs(monthlyMoneyGoal.floatValue() - (monthPaidMoney + monthUnpaidMoney)).formatFloatToString() + " " + currencyIdentifier.uppercased())
                                 .font(.nunitoSemiBold(size: 16))
                                 .foregroundColor(.blackWhite)
@@ -1334,7 +1423,7 @@ extension HomeView {
                         .padding(.bottom, 2)
                         
                         HStack(alignment: .lastTextBaseline, spacing: 6) {
-                            Text("hours_worked_title".localized)
+                            Text("hours_worked_colon_title".localized)
                                 .font(.latoRegular(size: 16))
                                 .foregroundColor(.gray)
                             Text(monthHours.formatFloatToString() + "h / \(monthlyHoursGoal)h")
@@ -1367,7 +1456,8 @@ extension HomeView {
                 .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 16)
-                .hide(if: userSubscriptionViewModel.subscriptionActive)
+//                .hide(if: userSubscriptionViewModel.subscriptionActive)
+                .hide(if: showAdsIsForbidden)
             }
             .padding(.horizontal, 16)
             .safeAreaInset(edge: .bottom) {
@@ -1421,7 +1511,8 @@ extension HomeView {
                 .frame(height: 62)
                 .background(.whiteTheme)
                 .cornerRadius(12)
-                .padding(.bottom, isYearDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
+//                .padding(.bottom, isYearDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
+                .padding(.bottom, isYearDetailsBannerAdLoaded || showAdsIsForbidden ? 2 : -16)
                 
                 ZStack {
                     Button {
@@ -1450,7 +1541,8 @@ extension HomeView {
                     .opacity(isYearDetailsBannerAdLoaded ? 1 : 0)
                 }
                 .padding(.bottom, isYearDetailsBannerAdLoaded ? 2 : -16)
-                .hide(if: userSubscriptionViewModel.subscriptionActive)
+//                .hide(if: userSubscriptionViewModel.subscriptionActive)
+                .hide(if: showAdsIsForbidden)
                 
                 VStack(spacing: 0) {
                     HStack {
@@ -1602,7 +1694,7 @@ extension HomeView {
                         .padding(.bottom, 2)
                         
                         HStack(alignment: .lastTextBaseline, spacing: 6) {
-                            Text("hours_worked_title".localized)
+                            Text("hours_worked_colon_title".localized)
                                 .font(.latoRegular(size: 16))
                                 .foregroundColor(.gray)
                             Text(yearHours.formatFloatToString() + "h / \(yearlyHoursGoal)h")
@@ -1635,7 +1727,8 @@ extension HomeView {
                 .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 16)
-                .hide(if: userSubscriptionViewModel.subscriptionActive)
+//                .hide(if: userSubscriptionViewModel.subscriptionActive)
+                .hide(if: showAdsIsForbidden)
             }
             .padding(.horizontal, 16)
             .safeAreaInset(edge: .bottom) {
@@ -1704,12 +1797,15 @@ extension HomeView {
         newItem.startDate = .now.addingTimeInterval(-viewModel.stopwatch.elapsedTime)
         newItem.endDate = .now
         newItem.isPaid = false
+        newItem.isOvertime = isOvertime
         newItem.hoursWorked = newItem.startDate.timeDifferenceInHours(to: newItem.endDate)
         
         if let selectedJob = jobs.first(where: { $0.name == selectedWorkName }) {
             newItem.job = selectedJob
-            newItem.hourlyRate = selectedJob.hourlyRate
-            newItem.moneyEarned = selectedJob.hourlyRate * newItem.startDate.timeDifferenceInHours(to: newItem.endDate)
+            newItem.hourlyRate = selectedJob.hourlyRate * overTimeMultiplier
+            newItem.moneyEarned = selectedJob.hourlyRate *
+                newItem.startDate.timeDifferenceInHours(to: newItem.endDate) *
+                overTimeMultiplier
             
             saveContext()
             selectedWork = newItem
@@ -1746,8 +1842,7 @@ extension HomeView {
         activity = try? Activity<WorkTimeStatusAttributes>.request(
             attributes: attributes,
             content: content,
-            pushType: nil
-        )
+            pushType: nil)
     }
 
     private func stopLiveActivityTimer() {

@@ -19,7 +19,8 @@
 "unpaid_title" = "Maksamaton";
 "plan_done_title" = "Suunnitelma valmis:";
 "left_to_earned_title" = "Jäljellä ansaittavaksi:";
-"hours_worked_title" = "Tehdyt tunnit:";
+"hours_worked_title" = "Tehdyt tunnit";
+"hours_worked_colon_title" = "Tehdyt tunnit:";
 "hours_worked_stats_title" = "Tehdyt tunnit";
 "today_title" = "Tänään";
 "buy_subscription_title" = "Osta tilaus poistaaksesi mainokset";
@@ -74,7 +75,7 @@
 "jobs_title" = "Työt";
 "currency_title" = "Valuutta";
 "currency_description" = "Valuutan vaihto ei muuta ansaittuja summia";
-"daily_notification_title" = "Päivittäinen ilmoitus";
+"notification_title" = "ILMOITUKSET";
 "notifications_enabled_title" = "Ilmoitukset käytössä";
 "daily_notification_time_title" = "Päivittäisen ilmoituksen aika";
 "try_for_free_button_title" = "Kokeile ilmaiseksi 7 päivää";
@@ -151,3 +152,18 @@
 "daily_notification_body" = "Aloita työajan tai tulojen seuranta nähdäksesi edistymisesi.";
 "weekly_notification_title" = "🎉 Uusi viikko, uudet tavoitteet!";
 "weekly_notification_body" = "Katso viikkotulosi ja analysoi edistymistäsi.";
+
+"earned_now_title" = "Ansaittu:";
+"earned_more_title" = "Ansaittu enemmän:";
+"setup_goal_title" = "Aseta tavoitteesi";
+"setup_goal_description" = "Voit aina asettaa tavoitteesi myöhemmin Profiilissasi";
+"setup_goal_home_description" = "Aseta tavoitteesi Profiilissasi";
+"icloud_name_title" = "ICLOUD";
+"icloud_sync_description" = "Käynnistä sovellus uudelleen ottaaksesi iCloud-synkronoinnin asetukset käyttöön";
+"free_plan_description" = "7 päivän kokeilujakso";
+"subscription_plan_cancel_anytime" = "Peruuta milloin tahansa";
+"overtime_title" = "Ylityöt";
+
+"try_for_free_title" = "Kokeile ilmaiseksi";
+"overtime_description" = "Ylityön aikana ansaitut rahat lasketaan uudelleen, kun merkintä tallennetaan";
+"overtime_update_description" = "Ylityön aikana ansaitut rahat lasketaan uudelleen, jos ylityökorvauksen prosenttiosuus on muuttunut";

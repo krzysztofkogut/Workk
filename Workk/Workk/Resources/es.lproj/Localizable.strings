@@ -19,7 +19,8 @@
 "unpaid_title" = "No pagado";
 "plan_done_title" = "Plan realizado en:";
 "left_to_earned_title" = "Restante por ganar:";
-"hours_worked_title" = "Horas trabajadas:";
+"hours_worked_title" = "Horas trabajadas";
+"hours_worked_colon_title" = "Horas trabajadas:";
 "hours_worked_stats_title" = "Horas trabajadas";
 "today_title" = "Hoy";
 "buy_subscription_title" = "Compra una suscripción para eliminar anuncios";
@@ -61,7 +62,7 @@
 "weekly_stats_title" = "ESTADÍSTICAS SEMANALES";
 "monthly_stats_title" = "ESTADÍSTICAS MENSUALES";
 "yearly_stats_title" = "ESTADÍSTICAS ANUALES";
-"your_profile_title" = "Tu perfil";
+"your_profile_title" = "Tu Perfil";
 "jobs_list_title" = "Lista de trabajos";
 "money_goals_title" = "Metas de dinero";
 "hours_goals_title" = "Metas de horas";
@@ -74,7 +75,7 @@
 "jobs_title" = "TRABAJOS";
 "currency_title" = "MONEDA";
 "currency_description" = "Cambiar la moneda no convertirá el dinero ganado";
-"daily_notification_title" = "NOTIFICACIÓN DIARIA";
+"notification_title" = "NOTIFICACIONES";
 "notifications_enabled_title" = "Notificaciones habilitadas";
 "daily_notification_time_title" = "Hora de la notificación diaria";
 "try_for_free_button_title" = "Prueba 7 días gratis";
@@ -151,3 +152,18 @@
 "daily_notification_body" = "Comienza a registrar tu tiempo de trabajo o añade el dinero ganado para mantener el control de tus ganancias.";
 "weekly_notification_title" = "🎉 ¡Otra semana, otro logro!";
 "weekly_notification_body" = "Consulta tus ganancias semanales y observa cómo se suman tus esfuerzos.";
+
+"earned_now_title" = "Ganado:";
+"earned_more_title" = "Ganado más:";
+"setup_goal_title" = "Establece tus objetivos";
+"setup_goal_description" = "Siempre puedes configurar los objetivos más tarde en Tu Perfil";
+"setup_goal_home_description" = "Establece tu objetivo en Tu Perfil";
+"icloud_name_title" = "ICLOUD";
+"icloud_sync_description" = "Reinicia la aplicación para aplicar los ajustes de sincronización de iCloud";
+"free_plan_description" = "Periodo de prueba de 7 días";
+"subscription_plan_cancel_anytime" = "Cancela cuando quieras";
+"overtime_title" = "Horas extra";
+
+"try_for_free_title" = "Prueba gratis";
+"overtime_description" = "El dinero ganado durante las horas extra se recalculará después de guardar la entrada";
+"overtime_update_description" = "El dinero ganado durante las horas extra se recalculará si ha cambiado el porcentaje de la tarifa por horas extra";

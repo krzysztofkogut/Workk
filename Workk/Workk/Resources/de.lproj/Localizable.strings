@@ -19,7 +19,8 @@
 "unpaid_title" = "Unbezahlt";
 "plan_done_title" = "Plan erfüllt in:";
 "left_to_earned_title" = "Verbleibender Betrag:";
-"hours_worked_title" = "Gearbeitete Stunden:";
+"hours_worked_title" = "Gearbeitete Stunden";
+"hours_worked_colon_title" = "Gearbeitete Stunden:";
 "hours_worked_stats_title" = "Gearbeitete Stunden";
 "today_title" = "Heute";
 "buy_subscription_title" = "Abonnement kaufen, um Werbung zu entfernen";
@@ -74,7 +75,7 @@
 "jobs_title" = "JOBS";
 "currency_title" = "WÄHRUNG";
 "currency_description" = "Das Wechseln der Währung konvertiert das verdiente Geld nicht";
-"daily_notification_title" = "TÄGLICHE BENACHRICHTIGUNG";
+"notification_title" = "BENACHRICHTIGUNGEN";
 "notifications_enabled_title" = "Benachrichtigungen aktiviert";
 "daily_notification_time_title" = "Zeit der täglichen Benachrichtigung";
 "try_for_free_button_title" = "7 Tage kostenlos testen";
@@ -151,3 +152,18 @@
 "daily_notification_body" = "Beginnen Sie jetzt, Ihre Arbeitszeit zu verfolgen oder fügen Sie verdientes Geld hinzu, um den Überblick über Ihre Einnahmen zu behalten";
 "weekly_notification_title" = "🎉 Eine weitere Woche, ein weiterer Erfolg!";
 "weekly_notification_body" = "Überprüfen Sie Ihre wöchentlichen Einnahmen und sehen Sie, was Sie erreicht haben.";
+
+"earned_now_title" = "Verdient:";
+"earned_more_title" = "Mehr verdient:";
+"setup_goal_title" = "Setze deine Ziele";
+"setup_goal_description" = "Du kannst deine Ziele später in Deinem Profil festlegen";
+"setup_goal_home_description" = "Setze dein Ziel in Deinem Profil";
+"icloud_name_title" = "ICLOUD";
+"icloud_sync_description" = "Starten Sie die App neu, um die iCloud-Synchronisierungseinstellungen anzuwenden";
+"free_plan_description" = "7-tägige Testphase";
+"subscription_plan_cancel_anytime" = "Jederzeit kündigen";
+"overtime_title" = "Überstunden";
+
+"try_for_free_title" = "Kostenlos ausprobieren";
+"overtime_description" = "Das während der Überstunden verdiente Geld wird nach dem Speichern des Eintrags neu berechnet";
+"overtime_update_description" = "Das während der Überstunden verdiente Geld wird neu berechnet, wenn sich der Prozentsatz des Überstundensatzes geändert hat";

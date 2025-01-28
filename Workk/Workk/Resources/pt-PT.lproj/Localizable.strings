@@ -19,7 +19,8 @@
 "unpaid_title" = "Não Pago";
 "plan_done_title" = "Plano Concluído:";
 "left_to_earned_title" = "Falta Ganhar:";
-"hours_worked_title" = "Horas Trabalhadas:";
+"hours_worked_title" = "Horas Trabalhadas";
+"hours_worked_colon_title" = "Horas Trabalhadas:";
 "hours_worked_stats_title" = "Horas Trabalhadas";
 "today_title" = "Hoje";
 "buy_subscription_title" = "Compre uma subscrição para remover os anúncios";
@@ -74,7 +75,7 @@
 "jobs_title" = "Trabalhos";
 "currency_title" = "Moeda";
 "currency_description" = "Alterar a moeda não converterá os ganhos";
-"daily_notification_title" = "Notificação Diária";
+"notification_title" = "NOTIFICAÇÕES";
 "notifications_enabled_title" = "Notificações Ativadas";
 "daily_notification_time_title" = "Hora da Notificação Diária";
 "try_for_free_button_title" = "Experimente Grátis por 7 Dias";
@@ -151,3 +152,18 @@
 "daily_notification_body" = "Comece a registar o seu tempo trabalhado ou adicione ganhos para ver o progresso.";
 "weekly_notification_title" = "🎉 Nova semana, novos objetivos!";
 "weekly_notification_body" = "Veja os seus ganhos semanais e analise os seus progressos.";
+
+"earned_now_title" = "Ganho:";
+"earned_more_title" = "Ganhou mais:";
+"setup_goal_title" = "Defina os seus objetivos";
+"setup_goal_description" = "Pode definir os seus objetivos mais tarde no Seu Perfil";
+"setup_goal_home_description" = "Defina o seu objetivo no Seu Perfil";
+"icloud_name_title" = "ICLOUD";
+"icloud_sync_description" = "Reinicie a aplicação para aplicar as definições de sincronização com o iCloud";
+"free_plan_description" = "Período experimental de 7 dias";
+"subscription_plan_cancel_anytime" = "Cancele a qualquer momento";
+"overtime_title" = "Horas extras";
+
+"try_for_free_title" = "Experimente grátis";
+"overtime_description" = "O dinheiro ganho durante as horas extra será recalculado após guardar a entrada";
+"overtime_update_description" = "O dinheiro ganho durante as horas extra será recalculado se a percentagem da taxa de horas extra tiver sido alterada";

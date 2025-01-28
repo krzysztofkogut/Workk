@@ -54,6 +54,8 @@ struct AddWorkTimeView: View {
     @State private var isHourlyRateDay = false
     @State private var hourlyRateDay: String = ""
     @State private var moneyEarnedDay: String = ""
+    @State private var isOvertimeDay = false
+    @State private var overtimePercentageDay: String = "150"
     @State private var projectDay: String = ""
     @State private var taskDay: String = ""
     @State private var noteDay: String = ""
@@ -63,6 +65,8 @@ struct AddWorkTimeView: View {
     @State private var isPaidWeek = false
     @State private var moneyEarnedWeek: String = ""
     @State private var hoursWorkedWeek: String = ""
+    @State private var isOvertimeWeek = false
+    @State private var overtimePercentageWeek: String = "150"
     @State private var projectWeek: String = ""
     @State private var taskWeek: String = ""
     @State private var noteWeek: String = ""
@@ -72,6 +76,8 @@ struct AddWorkTimeView: View {
     @State private var isPaidMonth = false
     @State private var moneyEarnedMonth: String = ""
     @State private var hoursWorkedMonth: String = ""
+    @State private var isOvertimeMonth = false
+    @State private var overtimePercentageMonth: String = "150"
     @State private var projectMonth: String = ""
     @State private var taskMonth: String = ""
     @State private var noteMonth: String = ""
@@ -81,10 +87,30 @@ struct AddWorkTimeView: View {
     @State private var isPaidYear = false
     @State private var moneyEarnedYear: String = ""
     @State private var hoursWorkedYear: String = ""
+    @State private var isOvertimeYear = false
+    @State private var overtimePercentageYear: String = "150"
     @State private var projectYear: String = ""
     @State private var taskYear: String = ""
     @State private var noteYear: String = ""
     @State private var isYearSaveButtonEnabled = false
+    
+    @State private var overtimeDescription = "overtime_description".localized
+    
+    var overTimeMultiplierDay: Float {
+        isOvertimeDay ? (overtimePercentageDay.floatValue() / 100) : 1.0
+    }
+    
+    var overTimeMultiplierWeek: Float {
+        isOvertimeWeek ? (overtimePercentageWeek.floatValue() / 100) : 1.0
+    }
+    
+    var overTimeMultiplierMonth: Float {
+        isOvertimeMonth ? (overtimePercentageMonth.floatValue() / 100) : 1.0
+    }
+    
+    var overTimeMultiplierYear: Float {
+        isOvertimeYear ? (overtimePercentageYear.floatValue() / 100) : 1.0
+    }
     
     var selectedDay: Date {
         switch addWorkTimePlace {
@@ -189,8 +215,8 @@ struct AddWorkTimeView: View {
                 }
         )
         .onAppear {
-            self.dayStartDate = .now.updatingMonthAndDay(from: selectedDay) ?? .now
-            self.dayEndDate = .now.updatingMonthAndDay(from: selectedDay) ?? .now
+            self.dayStartDate = .now.updatingYearMonthAndDay(from: selectedDay) ?? .now
+            self.dayEndDate = .now.updatingYearMonthAndDay(from: selectedDay) ?? .now
             setupView()
                         
             if !works.isEmpty, works.count.isMultiple(of: 3), !userSubscriptionViewModel.subscriptionActive {
@@ -245,6 +271,22 @@ struct AddWorkTimeView: View {
             hoursWorkedYear = newValue.formatNumberInput()
             updateSaveButtonState()
         }
+        .onChange(of: overtimePercentageDay) { newValue in
+            overtimePercentageDay = newValue.formatNumberInput()
+            updateSaveButtonState()
+        }
+        .onChange(of: overtimePercentageWeek) { newValue in
+            overtimePercentageWeek = newValue.formatNumberInput()
+            updateSaveButtonState()
+        }
+        .onChange(of: overtimePercentageMonth) { newValue in
+            overtimePercentageMonth = newValue.formatNumberInput()
+            updateSaveButtonState()
+        }
+        .onChange(of: overtimePercentageYear) { newValue in
+            overtimePercentageYear = newValue.formatNumberInput()
+            updateSaveButtonState()
+        }
         .onChange(of: selectedWorkName) { _ in
             if hourlyRateDay.isEmpty && isHourlyRateDay {
                 hourlyRateDay = jobs.first(where: { $0.name == selectedWorkName })?.hourlyRate.formatFloatToString() ?? ""
@@ -268,6 +310,7 @@ struct AddWorkTimeView: View {
         .onChange(of: noteDay) { _ in updateSaveButtonState() }
         .onChange(of: weekDate) { _ in updateSaveButtonState() }
         .onChange(of: hoursWorkedWeek) { _ in updateSaveButtonState() }
+        .onChange(of: isOvertimeDay) { _ in updateSaveButtonState() }
         .onChange(of: isPaidWeek) { _ in updateSaveButtonState() }
         .onChange(of: projectWeek) { _ in updateSaveButtonState() }
         .onChange(of: taskWeek) { _ in updateSaveButtonState() }
@@ -382,6 +425,45 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                
+                HStack(spacing: 0) {
+                    Text("overtime_title".localized)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    CustomToggle(isOn: $isOvertimeDay)
+                }
+                .padding(.horizontal, 16)
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                
+                HStack(spacing: 0) {
+                    TextField("overtime_title".localized, text: $overtimePercentageDay)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .keyboardType(.decimalPad)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    Text("%")
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoBold(size: 16))
+                        .padding(.trailing, 16)
+                }
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .hide(if: !isOvertimeDay)
+                
+                Text(overtimeDescription)
+                    .font(.nunitoSemiBold(size: 12))
+                    .foregroundStyle(.gray)
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, 2)
+                    .padding(.horizontal, 16)
+                    .hide(if: !isOvertimeDay)
                                 
                 HStack(spacing: 0) {
                     TextField("project_title".localized, text: $projectDay)
@@ -520,6 +602,45 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
+                    Text("overtime_title".localized)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    CustomToggle(isOn: $isOvertimeWeek)
+                }
+                .padding(.horizontal, 16)
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                
+                HStack(spacing: 0) {
+                    TextField("overtime_title".localized, text: $overtimePercentageWeek)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .keyboardType(.decimalPad)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    Text("%")
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoBold(size: 16))
+                        .padding(.trailing, 16)
+                }
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .hide(if: !isOvertimeWeek)
+                
+                Text(overtimeDescription)
+                    .font(.nunitoSemiBold(size: 12))
+                    .foregroundStyle(.gray)
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, 2)
+                    .padding(.horizontal, 16)
+                    .hide(if: !isOvertimeWeek)
+                
+                HStack(spacing: 0) {
                     TextField("project_title".localized, text: $projectWeek)
                         .font(.latoRegular(size: 16))
                         .foregroundStyle(.blackWhite)
@@ -654,6 +775,45 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                
+                HStack(spacing: 0) {
+                    Text("overtime_title".localized)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    CustomToggle(isOn: $isOvertimeMonth)
+                }
+                .padding(.horizontal, 16)
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                
+                HStack(spacing: 0) {
+                    TextField("overtime_title".localized, text: $overtimePercentageMonth)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .keyboardType(.decimalPad)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    Text("%")
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoBold(size: 16))
+                        .padding(.trailing, 16)
+                }
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .hide(if: !isOvertimeMonth)
+                
+                Text(overtimeDescription)
+                    .font(.nunitoSemiBold(size: 12))
+                    .foregroundStyle(.gray)
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, 2)
+                    .padding(.horizontal, 16)
+                    .hide(if: !isOvertimeMonth)
                                 
                 HStack(spacing: 0) {
                     TextField("project_title".localized, text: $projectMonth)
@@ -791,6 +951,45 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 
                 HStack(spacing: 0) {
+                    Text("overtime_title".localized)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    CustomToggle(isOn: $isOvertimeYear)
+                }
+                .padding(.horizontal, 16)
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                
+                HStack(spacing: 0) {
+                    TextField("overtime_title".localized, text: $overtimePercentageYear)
+                        .font(.latoRegular(size: 16))
+                        .foregroundStyle(.blackWhite)
+                        .keyboardType(.decimalPad)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 18)
+                    
+                    Spacer()
+                    
+                    Text("%")
+                        .foregroundStyle(.blackWhite)
+                        .font(.latoBold(size: 16))
+                        .padding(.trailing, 16)
+                }
+                .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .hide(if: !isOvertimeYear)
+                
+                Text(overtimeDescription)
+                    .font(.nunitoSemiBold(size: 12))
+                    .foregroundStyle(.gray)
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, 2)
+                    .padding(.horizontal, 16)
+                    .hide(if: !isOvertimeYear)
+                
+                HStack(spacing: 0) {
                     TextField("project_title".localized, text: $projectYear)
                         .font(.latoRegular(size: 16))
                         .foregroundStyle(.blackWhite)
@@ -898,16 +1097,18 @@ extension AddWorkTimeView {
             newItem.startDate = dayStartDate
             newItem.endDate = dayEndDate
             newItem.isPaid = isPaidDay
+            newItem.isOvertime = isOvertimeDay
+            newItem.overtimePercentage = overtimePercentageDay.floatValue()
             newItem.project = projectDay
             newItem.task = taskDay
             newItem.note = noteDay
             newItem.hoursWorked = dayStartDate.timeDifferenceInHours(to: dayEndDate)
             if isHourlyRateDay, let rate = formatter.number(from: hourlyRateDay) {
-                newItem.hourlyRate = rate.floatValue
-                newItem.moneyEarned = rate.floatValue * dayStartDate.timeDifferenceInHours(to: dayEndDate)
+                newItem.hourlyRate = rate.floatValue * overTimeMultiplierDay
+                newItem.moneyEarned = rate.floatValue * dayStartDate.timeDifferenceInHours(to: dayEndDate) * overTimeMultiplierDay
             } else if !isHourlyRateDay, let moneyEarned = formatter.number(from: moneyEarnedDay) {
-                newItem.hourlyRate = moneyEarned.floatValue / dayStartDate.timeDifferenceInHours(to: dayEndDate)
-                newItem.moneyEarned = moneyEarned.floatValue
+                newItem.hourlyRate = moneyEarned.floatValue / dayStartDate.timeDifferenceInHours(to: dayEndDate) * overTimeMultiplierDay
+                newItem.moneyEarned = moneyEarned.floatValue * overTimeMultiplierDay
             } else {
                 newItem.hourlyRate = 0.0
                 newItem.moneyEarned = 0.0
@@ -916,6 +1117,8 @@ extension AddWorkTimeView {
             newItem.startDate = selectedWeek.startOfWeek()
             newItem.endDate = selectedWeek.endOfWeek()
             newItem.isPaid = isPaidWeek
+            newItem.isOvertime = isOvertimeWeek
+            newItem.overtimePercentage = overtimePercentageWeek.floatValue()
             newItem.project = projectWeek
             newItem.task = taskWeek
             newItem.note = noteWeek
@@ -928,7 +1131,7 @@ extension AddWorkTimeView {
             
             if let moneyEarned = formatter.number(from: moneyEarnedWeek) {
                 newItem.hourlyRate = 0.0
-                newItem.moneyEarned = moneyEarned.floatValue
+                newItem.moneyEarned = moneyEarned.floatValue * overTimeMultiplierWeek
             } else {
                 newItem.hourlyRate = 0.0
                 newItem.moneyEarned = 0.0
@@ -937,6 +1140,8 @@ extension AddWorkTimeView {
             newItem.startDate = selectedMonth.startOfMonth()
             newItem.endDate = selectedMonth.endOfMonth()
             newItem.isPaid = isPaidMonth
+            newItem.isOvertime = isOvertimeMonth
+            newItem.overtimePercentage = overtimePercentageMonth.floatValue()
             newItem.project = projectMonth
             newItem.task = taskMonth
             newItem.note = noteMonth
@@ -949,7 +1154,7 @@ extension AddWorkTimeView {
             
             if let moneyEarned = formatter.number(from: moneyEarnedMonth) {
                 newItem.hourlyRate = 0.0
-                newItem.moneyEarned = moneyEarned.floatValue
+                newItem.moneyEarned = moneyEarned.floatValue * overTimeMultiplierMonth
             } else {
                 newItem.hourlyRate = 0.0
                 newItem.moneyEarned = 0.0
@@ -958,6 +1163,8 @@ extension AddWorkTimeView {
             newItem.startDate = selectedYear.startOfYear()
             newItem.endDate = selectedYear.endOfYear()
             newItem.isPaid = isPaidYear
+            newItem.isOvertime = isOvertimeYear
+            newItem.overtimePercentage = overtimePercentageYear.floatValue()
             newItem.project = projectYear
             newItem.task = taskYear
             newItem.note = noteYear
@@ -970,7 +1177,7 @@ extension AddWorkTimeView {
             
             if let moneyEarned = formatter.number(from: moneyEarnedYear) {
                 newItem.hourlyRate = 0.0
-                newItem.moneyEarned = moneyEarned.floatValue
+                newItem.moneyEarned = moneyEarned.floatValue * overTimeMultiplierYear
             } else {
                 newItem.hourlyRate = 0.0
                 newItem.moneyEarned = 0.0
@@ -1000,6 +1207,8 @@ extension AddWorkTimeView {
             work.project = projectDay
             work.task = taskDay
             work.note = noteDay
+            work.hoursWorked = dayStartDate.timeDifferenceInHours(to: dayEndDate)
+            
             if isHourlyRateDay, let rate = formatter.number(from: hourlyRateDay) {
                 work.hourlyRate = rate.floatValue
                 work.moneyEarned = rate.floatValue * dayStartDate.timeDifferenceInHours(to: dayEndDate)
@@ -1010,6 +1219,19 @@ extension AddWorkTimeView {
                 work.hourlyRate = 0.0
                 work.moneyEarned = 0.0
             }
+            
+            if isOvertimeDay, work.isOvertime != isOvertimeDay {
+                work.hourlyRate = work.hourlyRate * overTimeMultiplierDay
+                work.moneyEarned = work.moneyEarned * overTimeMultiplierDay
+            } else if isOvertimeDay, work.overtimePercentage != overtimePercentageDay.floatValue() {
+                work.hourlyRate = work.hourlyRate * overTimeMultiplierDay / (work.overtimePercentage / 100)
+                work.moneyEarned = work.moneyEarned * overTimeMultiplierDay / (work.overtimePercentage / 100)
+            } else if !isOvertimeDay && work.isOvertime != isOvertimeDay {
+                work.moneyEarned = work.moneyEarned / (work.overtimePercentage / 100)
+            }
+            
+            work.isOvertime = isOvertimeDay
+            work.overtimePercentage = overtimePercentageDay.floatValue()
         case PeriodFilter.week.rawValue:
             work.startDate = selectedWeek.startOfWeek()
             work.endDate = selectedWeek.endOfWeek()
@@ -1031,6 +1253,17 @@ extension AddWorkTimeView {
                 work.hourlyRate = 0.0
                 work.moneyEarned = 0.0
             }
+            
+            if isOvertimeWeek, work.isOvertime != isOvertimeWeek {
+                work.moneyEarned = work.moneyEarned * overTimeMultiplierWeek
+            } else if work.overtimePercentage != overtimePercentageWeek.floatValue() {
+                work.moneyEarned = work.moneyEarned * overTimeMultiplierWeek / (work.overtimePercentage / 100)
+            } else if !isOvertimeWeek && work.isOvertime != isOvertimeWeek {
+                work.moneyEarned = work.moneyEarned / (work.overtimePercentage / 100)
+            }
+            
+            work.isOvertime = isOvertimeWeek
+            work.overtimePercentage = overtimePercentageWeek.floatValue()
         case PeriodFilter.month.rawValue:
             work.startDate = selectedMonth.startOfMonth()
             work.endDate = selectedMonth.endOfMonth()
@@ -1052,6 +1285,17 @@ extension AddWorkTimeView {
                 work.hourlyRate = 0.0
                 work.moneyEarned = 0.0
             }
+            
+            if isOvertimeMonth, work.isOvertime != isOvertimeMonth {
+                work.moneyEarned = work.moneyEarned * overTimeMultiplierMonth
+            } else if work.overtimePercentage != overtimePercentageMonth.floatValue() {
+                work.moneyEarned = work.moneyEarned * overTimeMultiplierMonth / (work.overtimePercentage / 100)
+            } else if !isOvertimeMonth && work.isOvertime != isOvertimeMonth {
+                work.moneyEarned = work.moneyEarned / (work.overtimePercentage / 100)
+            }
+            
+            work.isOvertime = isOvertimeMonth
+            work.overtimePercentage = overtimePercentageMonth.floatValue()
         case PeriodFilter.year.rawValue:
             work.startDate = selectedYear.startOfYear()
             work.endDate = selectedYear.endOfYear()
@@ -1073,6 +1317,17 @@ extension AddWorkTimeView {
                 work.hourlyRate = 0.0
                 work.moneyEarned = 0.0
             }
+            
+            if isOvertimeYear, work.isOvertime != isOvertimeYear {
+                work.moneyEarned = work.moneyEarned * overTimeMultiplierYear
+            } else if work.overtimePercentage != overtimePercentageYear.floatValue() {
+                work.moneyEarned = work.moneyEarned * overTimeMultiplierYear / (work.overtimePercentage / 100)
+            } else if !isOvertimeYear && work.isOvertime != isOvertimeYear {
+                work.moneyEarned = work.moneyEarned / (work.overtimePercentage / 100)
+            }
+            
+            work.isOvertime = isOvertimeYear
+            work.overtimePercentage = overtimePercentageYear.floatValue()
         default:
             break
         }
@@ -1099,12 +1354,15 @@ extension AddWorkTimeView {
         let periodType = work.periodType
         
         selectedWorkName = work.job?.name
+        overtimeDescription = "overtime_update_description".localized
         
         switch periodType {
         case PeriodFilter.day.rawValue:
             dayStartDate = work.startDate
             dayEndDate = work.endDate
             isPaidDay = work.isPaid
+            isOvertimeDay = work.isOvertime
+            overtimePercentageDay = work.overtimePercentage.formatFloatToString()
             hourlyRateDay = work.hourlyRate.formatFloatToString()
             moneyEarnedDay = work.moneyEarned.formatFloatToString()
             projectDay = work.project ?? ""
@@ -1113,6 +1371,8 @@ extension AddWorkTimeView {
         case PeriodFilter.week.rawValue:
             weekDate = work.startDate
             isPaidWeek = work.isPaid
+            isOvertimeWeek = work.isOvertime
+            overtimePercentageWeek = work.overtimePercentage.formatFloatToString()
             moneyEarnedWeek = work.moneyEarned.formatFloatToString()
             hoursWorkedWeek = work.hoursWorked.formatFloatToString()
             projectWeek = work.project ?? ""
@@ -1121,6 +1381,8 @@ extension AddWorkTimeView {
         case PeriodFilter.month.rawValue:
             monthDate = work.startDate
             isPaidMonth = work.isPaid
+            isOvertimeMonth = work.isOvertime
+            overtimePercentageMonth = work.overtimePercentage.formatFloatToString()
             moneyEarnedMonth = work.moneyEarned.formatFloatToString()
             hoursWorkedMonth = work.hoursWorked.formatFloatToString()
             projectMonth = work.project ?? ""
@@ -1129,6 +1391,8 @@ extension AddWorkTimeView {
         case PeriodFilter.year.rawValue:
             yearDate = work.startDate
             isPaidYear = work.isPaid
+            isOvertimeYear = work.isOvertime
+            overtimePercentageYear = work.overtimePercentage.formatFloatToString()
             moneyEarnedYear = work.moneyEarned.formatFloatToString()
             hoursWorkedYear = work.hoursWorked.formatFloatToString()
             projectYear = work.project ?? ""
@@ -1143,93 +1407,12 @@ extension AddWorkTimeView {
         let isProperJobSelected = jobs.contains(where: { $0.name == selectedWorkName })
         
         withAnimation(.easeInOut(duration: 0.2)) {
-            isDaySaveButtonEnabled = (!hourlyRateDay.isEmpty || !moneyEarnedDay.isEmpty)
-                && isProperJobSelected
-            isWeekSaveButtonEnabled = !moneyEarnedWeek.isEmpty && !hoursWorkedWeek.isEmpty && isProperJobSelected
-            isMonthSaveButtonEnabled = !moneyEarnedMonth.isEmpty && !hoursWorkedMonth.isEmpty && isProperJobSelected
-            isYearSaveButtonEnabled = !moneyEarnedYear.isEmpty && !hoursWorkedYear.isEmpty && isProperJobSelected
+            isDaySaveButtonEnabled = (isHourlyRateDay && !hourlyRateDay.isEmpty || !isHourlyRateDay && !moneyEarnedDay.isEmpty)
+            && isProperJobSelected && (!isOvertimeDay || !overtimePercentageDay.isEmpty)
+            isWeekSaveButtonEnabled = !moneyEarnedWeek.isEmpty && !hoursWorkedWeek.isEmpty && isProperJobSelected && (!isOvertimeWeek || !overtimePercentageWeek.isEmpty)
+            isMonthSaveButtonEnabled = !moneyEarnedMonth.isEmpty && !hoursWorkedMonth.isEmpty && isProperJobSelected && (!isOvertimeMonth || !overtimePercentageMonth.isEmpty)
+            isYearSaveButtonEnabled = !moneyEarnedYear.isEmpty && !hoursWorkedYear.isEmpty && isProperJobSelected && (!isOvertimeYear || !overtimePercentageYear.isEmpty)
         }
-        
-//        guard let work = selectedWork else {
-//            return
-//        }
-        
-//        isDaySaveButtonEnabled = false
-//        isWeekSaveButtonEnabled = false
-//        isMonthSaveButtonEnabled = false
-//        isYearSaveButtonEnabled = false
-//        
-//        let periodType = work.periodType
-//
-//        var hasChanged = false
-//        
-//        switch periodType {
-//        case PeriodFilter.day.rawValue:
-//            hasChanged = dayStartDate != work.startDate ||
-//                dayEndDate != work.endDate ||
-//                isPaidDay != work.isPaid ||
-//                hourlyRateDay != work.hourlyRate.formatFloatToString() ||
-//                moneyEarnedDay != work.moneyEarned.formatFloatToString() ||
-//                projectDay != work.project ||
-//                taskDay != work.task ||
-//                noteDay != work.note ||
-//                selectedWorkName != work.job?.name
-//            
-//            withAnimation(.easeInOut(duration: 0.2)) {
-//                isDaySaveButtonEnabled = (!hourlyRateDay.isEmpty || !moneyEarnedDay.isEmpty)
-//                    && isProperJobSelected && hasChanged
-//            }
-//        case PeriodFilter.week.rawValue:
-//            hasChanged = weekDate != work.startDate ||
-//                isPaidWeek != work.isPaid ||
-//                moneyEarnedWeek != work.moneyEarned.formatFloatToString() ||
-//                hoursWorkedWeek != work.hoursWorked.formatFloatToString() ||
-//                projectWeek != work.project ||
-//                taskWeek != work.task ||
-//                noteWeek != work.note ||
-//                selectedWorkName != work.job?.name
-//            
-//            withAnimation(.easeInOut(duration: 0.2)) {
-//                isWeekSaveButtonEnabled = !moneyEarnedWeek.isEmpty &&
-//                    !hoursWorkedWeek.isEmpty &&
-//                    isProperJobSelected &&
-//                    hasChanged
-//            }
-//        case PeriodFilter.month.rawValue:
-//            hasChanged = monthDate != work.startDate ||
-//                isPaidMonth != work.isPaid ||
-//                moneyEarnedMonth != work.moneyEarned.formatFloatToString() ||
-//                hoursWorkedMonth != work.hoursWorked.formatFloatToString() ||
-//                projectMonth != work.project ||
-//                taskMonth != work.task ||
-//                noteMonth != work.note ||
-//                selectedWorkName != work.job?.name
-//            
-//            withAnimation(.easeInOut(duration: 0.2)) {
-//                isMonthSaveButtonEnabled = !moneyEarnedMonth.isEmpty &&
-//                    !hoursWorkedWeek.isEmpty &&
-//                    isProperJobSelected &&
-//                    hasChanged
-//            }
-//        case PeriodFilter.year.rawValue:
-//            hasChanged = yearDate != work.startDate ||
-//                isPaidYear != work.isPaid ||
-//                moneyEarnedYear != work.moneyEarned.formatFloatToString() ||
-//                hoursWorkedYear != work.hoursWorked.formatFloatToString() ||
-//                projectYear != work.project ||
-//                taskYear != work.task ||
-//                noteYear != work.note ||
-//                selectedWorkName != work.job?.name
-//            
-//            withAnimation(.easeInOut(duration: 0.2)) {
-//                isYearSaveButtonEnabled = !moneyEarnedYear.isEmpty &&
-//                    !hoursWorkedYear.isEmpty &&
-//                    isProperJobSelected &&
-//                    hasChanged
-//            }
-//        default:
-//            break
-//        }
     }
 }
 

@@ -193,17 +193,19 @@ struct StatsView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
         }
+        .onAppear {
+            currentActiveMoneyItem = nil
+            currentActiveHoursItem = nil
+            viewModel.reloadSiteViews(works: viewModel.selectedPaymentStatus.isPaid ? paidWorks : unpaidWorks)
+            moneyYScale = viewModel.maxForMoney()
+            hoursYScale = viewModel.maxForHours()
+        }
         .onChange(of: jobs.count) { _ in
             let isSelectedWorkNameMissing = jobs.allSatisfy { $0.name != viewModel.selectedWorkName }
                 
             if isSelectedWorkNameMissing {
                 viewModel.selectedWorkName = "all_title".localized
             }
-        }
-        .onAppear {
-            viewModel.reloadSiteViews(works: viewModel.selectedPaymentStatus.isPaid ? paidWorks : unpaidWorks)
-            moneyYScale = viewModel.maxForMoney()
-            hoursYScale = viewModel.maxForHours()
         }
         .onChange(of: viewModel.selectedWeek) { _ in
             moneyYScale = viewModel.maxForMoney()
