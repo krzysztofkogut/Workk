@@ -167,3 +167,5 @@
 "try_for_free_title" = "Essayez gratuitement";
 "overtime_description" = "L'argent gagné pendant les heures supplémentaires sera recalculé après l'enregistrement de l'entrée";
 "overtime_update_description" = "L'argent gagné pendant les heures supplémentaires sera recalculé si le pourcentage du taux des heures supplémentaires a changé";
+
+"icloud_sync_profile_description" = "Synchronisez toutes vos entrées avec iCloud";

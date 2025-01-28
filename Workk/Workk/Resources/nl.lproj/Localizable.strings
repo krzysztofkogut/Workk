@@ -167,3 +167,5 @@
 "try_for_free_title" = "Probeer gratis";
 "overtime_description" = "Het geld verdiend tijdens overuren wordt opnieuw berekend nadat de invoer is opgeslagen";
 "overtime_update_description" = "Het geld verdiend tijdens overuren wordt opnieuw berekend als het percentage van het overuurtarief is gewijzigd";
+
+"icloud_sync_profile_description" = "Synchroniseer al je invoer met iCloud";

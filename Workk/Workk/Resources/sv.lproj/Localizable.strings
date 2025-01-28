@@ -167,3 +167,5 @@
 "try_for_free_title" = "Prova gratis";
 "overtime_description" = "Pengar som tjänats in under övertid kommer att omräknas efter att posten sparats";
 "overtime_update_description" = "Pengar som tjänats in under övertid kommer att omräknas om övertidsprocentsatsen har ändrats";
+
+"icloud_sync_profile_description" = "Synkronisera alla dina poster med iCloud";

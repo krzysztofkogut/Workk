@@ -167,3 +167,5 @@
 "try_for_free_title" = "Try for free";
 "overtime_description" = "Money earned during overtime will be recalculated after saving the entry";
 "overtime_update_description" = "Money earned during overtime will be recalculated if the overtime rate percentage has changed";
+
+"icloud_sync_profile_description" = "Sync all your entries to iCloud";

@@ -147,6 +147,10 @@ struct AddWorkTimeView: View {
             scheduleViewModel.selectedYear
         }
     }
+    
+    var saveButtonStateKey: String {
+        return "\(dayStartDate)\(dayEndDate)\(hourlyRateDay)\(moneyEarnedDay)\(moneyEarnedWeek)\(moneyEarnedMonth)\(moneyEarnedYear)\(hoursWorkedWeek)\(hoursWorkedMonth)\(hoursWorkedYear)\(overtimePercentageDay)\(overtimePercentageWeek)\(overtimePercentageMonth)\(overtimePercentageYear)\(String(describing: selectedWorkName))\(isHourlyRateDay)\(isPaidDay)\(isOvertimeDay)\(projectDay)\(taskDay)\(noteDay)\(String(describing: weekDate))\(monthDate)\(yearDate)"
+    }
             
     var body: some View {
         VStack {
@@ -304,29 +308,7 @@ struct AddWorkTimeView: View {
             updateSaveButtonState()
         }
         .onChange(of: selectedFilter) { _ in UIApplication.shared.dismissKeyboard() }
-        .onChange(of: isPaidDay) { _ in updateSaveButtonState() }
-        .onChange(of: projectDay) { _ in updateSaveButtonState() }
-        .onChange(of: taskDay) { _ in updateSaveButtonState() }
-        .onChange(of: noteDay) { _ in updateSaveButtonState() }
-        .onChange(of: weekDate) { _ in updateSaveButtonState() }
-        .onChange(of: hoursWorkedWeek) { _ in updateSaveButtonState() }
-        .onChange(of: isOvertimeDay) { _ in updateSaveButtonState() }
-        .onChange(of: isPaidWeek) { _ in updateSaveButtonState() }
-        .onChange(of: projectWeek) { _ in updateSaveButtonState() }
-        .onChange(of: taskWeek) { _ in updateSaveButtonState() }
-        .onChange(of: noteWeek) { _ in updateSaveButtonState() }
-        .onChange(of: monthDate) { _ in updateSaveButtonState() }
-        .onChange(of: hoursWorkedMonth) { _ in updateSaveButtonState() }
-        .onChange(of: isPaidMonth) { _ in updateSaveButtonState() }
-        .onChange(of: projectMonth) { _ in updateSaveButtonState() }
-        .onChange(of: taskMonth) { _ in updateSaveButtonState() }
-        .onChange(of: noteMonth) { _ in updateSaveButtonState() }
-        .onChange(of: yearDate) { _ in updateSaveButtonState() }
-        .onChange(of: hoursWorkedYear) { _ in updateSaveButtonState() }
-        .onChange(of: isPaidYear) { _ in updateSaveButtonState() }
-        .onChange(of: projectYear) { _ in updateSaveButtonState() }
-        .onChange(of: taskYear) { _ in updateSaveButtonState() }
-        .onChange(of: noteYear) { _ in updateSaveButtonState() }
+        .onChange(of: saveButtonStateKey) { _ in updateSaveButtonState() }
         .gesture(
             DragGesture()
                 .onChanged { value in

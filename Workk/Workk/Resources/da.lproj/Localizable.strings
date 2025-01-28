@@ -167,3 +167,5 @@
 "try_for_free_title" = "Prøv gratis";
 "overtime_description" = "Penge tjent under overarbejde bliver genberegnet efter at posten er gemt";
 "overtime_update_description" = "Penge tjent under overarbejde bliver genberegnet, hvis procentsatsen for overarbejdsbetalingen er ændret";
+
+"icloud_sync_profile_description" = "Synkroniser alle dine poster med iCloud";

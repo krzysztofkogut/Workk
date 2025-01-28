@@ -30,11 +30,6 @@ class PersistenceManager: ObservableObject {
         viewContext = container.viewContext
     }
     
-//    func toggleICloudSync(isEnabled: Bool) {
-//        UserDefaults.standard.set(isEnabled, forKey: "iCloudSyncEnabled")
-//        container = isICloudSyncEnabled ? Self.makeCloudContainer() : Self.makeLocalContainer()
-//    }
-
     private static func makeCloudContainer() -> NSPersistentCloudKitContainer {
         let container = NSPersistentCloudKitContainer(name: "Workk", managedObjectModel: model)
         container.viewContext.automaticallyMergesChangesFromParent = true

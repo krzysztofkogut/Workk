@@ -463,6 +463,12 @@ struct ProfileView: View {
                     .padding(.horizontal, 16)
                     .background(.whiteTheme, in: .rect(cornerRadius: 12))
                     
+                    Text("icloud_sync_profile_description".localized)
+                        .font(.nunitoSemiBold(size: 12))
+                        .foregroundStyle(.gray)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 16)
+                    
                     Text(viewModel.dailyNotificationTitle)
                         .foregroundStyle(.gray)
                         .padding(.horizontal, 16)

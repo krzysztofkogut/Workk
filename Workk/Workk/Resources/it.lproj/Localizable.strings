@@ -167,3 +167,5 @@
 "try_for_free_title" = "Prova gratis";
 "overtime_description" = "Il denaro guadagnato durante gli straordinari sarà ricalcolato dopo aver salvato la voce";
 "overtime_update_description" = "Il denaro guadagnato durante gli straordinari sarà ricalcolato se è cambiata la percentuale della tariffa degli straordinari";
+
+"icloud_sync_profile_description" = "Sincronizza tutte le tue voci con iCloud";

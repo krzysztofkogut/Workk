@@ -167,3 +167,5 @@
 "try_for_free_title" = "Prueba gratis";
 "overtime_description" = "El dinero ganado durante las horas extra se recalculará después de guardar la entrada";
 "overtime_update_description" = "El dinero ganado durante las horas extra se recalculará si ha cambiado el porcentaje de la tarifa por horas extra";
+
+"icloud_sync_profile_description" = "Sincroniza todas tus entradas con iCloud";

@@ -167,3 +167,5 @@
 "try_for_free_title" = "Kokeile ilmaiseksi";
 "overtime_description" = "Ylityön aikana ansaitut rahat lasketaan uudelleen, kun merkintä tallennetaan";
 "overtime_update_description" = "Ylityön aikana ansaitut rahat lasketaan uudelleen, jos ylityökorvauksen prosenttiosuus on muuttunut";
+
+"icloud_sync_profile_description" = "Synkronoi kaikki merkintäsi iCloudiin";

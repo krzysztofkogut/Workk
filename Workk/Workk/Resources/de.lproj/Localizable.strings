@@ -167,3 +167,5 @@
 "try_for_free_title" = "Kostenlos ausprobieren";
 "overtime_description" = "Das während der Überstunden verdiente Geld wird nach dem Speichern des Eintrags neu berechnet";
 "overtime_update_description" = "Das während der Überstunden verdiente Geld wird neu berechnet, wenn sich der Prozentsatz des Überstundensatzes geändert hat";
+
+"icloud_sync_profile_description" = "Synchronisieren Sie alle Ihre Einträge mit iCloud";
