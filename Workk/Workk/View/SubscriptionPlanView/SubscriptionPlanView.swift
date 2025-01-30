@@ -186,7 +186,6 @@ struct SubscriptionPlanView: View {
                                     .foregroundStyle(viewModel.selectedPackage == package ? .whiteTheme : .blackWhite)
                                     .padding(.top, 8)
                                     .opacity(package.storeProduct.introductoryDiscount == nil ? 0 : 1)
-//                                    .opacity(viewModel.isMonthlySubscription(package: package) ? 0 : 1)
                             }
                             .padding(.horizontal, 16)
                             .padding(.top, 4)
@@ -239,8 +238,13 @@ struct SubscriptionPlanView: View {
                         .font(.latoBold(size: 14))
                         .hide(if: viewModel.isSelectedPackageMonthly)
                     
+                    Text("(" + (viewModel.selectedPackage?.storeProduct.localizedPricePerMonth ?? "") + "/" + "month_title".localized.lowercased() + ")")
+                        .font(.latoBold(size: 14))
+                        .hide(if: viewModel.isSelectedPackageMonthly)
+                    
                     Text((viewModel.selectedPackage?.storeProduct.localizedPricePerMonth ?? "") + "/" + "month_title".localized.lowercased())
                         .font(.latoBold(size: 14))
+                        .hide(if: !viewModel.isSelectedPackageMonthly)
                 }
                 .foregroundStyle(.blackWhite)
                 

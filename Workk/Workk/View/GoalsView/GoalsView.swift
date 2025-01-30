@@ -96,6 +96,8 @@ struct GoalsView: View {
                             Text(dailyGoalTitle)
                                 .foregroundStyle(.gray)
                                 .padding(.horizontal, 16)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
                                 .onTapGesture {
                                     UIApplication.shared.dismissKeyboard()
                                 }
@@ -123,6 +125,8 @@ struct GoalsView: View {
                             Text(weeklyGoalTitle)
                                 .foregroundStyle(.gray)
                                 .padding(.horizontal, 16)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
                                 .onTapGesture {
                                     UIApplication.shared.dismissKeyboard()
                                 }
@@ -153,6 +157,8 @@ struct GoalsView: View {
                             Text(monthlyGoalTitle)
                                 .foregroundStyle(.gray)
                                 .padding(.horizontal, 16)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
                                 .onTapGesture {
                                     UIApplication.shared.dismissKeyboard()
                                 }
@@ -180,6 +186,8 @@ struct GoalsView: View {
                             Text(yearlyGoalTitle)
                                 .foregroundStyle(.gray)
                                 .padding(.horizontal, 16)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
                                 .onTapGesture {
                                     UIApplication.shared.dismissKeyboard()
                                 }
@@ -232,6 +240,8 @@ struct GoalsView: View {
                             Text(dailyGoalTitle)
                                 .foregroundStyle(.gray)
                                 .padding(.horizontal, 16)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
                                 .onTapGesture {
                                     UIApplication.shared.dismissKeyboard()
                                 }
@@ -259,6 +269,8 @@ struct GoalsView: View {
                             Text(weeklyGoalTitle)
                                 .foregroundStyle(.gray)
                                 .padding(.horizontal, 16)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
                                 .onTapGesture {
                                     UIApplication.shared.dismissKeyboard()
                                 }
@@ -289,6 +301,8 @@ struct GoalsView: View {
                             Text(monthlyGoalTitle)
                                 .foregroundStyle(.gray)
                                 .padding(.horizontal, 16)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
                                 .onTapGesture {
                                     UIApplication.shared.dismissKeyboard()
                                 }
@@ -316,6 +330,8 @@ struct GoalsView: View {
                             Text(yearlyGoalTitle)
                                 .foregroundStyle(.gray)
                                 .padding(.horizontal, 16)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
                                 .onTapGesture {
                                     UIApplication.shared.dismissKeyboard()
                                 }

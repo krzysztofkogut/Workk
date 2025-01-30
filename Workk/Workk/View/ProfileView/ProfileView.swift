@@ -147,6 +147,8 @@ struct ProfileView: View {
                                     Text(viewModel.dailyGoalTitle)
                                         .foregroundStyle(.gray)
                                         .padding(.horizontal, 16)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.5)
                                         .onTapGesture {
                                             UIApplication.shared.dismissKeyboard()
                                         }
@@ -174,6 +176,8 @@ struct ProfileView: View {
                                     Text(viewModel.weeklyGoalTitle)
                                         .foregroundStyle(.gray)
                                         .padding(.horizontal, 16)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.5)
                                         .onTapGesture {
                                             UIApplication.shared.dismissKeyboard()
                                         }
@@ -204,6 +208,8 @@ struct ProfileView: View {
                                     Text(viewModel.monthlyGoalTitle)
                                         .foregroundStyle(.gray)
                                         .padding(.horizontal, 16)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.5)
                                         .onTapGesture {
                                             UIApplication.shared.dismissKeyboard()
                                         }
@@ -231,6 +237,8 @@ struct ProfileView: View {
                                     Text(viewModel.yearlyGoalTitle)
                                         .foregroundStyle(.gray)
                                         .padding(.horizontal, 16)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.5)
                                         .onTapGesture {
                                             UIApplication.shared.dismissKeyboard()
                                         }
@@ -283,6 +291,8 @@ struct ProfileView: View {
                                     Text(viewModel.dailyGoalTitle)
                                         .foregroundStyle(.gray)
                                         .padding(.horizontal, 16)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.5)
                                         .onTapGesture {
                                             UIApplication.shared.dismissKeyboard()
                                         }
@@ -310,6 +320,8 @@ struct ProfileView: View {
                                     Text(viewModel.weeklyGoalTitle)
                                         .foregroundStyle(.gray)
                                         .padding(.horizontal, 16)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.5)
                                         .onTapGesture {
                                             UIApplication.shared.dismissKeyboard()
                                         }
@@ -340,6 +352,8 @@ struct ProfileView: View {
                                     Text(viewModel.monthlyGoalTitle)
                                         .foregroundStyle(.gray)
                                         .padding(.horizontal, 16)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.5)
                                         .onTapGesture {
                                             UIApplication.shared.dismissKeyboard()
                                         }
@@ -367,6 +381,8 @@ struct ProfileView: View {
                                     Text(viewModel.yearlyGoalTitle)
                                         .foregroundStyle(.gray)
                                         .padding(.horizontal, 16)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.5)
                                         .onTapGesture {
                                             UIApplication.shared.dismissKeyboard()
                                         }
