@@ -564,6 +564,11 @@ extension HomeView {
 
             if countWorkTime {
                 Button {
+                    guard selectedWorkName != "all_title".localized else {
+                        showAlertSheet = true
+                        return
+                    }
+                    
                     showAddedEntrySheet = true
                     addItem()
                     workTimeForNewEntry = viewModel.stopwatch.elapsedTime.timeString

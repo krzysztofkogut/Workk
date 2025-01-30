@@ -169,3 +169,6 @@
 "overtime_update_description" = "Peníze vydělané během přesčasů budou přepočítány, pokud se změnil procentuální podíl sazby za přesčasy";
 
 "icloud_sync_profile_description" = "Synchronizujte všechny své záznamy s iCloud";
+
+"add_job_conditions_decription" = "Povinná pole: název práce, hodinová sazba";
+"add_work_conditions_decription" = "Povinná pole: práce, pracovní doba, vydělané peníze";

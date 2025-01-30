@@ -169,3 +169,6 @@
 "overtime_update_description" = "Penge tjent under overarbejde bliver genberegnet, hvis procentsatsen for overarbejdsbetalingen er ændret";
 
 "icloud_sync_profile_description" = "Synkroniser alle dine poster med iCloud";
+
+"add_job_conditions_decription" = "Påkrævede felter: jobnavn, timeløn";
+"add_work_conditions_decription" = "Påkrævede felter: job, arbejdstid, tjente penge";

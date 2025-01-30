@@ -95,7 +95,8 @@ struct AddJobView: View {
                     let velocityThreshold: CGFloat = 30
                             
                     if value.translation.height > threshold,
-                       value.predictedEndTranslation.height > velocityThreshold {
+                       value.predictedEndTranslation.height > velocityThreshold
+                    {
                         UIApplication.shared.dismissKeyboard()
                     }
                 }
@@ -109,18 +110,30 @@ struct AddJobView: View {
             updateSaveButtonState()
         }
         .safeAreaInset(edge: .bottom) {
-            Button {
-                selectedJob == nil ? addItem() : updateItem()
-                dismiss()
-            } label: {
-                Text("save_title".localized)
-                    .font(.latoBold(size: 16))
+            VStack(spacing: 8) {
+                Button {
+                    selectedJob == nil ? addItem() : updateItem()
+                    dismiss()
+                } label: {
+                    Text("save_title".localized)
+                        .font(.latoBold(size: 16))
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(isSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
+                }
+                .disabled(!isSaveButtonEnabled)
+            
+                Text("add_job_conditions_decription".localized)
+                    .font(.nunitoSemiBold(size: 12))
                     .foregroundStyle(.whiteBlack)
-                    .padding(.vertical, 8)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(.gray, in: .rect(cornerRadius: 18))
                     .padding(.horizontal, 16)
-                    .background(isSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
+                    .hide(if: isSaveButtonEnabled)
             }
-            .disabled(!isSaveButtonEnabled)
             .padding(.bottom, 16)
         }
     }
@@ -150,7 +163,7 @@ extension AddJobView {
         var hasChanged = false
         
         hasChanged = name != job.name ||
-        hourlyRate != job.hourlyRate.formatFloatToString()
+            hourlyRate != job.hourlyRate.formatFloatToString()
         
         withAnimation(.easeInOut(duration: 0.2)) {
             isSaveButtonEnabled = (!name.isEmpty && !hourlyRate.isEmpty) && hasChanged
@@ -212,4 +225,3 @@ extension AddJobView {
         }
     }
 }
-

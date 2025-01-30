@@ -169,3 +169,6 @@
 "overtime_update_description" = "Zarobione pieniądze podczas nadgodzin zostaną przeliczone jeśli procentowa stawka za nadgodziny uległa zmianie";
 
 "icloud_sync_profile_description" = "Synchronizuj wszystkie Twoje wpisy do iCloud";
+
+"add_job_conditions_decription" = "Wymagane pola: nazwa pracy, stawka godzinowa";
+"add_work_conditions_decription" = "Wymagane pola: praca, czas pracy, zarobione pieniadze";

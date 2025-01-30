@@ -169,3 +169,6 @@
 "overtime_update_description" = "残業中に稼いだお金は、残業率が変更された場合に再計算されます";
 
 "icloud_sync_profile_description" = "すべてのエントリーをiCloudに同期";
+
+"add_job_conditions_decription" = "必須項目: 仕事名、時給";
+"add_work_conditions_decription" = "必須項目: 仕事、勤務時間、獲得金額";

@@ -169,3 +169,6 @@
 "overtime_update_description" = "L'argent gagné pendant les heures supplémentaires sera recalculé si le pourcentage du taux des heures supplémentaires a changé";
 
 "icloud_sync_profile_description" = "Synchronisez toutes vos entrées avec iCloud";
+
+"add_job_conditions_decription" = "Champs obligatoires : nom du travail, taux horaire";
+"add_work_conditions_decription" = "Champs obligatoires : travail, temps de travail, argent gagné";

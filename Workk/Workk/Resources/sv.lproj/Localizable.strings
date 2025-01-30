@@ -169,3 +169,6 @@
 "overtime_update_description" = "Pengar som tjänats in under övertid kommer att omräknas om övertidsprocentsatsen har ändrats";
 
 "icloud_sync_profile_description" = "Synkronisera alla dina poster med iCloud";
+
+"add_job_conditions_decription" = "Obligatoriska fält: jobbnamn, timlön";
+"add_work_conditions_decription" = "Obligatoriska fält: jobb, arbetstid, intjänade pengar";

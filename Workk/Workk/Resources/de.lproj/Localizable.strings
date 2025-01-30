@@ -169,3 +169,6 @@
 "overtime_update_description" = "Das während der Überstunden verdiente Geld wird neu berechnet, wenn sich der Prozentsatz des Überstundensatzes geändert hat";
 
 "icloud_sync_profile_description" = "Synchronisieren Sie alle Ihre Einträge mit iCloud";
+
+"add_job_conditions_decription" = "Erforderliche Felder: Jobname, Stundensatz";
+"add_work_conditions_decription" = "Erforderliche Felder: Job, Arbeitszeit, verdientes Geld";

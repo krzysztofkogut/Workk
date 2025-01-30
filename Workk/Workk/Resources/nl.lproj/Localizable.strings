@@ -169,3 +169,6 @@
 "overtime_update_description" = "Het geld verdiend tijdens overuren wordt opnieuw berekend als het percentage van het overuurtarief is gewijzigd";
 
 "icloud_sync_profile_description" = "Synchroniseer al je invoer met iCloud";
+
+"add_job_conditions_decription" = "Vereiste velden: functienaam, uurtarief";
+"add_work_conditions_decription" = "Vereiste velden: werk, werktijd, verdiend geld";

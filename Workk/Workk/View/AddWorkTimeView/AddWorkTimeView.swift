@@ -490,18 +490,30 @@ struct AddWorkTimeView: View {
             .padding(.horizontal, 16)
         }
         .safeAreaInset(edge: .bottom) {
-            Button {
-                selectedWork == nil ? addItem() : updateItem()
-                dismiss()
-            } label: {
-                Text("save_title".localized)
-                    .font(.latoBold(size: 16))
+            VStack(spacing: 8) {
+                Button {
+                    selectedWork == nil ? addItem() : updateItem()
+                    dismiss()
+                } label: {
+                    Text("save_title".localized)
+                        .font(.latoBold(size: 16))
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(isDaySaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
+                }
+                .disabled(!isDaySaveButtonEnabled)
+                
+                Text("add_work_conditions_decription".localized)
+                    .font(.nunitoSemiBold(size: 12))
                     .foregroundStyle(.whiteBlack)
-                    .padding(.vertical, 8)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(.gray, in: .rect(cornerRadius: 18))
                     .padding(.horizontal, 16)
-                    .background(isDaySaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
+                    .hide(if: isDaySaveButtonEnabled)
             }
-            .disabled(!isDaySaveButtonEnabled)
             .padding(.bottom, 16)
         }
     }
@@ -665,18 +677,30 @@ struct AddWorkTimeView: View {
             .padding(.horizontal, 16)
         }
         .safeAreaInset(edge: .bottom) {
-            Button {
-                selectedWork == nil ? addItem() : updateItem()
-                dismiss()
-            } label: {
-                Text("save_title".localized)
-                    .font(.latoBold(size: 16))
+            VStack(spacing: 8) {
+                Button {
+                    selectedWork == nil ? addItem() : updateItem()
+                    dismiss()
+                } label: {
+                    Text("save_title".localized)
+                        .font(.latoBold(size: 16))
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(isWeekSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
+                }
+                .disabled(!isWeekSaveButtonEnabled)
+            
+                Text("add_work_conditions_decription".localized)
+                    .font(.nunitoSemiBold(size: 12))
                     .foregroundStyle(.whiteBlack)
-                    .padding(.vertical, 8)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(.gray, in: .rect(cornerRadius: 18))
                     .padding(.horizontal, 16)
-                    .background(isWeekSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
+                    .hide(if: isWeekSaveButtonEnabled)
             }
-            .disabled(!isWeekSaveButtonEnabled)
             .padding(.bottom, 16)
         }
     }
@@ -840,18 +864,30 @@ struct AddWorkTimeView: View {
             .padding(.horizontal, 16)
         }
         .safeAreaInset(edge: .bottom) {
-            Button {
-                selectedWork == nil ? addItem() : updateItem()
-                dismiss()
-            } label: {
-                Text("save_title".localized)
-                    .font(.latoBold(size: 16))
+            VStack(spacing: 8) {
+                Button {
+                    selectedWork == nil ? addItem() : updateItem()
+                    dismiss()
+                } label: {
+                    Text("save_title".localized)
+                        .font(.latoBold(size: 16))
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(isMonthSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
+                }
+                .disabled(!isMonthSaveButtonEnabled)
+            
+                Text("add_work_conditions_decription".localized)
+                    .font(.nunitoSemiBold(size: 12))
                     .foregroundStyle(.whiteBlack)
-                    .padding(.vertical, 8)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(.gray, in: .rect(cornerRadius: 18))
                     .padding(.horizontal, 16)
-                    .background(isMonthSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
+                    .hide(if: isMonthSaveButtonEnabled)
             }
-            .disabled(!isMonthSaveButtonEnabled)
             .padding(.bottom, 16)
         }
     }
@@ -1014,18 +1050,30 @@ struct AddWorkTimeView: View {
             .padding(.horizontal, 16)
         }
         .safeAreaInset(edge: .bottom) {
-            Button {
-                selectedWork == nil ? addItem() : updateItem()
-                dismiss()
-            } label: {
-                Text("save_title".localized)
-                    .font(.latoBold(size: 16))
+            VStack(spacing: 8) {
+                Button {
+                    selectedWork == nil ? addItem() : updateItem()
+                    dismiss()
+                } label: {
+                    Text("save_title".localized)
+                        .font(.latoBold(size: 16))
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(isYearSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
+                }
+                .disabled(!isYearSaveButtonEnabled)
+            
+                Text("add_work_conditions_decription".localized)
+                    .font(.nunitoSemiBold(size: 12))
                     .foregroundStyle(.whiteBlack)
-                    .padding(.vertical, 8)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(.gray, in: .rect(cornerRadius: 18))
                     .padding(.horizontal, 16)
-                    .background(isYearSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
+                    .hide(if: isYearSaveButtonEnabled)
             }
-            .disabled(!isYearSaveButtonEnabled)
             .padding(.bottom, 16)
         }
     }
@@ -1208,7 +1256,7 @@ extension AddWorkTimeView {
             } else if isOvertimeDay, work.overtimePercentage != overtimePercentageDay.floatValue() {
                 work.hourlyRate = work.hourlyRate * overTimeMultiplierDay / (work.overtimePercentage / 100)
                 work.moneyEarned = work.moneyEarned * overTimeMultiplierDay / (work.overtimePercentage / 100)
-            } else if !isOvertimeDay && work.isOvertime != isOvertimeDay {
+            } else if !isOvertimeDay, work.isOvertime != isOvertimeDay {
                 work.moneyEarned = work.moneyEarned / (work.overtimePercentage / 100)
             }
             
@@ -1240,7 +1288,7 @@ extension AddWorkTimeView {
                 work.moneyEarned = work.moneyEarned * overTimeMultiplierWeek
             } else if work.overtimePercentage != overtimePercentageWeek.floatValue() {
                 work.moneyEarned = work.moneyEarned * overTimeMultiplierWeek / (work.overtimePercentage / 100)
-            } else if !isOvertimeWeek && work.isOvertime != isOvertimeWeek {
+            } else if !isOvertimeWeek, work.isOvertime != isOvertimeWeek {
                 work.moneyEarned = work.moneyEarned / (work.overtimePercentage / 100)
             }
             
@@ -1272,7 +1320,7 @@ extension AddWorkTimeView {
                 work.moneyEarned = work.moneyEarned * overTimeMultiplierMonth
             } else if work.overtimePercentage != overtimePercentageMonth.floatValue() {
                 work.moneyEarned = work.moneyEarned * overTimeMultiplierMonth / (work.overtimePercentage / 100)
-            } else if !isOvertimeMonth && work.isOvertime != isOvertimeMonth {
+            } else if !isOvertimeMonth, work.isOvertime != isOvertimeMonth {
                 work.moneyEarned = work.moneyEarned / (work.overtimePercentage / 100)
             }
             
@@ -1304,7 +1352,7 @@ extension AddWorkTimeView {
                 work.moneyEarned = work.moneyEarned * overTimeMultiplierYear
             } else if work.overtimePercentage != overtimePercentageYear.floatValue() {
                 work.moneyEarned = work.moneyEarned * overTimeMultiplierYear / (work.overtimePercentage / 100)
-            } else if !isOvertimeYear && work.isOvertime != isOvertimeYear {
+            } else if !isOvertimeYear, work.isOvertime != isOvertimeYear {
                 work.moneyEarned = work.moneyEarned / (work.overtimePercentage / 100)
             }
             
@@ -1390,7 +1438,7 @@ extension AddWorkTimeView {
         
         withAnimation(.easeInOut(duration: 0.2)) {
             isDaySaveButtonEnabled = (isHourlyRateDay && !hourlyRateDay.isEmpty || !isHourlyRateDay && !moneyEarnedDay.isEmpty)
-            && isProperJobSelected && (!isOvertimeDay || !overtimePercentageDay.isEmpty)
+                && isProperJobSelected && (!isOvertimeDay || !overtimePercentageDay.isEmpty)
             isWeekSaveButtonEnabled = !moneyEarnedWeek.isEmpty && !hoursWorkedWeek.isEmpty && isProperJobSelected && (!isOvertimeWeek || !overtimePercentageWeek.isEmpty)
             isMonthSaveButtonEnabled = !moneyEarnedMonth.isEmpty && !hoursWorkedMonth.isEmpty && isProperJobSelected && (!isOvertimeMonth || !overtimePercentageMonth.isEmpty)
             isYearSaveButtonEnabled = !moneyEarnedYear.isEmpty && !hoursWorkedYear.isEmpty && isProperJobSelected && (!isOvertimeYear || !overtimePercentageYear.isEmpty)

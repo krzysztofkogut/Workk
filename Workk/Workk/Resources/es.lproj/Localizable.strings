@@ -169,3 +169,6 @@
 "overtime_update_description" = "El dinero ganado durante las horas extra se recalculará si ha cambiado el porcentaje de la tarifa por horas extra";
 
 "icloud_sync_profile_description" = "Sincroniza todas tus entradas con iCloud";
+
+"add_job_conditions_decription" = "Campos obligatorios: nombre del trabajo, tarifa por hora";
+"add_work_conditions_decription" = "Campos obligatorios: trabajo, tiempo trabajado, dinero ganado";

@@ -169,3 +169,6 @@
 "overtime_update_description" = "Money earned during overtime will be recalculated if the overtime rate percentage has changed";
 
 "icloud_sync_profile_description" = "Sync all your entries to iCloud";
+
+"add_job_conditions_decription" = "Required fields: job name, hourly rate";
+"add_work_conditions_decription" = "Required fields: job, work time, earned money";

@@ -169,3 +169,6 @@
 "overtime_update_description" = "Il denaro guadagnato durante gli straordinari sarà ricalcolato se è cambiata la percentuale della tariffa degli straordinari";
 
 "icloud_sync_profile_description" = "Sincronizza tutte le tue voci con iCloud";
+
+"add_job_conditions_decription" = "Campi obbligatori: nome del lavoro, tariffa oraria";
+"add_work_conditions_decription" = "Campi obbligatori: lavoro, tempo di lavoro, denaro guadagnato";
