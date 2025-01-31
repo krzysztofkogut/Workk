@@ -96,6 +96,8 @@ struct AddWorkTimeView: View {
     
     @State private var overtimeDescription = "overtime_description".localized
     
+    @State private var isDropDownError: Bool = false
+    
     var overTimeMultiplierDay: Float {
         isOvertimeDay ? (overtimePercentageDay.floatValue() / 100) : 1.0
     }
@@ -158,6 +160,7 @@ struct AddWorkTimeView: View {
                 DropDownPicker(selection: $selectedWorkName,
                                addNewOption: $showAddJobView,
                                showSubscriptionPlan: $showSubscriptionPlanView,
+                               isError: $isDropDownError,
                                hint: "select_title".localized,
                                options: jobs.compactMap { $0.name },
                                backgroundColor: .whiteTheme,
@@ -409,7 +412,7 @@ struct AddWorkTimeView: View {
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: 12)
                         .stroke(.blueRibbon, lineWidth: 1)
                         .hide(if: (!moneyEarnedDay.isEmpty && !isHourlyRateDay) ||
                               (!hourlyRateDay.isEmpty && isHourlyRateDay))
@@ -445,7 +448,7 @@ struct AddWorkTimeView: View {
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: 12)
                         .stroke(.blueRibbon, lineWidth: 1)
                         .hide(if: !overtimePercentageDay.isEmpty)
                 }
@@ -590,7 +593,7 @@ struct AddWorkTimeView: View {
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: 12)
                         .stroke(.blueRibbon, lineWidth: 1)
                         .hide(if: !moneyEarnedWeek.isEmpty)
                 }
@@ -612,7 +615,7 @@ struct AddWorkTimeView: View {
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: 12)
                         .stroke(.blueRibbon, lineWidth: 1)
                         .hide(if: !hoursWorkedWeek.isEmpty)
                 }
@@ -647,7 +650,7 @@ struct AddWorkTimeView: View {
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: 12)
                         .stroke(.blueRibbon, lineWidth: 1)
                         .hide(if: !overtimePercentageWeek.isEmpty)
                 }
@@ -792,7 +795,7 @@ struct AddWorkTimeView: View {
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: 12)
                         .stroke(.blueRibbon, lineWidth: 1)
                         .hide(if: !moneyEarnedMonth.isEmpty)
                 }
@@ -814,7 +817,7 @@ struct AddWorkTimeView: View {
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: 12)
                         .stroke(.blueRibbon, lineWidth: 1)
                         .hide(if: !hoursWorkedMonth.isEmpty)
                 }
@@ -849,7 +852,7 @@ struct AddWorkTimeView: View {
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: 12)
                         .stroke(.blueRibbon, lineWidth: 1)
                         .hide(if: !overtimePercentageMonth.isEmpty)
                 }
@@ -994,7 +997,7 @@ struct AddWorkTimeView: View {
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: 12)
                         .stroke(.blueRibbon, lineWidth: 1)
                         .hide(if: !moneyEarnedYear.isEmpty)
                 }
@@ -1015,7 +1018,7 @@ struct AddWorkTimeView: View {
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: 12)
                         .stroke(.blueRibbon, lineWidth: 1)
                         .hide(if: !hoursWorkedYear.isEmpty)
                 }
@@ -1050,7 +1053,7 @@ struct AddWorkTimeView: View {
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: 12)
                         .stroke(.blueRibbon, lineWidth: 1)
                         .hide(if: !overtimePercentageYear.isEmpty)
                 }

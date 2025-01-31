@@ -17,6 +17,7 @@ struct DropDownPicker: View {
     @Binding var selection: String?
     @Binding var addNewOption: Bool
     @Binding var showSubscriptionPlan: Bool
+    @Binding var isError: Bool
     
     @FetchRequest(
         entity: Job.entity(),
@@ -96,7 +97,7 @@ struct DropDownPicker: View {
             .overlay {
                 RoundedRectangle(cornerRadius: 6)
                     .stroke(.blueRibbon, lineWidth: 1)
-                    .hide(if: hideStroke || selection != "all_title".localized)
+                    .hide(if: (hideStroke || selection != "all_title".localized) && !isError)
             }
             .frame(height: size.height, alignment: .top)
             .offset(x: (state == .trailing && !showDropdown) ? maxWidth - (selection == nil ? hint : selection!).widthOfString(usingFont: .latoBlack(size: 18)) - 60 : 0)
@@ -225,5 +226,6 @@ struct DropDownPicker: View {
     @State var selection: String? = nil
     @State var addNewOption = false
     @State var showSubscriptionPlan = false
-    return DropDownPicker(selection: $selection, addNewOption: $addNewOption, showSubscriptionPlan: $showSubscriptionPlan, hint: "select_title".localized, state: .trailing, options: ["YouTube", "Instagram", "Facebook", "Twitter"], backgroundColor: .wildSand)
+    @State var isError = false
+    return DropDownPicker(selection: $selection, addNewOption: $addNewOption, showSubscriptionPlan: $showSubscriptionPlan, isError: $isError, hint: "select_title".localized, state: .trailing, options: ["YouTube", "Instagram", "Facebook", "Twitter"], backgroundColor: .wildSand)
 }

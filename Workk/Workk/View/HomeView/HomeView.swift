@@ -102,7 +102,9 @@ struct HomeView: View {
     @State private var isMonthDetailsBannerAdLoaded: Bool = false
     @State private var isYearDetailsBannerAdLoaded: Bool = false
 
-    @State var isProfileButtonSelected: Bool = false
+    @State private var isProfileButtonSelected: Bool = false
+    
+    @State private var isDropDownError: Bool = false
     
     private let dayDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
     private let weekDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
@@ -207,6 +209,7 @@ struct HomeView: View {
                         selection: $selectedWorkName,
                         addNewOption: $showAddJobView,
                         showSubscriptionPlan: $showSubscriptionPlanView,
+                        isError: $isDropDownError,
                         hint: "select_title".localized,
                         options: ["all_title".localized] + jobs.compactMap { $0.name },
                         backgroundColor: .wildSand,
@@ -282,6 +285,10 @@ struct HomeView: View {
             .onChange(of: selectedWorkName) { newValue in
                 Task {
                     await updateProgressBar()
+                }
+                
+                if isDropDownError {
+                    isDropDownError = newValue == "all_title".localized
                 }
                 
                 selectedJob = jobs.first(where: { $0.name == newValue })
@@ -527,6 +534,7 @@ extension HomeView {
                 
                 guard selectedWorkName != nil && selectedWorkName != "all_title".localized else {
                     showAlertSheet = true
+                    isDropDownError = true
                     return
                 }
 

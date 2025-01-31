@@ -48,6 +48,8 @@ struct StatsView: View {
     @State private var currentActiveMoneyItem: SiteView?
     @State private var currentActiveHoursItem: SiteView?
     
+    @State private var isDropDownError: Bool = false
+    
     @State private var stopAnimation: Bool = false
     
     private let calendar = Calendar(identifier: .iso8601)
@@ -68,6 +70,7 @@ struct StatsView: View {
                 DropDownPicker(selection: $viewModel.selectedWorkName,
                                addNewOption: $showAddNewJobView,
                                showSubscriptionPlan: $showSubscriptionPlanView,
+                               isError: $isDropDownError,
                                hint: "all_title".localized,
                                options: ["all_title".localized] + jobs.compactMap { $0.name },
                                backgroundColor: .whiteTheme,

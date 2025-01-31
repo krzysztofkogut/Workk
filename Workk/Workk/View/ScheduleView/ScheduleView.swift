@@ -67,6 +67,7 @@ struct ScheduleView: View {
     @State private var showAddJobView: Bool = false
     @State private var showSubscriptionPlanView = false
     @State private var showDeletionView = false
+    @State private var isDropDownError: Bool = false
     
     @State private var isDayDetailsBannerAdLoaded: Bool = false
     @State private var isWeekDetailsBannerAdLoaded: Bool = false
@@ -373,6 +374,7 @@ struct ScheduleView: View {
                     DropDownPicker(selection: $selectedWorkName,
                                    addNewOption: $showAddJobView,
                                    showSubscriptionPlan: $showSubscriptionPlanView,
+                                   isError: $isDropDownError,
                                    hint: "select_title".localized,
                                    options: ["all_title".localized] + jobs.compactMap { $0.name },
                                    backgroundColor: .whiteTheme,
@@ -612,6 +614,7 @@ struct ScheduleView: View {
                     DropDownPicker(selection: $selectedWorkName,
                                    addNewOption: $showAddJobView,
                                    showSubscriptionPlan: $showSubscriptionPlanView,
+                                   isError: $isDropDownError,
                                    hint: "select_title".localized,
                                    options: ["all_title".localized] + jobs.compactMap { $0.name },
                                    backgroundColor: .whiteTheme,
@@ -851,6 +854,7 @@ struct ScheduleView: View {
                     DropDownPicker(selection: $selectedWorkName,
                                    addNewOption: $showAddJobView,
                                    showSubscriptionPlan: $showSubscriptionPlanView,
+                                   isError: $isDropDownError,
                                    hint: "select_title".localized,
                                    options: ["all_title".localized] + jobs.compactMap { $0.name },
                                    backgroundColor: .whiteTheme,
@@ -1272,6 +1276,7 @@ struct ScheduleView: View {
                     DropDownPicker(selection: $selectedWorkName,
                                    addNewOption: $showAddJobView,
                                    showSubscriptionPlan: $showSubscriptionPlanView,
+                                   isError: $isDropDownError,
                                    hint: "select_title".localized,
                                    options: ["all_title".localized] + jobs.compactMap { $0.name },
                                    backgroundColor: .whiteTheme,
