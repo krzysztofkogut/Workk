@@ -161,7 +161,8 @@ struct AddWorkTimeView: View {
                                hint: "select_title".localized,
                                options: jobs.compactMap { $0.name },
                                backgroundColor: .whiteTheme,
-                               maxWidth: 220)
+                               maxWidth: 220,
+                               hideStroke: false)
                 
                 Spacer()
                 
@@ -407,6 +408,12 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(.blueRibbon, lineWidth: 1)
+                        .hide(if: (!moneyEarnedDay.isEmpty && !isHourlyRateDay) ||
+                              (!hourlyRateDay.isEmpty && isHourlyRateDay))
+                }
                 
                 HStack(spacing: 0) {
                     Text("overtime_title".localized)
@@ -437,6 +444,11 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(.blueRibbon, lineWidth: 1)
+                        .hide(if: !overtimePercentageDay.isEmpty)
+                }
                 .hide(if: !isOvertimeDay)
                 
                 Text(overtimeDescription)
@@ -577,6 +589,11 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(.blueRibbon, lineWidth: 1)
+                        .hide(if: !moneyEarnedWeek.isEmpty)
+                }
                 
                 HStack(spacing: 0) {
                     TextField("hours_worked_title".localized, text: $hoursWorkedWeek)
@@ -594,6 +611,11 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(.blueRibbon, lineWidth: 1)
+                        .hide(if: !hoursWorkedWeek.isEmpty)
+                }
                 
                 HStack(spacing: 0) {
                     Text("overtime_title".localized)
@@ -624,6 +646,11 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(.blueRibbon, lineWidth: 1)
+                        .hide(if: !overtimePercentageWeek.isEmpty)
+                }
                 .hide(if: !isOvertimeWeek)
                 
                 Text(overtimeDescription)
@@ -764,6 +791,11 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(.blueRibbon, lineWidth: 1)
+                        .hide(if: !moneyEarnedMonth.isEmpty)
+                }
                 
                 HStack(spacing: 0) {
                     TextField("hours_worked_title".localized, text: $hoursWorkedMonth)
@@ -781,6 +813,11 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(.blueRibbon, lineWidth: 1)
+                        .hide(if: !hoursWorkedMonth.isEmpty)
+                }
                 
                 HStack(spacing: 0) {
                     Text("overtime_title".localized)
@@ -811,6 +848,11 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(.blueRibbon, lineWidth: 1)
+                        .hide(if: !overtimePercentageMonth.isEmpty)
+                }
                 .hide(if: !isOvertimeMonth)
                 
                 Text(overtimeDescription)
@@ -951,6 +993,11 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(.blueRibbon, lineWidth: 1)
+                        .hide(if: !moneyEarnedYear.isEmpty)
+                }
                 
                 HStack(spacing: 0) {
                     TextField("hours_worked_title".localized, text: $hoursWorkedYear)
@@ -967,6 +1014,11 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(.blueRibbon, lineWidth: 1)
+                        .hide(if: !hoursWorkedYear.isEmpty)
+                }
                 
                 HStack(spacing: 0) {
                     Text("overtime_title".localized)
@@ -997,6 +1049,11 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(.blueRibbon, lineWidth: 1)
+                        .hide(if: !overtimePercentageYear.isEmpty)
+                }
                 .hide(if: !isOvertimeYear)
                 
                 Text(overtimeDescription)

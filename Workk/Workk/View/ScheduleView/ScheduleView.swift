@@ -73,8 +73,6 @@ struct ScheduleView: View {
     @State private var isMonthDetailsBannerAdLoaded: Bool = false
     @State private var isYearDetailsBannerAdLoaded: Bool = false
     
-    @State var showAdsIsForbidden: Bool = true // TODO: Delete this and change for userSubscriptionViewModel.subscriptionActive
-    
     private let calendar: Calendar
     
     private let dayScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
@@ -216,8 +214,7 @@ struct ScheduleView: View {
                                 .padding(.horizontal, 16)
                                 .opacity(isDayDetailsBannerAdLoaded ? 1 : 0)
                             }
-//                            .hide(if: userSubscriptionViewModel.subscriptionActive)
-                            .hide(if: showAdsIsForbidden)
+                            .hide(if: userSubscriptionViewModel.subscriptionActive)
                             
                             Text("no_entries_title".localized)
                                 .font(.latoRegular(size: 18))
@@ -259,7 +256,7 @@ struct ScheduleView: View {
                                 .font(.latoBold(size: 16))
                                 
                             Text(work.hoursWorkedTimeDifference + " | " + work.hourlyRate.formatFloatToString() +
-                                 " \(currencyIdentifier.uppercased())" + "/h")
+                                " \(currencyIdentifier.uppercased())" + "/h")
                                 .font(.latoRegular(size: 12))
                                 .foregroundColor(.gray)
                                 .padding(.bottom, 2)
@@ -458,7 +455,7 @@ struct ScheduleView: View {
                                         .foregroundStyle(.blackWhite)
                                     
                                     Text(work.hoursWorkedString + " | " + work.moneyEarnedHourRate.formatFloatToString() +
-                                         " \(currencyIdentifier.uppercased())" + "/h")
+                                        " \(currencyIdentifier.uppercased())" + "/h")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
@@ -527,8 +524,7 @@ struct ScheduleView: View {
                         .opacity(isWeekDetailsBannerAdLoaded ? 1 : 0)
                     }
                     .padding(.bottom, 16)
-//                    .hide(if: userSubscriptionViewModel.subscriptionActive)
-                    .hide(if: showAdsIsForbidden)
+                    .hide(if: userSubscriptionViewModel.subscriptionActive)
                     
                     Text("no_entries_title".localized)
                         .font(.latoRegular(size: 18))
@@ -697,8 +693,8 @@ struct ScheduleView: View {
                                         .font(.latoBold(size: 16))
                                         .foregroundStyle(.blackWhite)
                                     
-                                    Text(work.hoursWorkedString + " | " + work.moneyEarnedHourRate.formatFloatToString() + 
-                                         " \(currencyIdentifier.uppercased())" + "/h")
+                                    Text(work.hoursWorkedString + " | " + work.moneyEarnedHourRate.formatFloatToString() +
+                                        " \(currencyIdentifier.uppercased())" + "/h")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
@@ -767,9 +763,7 @@ struct ScheduleView: View {
                         .opacity(isMonthDetailsBannerAdLoaded ? 1 : 0)
                     }
                     .padding(.bottom, 16)
-//                    .hide(if: userSubscriptionViewModel.subscriptionActive)
-                    .hide(if: showAdsIsForbidden)
-                    
+                    .hide(if: userSubscriptionViewModel.subscriptionActive)
                     
                     Text("no_entries_title".localized)
                         .font(.latoRegular(size: 18))
@@ -1007,8 +1001,7 @@ struct ScheduleView: View {
                         .opacity(isYearDetailsBannerAdLoaded ? 1 : 0)
                     }
                     .padding(.bottom, 16)
-//                    .hide(if: userSubscriptionViewModel.subscriptionActive)
-                    .hide(if: showAdsIsForbidden)
+                    .hide(if: userSubscriptionViewModel.subscriptionActive)
                     
                     Text("no_entries_title".localized)
                         .font(.latoRegular(size: 18))

@@ -104,8 +104,6 @@ struct HomeView: View {
 
     @State var isProfileButtonSelected: Bool = false
     
-    @State var showAdsIsForbidden: Bool = true // TODO: Delete this and change for userSubscriptionViewModel.subscriptionActive
-
     private let dayDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
     private let weekDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
     private let monthDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
@@ -678,8 +676,7 @@ extension HomeView {
                 .frame(height: 62)
                 .background(.whiteTheme)
                 .cornerRadius(12)
-//                .padding(.bottom, isDayDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
-                .padding(.bottom, isDayDetailsBannerAdLoaded || showAdsIsForbidden ? 2 : -16)
+                .padding(.bottom, isDayDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
                 
                 ZStack {
                     Button {
@@ -693,7 +690,6 @@ extension HomeView {
                     }
                     .padding(.horizontal, 2)
                     
-                    // TODO: Uncomment when ads will be integrated
                     Group {
                         BannerAd(isLoaded: $isDayDetailsBannerAdLoaded, unitID: dayDetailsBannerId)
                             .frame(height: 50)
@@ -709,8 +705,7 @@ extension HomeView {
                     .opacity(isDayDetailsBannerAdLoaded ? 1 : 0)
                 }
                 .padding(.bottom, isDayDetailsBannerAdLoaded ? 2 : -16)
-//                .hide(if: userSubscriptionViewModel.subscriptionActive)
-                .hide(if: showAdsIsForbidden)
+                .hide(if: userSubscriptionViewModel.subscriptionActive)
                 
                 VStack(spacing: 0) {
                     HStack {
@@ -888,7 +883,6 @@ extension HomeView {
                 .cornerRadius(12)
                 .padding(.bottom, 2)
                 
-                // TODO: Uncomment when ads will be integrated
                 Group {
                     NativeAdView(nativeViewModel: nativeDayDetailsViewModel, style: .card)
                         .frame(height: 300)
@@ -905,8 +899,7 @@ extension HomeView {
                 .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 16)
-//                .hide(if: userSubscriptionViewModel.subscriptionActive)
-                .hide(if: showAdsIsForbidden)
+                .hide(if: userSubscriptionViewModel.subscriptionActive)
             }
             .padding(.horizontal, 16)
             .safeAreaInset(edge: .bottom) {
@@ -960,8 +953,7 @@ extension HomeView {
                 .frame(height: 62)
                 .background(.whiteTheme)
                 .cornerRadius(12)
-//                .padding(.bottom, isWeekDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
-                .padding(.bottom, isWeekDetailsBannerAdLoaded || showAdsIsForbidden ? 2 : -16)
+                .padding(.bottom, isWeekDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
                 
                 ZStack {
                     Button {
@@ -990,8 +982,7 @@ extension HomeView {
                     .opacity(isWeekDetailsBannerAdLoaded ? 1 : 0)
                 }
                 .padding(.bottom, isWeekDetailsBannerAdLoaded ? 2 : -16)
-//                .hide(if: userSubscriptionViewModel.subscriptionActive)
-                .hide(if: showAdsIsForbidden)
+                .hide(if: userSubscriptionViewModel.subscriptionActive)
                 
                 VStack(spacing: 0) {
                     HStack(alignment: .top) {
@@ -1183,8 +1174,7 @@ extension HomeView {
                 .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 16)
-//                .hide(if: userSubscriptionViewModel.subscriptionActive)
-                .hide(if: showAdsIsForbidden)
+                .hide(if: userSubscriptionViewModel.subscriptionActive)
             }
             .padding(.horizontal, 16)
             .safeAreaInset(edge: .bottom) {
@@ -1238,8 +1228,7 @@ extension HomeView {
                 .frame(height: 62)
                 .background(.whiteTheme)
                 .cornerRadius(12)
-//                .padding(.bottom, isMonthDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
-                .padding(.bottom, isMonthDetailsBannerAdLoaded || showAdsIsForbidden ? 2 : -16)
+                .padding(.bottom, isMonthDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
                 
                 ZStack {
                     Button {
@@ -1268,8 +1257,7 @@ extension HomeView {
                     .opacity(isMonthDetailsBannerAdLoaded ? 1 : 0)
                 }
                 .padding(.bottom, isMonthDetailsBannerAdLoaded ? 2 : -16)
-//                .hide(if: userSubscriptionViewModel.subscriptionActive)
-                .hide(if: showAdsIsForbidden)
+                .hide(if: userSubscriptionViewModel.subscriptionActive)
                 
                 VStack(spacing: 0) {
                     HStack {
@@ -1461,8 +1449,7 @@ extension HomeView {
                 .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 16)
-//                .hide(if: userSubscriptionViewModel.subscriptionActive)
-                .hide(if: showAdsIsForbidden)
+                .hide(if: userSubscriptionViewModel.subscriptionActive)
             }
             .padding(.horizontal, 16)
             .safeAreaInset(edge: .bottom) {
@@ -1516,8 +1503,7 @@ extension HomeView {
                 .frame(height: 62)
                 .background(.whiteTheme)
                 .cornerRadius(12)
-//                .padding(.bottom, isYearDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
-                .padding(.bottom, isYearDetailsBannerAdLoaded || showAdsIsForbidden ? 2 : -16)
+                .padding(.bottom, isYearDetailsBannerAdLoaded || userSubscriptionViewModel.subscriptionActive ? 2 : -16)
                 
                 ZStack {
                     Button {
@@ -1546,8 +1532,7 @@ extension HomeView {
                     .opacity(isYearDetailsBannerAdLoaded ? 1 : 0)
                 }
                 .padding(.bottom, isYearDetailsBannerAdLoaded ? 2 : -16)
-//                .hide(if: userSubscriptionViewModel.subscriptionActive)
-                .hide(if: showAdsIsForbidden)
+                .hide(if: userSubscriptionViewModel.subscriptionActive)
                 
                 VStack(spacing: 0) {
                     HStack {
@@ -1732,8 +1717,7 @@ extension HomeView {
                 .background(.whiteTheme)
                 .cornerRadius(12)
                 .padding(.bottom, 16)
-//                .hide(if: userSubscriptionViewModel.subscriptionActive)
-                .hide(if: showAdsIsForbidden)
+                .hide(if: userSubscriptionViewModel.subscriptionActive)
             }
             .padding(.horizontal, 16)
             .safeAreaInset(edge: .bottom) {
