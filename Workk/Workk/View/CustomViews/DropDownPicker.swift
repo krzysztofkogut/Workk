@@ -96,7 +96,7 @@ struct DropDownPicker: View {
             .cornerRadius(6)
             .overlay {
                 RoundedRectangle(cornerRadius: 6)
-                    .stroke(.blueRibbon, lineWidth: 1)
+                    .stroke(.cranberry, lineWidth: 2)
                     .hide(if: (hideStroke || selection != "all_title".localized) && !isError)
             }
             .frame(height: size.height, alignment: .top)

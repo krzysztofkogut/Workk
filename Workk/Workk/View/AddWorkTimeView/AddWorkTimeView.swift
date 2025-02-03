@@ -60,6 +60,7 @@ struct AddWorkTimeView: View {
     @State private var taskDay: String = ""
     @State private var noteDay: String = ""
     @State private var isDaySaveButtonEnabled = false
+    @State private var isDayValidationError = false
     
     @State private var weekDate: Date? = .now
     @State private var isPaidWeek = false
@@ -71,6 +72,7 @@ struct AddWorkTimeView: View {
     @State private var taskWeek: String = ""
     @State private var noteWeek: String = ""
     @State private var isWeekSaveButtonEnabled = false
+    @State private var isWeekValidationError = false
     
     @State private var monthDate: Date = .now
     @State private var isPaidMonth = false
@@ -82,6 +84,7 @@ struct AddWorkTimeView: View {
     @State private var taskMonth: String = ""
     @State private var noteMonth: String = ""
     @State private var isMonthSaveButtonEnabled = false
+    @State private var isMonthValidationError = false
     
     @State private var yearDate: Date = .now
     @State private var isPaidYear = false
@@ -93,6 +96,7 @@ struct AddWorkTimeView: View {
     @State private var taskYear: String = ""
     @State private var noteYear: String = ""
     @State private var isYearSaveButtonEnabled = false
+    @State private var isYearValidationError = false
     
     @State private var overtimeDescription = "overtime_description".localized
     
@@ -164,8 +168,7 @@ struct AddWorkTimeView: View {
                                hint: "select_title".localized,
                                options: jobs.compactMap { $0.name },
                                backgroundColor: .whiteTheme,
-                               maxWidth: 220,
-                               hideStroke: false)
+                               maxWidth: 220)
                 
                 Spacer()
                 
@@ -295,10 +298,12 @@ struct AddWorkTimeView: View {
             overtimePercentageYear = newValue.formatNumberInput()
             updateSaveButtonState()
         }
-        .onChange(of: selectedWorkName) { _ in
+        .onChange(of: selectedWorkName) { newValue in
             if hourlyRateDay.isEmpty && isHourlyRateDay {
                 hourlyRateDay = jobs.first(where: { $0.name == selectedWorkName })?.hourlyRate.formatFloatToString() ?? ""
             }
+            
+            isDropDownError = newValue == "all_title".localized
             
             updateSaveButtonState()
         }
@@ -413,9 +418,8 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(.blueRibbon, lineWidth: 1)
-                        .hide(if: (!moneyEarnedDay.isEmpty && !isHourlyRateDay) ||
-                              (!hourlyRateDay.isEmpty && isHourlyRateDay))
+                        .stroke(.cranberry, lineWidth: 2)
+                        .hide(if: !isDayValidationError || isDaySaveButtonEnabled)
                 }
                 
                 HStack(spacing: 0) {
@@ -449,8 +453,8 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(.blueRibbon, lineWidth: 1)
-                        .hide(if: !overtimePercentageDay.isEmpty)
+                        .stroke(.cranberry, lineWidth: 2)
+                        .hide(if: !isDayValidationError || isDaySaveButtonEnabled)
                 }
                 .hide(if: !isOvertimeDay)
                 
@@ -507,6 +511,11 @@ struct AddWorkTimeView: View {
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 8) {
                 Button {
+                    guard isDaySaveButtonEnabled else {
+                        isDayValidationError = true
+                        isDropDownError = selectedWorkName == "all_title".localized
+                        return
+                    }
                     selectedWork == nil ? addItem() : updateItem()
                     dismiss()
                 } label: {
@@ -517,7 +526,6 @@ struct AddWorkTimeView: View {
                         .padding(.horizontal, 16)
                         .background(isDaySaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
                 }
-                .disabled(!isDaySaveButtonEnabled)
                 
                 Text("add_work_conditions_decription".localized)
                     .font(.nunitoSemiBold(size: 12))
@@ -594,8 +602,8 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(.blueRibbon, lineWidth: 1)
-                        .hide(if: !moneyEarnedWeek.isEmpty)
+                        .stroke(.cranberry, lineWidth: 2)
+                        .hide(if: !isWeekValidationError || isWeekSaveButtonEnabled)
                 }
                 
                 HStack(spacing: 0) {
@@ -616,8 +624,8 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(.blueRibbon, lineWidth: 1)
-                        .hide(if: !hoursWorkedWeek.isEmpty)
+                        .stroke(.cranberry, lineWidth: 2)
+                        .hide(if: !isWeekValidationError || isWeekSaveButtonEnabled)
                 }
                 
                 HStack(spacing: 0) {
@@ -651,8 +659,8 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(.blueRibbon, lineWidth: 1)
-                        .hide(if: !overtimePercentageWeek.isEmpty)
+                        .stroke(.cranberry, lineWidth: 2)
+                        .hide(if: !isWeekValidationError || isWeekSaveButtonEnabled)
                 }
                 .hide(if: !isOvertimeWeek)
                 
@@ -709,6 +717,12 @@ struct AddWorkTimeView: View {
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 8) {
                 Button {
+                    guard isWeekSaveButtonEnabled else {
+                        isWeekValidationError = true
+                        isDropDownError = selectedWorkName == "all_title".localized
+                        return
+                    }
+                    
                     selectedWork == nil ? addItem() : updateItem()
                     dismiss()
                 } label: {
@@ -719,7 +733,6 @@ struct AddWorkTimeView: View {
                         .padding(.horizontal, 16)
                         .background(isWeekSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
                 }
-                .disabled(!isWeekSaveButtonEnabled)
             
                 Text("add_work_conditions_decription".localized)
                     .font(.nunitoSemiBold(size: 12))
@@ -796,8 +809,8 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(.blueRibbon, lineWidth: 1)
-                        .hide(if: !moneyEarnedMonth.isEmpty)
+                        .stroke(.cranberry, lineWidth: 2)
+                        .hide(if: !isMonthValidationError || isMonthSaveButtonEnabled)
                 }
                 
                 HStack(spacing: 0) {
@@ -818,8 +831,8 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(.blueRibbon, lineWidth: 1)
-                        .hide(if: !hoursWorkedMonth.isEmpty)
+                        .stroke(.cranberry, lineWidth: 2)
+                        .hide(if: !isMonthValidationError || isMonthSaveButtonEnabled)
                 }
                 
                 HStack(spacing: 0) {
@@ -853,8 +866,8 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(.blueRibbon, lineWidth: 1)
-                        .hide(if: !overtimePercentageMonth.isEmpty)
+                        .stroke(.cranberry, lineWidth: 2)
+                        .hide(if: !isMonthValidationError || isMonthSaveButtonEnabled)
                 }
                 .hide(if: !isOvertimeMonth)
                 
@@ -911,6 +924,12 @@ struct AddWorkTimeView: View {
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 8) {
                 Button {
+                    guard isMonthSaveButtonEnabled else {
+                        isMonthValidationError = true
+                        isDropDownError = selectedWorkName == "all_title".localized
+                        return
+                    }
+                    
                     selectedWork == nil ? addItem() : updateItem()
                     dismiss()
                 } label: {
@@ -921,7 +940,6 @@ struct AddWorkTimeView: View {
                         .padding(.horizontal, 16)
                         .background(isMonthSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
                 }
-                .disabled(!isMonthSaveButtonEnabled)
             
                 Text("add_work_conditions_decription".localized)
                     .font(.nunitoSemiBold(size: 12))
@@ -998,8 +1016,8 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(.blueRibbon, lineWidth: 1)
-                        .hide(if: !moneyEarnedYear.isEmpty)
+                        .stroke(.cranberry, lineWidth: 2)
+                        .hide(if: !isYearValidationError || isYearSaveButtonEnabled)
                 }
                 
                 HStack(spacing: 0) {
@@ -1019,8 +1037,8 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(.blueRibbon, lineWidth: 1)
-                        .hide(if: !hoursWorkedYear.isEmpty)
+                        .stroke(.cranberry, lineWidth: 2)
+                        .hide(if: !isYearValidationError || isYearSaveButtonEnabled)
                 }
                 
                 HStack(spacing: 0) {
@@ -1054,8 +1072,8 @@ struct AddWorkTimeView: View {
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(.blueRibbon, lineWidth: 1)
-                        .hide(if: !overtimePercentageYear.isEmpty)
+                        .stroke(.cranberry, lineWidth: 2)
+                        .hide(if: !isYearValidationError || isYearSaveButtonEnabled)
                 }
                 .hide(if: !isOvertimeYear)
                 
@@ -1112,6 +1130,12 @@ struct AddWorkTimeView: View {
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 8) {
                 Button {
+                    guard isYearSaveButtonEnabled else {
+                        isYearValidationError = true
+                        isDropDownError = selectedWorkName == "all_title".localized
+                        return
+                    }
+                    
                     selectedWork == nil ? addItem() : updateItem()
                     dismiss()
                 } label: {
@@ -1122,7 +1146,6 @@ struct AddWorkTimeView: View {
                         .padding(.horizontal, 16)
                         .background(isYearSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
                 }
-                .disabled(!isYearSaveButtonEnabled)
             
                 Text("add_work_conditions_decription".localized)
                     .font(.nunitoSemiBold(size: 12))

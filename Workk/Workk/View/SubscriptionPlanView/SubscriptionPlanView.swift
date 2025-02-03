@@ -238,9 +238,13 @@ struct SubscriptionPlanView: View {
                         .font(.latoBold(size: 14))
                         .hide(if: viewModel.isSelectedPackageMonthly)
                     
-                    Text("(" + (viewModel.selectedPackage?.storeProduct.localizedPricePerMonth ?? "") + "/" + "month_title".localized.lowercased() + ")")
-                        .font(.latoBold(size: 14))
-                        .hide(if: viewModel.isSelectedPackageMonthly)
+                    HStack(spacing: 0) {
+                        Text("(")
+                        Text((viewModel.selectedPackage?.storeProduct.localizedPricePerMonth ?? "") + "/" + "month_title".localized.lowercased())
+                        Text(")")
+                    }
+                    .font(.latoBold(size: 14))
+                    .hide(if: viewModel.isSelectedPackageMonthly)
                     
                     Text((viewModel.selectedPackage?.storeProduct.localizedPricePerMonth ?? "") + "/" + "month_title".localized.lowercased())
                         .font(.latoBold(size: 14))
@@ -309,7 +313,6 @@ struct SubscriptionPlanView: View {
         .sheet(isPresented: $showTermsAndConditions) {
             WebViewWithCloseButton(url: Constants.termsAndConditionsURL,
                                    navigationTitle: "terms_conditions_title".localized)
-//            SafariView(url: Constants.termsAndConditionsURL)
         }
         .alert(
             isPresented: $displayError,

@@ -11,8 +11,8 @@ extension UserDefaults {
     private static let lastSubscriptionShownKey = "lastSubscriptionShown"
     private static let lastFullScreenAdShownKey = "lastFullScreenAdShown"
 
-    /// Checks if the subscription plan can be shown based on the given interval (e.g., 5 days).
-    static func canShowSubscriptionPlan(interval: TimeInterval = 5 * 24 * 60 * 60) -> Bool {
+    /// Checks if the subscription plan can be shown based on the given interval (e.g., 3 days).
+    static func canShowSubscriptionPlan(interval: TimeInterval = 3 * 24 * 60 * 60) -> Bool {
         guard let lastShowSubscriptionDate = UserDefaults.standard.object(forKey: lastSubscriptionShownKey) as? Date else {
             return true
         }
@@ -20,7 +20,7 @@ extension UserDefaults {
         return Date().timeIntervalSince(lastShowSubscriptionDate) > interval
     }
     
-    static func canShowFullScreenAd(interval: TimeInterval = 24 * 60 * 60) -> Bool {
+    static func canShowFullScreenAd(interval: TimeInterval = 4 * 60 * 60) -> Bool {
         guard let lastShowFullScreenAdDate = UserDefaults.standard.object(forKey: lastFullScreenAdShownKey) as? Date else {
             return true
         }
