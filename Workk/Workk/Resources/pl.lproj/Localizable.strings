@@ -172,3 +172,24 @@
 
 "add_job_conditions_decription" = "Wymagane pola: nazwa pracy, stawka godzinowa";
 "add_work_conditions_decription" = "Wymagane pola: praca, czas pracy, zarobione pieniadze";
+
+"dropdown_picker_home_tip_title" = "Wybierz pracę";
+"dropdown_picker_home_tip_message" = "Wybierz pracę z tej listy, aby filtrować swoje wpisy. Musisz wybrać pracę przed rozpoczęciem śledzenia czasu i zapisywania go dla konkretnej pracy.";
+
+"dropdown_picker_add_work_tip_title" = "Wybierz pracę";
+"dropdown_picker_add_work_tip_message" = "Przed dodaniem nowego wpisu wybierz pracę z listy rozwijanej.";
+
+"period_filter_home_tip_title" = "Wybierz okres czasu";
+"period_filter_home_tip_message" = "Filtrowanie wpisów pracy według dnia, tygodnia, miesiąca lub roku.";
+
+"period_filter_add_work_tip_title" = "Ustaw okres czasu";
+"period_filter_add_work_tip_message" = "Zaloguj swoje godziny pracy i zarobki dla konkretnego dnia, tygodnia, miesiąca lub roku.";
+
+"period_filter_schedule_tip_title" = "Filtrowanie harmonogramu pracy";
+"period_filter_schedule_tip_message" = "Przeglądaj swoje wpisy pracy według dnia, tygodnia, miesiąca lub roku.";
+
+"your_profile_tip_title" = "Zarządzaj swoim profilem";
+"your_profile_tip_message" = "W swoim profilu możesz edytować prace, ustawiać cele, wybierać walutę, włączać synchronizację iCloud i zarządzać powiadomieniami.";
+
+"required_fields_add_work_tip_title" = "Wypełnij wymagane pola";
+"required_fields_add_work_tip_message" = "Aby dodać nowy wpis, uzupełnij wszystkie wymagane pola: praca, czas pracy i zarobki. \nJeśli któreś pole pozostanie puste, wpis nie zostanie zapisany, a brakujące pola zostaną podświetlone.";

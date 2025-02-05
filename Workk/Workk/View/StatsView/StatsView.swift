@@ -64,6 +64,14 @@ struct StatsView: View {
         return hasher.finalize()
     }
     
+    var updateMaxValueKey: String {
+        return "\(viewModel.selectedWeek)\(viewModel.selectedMonth)\(viewModel.selectedYearForMonths)\(viewModel.selectedYear)"
+    }
+    
+    var animateChartValueKey: String {
+        return "\(String(describing: viewModel.selectedWorkName))\(viewModel.selectedPeriodFilter)\(viewModel.selectedPaymentStatus)\(viewModel.weekFilters)\(viewModel.monthFilters)\(viewModel.yearFilters)"
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment: .leading) {
@@ -203,30 +211,18 @@ struct StatsView: View {
             moneyYScale = viewModel.maxForMoney()
             hoursYScale = viewModel.maxForHours()
         }
-        .onChange(of: jobs.count) { _ in
+        .onChange(of: jobs.count) {
             let isSelectedWorkNameMissing = jobs.allSatisfy { $0.name != viewModel.selectedWorkName }
                 
             if isSelectedWorkNameMissing {
                 viewModel.selectedWorkName = "all_title".localized
             }
         }
-        .onChange(of: viewModel.selectedWeek) { _ in
+        .onChange(of: updateMaxValueKey) {
             moneyYScale = viewModel.maxForMoney()
             hoursYScale = viewModel.maxForHours()
         }
-        .onChange(of: viewModel.selectedMonth) { _ in
-            moneyYScale = viewModel.maxForMoney()
-            hoursYScale = viewModel.maxForHours()
-        }
-        .onChange(of: viewModel.selectedYearForMonths) { _ in
-            moneyYScale = viewModel.maxForMoney()
-            hoursYScale = viewModel.maxForHours()
-        }
-        .onChange(of: viewModel.selectedYear) { _ in
-            moneyYScale = viewModel.maxForMoney()
-            hoursYScale = viewModel.maxForHours()
-        }
-        .onChange(of: viewModel.selectedWorkName) { _ in
+        .onChange(of: animateChartValueKey) {
             currentActiveMoneyItem = nil
             currentActiveHoursItem = nil
             viewModel.reloadSiteViews(works: viewModel.selectedPaymentStatus.isPaid ? paidWorks : unpaidWorks)
@@ -234,47 +230,7 @@ struct StatsView: View {
             hoursYScale = viewModel.maxForHours()
             viewModel.animateChart(fromChange: true)
         }
-        .onChange(of: viewModel.selectedPeriodFilter) { _ in
-            currentActiveMoneyItem = nil
-            currentActiveHoursItem = nil
-            viewModel.reloadSiteViews(works: viewModel.selectedPaymentStatus.isPaid ? paidWorks : unpaidWorks)
-            moneyYScale = viewModel.maxForMoney()
-            hoursYScale = viewModel.maxForHours()
-            viewModel.animateChart(fromChange: true)
-        }
-        .onChange(of: viewModel.selectedPaymentStatus) { _ in
-            currentActiveMoneyItem = nil
-            currentActiveHoursItem = nil
-            viewModel.reloadSiteViews(works: viewModel.selectedPaymentStatus.isPaid ? paidWorks : unpaidWorks)
-            moneyYScale = viewModel.maxForMoney()
-            hoursYScale = viewModel.maxForHours()
-            viewModel.animateChart(fromChange: true)
-        }
-        .onChange(of: viewModel.weekFilters) { _ in
-            currentActiveMoneyItem = nil
-            currentActiveHoursItem = nil
-            viewModel.reloadSiteViews(works: viewModel.selectedPaymentStatus.isPaid ? paidWorks : unpaidWorks)
-            moneyYScale = viewModel.maxForMoney()
-            hoursYScale = viewModel.maxForHours()
-            viewModel.animateChart(fromChange: true)
-        }
-        .onChange(of: viewModel.monthFilters) { _ in
-            currentActiveMoneyItem = nil
-            currentActiveHoursItem = nil
-            viewModel.reloadSiteViews(works: viewModel.selectedPaymentStatus.isPaid ? paidWorks : unpaidWorks)
-            moneyYScale = viewModel.maxForMoney()
-            hoursYScale = viewModel.maxForHours()
-            viewModel.animateChart(fromChange: true)
-        }
-        .onChange(of: viewModel.yearFilters) { _ in
-            currentActiveMoneyItem = nil
-            currentActiveHoursItem = nil
-            viewModel.reloadSiteViews(works: viewModel.selectedPaymentStatus.isPaid ? paidWorks : unpaidWorks)
-            moneyYScale = viewModel.maxForMoney()
-            hoursYScale = viewModel.maxForHours()
-            viewModel.animateChart(fromChange: true)
-        }
-        .onChange(of: datePropertiesHash) { _ in
+        .onChange(of: datePropertiesHash) {
             currentActiveMoneyItem = nil
             currentActiveHoursItem = nil
             moneyYScale = viewModel.maxForMoney()

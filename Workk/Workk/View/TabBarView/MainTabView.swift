@@ -100,7 +100,7 @@ struct MainTabView: View {
             
             UITabBar.appearance().standardAppearance = standardAppearance
         }
-        .onChange(of: selectedTab) { _ in
+        .onChange(of: selectedTab) { 
             if UserDefaults.canShowFullScreenAd(), !userSubscriptionViewModel.subscriptionActive {
                 showAd()
             }

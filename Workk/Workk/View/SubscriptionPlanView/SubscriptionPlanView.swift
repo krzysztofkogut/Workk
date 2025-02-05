@@ -13,6 +13,8 @@ import SwiftUI
 struct SubscriptionPlanView: View {
     @Environment(\.dismiss) private var dismiss
     
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding: Bool = false
+    
     @State private var dayStartDate: Date = .now
     @State private var showTermsAndConditions = false
     @State private var isPurchasing: Bool = false
@@ -295,6 +297,11 @@ struct SubscriptionPlanView: View {
         .background {
             Color(.wildSand)
                 .ignoresSafeArea()
+        }
+        .onDisappear {
+            YourProfileTip.hasSeenOnboarding = hasSeenOnboarding
+            DropdownPickerHomeTip.hasSeenOnboarding = hasSeenOnboarding
+            PeriodFilterHomeTip.hasSeenOnboarding = hasSeenOnboarding
         }
         .overlay {
             ZStack {

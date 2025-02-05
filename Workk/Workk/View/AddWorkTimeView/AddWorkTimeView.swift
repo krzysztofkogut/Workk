@@ -169,6 +169,7 @@ struct AddWorkTimeView: View {
                                options: jobs.compactMap { $0.name },
                                backgroundColor: .whiteTheme,
                                maxWidth: 220)
+                .popoverTip(DropdownPickerAddWorkTip(), arrowEdge: .bottom)
                 
                 Spacer()
                 
@@ -197,6 +198,7 @@ struct AddWorkTimeView: View {
             periodFilterBar
                 .padding(.bottom, 8)
                 .hide(if: selectedWork != nil)
+                .popoverTip(PeriodFilterAddWorkTip(), arrowEdge: .bottom)
                 .onTapGesture {
                     UIApplication.shared.dismissKeyboard()
                 }
@@ -254,51 +256,51 @@ struct AddWorkTimeView: View {
             hourlyRateDay = newValue.formatNumberInput()
             updateSaveButtonState()
         }
-        .onChange(of: moneyEarnedDay) { newValue in
+        .onChange(of: moneyEarnedDay) { _, newValue in
             moneyEarnedDay = newValue.formatNumberInput()
             updateSaveButtonState()
         }
-        .onChange(of: moneyEarnedWeek) { newValue in
+        .onChange(of: moneyEarnedWeek) { _, newValue in
             moneyEarnedWeek = newValue.formatNumberInput()
             updateSaveButtonState()
         }
-        .onChange(of: moneyEarnedMonth) { newValue in
+        .onChange(of: moneyEarnedMonth) { _, newValue in
             moneyEarnedMonth = newValue.formatNumberInput()
             updateSaveButtonState()
         }
-        .onChange(of: moneyEarnedYear) { newValue in
+        .onChange(of: moneyEarnedYear) { _, newValue in
             moneyEarnedYear = newValue.formatNumberInput()
             updateSaveButtonState()
         }
-        .onChange(of: hoursWorkedWeek) { newValue in
+        .onChange(of: hoursWorkedWeek) { _, newValue in
             hoursWorkedWeek = newValue.formatNumberInput()
             updateSaveButtonState()
         }
-        .onChange(of: hoursWorkedMonth) { newValue in
+        .onChange(of: hoursWorkedMonth) { _, newValue in
             hoursWorkedMonth = newValue.formatNumberInput()
             updateSaveButtonState()
         }
-        .onChange(of: hoursWorkedYear) { newValue in
+        .onChange(of: hoursWorkedYear) { _, newValue in
             hoursWorkedYear = newValue.formatNumberInput()
             updateSaveButtonState()
         }
-        .onChange(of: overtimePercentageDay) { newValue in
+        .onChange(of: overtimePercentageDay) { _, newValue in
             overtimePercentageDay = newValue.formatNumberInput()
             updateSaveButtonState()
         }
-        .onChange(of: overtimePercentageWeek) { newValue in
+        .onChange(of: overtimePercentageWeek) { _, newValue in
             overtimePercentageWeek = newValue.formatNumberInput()
             updateSaveButtonState()
         }
-        .onChange(of: overtimePercentageMonth) { newValue in
+        .onChange(of: overtimePercentageMonth) { _, newValue in
             overtimePercentageMonth = newValue.formatNumberInput()
             updateSaveButtonState()
         }
-        .onChange(of: overtimePercentageYear) { newValue in
+        .onChange(of: overtimePercentageYear) { _, newValue in
             overtimePercentageYear = newValue.formatNumberInput()
             updateSaveButtonState()
         }
-        .onChange(of: selectedWorkName) { newValue in
+        .onChange(of: selectedWorkName) { _, newValue in
             if hourlyRateDay.isEmpty && isHourlyRateDay {
                 hourlyRateDay = jobs.first(where: { $0.name == selectedWorkName })?.hourlyRate.formatFloatToString() ?? ""
             }
@@ -307,7 +309,7 @@ struct AddWorkTimeView: View {
             
             updateSaveButtonState()
         }
-        .onChange(of: isHourlyRateDay) { newValue in
+        .onChange(of: isHourlyRateDay) { _, newValue in
             if hourlyRateDay.isEmpty && newValue {
                 hourlyRateDay = jobs.first(where: { $0.name == selectedWorkName })?.hourlyRate.formatFloatToString() ?? ""
             } else if !newValue {
@@ -316,8 +318,8 @@ struct AddWorkTimeView: View {
             
             updateSaveButtonState()
         }
-        .onChange(of: selectedFilter) { _ in UIApplication.shared.dismissKeyboard() }
-        .onChange(of: saveButtonStateKey) { _ in updateSaveButtonState() }
+        .onChange(of: selectedFilter) { UIApplication.shared.dismissKeyboard() }
+        .onChange(of: saveButtonStateKey) { updateSaveButtonState() }
         .gesture(
             DragGesture()
                 .onChanged { value in
@@ -416,6 +418,7 @@ struct AddWorkTimeView: View {
                         .padding(.trailing, 16)
                 }
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .popoverTip(RequiredFieldsAddWorkTip(), arrowEdge: .bottom)
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
                         .stroke(.cranberry, lineWidth: 2)

@@ -11,6 +11,7 @@ import Resolver
 import RevenueCat
 import StoreKit
 import SwiftUI
+import TipKit
 
 @main
 struct WorkkApp: App {
@@ -30,6 +31,11 @@ struct WorkkApp: App {
 
     init() {
         GADMobileAds.sharedInstance().start(completionHandler: nil)
+
+        try? Tips.configure([
+            .displayFrequency(.immediate),
+            .datastoreLocation(.applicationDefault),
+        ])
         
         notificationManager.requestAuthorization()
         notificationManager.scheduleWeeklyNotification(on: 1, at: 18, minute: 0)

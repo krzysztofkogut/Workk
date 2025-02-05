@@ -172,3 +172,24 @@
 
 "add_job_conditions_decription" = "Obligatoriska fält: jobbnamn, timlön";
 "add_work_conditions_decription" = "Obligatoriska fält: jobb, arbetstid, intjänade pengar";
+
+"dropdown_picker_home_tip_title" = "Välj ett jobb";
+"dropdown_picker_home_tip_message" = "Välj ett jobb från denna lista för att filtrera dina arbetsinlägg. Du måste välja ett jobb innan du kan börja spåra tid och spara den för ett specifikt jobb.";
+
+"dropdown_picker_add_work_tip_title" = "Välj ett jobb";
+"dropdown_picker_add_work_tip_message" = "Innan du lägger till en ny post, välj ett jobb från rullgardinsmenyn.";
+
+"period_filter_home_tip_title" = "Välj en tidsperiod";
+"period_filter_home_tip_message" = "Filtrera dina arbetsinlägg efter dag, vecka, månad eller år.";
+
+"period_filter_add_work_tip_title" = "Ställ in en tidsperiod";
+"period_filter_add_work_tip_message" = "Logga dina arbetstimmar och intäkter för en specifik dag, vecka, månad eller år.";
+
+"period_filter_schedule_tip_title" = "Filtrera arbetsschema";
+"period_filter_schedule_tip_message" = "Visa dina arbetsinlägg filtrerade efter dag, vecka, månad eller år.";
+
+"your_profile_tip_title" = "Hantera din profil";
+"your_profile_tip_message" = "I din profil kan du redigera jobb, sätta mål, välja en valuta, aktivera iCloud-synkronisering och hantera aviseringar.";
+
+"required_fields_add_work_tip_title" = "Fyll i obligatoriska fält";
+"required_fields_add_work_tip_message" = "För att lägga till en ny post, fyll i alla obligatoriska fält: jobb, arbetstid och intäkter. \nOm något fält lämnas tomt sparas inte posten, och de saknade fälten kommer att markeras.";

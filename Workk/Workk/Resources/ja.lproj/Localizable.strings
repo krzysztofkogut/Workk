@@ -172,3 +172,24 @@
 
 "add_job_conditions_decription" = "必須項目: 仕事名、時給";
 "add_work_conditions_decription" = "必須項目: 仕事、勤務時間、獲得金額";
+
+"dropdown_picker_home_tip_title" = "仕事を選択";
+"dropdown_picker_home_tip_message" = "このリストから仕事を選択して作業エントリーをフィルタリングしてください。時間を記録して特定の仕事に保存するには、まず仕事を選択する必要があります。";
+
+"dropdown_picker_add_work_tip_title" = "仕事を選択";
+"dropdown_picker_add_work_tip_message" = "新しいエントリーを追加する前に、ドロップダウンから仕事を選択してください。";
+
+"period_filter_home_tip_title" = "期間を選択";
+"period_filter_home_tip_message" = "作業エントリーを日、週、月、年ごとにフィルタリングします。";
+
+"period_filter_add_work_tip_title" = "期間を設定";
+"period_filter_add_work_tip_message" = "特定の日、週、月、または年の作業時間と収益を記録します。";
+
+"period_filter_schedule_tip_title" = "作業スケジュールのフィルター";
+"period_filter_schedule_tip_message" = "作業エントリーを日、週、月、または年ごとにフィルタリングして表示します。";
+
+"your_profile_tip_title" = "プロフィールを管理";
+"your_profile_tip_message" = "プロフィールでは、仕事の編集、目標の設定、通貨の選択、iCloud同期の有効化、通知の管理ができます。";
+
+"required_fields_add_work_tip_title" = "必須項目を入力";
+"required_fields_add_work_tip_message" = "新しいエントリーを追加するには、すべての必須項目（仕事、作業時間、収益）を入力してください。 \n項目が未入力の場合、エントリーは保存されず、不足している項目が強調表示されます。";

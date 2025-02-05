@@ -172,3 +172,24 @@
 
 "add_job_conditions_decription" = "Erforderliche Felder: Jobname, Stundensatz";
 "add_work_conditions_decription" = "Erforderliche Felder: Job, Arbeitszeit, verdientes Geld";
+
+"dropdown_picker_home_tip_title" = "Wählen Sie einen Job";
+"dropdown_picker_home_tip_message" = "Wählen Sie einen Job aus dieser Liste, um Ihre Arbeitseinträge zu filtern. Sie müssen einen Job auswählen, bevor Sie die Zeit erfassen und für einen bestimmten Job speichern können.";
+
+"dropdown_picker_add_work_tip_title" = "Wählen Sie einen Job";
+"dropdown_picker_add_work_tip_message" = "Bevor Sie einen neuen Eintrag hinzufügen, wählen Sie einen Job aus der Dropdown-Liste.";
+
+"period_filter_home_tip_title" = "Wählen Sie einen Zeitraum";
+"period_filter_home_tip_message" = "Filtern Sie Ihre Arbeitseinträge nach Tag, Woche, Monat oder Jahr.";
+
+"period_filter_add_work_tip_title" = "Legen Sie einen Zeitraum fest";
+"period_filter_add_work_tip_message" = "Protokollieren Sie Ihre Arbeitszeiten und Einnahmen für einen bestimmten Tag, eine Woche, einen Monat oder ein Jahr.";
+
+"period_filter_schedule_tip_title" = "Arbeitszeitplan filtern";
+"period_filter_schedule_tip_message" = "Sehen Sie Ihre Arbeitseinträge gefiltert nach Tag, Woche, Monat oder Jahr.";
+
+"your_profile_tip_title" = "Verwalten Sie Ihr Profil";
+"your_profile_tip_message" = "In Ihrem Profil können Sie Jobs bearbeiten, Ziele setzen, eine Währung auswählen, iCloud-Synchronisierung aktivieren und Benachrichtigungen verwalten.";
+
+"required_fields_add_work_tip_title" = "Füllen Sie die erforderlichen Felder aus";
+"required_fields_add_work_tip_message" = "Um einen neuen Eintrag hinzuzufügen, füllen Sie alle erforderlichen Felder aus: Job, Arbeitszeit und Einnahmen. \nWenn ein Feld leer bleibt, wird der Eintrag nicht gespeichert und die fehlenden Felder werden hervorgehoben.";

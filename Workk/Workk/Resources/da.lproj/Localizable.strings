@@ -172,3 +172,24 @@
 
 "add_job_conditions_decription" = "Påkrævede felter: jobnavn, timeløn";
 "add_work_conditions_decription" = "Påkrævede felter: job, arbejdstid, tjente penge";
+
+"dropdown_picker_home_tip_title" = "Vælg et job";
+"dropdown_picker_home_tip_message" = "Vælg et job fra denne liste for at filtrere dine arbejdsposter. Du skal vælge et job, før du kan begynde at registrere tid og gemme den til et bestemt job.";
+
+"dropdown_picker_add_work_tip_title" = "Vælg et job";
+"dropdown_picker_add_work_tip_message" = "Før du tilføjer en ny post, skal du vælge et job fra dropdown-menuen.";
+
+"period_filter_home_tip_title" = "Vælg en tidsperiode";
+"period_filter_home_tip_message" = "Filtrer dine arbejdsposter efter dag, uge, måned eller år.";
+
+"period_filter_add_work_tip_title" = "Indstil en tidsperiode";
+"period_filter_add_work_tip_message" = "Log dine arbejdstimer og indtjening for en specifik dag, uge, måned eller år.";
+
+"period_filter_schedule_tip_title" = "Filtrer arbejdsplan";
+"period_filter_schedule_tip_message" = "Se dine arbejdsposter filtreret efter dag, uge, måned eller år.";
+
+"your_profile_tip_title" = "Administrer din profil";
+"your_profile_tip_message" = "I din profil kan du redigere job, indstille mål, vælge en valuta, aktivere iCloud-synkronisering og administrere notifikationer.";
+
+"required_fields_add_work_tip_title" = "Udfyld de nødvendige felter";
+"required_fields_add_work_tip_message" = "For at tilføje en ny post skal du udfylde alle de nødvendige felter: job, arbejdstid og indtjening. \nHvis et felt er tomt, vil posten ikke blive gemt, og de manglende felter vil blive fremhævet.";

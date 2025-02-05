@@ -172,3 +172,24 @@
 
 "add_job_conditions_decription" = "Campos obligatorios: nombre del trabajo, tarifa por hora";
 "add_work_conditions_decription" = "Campos obligatorios: trabajo, tiempo trabajado, dinero ganado";
+
+"dropdown_picker_home_tip_title" = "Selecciona un trabajo";
+"dropdown_picker_home_tip_message" = "Elige un trabajo de esta lista para filtrar tus entradas de trabajo. Debes seleccionar un trabajo antes de comenzar a registrar el tiempo y guardarlo para un trabajo específico.";
+
+"dropdown_picker_add_work_tip_title" = "Selecciona un trabajo";
+"dropdown_picker_add_work_tip_message" = "Antes de agregar una nueva entrada, selecciona un trabajo en el menú desplegable.";
+
+"period_filter_home_tip_title" = "Elige un período de tiempo";
+"period_filter_home_tip_message" = "Filtra tus entradas de trabajo por día, semana, mes o año.";
+
+"period_filter_add_work_tip_title" = "Configura un período de tiempo";
+"period_filter_add_work_tip_message" = "Registra tus horas de trabajo y ganancias para un día, una semana, un mes o un año específico.";
+
+"period_filter_schedule_tip_title" = "Filtrar horario de trabajo";
+"period_filter_schedule_tip_message" = "Consulta tus entradas de trabajo filtradas por día, semana, mes o año.";
+
+"your_profile_tip_title" = "Gestiona tu perfil";
+"your_profile_tip_message" = "En tu perfil puedes editar trabajos, establecer objetivos, elegir una moneda, habilitar la sincronización con iCloud y administrar notificaciones.";
+
+"required_fields_add_work_tip_title" = "Rellena los campos obligatorios";
+"required_fields_add_work_tip_message" = "Para agregar una nueva entrada, completa todos los campos obligatorios: trabajo, tiempo de trabajo y ganancias. \nSi algún campo queda vacío, la entrada no se guardará y los campos faltantes se resaltarán.";

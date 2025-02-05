@@ -89,7 +89,7 @@ struct ThemeChangeView: View {
         .onAppear {
             hasAppeared = true
         }
-        .onChange(of: scheme) { newValue in
+        .onChange(of: scheme) { _, newValue in
             guard hasAppeared else { return }
             let isDark = newValue == .dark
             withAnimation(.bouncy) {

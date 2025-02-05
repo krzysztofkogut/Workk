@@ -40,7 +40,7 @@ final class WorksDeletionViewModel: WorksDeletionViewModelProtocol {
     }
     
     var yearTitle: AttributedString {
-        var string = AttributedString("year_title".localized)
+        var string = AttributedString("year_title".localized.uppercased())
         string.kern = 3
         string.font = .latoBlack(size: 12)
         return string

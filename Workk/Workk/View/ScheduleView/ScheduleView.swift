@@ -124,6 +124,7 @@ struct ScheduleView: View {
                 .padding(.vertical, 12)
                 .size { periodFilterSize = $0 }
                 .background(.wildSand)
+                .popoverTip(PeriodFilterScheduleTip(), arrowEdge: .bottom)
             
             TabView(selection: $selectedFilter) {
                 dayScheduleView
@@ -143,14 +144,14 @@ struct ScheduleView: View {
             .background(.wildSand)
         }
         .background(ViewSizeReader(size: $screenSize))
-        .onChange(of: jobs.count) { _ in
+        .onChange(of: jobs.count) {
             let isSelectedWorkNameMissing = jobs.allSatisfy { $0.name != selectedWorkName }
                 
             if isSelectedWorkNameMissing {
                 selectedWorkName = "all_title".localized
             }
         }
-        .onChange(of: works.count) { newValue in
+        .onChange(of: works.count) { _, newValue in
             if reviewThresholds.contains(newValue) {
                 requestReview()
             }
@@ -229,18 +230,47 @@ struct ScheduleView: View {
                                 
                 ForEach(dayWorks
                     .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
-                    .filter { $0.startDate.isSameDay(date: viewModel.selectedDay) })
+                    .filter { $0.startDate.isSameDay(date: viewModel.selectedDay) },
+                        id: \.objectID)
                 { work in
-                    HStack(spacing: 0) {
+                    HStack(spacing: 4) {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(work.jobName)
-                                .font(.latoBold(size: 18))
-                                .foregroundStyle(.blackWhite)
-                                
+                            HStack(alignment: .center, spacing: 2) {
+                                Text(work.job?.name ?? "Unknown Job")
+                                    .font(.latoBold(size: 18))
+                                    .foregroundStyle(.blackWhite)
+                                    .padding(.trailing, 4)
+
+                                Text("project_title".localized.first.map { String($0) } ?? "")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.project?.isEmpty ?? true)
+
+                                Text("|")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.project?.isEmpty ?? true || work.task?.isEmpty ?? true)
+
+                                Text("task_title".localized.first.map { String($0) } ?? "")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.task?.isEmpty ?? true)
+
+                                Text("|")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: (work.project?.isEmpty ?? true || work.note?.isEmpty ?? true) && (work.task?.isEmpty ?? true || work.note?.isEmpty ?? true))
+
+                                Text("note_title".localized.first.map { String($0) } ?? "")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.note?.isEmpty ?? true)
+                            }
+
                             Text(work.startDate.currentHourString + " - " + work.endDate.currentHourString)
                                 .font(.latoRegular(size: 12))
                                 .foregroundColor(.blackWhite)
-                            
+
                             Text("overtime_title".localized)
                                 .font(.latoBold(size: 14))
                                 .foregroundStyle(.blackWhite)
@@ -248,32 +278,32 @@ struct ScheduleView: View {
                                 .hide(if: !work.isOvertime)
                         }
                         .padding(.horizontal, 16)
-                            
+
                         Spacer()
-                            
+
                         VStack(alignment: .trailing, spacing: 2) {
                             Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
-                                .foregroundStyle(.blackWhite)
                                 .font(.latoBold(size: 16))
-                                
-                            Text(work.hoursWorkedTimeDifference + " | " + work.hourlyRate.formatFloatToString() +
+                                .foregroundStyle(.blackWhite)
+
+                            Text(work.hoursWorkedString + " | " + work.hourlyRate.formatFloatToString() +
                                 " \(currencyIdentifier.uppercased())" + "/h")
                                 .font(.latoRegular(size: 12))
                                 .foregroundColor(.gray)
                                 .padding(.bottom, 2)
-                            
+
                             Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
                                 .font(.latoBold(size: 14))
                                 .foregroundStyle(.blackWhite)
                         }
                         .padding(.horizontal, 16)
                         .padding(.vertical, 10)
-                            
+
                         Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
                             .resizable()
                             .foregroundStyle(.blackWhite)
                             .frame(width: 20, height: 20)
-                            .padding([.trailing, .vertical], 16)
+                            .padding(.trailing, 16)
                             .hide(if: !deleteMode)
                     }
                     .background(.whiteTheme)
@@ -339,86 +369,9 @@ struct ScheduleView: View {
     
     var weekScheduleView: some View {
         VStack(spacing: 0) {
-            VStack(spacing: 0) {
-                HStack(spacing: 0) {
-                    Button(action: viewModel.backwardToLastWeek) {
-                        Image(systemName: "chevron.left")
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(.blackWhite)
-                    }
-                    .padding(.leading, 24)
-                    
-                    Spacer()
-                    
-                    WeekCard(isSelected: true, week: viewModel.selectedWeek)
-                    
-                    Spacer()
-                    
-                    Button(action: viewModel.forwardToNextWeek) {
-                        Image(systemName: "chevron.right")
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(.blackWhite)
-                    }
-                    .padding(.trailing, 24)
-                }
-                .padding(.horizontal, 4)
-                .padding(.vertical, 12)
-            }
-            .background(.whiteTheme)
-            .cornerRadius(12)
-            .padding(.horizontal, 16)
-            .padding(.bottom, 12)
+            weekNavigation
             
-            ZStack {
-                HStack(spacing: 0) {
-                    DropDownPicker(selection: $selectedWorkName,
-                                   addNewOption: $showAddJobView,
-                                   showSubscriptionPlan: $showSubscriptionPlanView,
-                                   isError: $isDropDownError,
-                                   hint: "select_title".localized,
-                                   options: ["all_title".localized] + jobs.compactMap { $0.name },
-                                   backgroundColor: .whiteTheme,
-                                   maxWidth: 200)
-                    
-                    Spacer()
-                    
-                    Button {
-                        withAnimation(.interpolatingSpring(duration: 0.4)) {
-                            viewModel.selectedWeek = .now
-                        }
-                    } label: {
-                        Text("today_title".localized)
-                            .font(.latoBold(size: 14))
-                            .foregroundStyle(.whiteBlack)
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 16)
-                            .background(.blackWhite, in: .rect(cornerRadius: 18))
-                    }
-                    .padding(.horizontal, 8)
-                    .hide(if: viewModel.selectedWeek.isThisWeek())
-                    
-                    Button {
-                        if deleteMode {
-                            selectedWorks = []
-                        }
-                        
-                        withAnimation(.bouncy(duration: 0.4)) {
-                            deleteMode.toggle()
-                        }
-                    } label: {
-                        Text(deleteMode ? "cancel_title".localized : "delete_title".localized)
-                            .font(.latoBold(size: 14))
-                            .foregroundStyle(.blackWhite)
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 16)
-                            .background(.whiteTheme, in: .rect(cornerRadius: 18))
-                    }
-                }
-            }
-            .zIndex(1000)
-            .fixedSize(horizontal: false, vertical: true)
-            .padding(.bottom, 12)
-            .padding(.horizontal, 16)
+            weekDropdownView
             
             if !weekWorks
                 .filter({ selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true })
@@ -426,115 +379,10 @@ struct ScheduleView: View {
                 .isEmpty
             {
                 ScrollView(showsIndicators: false) {
-                    VStack(spacing: 4) {
-                        ForEach(weekWorks
-                            .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
-                            .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) })
-                        { work in
-                            HStack(spacing: 0) {
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(work.jobName)
-                                        .font(.latoBold(size: 18))
-                                        .foregroundStyle(.blackWhite)
-                                    
-                                    Text(work.startDate.currentWeekScheduleString)
-                                        .font(.latoRegular(size: 12))
-                                        .foregroundColor(.blackWhite)
-                                    
-                                    Text("overtime_title".localized)
-                                        .font(.latoBold(size: 14))
-                                        .foregroundStyle(.blackWhite)
-                                        .padding(.top, 1)
-                                        .hide(if: !work.isOvertime)
-                                }
-                                .padding(.horizontal, 16)
-                                
-                                Spacer()
-                                
-                                VStack(alignment: .trailing, spacing: 2) {
-                                    Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
-                                        .font(.latoBold(size: 16))
-                                        .foregroundStyle(.blackWhite)
-                                    
-                                    Text(work.hoursWorkedString + " | " + work.moneyEarnedHourRate.formatFloatToString() +
-                                        " \(currencyIdentifier.uppercased())" + "/h")
-                                        .font(.latoRegular(size: 12))
-                                        .foregroundColor(.gray)
-                                        .padding(.bottom, 2)
-                                    
-                                    Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
-                                        .font(.latoBold(size: 14))
-                                        .foregroundStyle(.blackWhite)
-                                }
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 10)
-                                
-                                Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
-                                    .resizable()
-                                    .foregroundStyle(.blackWhite)
-                                    .frame(width: 20, height: 20)
-                                    .padding([.trailing, .vertical], 16)
-                                    .hide(if: !deleteMode)
-                            }
-                            .background(.whiteTheme)
-                            .cornerRadius(12)
-                            .padding(.horizontal, 16)
-                            .transition(.opacity)
-                            .onTapGesture {
-                                if deleteMode {
-                                    withAnimation(.bouncy(duration: 0.4)) {
-                                        if selectedWorks.contains(where: { $0.id == work.id }) {
-                                            selectedWorks.remove(work)
-                                        } else {
-                                            selectedWorks.insert(work)
-                                        }
-                                    }
-                                } else {
-                                    showAddWorkTimeView(work: work)
-                                }
-                            }
-                        }
-                    }
+                    weekEntriesView
                 }
             } else {
-                VStack(spacing: 0) {
-                    ZStack {
-                        Button {
-                            showSubscriptionPlanView.toggle()
-                        } label: {
-                            Text("buy_subscription_title".localized)
-                                .font(.nunitoBold(size: 18))
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.5)
-                                .foregroundColor(.blueRibbon)
-                        }
-                        .padding(.horizontal, 18)
-                        
-                        Group {
-                            BannerAd(isLoaded: $isWeekDetailsBannerAdLoaded, unitID: weekScheduleBannerId)
-                                .frame(height: 50)
-                                .cornerRadius(6)
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(.whiteTheme, lineWidth: 3)
-                                }
-                                .padding(6)
-                        }
-                        .background(.whiteTheme)
-                        .cornerRadius(12)
-                        .padding(.horizontal, 16)
-                        .opacity(isWeekDetailsBannerAdLoaded ? 1 : 0)
-                    }
-                    .padding(.bottom, 16)
-                    .hide(if: userSubscriptionViewModel.subscriptionActive)
-                    
-                    Text("no_entries_title".localized)
-                        .font(.latoRegular(size: 18))
-                        .foregroundStyle(.blackWhite)
-                        .padding()
-                    
-                    Spacer()
-                }
+                weekEntriesEmptyView
             }
         }
         .safeAreaInset(edge: .bottom) {
@@ -579,202 +427,20 @@ struct ScheduleView: View {
     
     var monthScheduleView: some View {
         VStack(spacing: 0) {
-            VStack(spacing: 0) {
-                HStack(spacing: 0) {
-                    Button(action: viewModel.backwardToLastMonth) {
-                        Image(systemName: "chevron.left")
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(.blackWhite)
-                    }
-                    .padding(.leading, 24)
-                    
-                    Spacer()
-                    
-                    MonthCard(isSelected: true, month: viewModel.selectedMonth)
-                    
-                    Spacer()
-                    
-                    Button(action: viewModel.forwardToNextMonth) {
-                        Image(systemName: "chevron.right")
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(.blackWhite)
-                    }
-                    .padding(.trailing, 24)
-                }
-                .padding(.horizontal, 4)
-                .padding(.vertical, 12)
-            }
-            .background(.whiteTheme)
-            .cornerRadius(12)
-            .padding(.horizontal, 16)
-            .padding(.bottom, 12)
+            monthNavigation
             
-            ZStack {
-                HStack(spacing: 0) {
-                    DropDownPicker(selection: $selectedWorkName,
-                                   addNewOption: $showAddJobView,
-                                   showSubscriptionPlan: $showSubscriptionPlanView,
-                                   isError: $isDropDownError,
-                                   hint: "select_title".localized,
-                                   options: ["all_title".localized] + jobs.compactMap { $0.name },
-                                   backgroundColor: .whiteTheme,
-                                   maxWidth: 200)
-                    
-                    Spacer()
-                    
-                    Button {
-                        withAnimation(.interpolatingSpring(duration: 0.4)) {
-                            viewModel.selectedMonth = .now
-                        }
-                    } label: {
-                        Text("today_title".localized)
-                            .font(.latoBold(size: 14))
-                            .foregroundStyle(.whiteBlack)
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 16)
-                            .background(.blackWhite, in: .rect(cornerRadius: 18))
-                    }
-                    .padding(.horizontal, 8)
-                    .hide(if: viewModel.selectedMonth.isThisMonth())
-                    
-                    Button {
-                        if deleteMode {
-                            selectedWorks = []
-                        }
-                        
-                        withAnimation(.bouncy(duration: 0.4)) {
-                            deleteMode.toggle()
-                        }
-                    } label: {
-                        Text(deleteMode ? "cancel_title".localized : "delete_title".localized)
-                            .font(.latoBold(size: 14))
-                            .foregroundStyle(.blackWhite)
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 16)
-                            .background(.whiteTheme, in: .rect(cornerRadius: 18))
-                    }
-                }
-            }
-            .zIndex(1000)
-            .fixedSize(horizontal: false, vertical: true)
-            .padding(.bottom, 12)
-            .padding(.horizontal, 16)
+            monthDropdownView
             
             if !monthWorks
                 .filter({ selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true })
                 .filter({ $0.startDate.isSameMonth(date: viewModel.selectedMonth) })
                 .isEmpty
             {
-                ScrollView {
-                    VStack(spacing: 4) {
-                        ForEach(monthWorks
-                            .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
-                            .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) })
-                        { work in
-                            HStack(spacing: 4) {
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(work.jobName)
-                                        .font(.latoBold(size: 18))
-                                        .foregroundStyle(.blackWhite)
-                                    
-                                    Text(work.startDate.currentMonthString)
-                                        .font(.latoRegular(size: 12))
-                                        .foregroundColor(.blackWhite)
-                                    
-                                    Text("overtime_title".localized)
-                                        .font(.latoBold(size: 14))
-                                        .foregroundStyle(.blackWhite)
-                                        .padding(.top, 1)
-                                        .hide(if: !work.isOvertime)
-                                }
-                                .padding(.horizontal, 16)
-                                
-                                Spacer()
-                                
-                                VStack(alignment: .trailing, spacing: 2) {
-                                    Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
-                                        .font(.latoBold(size: 16))
-                                        .foregroundStyle(.blackWhite)
-                                    
-                                    Text(work.hoursWorkedString + " | " + work.moneyEarnedHourRate.formatFloatToString() +
-                                        " \(currencyIdentifier.uppercased())" + "/h")
-                                        .font(.latoRegular(size: 12))
-                                        .foregroundColor(.gray)
-                                        .padding(.bottom, 2)
-                                    
-                                    Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
-                                        .font(.latoBold(size: 14))
-                                        .foregroundStyle(.blackWhite)
-                                }
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 10)
-                                
-                                Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
-                                    .resizable()
-                                    .foregroundStyle(.blackWhite)
-                                    .frame(width: 20, height: 20)
-                                    .padding(.trailing, 16)
-                                    .hide(if: !deleteMode)
-                            }
-                            .background(.whiteTheme)
-                            .cornerRadius(12)
-                            .padding(.horizontal, 16)
-                            .transition(.opacity)
-                            .onTapGesture {
-                                if deleteMode {
-                                    withAnimation(.bouncy(duration: 0.4)) {
-                                        if selectedWorks.contains(where: { $0.id == work.id }) {
-                                            selectedWorks.remove(work)
-                                        } else {
-                                            selectedWorks.insert(work)
-                                        }
-                                    }
-                                } else {
-                                    showAddWorkTimeView(work: work)
-                                }
-                            }
-                        }
-                    }
+                ScrollView(showsIndicators: false) {
+                    monthEntriesView
                 }
             } else {
-                VStack {
-                    ZStack {
-                        Button {
-                            showSubscriptionPlanView.toggle()
-                        } label: {
-                            Text("buy_subscription_title".localized)
-                                .font(.nunitoBold(size: 18))
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.5)
-                                .foregroundColor(.blueRibbon)
-                        }
-                        .padding(.horizontal, 18)
-                        
-                        Group {
-                            BannerAd(isLoaded: $isMonthDetailsBannerAdLoaded, unitID: monthScheduleBannerId)
-                                .frame(height: 50)
-                                .cornerRadius(6)
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(.whiteTheme, lineWidth: 3)
-                                }
-                                .padding(6)
-                        }
-                        .background(.whiteTheme)
-                        .cornerRadius(12)
-                        .padding(.horizontal, 16)
-                        .opacity(isMonthDetailsBannerAdLoaded ? 1 : 0)
-                    }
-                    .padding(.bottom, 16)
-                    .hide(if: userSubscriptionViewModel.subscriptionActive)
-                    
-                    Text("no_entries_title".localized)
-                        .font(.latoRegular(size: 18))
-                        .foregroundStyle(.blackWhite)
-                        .padding()
-                    
-                    Spacer()
-                }
+                monthEntriesEmptyView
             }
         }
         .safeAreaInset(edge: .bottom) {
@@ -819,201 +485,20 @@ struct ScheduleView: View {
     
     var yearScheduleView: some View {
         VStack(spacing: 0) {
-            VStack(spacing: 0) {
-                HStack(spacing: 0) {
-                    Button(action: viewModel.backwardToLastYear) {
-                        Image(systemName: "chevron.left")
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(.blackWhite)
-                    }
-                    .padding(.leading, 24)
-                    
-                    Spacer()
-                    
-                    YearCard(isSelected: true, year: viewModel.selectedYear)
-                    
-                    Spacer()
-                    
-                    Button(action: viewModel.forwardToNextYear) {
-                        Image(systemName: "chevron.right")
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(.blackWhite)
-                    }
-                    .padding(.trailing, 24)
-                }
-                .padding(.horizontal, 4)
-                .padding(.vertical, 20)
-            }
-            .background(.whiteTheme)
-            .cornerRadius(12)
-            .padding(.horizontal, 16)
-            .padding(.bottom, 12)
+            yearNavigation
             
-            ZStack {
-                HStack(spacing: 0) {
-                    DropDownPicker(selection: $selectedWorkName,
-                                   addNewOption: $showAddJobView,
-                                   showSubscriptionPlan: $showSubscriptionPlanView,
-                                   isError: $isDropDownError,
-                                   hint: "select_title".localized,
-                                   options: ["all_title".localized] + jobs.compactMap { $0.name },
-                                   backgroundColor: .whiteTheme,
-                                   maxWidth: 200)
-                    
-                    Spacer()
-                    
-                    Button {
-                        withAnimation(.interpolatingSpring(duration: 0.4)) {
-                            viewModel.selectedYear = .now
-                        }
-                    } label: {
-                        Text("today_title".localized)
-                            .font(.latoBold(size: 14))
-                            .foregroundStyle(.whiteBlack)
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 16)
-                            .background(.blackWhite, in: .rect(cornerRadius: 18))
-                    }
-                    .padding(.horizontal, 8)
-                    .hide(if: viewModel.selectedYear.isThisYear())
-                    
-                    Button {
-                        if deleteMode {
-                            selectedWorks = []
-                        }
-                        
-                        withAnimation(.bouncy(duration: 0.4)) {
-                            deleteMode.toggle()
-                        }
-                    } label: {
-                        Text(deleteMode ? "cancel_title".localized : "delete_title".localized)
-                            .font(.latoBold(size: 14))
-                            .foregroundStyle(.blackWhite)
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 16)
-                            .background(.whiteTheme, in: .rect(cornerRadius: 18))
-                    }
-                }
-            }
-            .zIndex(1000)
-            .fixedSize(horizontal: false, vertical: true)
-            .padding(.bottom, 12)
-            .padding(.horizontal, 16)
+            yearDropdownView
             
             if !yearWorks
                 .filter({ selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true })
                 .filter({ $0.startDate.isSameYear(date: viewModel.selectedYear) })
                 .isEmpty
             {
-                ScrollView {
-                    VStack(spacing: 4) {
-                        ForEach(yearWorks
-                            .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
-                            .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) })
-                        { work in
-                            HStack(spacing: 0) {
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(work.jobName)
-                                        .font(.latoBold(size: 18))
-                                        .foregroundStyle(.blackWhite)
-                                    
-                                    Text(work.startDate.currentYearString)
-                                        .font(.latoRegular(size: 12))
-                                        .foregroundColor(.blackWhite)
-                                    
-                                    Text("overtime_title".localized)
-                                        .font(.latoBold(size: 14))
-                                        .foregroundStyle(.blackWhite)
-                                        .padding(.top, 1)
-                                        .hide(if: !work.isOvertime)
-                                }
-                                .padding(.horizontal, 16)
-                                
-                                Spacer()
-                                
-                                VStack(alignment: .trailing, spacing: 2) {
-                                    Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
-                                        .font(.latoBold(size: 16))
-                                        .foregroundStyle(.blackWhite)
-                                    
-                                    Text(work.hoursWorkedString + " | " + work.moneyEarnedHourRate.formatFloatToString() + " \(currencyIdentifier.uppercased())" + "/h")
-                                        .font(.latoRegular(size: 12))
-                                        .foregroundColor(.gray)
-                                        .padding(.bottom, 2)
-                                    
-                                    Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
-                                        .font(.latoBold(size: 14))
-                                        .foregroundStyle(.blackWhite)
-                                }
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 10)
-                                
-                                Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
-                                    .resizable()
-                                    .foregroundStyle(.blackWhite)
-                                    .frame(width: 20, height: 20)
-                                    .padding(.trailing, 16)
-                                    .hide(if: !deleteMode)
-                            }
-                            .background(.whiteTheme)
-                            .cornerRadius(12)
-                            .padding(.horizontal, 16)
-                            .transition(.opacity)
-                            .onTapGesture {
-                                if deleteMode {
-                                    withAnimation(.bouncy(duration: 0.4)) {
-                                        if selectedWorks.contains(where: { $0.id == work.id }) {
-                                            selectedWorks.remove(work)
-                                        } else {
-                                            selectedWorks.insert(work)
-                                        }
-                                    }
-                                } else {
-                                    showAddWorkTimeView(work: work)
-                                }
-                            }
-                        }
-                    }
+                ScrollView(showsIndicators: false) {
+                    yearEntriesView
                 }
             } else {
-                VStack {
-                    ZStack {
-                        Button {
-                            showSubscriptionPlanView.toggle()
-                        } label: {
-                            Text("buy_subscription_title".localized)
-                                .font(.nunitoBold(size: 18))
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.5)
-                                .foregroundColor(.blueRibbon)
-                        }
-                        .padding(.horizontal, 18)
-                        
-                        Group {
-                            BannerAd(isLoaded: $isYearDetailsBannerAdLoaded, unitID: yearScheduleBannerId)
-                                .frame(height: 50)
-                                .cornerRadius(6)
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(.whiteTheme, lineWidth: 3)
-                                }
-                                .padding(6)
-                        }
-                        .background(.whiteTheme)
-                        .cornerRadius(12)
-                        .padding(.horizontal, 16)
-                        .opacity(isYearDetailsBannerAdLoaded ? 1 : 0)
-                    }
-                    .padding(.bottom, 16)
-                    .hide(if: userSubscriptionViewModel.subscriptionActive)
-                    
-                    Text("no_entries_title".localized)
-                        .font(.latoRegular(size: 18))
-                        .foregroundStyle(.blackWhite)
-                        .padding()
-                    
-                    Spacer()
-                }
+                yearEntriesEmptyView
             }
         }
         .safeAreaInset(edge: .bottom) {
@@ -1056,6 +541,690 @@ struct ScheduleView: View {
         }
     }
     
+    var weekNavigation: some View {
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                Button(action: viewModel.backwardToLastWeek) {
+                    Image(systemName: "chevron.left")
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.blackWhite)
+                }
+                .padding(.leading, 24)
+                
+                Spacer()
+                
+                WeekCard(isSelected: true, week: viewModel.selectedWeek)
+                
+                Spacer()
+                
+                Button(action: viewModel.forwardToNextWeek) {
+                    Image(systemName: "chevron.right")
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.blackWhite)
+                }
+                .padding(.trailing, 24)
+            }
+            .padding(.horizontal, 4)
+            .padding(.vertical, 12)
+        }
+        .background(.whiteTheme)
+        .cornerRadius(12)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 12)
+    }
+    
+    var weekDropdownView: some View {
+        ZStack {
+            HStack(spacing: 0) {
+                DropDownPicker(selection: $selectedWorkName,
+                               addNewOption: $showAddJobView,
+                               showSubscriptionPlan: $showSubscriptionPlanView,
+                               isError: $isDropDownError,
+                               hint: "select_title".localized,
+                               options: ["all_title".localized] + jobs.compactMap { $0.name },
+                               backgroundColor: .whiteTheme,
+                               maxWidth: 200)
+                
+                Spacer()
+                
+                Button {
+                    withAnimation(.interpolatingSpring(duration: 0.4)) {
+                        viewModel.selectedWeek = .now
+                    }
+                } label: {
+                    Text("today_title".localized)
+                        .font(.latoBold(size: 14))
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(.blackWhite, in: .rect(cornerRadius: 18))
+                }
+                .padding(.horizontal, 8)
+                .hide(if: viewModel.selectedWeek.isThisWeek())
+                
+                Button {
+                    if deleteMode {
+                        selectedWorks = []
+                    }
+                    
+                    withAnimation(.bouncy(duration: 0.4)) {
+                        deleteMode.toggle()
+                    }
+                } label: {
+                    Text(deleteMode ? "cancel_title".localized : "delete_title".localized)
+                        .font(.latoBold(size: 14))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(.whiteTheme, in: .rect(cornerRadius: 18))
+                }
+            }
+        }
+        .zIndex(1000)
+        .fixedSize(horizontal: false, vertical: true)
+        .padding(.bottom, 12)
+        .padding(.horizontal, 16)
+    }
+    
+    var weekEntriesView: some View {
+            VStack(spacing: 4) {
+                ForEach(weekWorks
+                    .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
+                    .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) },
+                        id: \.objectID)
+                { work in
+                    HStack(spacing: 4) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            HStack(alignment: .center, spacing: 2) {
+                                Text(work.job?.name ?? "Unknown Job")
+                                    .font(.latoBold(size: 18))
+                                    .foregroundStyle(.blackWhite)
+                                    .padding(.trailing, 4)
+
+                                Text("project_title".localized.first.map { String($0) } ?? "")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.project?.isEmpty ?? true)
+
+                                Text("|")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.project?.isEmpty ?? true || work.task?.isEmpty ?? true)
+
+                                Text("task_title".localized.first.map { String($0) } ?? "")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.task?.isEmpty ?? true)
+
+                                Text("|")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: (work.project?.isEmpty ?? true || work.note?.isEmpty ?? true) && (work.task?.isEmpty ?? true || work.note?.isEmpty ?? true))
+
+                                Text("note_title".localized.first.map { String($0) } ?? "")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.note?.isEmpty ?? true)
+                            }
+
+                            Text(work.startDate.currentWeekScheduleString)
+                                .font(.latoRegular(size: 12))
+                                .foregroundColor(.blackWhite)
+
+                            Text("overtime_title".localized)
+                                .font(.latoBold(size: 14))
+                                .foregroundStyle(.blackWhite)
+                                .padding(.top, 1)
+                                .hide(if: !work.isOvertime)
+                        }
+                        .padding(.horizontal, 16)
+
+                        Spacer()
+
+                        VStack(alignment: .trailing, spacing: 2) {
+                            Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
+                                .font(.latoBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+
+                            Text(work.hoursWorkedString + " | " +
+                                work.moneyEarnedHourRate.formatFloatToString() +
+                                " \(currencyIdentifier.uppercased())" + "/h")
+                                .font(.latoRegular(size: 12))
+                                .foregroundColor(.gray)
+                                .padding(.bottom, 2)
+
+                            Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
+                                .font(.latoBold(size: 14))
+                                .foregroundStyle(.blackWhite)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 10)
+
+                        Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
+                            .resizable()
+                            .foregroundStyle(.blackWhite)
+                            .frame(width: 20, height: 20)
+                            .padding(.trailing, 16)
+                            .hide(if: !deleteMode)
+                    }
+                    .background(.whiteTheme)
+                    .cornerRadius(12)
+                    .padding(.horizontal, 16)
+                    .transition(.opacity)
+                    .onTapGesture {
+                        if deleteMode {
+                            withAnimation(.bouncy(duration: 0.4)) {
+                                if selectedWorks.contains(where: { $0.id == work.id }) {
+                                    selectedWorks.remove(work)
+                                } else {
+                                    selectedWorks.insert(work)
+                                }
+                            }
+                        } else {
+                            showAddWorkTimeView(work: work)
+                        }
+                    }
+                }
+            }
+    }
+    
+    var weekEntriesEmptyView: some View {
+        VStack(spacing: 0) {
+            ZStack {
+                Button {
+                    showSubscriptionPlanView.toggle()
+                } label: {
+                    Text("buy_subscription_title".localized)
+                        .font(.nunitoBold(size: 18))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .foregroundColor(.blueRibbon)
+                }
+                .padding(.horizontal, 18)
+                
+                Group {
+                    BannerAd(isLoaded: $isWeekDetailsBannerAdLoaded, unitID: weekScheduleBannerId)
+                        .frame(height: 50)
+                        .cornerRadius(6)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(.whiteTheme, lineWidth: 3)
+                        }
+                        .padding(6)
+                }
+                .background(.whiteTheme)
+                .cornerRadius(12)
+                .padding(.horizontal, 16)
+                .opacity(isWeekDetailsBannerAdLoaded ? 1 : 0)
+            }
+            .padding(.bottom, 16)
+            .hide(if: userSubscriptionViewModel.subscriptionActive)
+            
+            Text("no_entries_title".localized)
+                .font(.latoRegular(size: 18))
+                .foregroundStyle(.blackWhite)
+                .padding()
+            
+            Spacer()
+        }
+    }
+    
+    var monthNavigation: some View {
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                Button(action: viewModel.backwardToLastMonth) {
+                    Image(systemName: "chevron.left")
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.blackWhite)
+                }
+                .padding(.leading, 24)
+                
+                Spacer()
+                
+                MonthCard(isSelected: true, month: viewModel.selectedMonth)
+                
+                Spacer()
+                
+                Button(action: viewModel.forwardToNextMonth) {
+                    Image(systemName: "chevron.right")
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.blackWhite)
+                }
+                .padding(.trailing, 24)
+            }
+            .padding(.horizontal, 4)
+            .padding(.vertical, 12)
+        }
+        .background(.whiteTheme)
+        .cornerRadius(12)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 12)
+    }
+    
+    var monthDropdownView: some View {
+        ZStack {
+            HStack(spacing: 0) {
+                DropDownPicker(selection: $selectedWorkName,
+                               addNewOption: $showAddJobView,
+                               showSubscriptionPlan: $showSubscriptionPlanView,
+                               isError: $isDropDownError,
+                               hint: "select_title".localized,
+                               options: ["all_title".localized] + jobs.compactMap { $0.name },
+                               backgroundColor: .whiteTheme,
+                               maxWidth: 200)
+                
+                Spacer()
+                
+                Button {
+                    withAnimation(.interpolatingSpring(duration: 0.4)) {
+                        viewModel.selectedMonth = .now
+                    }
+                } label: {
+                    Text("today_title".localized)
+                        .font(.latoBold(size: 14))
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(.blackWhite, in: .rect(cornerRadius: 18))
+                }
+                .padding(.horizontal, 8)
+                .hide(if: viewModel.selectedMonth.isThisMonth())
+                
+                Button {
+                    if deleteMode {
+                        selectedWorks = []
+                    }
+                    
+                    withAnimation(.bouncy(duration: 0.4)) {
+                        deleteMode.toggle()
+                    }
+                } label: {
+                    Text(deleteMode ? "cancel_title".localized : "delete_title".localized)
+                        .font(.latoBold(size: 14))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(.whiteTheme, in: .rect(cornerRadius: 18))
+                }
+            }
+        }
+        .zIndex(1000)
+        .fixedSize(horizontal: false, vertical: true)
+        .padding(.bottom, 12)
+        .padding(.horizontal, 16)
+    }
+    
+    var monthEntriesView: some View {
+            VStack(spacing: 4) {
+                ForEach(monthWorks
+                    .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
+                    .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) },
+                        id: \.objectID)
+                { work in
+                    HStack(spacing: 4) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            HStack(alignment: .center, spacing: 2) {
+                                Text(work.job?.name ?? "Unknown Job")
+                                    .font(.latoBold(size: 18))
+                                    .foregroundStyle(.blackWhite)
+                                    .padding(.trailing, 4)
+
+                                Text("project_title".localized.first.map { String($0) } ?? "")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.project?.isEmpty ?? true)
+
+                                Text("|")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.project?.isEmpty ?? true || work.task?.isEmpty ?? true)
+
+                                Text("task_title".localized.first.map { String($0) } ?? "")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.task?.isEmpty ?? true)
+
+                                Text("|")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: (work.project?.isEmpty ?? true || work.note?.isEmpty ?? true) && (work.task?.isEmpty ?? true || work.note?.isEmpty ?? true))
+
+                                Text("note_title".localized.first.map { String($0) } ?? "")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.note?.isEmpty ?? true)
+                            }
+
+                            Text(work.startDate.currentMonthString)
+                                .font(.latoRegular(size: 12))
+                                .foregroundColor(.blackWhite)
+
+                            Text("overtime_title".localized)
+                                .font(.latoBold(size: 14))
+                                .foregroundStyle(.blackWhite)
+                                .padding(.top, 1)
+                                .hide(if: !work.isOvertime)
+                        }
+                        .padding(.horizontal, 16)
+
+                        Spacer()
+
+                        VStack(alignment: .trailing, spacing: 2) {
+                            Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
+                                .font(.latoBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+
+                            Text(work.hoursWorkedString + " | " +
+                                work.moneyEarnedHourRate.formatFloatToString() +
+                                " \(currencyIdentifier.uppercased())" + "/h")
+                                .font(.latoRegular(size: 12))
+                                .foregroundColor(.gray)
+                                .padding(.bottom, 2)
+
+                            Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
+                                .font(.latoBold(size: 14))
+                                .foregroundStyle(.blackWhite)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 10)
+
+                        Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
+                            .resizable()
+                            .foregroundStyle(.blackWhite)
+                            .frame(width: 20, height: 20)
+                            .padding(.trailing, 16)
+                            .hide(if: !deleteMode)
+                    }
+                    .background(.whiteTheme)
+                    .cornerRadius(12)
+                    .padding(.horizontal, 16)
+                    .transition(.opacity)
+                    .onTapGesture {
+                        if deleteMode {
+                            withAnimation(.bouncy(duration: 0.4)) {
+                                if selectedWorks.contains(where: { $0.id == work.id }) {
+                                    selectedWorks.remove(work)
+                                } else {
+                                    selectedWorks.insert(work)
+                                }
+                            }
+                        } else {
+                            showAddWorkTimeView(work: work)
+                        }
+                    }
+                }
+            }
+    }
+    
+    var monthEntriesEmptyView: some View {
+        VStack {
+            ZStack {
+                Button {
+                    showSubscriptionPlanView.toggle()
+                } label: {
+                    Text("buy_subscription_title".localized)
+                        .font(.nunitoBold(size: 18))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .foregroundColor(.blueRibbon)
+                }
+                .padding(.horizontal, 18)
+                
+                Group {
+                    BannerAd(isLoaded: $isMonthDetailsBannerAdLoaded, unitID: monthScheduleBannerId)
+                        .frame(height: 50)
+                        .cornerRadius(6)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(.whiteTheme, lineWidth: 3)
+                        }
+                        .padding(6)
+                }
+                .background(.whiteTheme)
+                .cornerRadius(12)
+                .padding(.horizontal, 16)
+                .opacity(isMonthDetailsBannerAdLoaded ? 1 : 0)
+            }
+            .padding(.bottom, 16)
+            .hide(if: userSubscriptionViewModel.subscriptionActive)
+            
+            Text("no_entries_title".localized)
+                .font(.latoRegular(size: 18))
+                .foregroundStyle(.blackWhite)
+                .padding()
+            
+            Spacer()
+        }
+    }
+    
+    var yearNavigation: some View {
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                Button(action: viewModel.backwardToLastYear) {
+                    Image(systemName: "chevron.left")
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.blackWhite)
+                }
+                .padding(.leading, 24)
+                
+                Spacer()
+                
+                YearCard(isSelected: true, year: viewModel.selectedYear)
+                
+                Spacer()
+                
+                Button(action: viewModel.forwardToNextYear) {
+                    Image(systemName: "chevron.right")
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.blackWhite)
+                }
+                .padding(.trailing, 24)
+            }
+            .padding(.horizontal, 4)
+            .padding(.vertical, 20)
+        }
+        .background(.whiteTheme)
+        .cornerRadius(12)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 12)
+    }
+    
+    var yearDropdownView: some View {
+        ZStack {
+            HStack(spacing: 0) {
+                DropDownPicker(selection: $selectedWorkName,
+                               addNewOption: $showAddJobView,
+                               showSubscriptionPlan: $showSubscriptionPlanView,
+                               isError: $isDropDownError,
+                               hint: "select_title".localized,
+                               options: ["all_title".localized] + jobs.compactMap { $0.name },
+                               backgroundColor: .whiteTheme,
+                               maxWidth: 200)
+                
+                Spacer()
+                
+                Button {
+                    withAnimation(.interpolatingSpring(duration: 0.4)) {
+                        viewModel.selectedYear = .now
+                    }
+                } label: {
+                    Text("today_title".localized)
+                        .font(.latoBold(size: 14))
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(.blackWhite, in: .rect(cornerRadius: 18))
+                }
+                .padding(.horizontal, 8)
+                .hide(if: viewModel.selectedYear.isThisYear())
+                
+                Button {
+                    if deleteMode {
+                        selectedWorks = []
+                    }
+                    
+                    withAnimation(.bouncy(duration: 0.4)) {
+                        deleteMode.toggle()
+                    }
+                } label: {
+                    Text(deleteMode ? "cancel_title".localized : "delete_title".localized)
+                        .font(.latoBold(size: 14))
+                        .foregroundStyle(.blackWhite)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(.whiteTheme, in: .rect(cornerRadius: 18))
+                }
+            }
+        }
+        .zIndex(1000)
+        .fixedSize(horizontal: false, vertical: true)
+        .padding(.bottom, 12)
+        .padding(.horizontal, 16)
+    }
+    
+    var yearEntriesView: some View {
+            VStack(spacing: 4) {
+                ForEach(yearWorks
+                    .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
+                    .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) },
+                        id: \.objectID)
+                { work in
+                    HStack(spacing: 4) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            HStack(alignment: .center, spacing: 2) {
+                                Text(work.job?.name ?? "Unknown Job")
+                                    .font(.latoBold(size: 18))
+                                    .foregroundStyle(.blackWhite)
+                                    .padding(.trailing, 4)
+
+                                Text("project_title".localized.first.map { String($0) } ?? "")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.project?.isEmpty ?? true)
+
+                                Text("|")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.project?.isEmpty ?? true || work.task?.isEmpty ?? true)
+
+                                Text("task_title".localized.first.map { String($0) } ?? "")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.task?.isEmpty ?? true)
+
+                                Text("|")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: (work.project?.isEmpty ?? true || work.note?.isEmpty ?? true) && (work.task?.isEmpty ?? true || work.note?.isEmpty ?? true))
+
+                                Text("note_title".localized.first.map { String($0) } ?? "")
+                                    .font(.latoBold(size: 12))
+                                    .foregroundColor(.gray)
+                                    .hide(if: work.note?.isEmpty ?? true)
+                            }
+
+                            Text(work.startDate.currentYearString)
+                                .font(.latoRegular(size: 12))
+                                .foregroundColor(.blackWhite)
+
+                            Text("overtime_title".localized)
+                                .font(.latoBold(size: 14))
+                                .foregroundStyle(.blackWhite)
+                                .padding(.top, 1)
+                                .hide(if: !work.isOvertime)
+                        }
+                        .padding(.horizontal, 16)
+
+                        Spacer()
+
+                        VStack(alignment: .trailing, spacing: 2) {
+                            Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
+                                .font(.latoBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+
+                            Text(work.hoursWorkedString + " | " +
+                                work.moneyEarnedHourRate.formatFloatToString() +
+                                " \(currencyIdentifier.uppercased())" + "/h")
+                                .font(.latoRegular(size: 12))
+                                .foregroundColor(.gray)
+                                .padding(.bottom, 2)
+
+                            Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
+                                .font(.latoBold(size: 14))
+                                .foregroundStyle(.blackWhite)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 10)
+
+                        Image(systemName: selectedWorks.contains(where: { $0.id == work.id }) ? "checkmark.circle.fill" : "circle")
+                            .resizable()
+                            .foregroundStyle(.blackWhite)
+                            .frame(width: 20, height: 20)
+                            .padding(.trailing, 16)
+                            .hide(if: !deleteMode)
+                    }
+                    .background(.whiteTheme)
+                    .cornerRadius(12)
+                    .padding(.horizontal, 16)
+                    .transition(.opacity)
+                    .onTapGesture {
+                        if deleteMode {
+                            withAnimation(.bouncy(duration: 0.4)) {
+                                if selectedWorks.contains(where: { $0.id == work.id }) {
+                                    selectedWorks.remove(work)
+                                } else {
+                                    selectedWorks.insert(work)
+                                }
+                            }
+                        } else {
+                            showAddWorkTimeView(work: work)
+                        }
+                    }
+                }
+            }
+    }
+    
+    var yearEntriesEmptyView: some View {
+        VStack {
+            ZStack {
+                Button {
+                    showSubscriptionPlanView.toggle()
+                } label: {
+                    Text("buy_subscription_title".localized)
+                        .font(.nunitoBold(size: 18))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .foregroundColor(.blueRibbon)
+                }
+                .padding(.horizontal, 18)
+                
+                Group {
+                    BannerAd(isLoaded: $isYearDetailsBannerAdLoaded, unitID: yearScheduleBannerId)
+                        .frame(height: 50)
+                        .cornerRadius(6)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(.whiteTheme, lineWidth: 3)
+                        }
+                        .padding(6)
+                }
+                .background(.whiteTheme)
+                .cornerRadius(12)
+                .padding(.horizontal, 16)
+                .opacity(isYearDetailsBannerAdLoaded ? 1 : 0)
+            }
+            .padding(.bottom, 16)
+            .hide(if: userSubscriptionViewModel.subscriptionActive)
+            
+            Text("no_entries_title".localized)
+                .font(.latoRegular(size: 18))
+                .foregroundStyle(.blackWhite)
+                .padding()
+            
+            Spacer()
+        }
+    }
+        
     var periodFilterBar: some View {
         HStack {
             ForEach(PeriodFilter.allCases, id: \.rawValue) { item in

@@ -58,6 +58,7 @@ class InterstitialAdManager: NSObject, GADFullScreenContentDelegate, ObservableO
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("\(#function) called")
         interstitialAd = nil
+        PeriodFilterScheduleTip.hasSeenOnboarding = true
         
         Task {
             await loadAd()

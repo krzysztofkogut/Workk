@@ -81,8 +81,6 @@
 		A28992512B1CC592004DEA9D /* RectKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28992502B1CC592004DEA9D /* RectKey.swift */; };
 		A28992532B1CCE79004DEA9D /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28992522B1CCE79004DEA9D /* UIView+Ext.swift */; };
 		A28992552B1CCED4004DEA9D /* OverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28992542B1CCED4004DEA9D /* OverlayView.swift */; };
-		A28992572B1CD68A004DEA9D /* DarkModeWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28992562B1CD68A004DEA9D /* DarkModeWrapper.swift */; };
-		A28992592B1CD6E4004DEA9D /* DarkModeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28992582B1CD6E4004DEA9D /* DarkModeButton.swift */; };
 		A289925B2B1E87E3004DEA9D /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A289925A2B1E87E3004DEA9D /* ProgressBar.swift */; };
 		A28F1F402B06D89100D7CA1E /* BorderedRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28F1F3F2B06D89100D7CA1E /* BorderedRoundedButton.swift */; };
 		A28F1F422B06D8A500D7CA1E /* FilledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28F1F412B06D8A500D7CA1E /* FilledButton.swift */; };
@@ -141,6 +139,13 @@
 		A2CB555E2D39755000372A06 /* Notification+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CB555D2D39755000372A06 /* Notification+Ext.swift */; };
 		A2CB55612D398BED00372A06 /* GoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CB55602D398BED00372A06 /* GoalsView.swift */; };
 		A2CB55632D3DB9D700372A06 /* CustomSubscriptionToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CB55622D3DB9D700372A06 /* CustomSubscriptionToggle.swift */; };
+		A2CD10F62D5169E2000068AA /* DropdownPickerHomeTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CD10F52D5169E2000068AA /* DropdownPickerHomeTip.swift */; };
+		A2CD10F82D517239000068AA /* PeriodFilterHomeTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CD10F72D517239000068AA /* PeriodFilterHomeTip.swift */; };
+		A2CD10FA2D51747F000068AA /* YourProfileTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CD10F92D51747F000068AA /* YourProfileTip.swift */; };
+		A2CD10FC2D5176B5000068AA /* DropdownPickerAddWorkTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CD10FB2D5176B5000068AA /* DropdownPickerAddWorkTip.swift */; };
+		A2CD10FE2D517702000068AA /* PeriodFilterAddWorkTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CD10FD2D517702000068AA /* PeriodFilterAddWorkTip.swift */; };
+		A2CD11002D517757000068AA /* PeriodFilterScheduleTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CD10FF2D517757000068AA /* PeriodFilterScheduleTip.swift */; };
+		A2CD11022D520DD9000068AA /* RequiredFieldsAddWorkTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CD11012D520DD9000068AA /* RequiredFieldsAddWorkTip.swift */; };
 		A2D4D7732B7D77E40096FDFF /* RollingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4D7722B7D77E40096FDFF /* RollingText.swift */; };
 		A2D4D7752B7E9BD00096FDFF /* MonthCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4D7742B7E9BD00096FDFF /* MonthCard.swift */; };
 		A2D4D7772B7E9D2F0096FDFF /* MonthPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4D7762B7E9D2F0096FDFF /* MonthPicker.swift */; };
@@ -285,8 +290,6 @@
 		A28992502B1CC592004DEA9D /* RectKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectKey.swift; sourceTree = "<group>"; };
 		A28992522B1CCE79004DEA9D /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		A28992542B1CCED4004DEA9D /* OverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayView.swift; sourceTree = "<group>"; };
-		A28992562B1CD68A004DEA9D /* DarkModeWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeWrapper.swift; sourceTree = "<group>"; };
-		A28992582B1CD6E4004DEA9D /* DarkModeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeButton.swift; sourceTree = "<group>"; };
 		A289925A2B1E87E3004DEA9D /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		A28F1F3F2B06D89100D7CA1E /* BorderedRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedRoundedButton.swift; sourceTree = "<group>"; };
 		A28F1F412B06D8A500D7CA1E /* FilledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilledButton.swift; sourceTree = "<group>"; };
@@ -348,6 +351,13 @@
 		A2CB555D2D39755000372A06 /* Notification+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Ext.swift"; sourceTree = "<group>"; };
 		A2CB55602D398BED00372A06 /* GoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsView.swift; sourceTree = "<group>"; };
 		A2CB55622D3DB9D700372A06 /* CustomSubscriptionToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSubscriptionToggle.swift; sourceTree = "<group>"; };
+		A2CD10F52D5169E2000068AA /* DropdownPickerHomeTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownPickerHomeTip.swift; sourceTree = "<group>"; };
+		A2CD10F72D517239000068AA /* PeriodFilterHomeTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodFilterHomeTip.swift; sourceTree = "<group>"; };
+		A2CD10F92D51747F000068AA /* YourProfileTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourProfileTip.swift; sourceTree = "<group>"; };
+		A2CD10FB2D5176B5000068AA /* DropdownPickerAddWorkTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownPickerAddWorkTip.swift; sourceTree = "<group>"; };
+		A2CD10FD2D517702000068AA /* PeriodFilterAddWorkTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodFilterAddWorkTip.swift; sourceTree = "<group>"; };
+		A2CD10FF2D517757000068AA /* PeriodFilterScheduleTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodFilterScheduleTip.swift; sourceTree = "<group>"; };
+		A2CD11012D520DD9000068AA /* RequiredFieldsAddWorkTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequiredFieldsAddWorkTip.swift; sourceTree = "<group>"; };
 		A2D4D7722B7D77E40096FDFF /* RollingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingText.swift; sourceTree = "<group>"; };
 		A2D4D7742B7E9BD00096FDFF /* MonthCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCard.swift; sourceTree = "<group>"; };
 		A2D4D7762B7E9D2F0096FDFF /* MonthPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthPicker.swift; sourceTree = "<group>"; };
@@ -455,8 +465,6 @@
 				A2B031A32B7FCD3B00296078 /* WeekCard.swift */,
 				A2D4D7742B7E9BD00096FDFF /* MonthCard.swift */,
 				A2D4D7782B7EBDBF0096FDFF /* YearCard.swift */,
-				A28992562B1CD68A004DEA9D /* DarkModeWrapper.swift */,
-				A28992582B1CD6E4004DEA9D /* DarkModeButton.swift */,
 				A2945FD12B7573D500DD8281 /* DayPicker.swift */,
 				A2B031A52B7FD2F000296078 /* WeekPicker.swift */,
 				A2D4D7762B7E9D2F0096FDFF /* MonthPicker.swift */,
@@ -623,6 +631,7 @@
 		A295782A2AE1866300206D9B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A2CD10F42D5169CE000068AA /* Tips */,
 				A240212D2C1744A8007A5988 /* AddJobView */,
 				A20173822C8677C00096DB85 /* AddWorkTimeView */,
 				A2B0AE432AE55B1600F535F3 /* Components */,
@@ -852,6 +861,20 @@
 				A2CB55602D398BED00372A06 /* GoalsView.swift */,
 			);
 			path = GoalsView;
+			sourceTree = "<group>";
+		};
+		A2CD10F42D5169CE000068AA /* Tips */ = {
+			isa = PBXGroup;
+			children = (
+				A2CD10F52D5169E2000068AA /* DropdownPickerHomeTip.swift */,
+				A2CD10F72D517239000068AA /* PeriodFilterHomeTip.swift */,
+				A2CD10F92D51747F000068AA /* YourProfileTip.swift */,
+				A2CD10FB2D5176B5000068AA /* DropdownPickerAddWorkTip.swift */,
+				A2CD10FD2D517702000068AA /* PeriodFilterAddWorkTip.swift */,
+				A2CD10FF2D517757000068AA /* PeriodFilterScheduleTip.swift */,
+				A2CD11012D520DD9000068AA /* RequiredFieldsAddWorkTip.swift */,
+			);
+			path = Tips;
 			sourceTree = "<group>";
 		};
 		A2D1A31D2C07838B0070B12F /* Models */ = {
@@ -1154,13 +1177,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2CD10F82D517239000068AA /* PeriodFilterHomeTip.swift in Sources */,
+				A2CD10FE2D517702000068AA /* PeriodFilterAddWorkTip.swift in Sources */,
 				A2689A362AE1CEAF00445350 /* View+Ext.swift in Sources */,
 				A21637912AEEAA46006F05E7 /* Resolver.swift in Sources */,
 				A2D732782BC6B8250013C02B /* Double+Ext.swift in Sources */,
 				A2945FD62B75769800DD8281 /* Date+Ext.swift in Sources */,
 				A28F1F402B06D89100D7CA1E /* BorderedRoundedButton.swift in Sources */,
 				A21FF5E62C8C8A6C00DD1111 /* MultilineTextField.swift in Sources */,
-				A28992592B1CD6E4004DEA9D /* DarkModeButton.swift in Sources */,
 				A272C34F2B27C16700536B60 /* WorkTimeStatusAttributes.swift in Sources */,
 				A2FCACC32B93AE4C00B94E35 /* ScheduleRouter.swift in Sources */,
 				A22C3D722B4DBD5F00AE7021 /* OffsetKey.swift in Sources */,
@@ -1173,9 +1197,9 @@
 				A245D6B02D2E851C0040F19E /* Constants.swift in Sources */,
 				A251B4202CEFDF6A00060440 /* NotificationManager.swift in Sources */,
 				A21FF5E82C8CE07F00DD1111 /* CustomToggle.swift in Sources */,
+				A2CD11002D517757000068AA /* PeriodFilterScheduleTip.swift in Sources */,
 				A224AEB92BB9DD3400124705 /* DateFormatter+Ext.swift in Sources */,
 				A245D6B22D2EE80E0040F19E /* WebView.swift in Sources */,
-				A28992572B1CD68A004DEA9D /* DarkModeWrapper.swift in Sources */,
 				A2BC3A032D347F4100C4276D /* SubscriptionPeriod+Ext.swift in Sources */,
 				A2B0AE422AE5456000F535F3 /* HomeView.swift in Sources */,
 				A240212F2C1744DD007A5988 /* AddJobView.swift in Sources */,
@@ -1188,6 +1212,7 @@
 				A2D4D7752B7E9BD00096FDFF /* MonthCard.swift in Sources */,
 				A289924E2B1BF105004DEA9D /* DropDownPicker.swift in Sources */,
 				A2BC39FF2D347DB700C4276D /* PackageCellView.swift in Sources */,
+				A2CD11022D520DD9000068AA /* RequiredFieldsAddWorkTip.swift in Sources */,
 				A246EC6B2B86B65700E7FBB5 /* HideViewModifier.swift in Sources */,
 				A245D6B42D2EEBD60040F19E /* SafariView.swift in Sources */,
 				A2DB57E32C07827000670116 /* Job+CoreDataProperties.swift in Sources */,
@@ -1222,10 +1247,12 @@
 				A2DB57E02C07827000670116 /* Work+CoreDataClass.swift in Sources */,
 				A2B031A62B7FD2F000296078 /* WeekPicker.swift in Sources */,
 				A26454162BA73C42001B2F62 /* Int+Ext.swift in Sources */,
+				A2CD10FA2D51747F000068AA /* YourProfileTip.swift in Sources */,
 				A2FD643C2B20F8D500E3BDFF /* SizeKey.swift in Sources */,
 				A2945FD42B7575EE00DD8281 /* DayCard.swift in Sources */,
 				A2B2C6742BE8FEEB0032E2D1 /* StatsViewModel.swift in Sources */,
 				A2EFF4B62CDFF1910021341E /* WorksDeletionViewModel.swift in Sources */,
+				A2CD10F62D5169E2000068AA /* DropdownPickerHomeTip.swift in Sources */,
 				A242B3D62CD648A00089E3AD /* MoreViewModel.swift in Sources */,
 				A2A375112B004BB500ED51E9 /* Font+Ext.swift in Sources */,
 				A2EFF4BF2CE2C2380021341E /* iCloudSettings.swift in Sources */,
@@ -1254,6 +1281,7 @@
 				A28992532B1CCE79004DEA9D /* UIView+Ext.swift in Sources */,
 				A2BC39FB2D34689B00C4276D /* UserSubscriptionViewModel.swift in Sources */,
 				A2A3751B2B019D2B00ED51E9 /* HomeRouter.swift in Sources */,
+				A2CD10FC2D5176B5000068AA /* DropdownPickerAddWorkTip.swift in Sources */,
 				A242B4552AE97DB6006123B6 /* SubscriptionPlanViewModel.swift in Sources */,
 				A2FD64432B20F9E400E3BDFF /* StatusBarBasedController.swift in Sources */,
 				A26B34472CB7387100544395 /* PaymentStatus.swift in Sources */,
@@ -1450,7 +1478,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				"LD_MAP_FILE_PATH[arch=*]" = "$(TARGET_TEMP_DIR)/$(PRODUCT_NAME)-LinkMap-$(CURRENT_VARIANT)-$(CURRENT_ARCH).txt";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -1512,7 +1540,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -1533,7 +1561,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Workk/Workk.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"Workk/Preview Content\"";
 				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				ENABLE_PREVIEWS = YES;
@@ -1546,12 +1574,12 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.8;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.Workk";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1570,7 +1598,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Workk/Workk.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"Workk/Preview Content\"";
 				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				ENABLE_PREVIEWS = YES;
@@ -1583,12 +1611,12 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.8;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.Workk";
 				PRODUCT_NAME = "$(TARGET_NAME)";

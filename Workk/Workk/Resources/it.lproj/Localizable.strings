@@ -172,3 +172,24 @@
 
 "add_job_conditions_decription" = "Campi obbligatori: nome del lavoro, tariffa oraria";
 "add_work_conditions_decription" = "Campi obbligatori: lavoro, tempo di lavoro, denaro guadagnato";
+
+"dropdown_picker_home_tip_title" = "Seleziona un lavoro";
+"dropdown_picker_home_tip_message" = "Scegli un lavoro da questo elenco per filtrare le tue voci di lavoro. Devi selezionare un lavoro prima di poter iniziare a tracciare il tempo e salvarlo per un lavoro specifico.";
+
+"dropdown_picker_add_work_tip_title" = "Seleziona un lavoro";
+"dropdown_picker_add_work_tip_message" = "Prima di aggiungere una nuova voce, seleziona un lavoro dal menu a tendina.";
+
+"period_filter_home_tip_title" = "Scegli un periodo di tempo";
+"period_filter_home_tip_message" = "Filtra le tue voci di lavoro per giorno, settimana, mese o anno.";
+
+"period_filter_add_work_tip_title" = "Imposta un periodo di tempo";
+"period_filter_add_work_tip_message" = "Registra le tue ore di lavoro e i tuoi guadagni per un giorno, una settimana, un mese o un anno specifico.";
+
+"period_filter_schedule_tip_title" = "Filtra il programma di lavoro";
+"period_filter_schedule_tip_message" = "Visualizza le tue voci di lavoro filtrate per giorno, settimana, mese o anno.";
+
+"your_profile_tip_title" = "Gestisci il tuo profilo";
+"your_profile_tip_message" = "Nel tuo profilo puoi modificare i lavori, impostare obiettivi, scegliere una valuta, abilitare la sincronizzazione iCloud e gestire le notifiche.";
+
+"required_fields_add_work_tip_title" = "Compila i campi obbligatori";
+"required_fields_add_work_tip_message" = "Per aggiungere una nuova voce, completa tutti i campi obbligatori: lavoro, tempo di lavoro e guadagni. \nSe un campo rimane vuoto, la voce non verrà salvata e i campi mancanti saranno evidenziati.";

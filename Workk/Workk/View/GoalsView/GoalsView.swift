@@ -379,28 +379,28 @@ struct GoalsView: View {
                     UIApplication.shared.dismissKeyboard()
                 }
         )
-        .onChange(of: dailyMoneyGoal) { newValue in
+        .onChange(of: dailyMoneyGoal) { _, newValue in
             dailyMoneyGoal = newValue.formatNumberInput()
         }
-        .onChange(of: dailyHoursGoal) { newValue in
+        .onChange(of: dailyHoursGoal) { _, newValue in
             dailyHoursGoal = newValue.formatNumberInput()
         }
-        .onChange(of: weeklyMoneyGoal) { newValue in
+        .onChange(of: weeklyMoneyGoal) { _, newValue in
             weeklyMoneyGoal = newValue.formatNumberInput()
         }
-        .onChange(of: weeklyHoursGoal) { newValue in
+        .onChange(of: weeklyHoursGoal) { _, newValue in
             weeklyHoursGoal = newValue.formatNumberInput()
         }
-        .onChange(of: monthlyMoneyGoal) { newValue in
+        .onChange(of: monthlyMoneyGoal) { _, newValue in
             monthlyMoneyGoal = newValue.formatNumberInput()
         }
-        .onChange(of: monthlyHoursGoal) { newValue in
+        .onChange(of: monthlyHoursGoal) { _, newValue in
             monthlyHoursGoal = newValue.formatNumberInput()
         }
-        .onChange(of: yearlyMoneyGoal) { newValue in
+        .onChange(of: yearlyMoneyGoal) { _, newValue in
             yearlyMoneyGoal = newValue.formatNumberInput()
         }
-        .onChange(of: yearlyHoursGoal) { newValue in
+        .onChange(of: yearlyHoursGoal) { _, newValue in
             yearlyHoursGoal = newValue.formatNumberInput()
         }
     }

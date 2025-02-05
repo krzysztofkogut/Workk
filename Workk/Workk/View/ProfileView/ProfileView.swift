@@ -469,7 +469,7 @@ struct ProfileView: View {
                         CustomSubscriptionToggle(isOn: $isICloudSyncEnabled,
                                                  showSubsciptionView: $showSubscriptionPlanView,
                                                  subscriptionActive: userSubscriptionViewModel.subscriptionActive)
-                            .onChange(of: isICloudSyncEnabled) { newValue in
+                            .onChange(of: isICloudSyncEnabled) { _, newValue in
                                 if userSubscriptionViewModel.subscriptionActive {
                                     PersistenceManager.shared = PersistenceManager(useCloud: newValue)
                                     showICloudAlertSheet = true
@@ -557,38 +557,38 @@ struct ProfileView: View {
             .onAppear {
                 dailyNotificationTime = Date(timeIntervalSince1970: dailyNotificationTimeInterval)
             }
-            .onChange(of: dailyMoneyGoal) { newValue in
+            .onChange(of: dailyMoneyGoal) { _, newValue in
                 dailyMoneyGoal = newValue.formatNumberInput()
             }
-            .onChange(of: dailyHoursGoal) { newValue in
+            .onChange(of: dailyHoursGoal) { _, newValue in
                 dailyHoursGoal = newValue.formatNumberInput()
             }
-            .onChange(of: weeklyMoneyGoal) { newValue in
+            .onChange(of: weeklyMoneyGoal) { _, newValue in
                 weeklyMoneyGoal = newValue.formatNumberInput()
             }
-            .onChange(of: weeklyHoursGoal) { newValue in
+            .onChange(of: weeklyHoursGoal) { _, newValue in
                 weeklyHoursGoal = newValue.formatNumberInput()
             }
-            .onChange(of: monthlyMoneyGoal) { newValue in
+            .onChange(of: monthlyMoneyGoal) { _, newValue in
                 monthlyMoneyGoal = newValue.formatNumberInput()
             }
-            .onChange(of: monthlyHoursGoal) { newValue in
+            .onChange(of: monthlyHoursGoal) { _, newValue in
                 monthlyHoursGoal = newValue.formatNumberInput()
             }
-            .onChange(of: yearlyMoneyGoal) { newValue in
+            .onChange(of: yearlyMoneyGoal) { _, newValue in
                 yearlyMoneyGoal = newValue.formatNumberInput()
             }
-            .onChange(of: yearlyHoursGoal) { newValue in
+            .onChange(of: yearlyHoursGoal) { _, newValue in
                 yearlyHoursGoal = newValue.formatNumberInput()
             }
-            .onChange(of: currencyIdentifier) { newValue in
+            .onChange(of: currencyIdentifier) { _, newValue in
                 // Keep only letters and limit to 3 characters
                 currencyIdentifier = newValue.uppercased().filter { $0.isLetter }
                 if currencyIdentifier.count > 3 {
                     currencyIdentifier = String(currencyIdentifier.prefix(3))
                 }
             }
-            .onChange(of: dailyNotificationTime) { newValue in
+            .onChange(of: dailyNotificationTime) { _, newValue in
                 dailyNotificationTimeInterval = newValue.timeIntervalSince1970
                 
                 if isDailyNotificationEnabled {
@@ -596,7 +596,7 @@ struct ProfileView: View {
                     viewModel.scheduleDailyNotification(at: newValue)
                 }
             }
-            .onChange(of: isDailyNotificationEnabled) { newValue in
+            .onChange(of: isDailyNotificationEnabled) { _, newValue in
                 newValue ?
                     viewModel.scheduleDailyNotification(at: dailyNotificationTime) : viewModel.cancelDailyNotification()
             }

@@ -172,3 +172,24 @@
 
 "add_job_conditions_decription" = "Povinná pole: název práce, hodinová sazba";
 "add_work_conditions_decription" = "Povinná pole: práce, pracovní doba, vydělané peníze";
+
+"dropdown_picker_home_tip_title" = "Vyberte práci";
+"dropdown_picker_home_tip_message" = "Vyberte práci z tohoto seznamu pro filtrování pracovních záznamů. Musíte vybrat práci, než začnete sledovat čas a ukládat jej pro konkrétní práci.";
+
+"dropdown_picker_add_work_tip_title" = "Vyberte práci";
+"dropdown_picker_add_work_tip_message" = "Před přidáním nového záznamu vyberte práci z rozbalovacího seznamu.";
+
+"period_filter_home_tip_title" = "Vyberte časové období";
+"period_filter_home_tip_message" = "Filtrovat pracovní záznamy podle dne, týdne, měsíce nebo roku.";
+
+"period_filter_add_work_tip_title" = "Nastavte časové období";
+"period_filter_add_work_tip_message" = "Zaznamenejte si pracovní dobu a výdělky za konkrétní den, týden, měsíc nebo rok.";
+
+"period_filter_schedule_tip_title" = "Filtrovat pracovní rozvrh";
+"period_filter_schedule_tip_message" = "Zobrazit pracovní záznamy filtrované podle dne, týdne, měsíce nebo roku.";
+
+"your_profile_tip_title" = "Spravujte svůj profil";
+"your_profile_tip_message" = "Ve svém profilu můžete upravovat práce, nastavovat cíle, vybírat měnu, povolit synchronizaci s iCloud a spravovat oznámení.";
+
+"required_fields_add_work_tip_title" = "Vyplňte požadovaná pole";
+"required_fields_add_work_tip_message" = "Chcete-li přidat nový záznam, vyplňte všechna požadovaná pole: práce, pracovní doba a výdělky. \nPokud některé pole zůstane prázdné, záznam nebude uložen a chybějící pole budou zvýrazněna.";

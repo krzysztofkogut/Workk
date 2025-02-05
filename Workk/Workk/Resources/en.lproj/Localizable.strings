@@ -172,3 +172,25 @@
 
 "add_job_conditions_decription" = "Required fields: job name, hourly rate";
 "add_work_conditions_decription" = "Required fields: job, work time, earned money";
+
+"dropdown_picker_home_tip_title" = "Select a Job";
+"dropdown_picker_home_tip_message" = "Choose a job from this picker to filter your work entries. You must select a job before you can start tracking time and saving it for a specific job.";
+
+"dropdown_picker_add_work_tip_title" = "Select a Job";
+"dropdown_picker_add_work_tip_message" = "Before adding a new entry, select a job from the dropdown.";
+
+"period_filter_home_tip_title" = "Choose a Time Period";
+"period_filter_home_tip_message" = "Filter your work entries by day, week, month, or year.";
+
+"period_filter_add_work_tip_title" = "Set a Time Period";
+"period_filter_add_work_tip_message" = "Log your work hours and earnings for a specific day, week, month, or year.";
+
+"period_filter_schedule_tip_title" = "Filter Work Schedule";
+"period_filter_schedule_tip_message" = "View your work entries filtered by day, week, month, or year.";
+
+"your_profile_tip_title" = "Manage Your Profile";
+"your_profile_tip_message" = "In Your Profile, you can edit jobs, set goals, choose a currency, enable iCloud sync, and manage notifications.";
+
+"required_fields_add_work_tip_title" = "Fill in Required Fields";
+"required_fields_add_work_tip_message" = "To add a new entry, complete all required fields: job, work time, and earnings. \nIf any field is left empty, the entry will not be saved, and missing fields will be highlighted.";
+

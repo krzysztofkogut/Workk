@@ -183,7 +183,6 @@
 	</array>
 	<key>UIAppFonts</key>
 	<array>
-		<string>arialbold</string>
 		<string>Lato-Black.ttf</string>
 		<string>Lato-Bold.ttf</string>
 		<string>Lato-Regular.ttf</string>

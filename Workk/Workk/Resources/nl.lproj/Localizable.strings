@@ -172,3 +172,24 @@
 
 "add_job_conditions_decription" = "Vereiste velden: functienaam, uurtarief";
 "add_work_conditions_decription" = "Vereiste velden: werk, werktijd, verdiend geld";
+
+"dropdown_picker_home_tip_title" = "Selecteer een baan";
+"dropdown_picker_home_tip_message" = "Kies een baan uit deze lijst om je werkregistraties te filteren. Je moet een baan selecteren voordat je de tijd kunt bijhouden en opslaan voor een specifieke baan.";
+
+"dropdown_picker_add_work_tip_title" = "Selecteer een baan";
+"dropdown_picker_add_work_tip_message" = "Voordat je een nieuwe invoer toevoegt, selecteer een baan in de keuzelijst.";
+
+"period_filter_home_tip_title" = "Kies een tijdsperiode";
+"period_filter_home_tip_message" = "Filter je werkregistraties op dag, week, maand of jaar.";
+
+"period_filter_add_work_tip_title" = "Stel een tijdsperiode in";
+"period_filter_add_work_tip_message" = "Log je werkuren en verdiensten voor een specifieke dag, week, maand of jaar.";
+
+"period_filter_schedule_tip_title" = "Filter werkschema";
+"period_filter_schedule_tip_message" = "Bekijk je werkregistraties gefilterd op dag, week, maand of jaar.";
+
+"your_profile_tip_title" = "Beheer je profiel";
+"your_profile_tip_message" = "In je profiel kun je banen bewerken, doelen instellen, een valuta kiezen, iCloud-synchronisatie inschakelen en meldingen beheren.";
+
+"required_fields_add_work_tip_title" = "Vul de vereiste velden in";
+"required_fields_add_work_tip_message" = "Om een nieuwe invoer toe te voegen, vul alle vereiste velden in: baan, werktijd en verdiensten. \nAls een veld leeg blijft, wordt de invoer niet opgeslagen en worden de ontbrekende velden gemarkeerd.";

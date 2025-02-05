@@ -107,7 +107,7 @@ struct DropDownPicker: View {
         .onAppear {
             showDropdown = false
         }
-        .onChange(of: dropDownJobs.count) { _ in
+        .onChange(of: dropDownJobs.count) { 
             options = ["all_title".localized] + dropDownJobs.compactMap { $0.name }
         }
         .zIndex(zindex)

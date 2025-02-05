@@ -25,6 +25,18 @@ extension Date {
         return currentDateFormatter.string(from: self)
     }
     
+    var currentShortDateString: String {
+        let currentDateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.calendar = Calendar.current
+            formatter.locale = Locale.current
+            formatter.dateStyle = .short
+            return formatter
+        }()
+        
+        return currentDateFormatter.string(from: self)
+    }
+    
     var dayPickerDateString: String {
         let formatter = DateFormatter()
         formatter.locale = Locale.current

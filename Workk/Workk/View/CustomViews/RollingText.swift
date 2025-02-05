@@ -57,7 +57,7 @@ struct RollingText: View {
                 updateText()
             }
         }
-        .onChange(of: value) { _ in
+        .onChange(of: value) {
             
             // MARK: Handling Addition/Removal to Extra Value
 

@@ -50,16 +50,44 @@ struct WorksDeletionView: View {
                     
                     VStack(spacing: 4) {
                         ForEach(selectedWorks.filter { $0.periodType == "day" }) { work in
-                            HStack(spacing: 0) {
+                            HStack(spacing: 4) {
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text(work.jobName)
-                                        .font(.latoBold(size: 18))
-                                        .foregroundColor(.blackWhite)
-                                    
-                                    Text(work.startDate.currentHourString + " - " + work.endDate.currentHourString)
+                                    HStack(alignment: .center, spacing: 2) {
+                                        Text(work.job?.name ?? "Unknown Job")
+                                            .font(.latoBold(size: 18))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.trailing, 4)
+
+                                        Text("project_title".localized.first.map { String($0) } ?? "")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.project?.isEmpty ?? true)
+
+                                        Text("|")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.project?.isEmpty ?? true || work.task?.isEmpty ?? true)
+
+                                        Text("task_title".localized.first.map { String($0) } ?? "")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.task?.isEmpty ?? true)
+
+                                        Text("|")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: (work.project?.isEmpty ?? true || work.note?.isEmpty ?? true) && (work.task?.isEmpty ?? true || work.note?.isEmpty ?? true))
+
+                                        Text("note_title".localized.first.map { String($0) } ?? "")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.note?.isEmpty ?? true)
+                                    }
+
+                                    Text(work.startDate.currentHourString + " - " + work.endDate.currentHourString + ", \(work.startDate.currentShortDateString)")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.blackWhite)
-                                    
+
                                     Text("overtime_title".localized)
                                         .font(.latoBold(size: 14))
                                         .foregroundStyle(.blackWhite)
@@ -67,30 +95,31 @@ struct WorksDeletionView: View {
                                         .hide(if: !work.isOvertime)
                                 }
                                 .padding(.horizontal, 16)
-                                
+                                .padding(.vertical, 10)
+
                                 Spacer()
-                                
+
                                 VStack(alignment: .trailing, spacing: 2) {
                                     Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
                                         .font(.latoBold(size: 16))
-                                        .foregroundColor(.blackWhite)
+                                        .foregroundStyle(.blackWhite)
                                     
                                     Text(work.hoursWorkedTimeDifference + " | " + work.hourlyRate.formatFloatToString() +
                                         " \(currencyIdentifier.uppercased())" + "/h")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
-                                    
+
                                     Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
                                         .font(.latoBold(size: 14))
-                                        .foregroundColor(.blackWhite)
+                                        .foregroundStyle(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
-                                
+
                                 Image(systemName: "checkmark.circle.fill")
                                     .resizable()
-                                    .foregroundColor(.blackWhite)
+                                    .foregroundStyle(.blackWhite)
                                     .frame(width: 20, height: 20)
                                     .padding(.trailing, 16)
                             }
@@ -122,16 +151,44 @@ struct WorksDeletionView: View {
                     
                     VStack(spacing: 4) {
                         ForEach(selectedWorks.filter { $0.periodType == "week" }) { work in
-                            HStack(spacing: 0) {
+                            HStack(spacing: 4) {
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text(work.jobName)
-                                        .font(.latoBold(size: 18))
-                                        .foregroundColor(.blackWhite)
-                                    
-                                    Text(work.startDate.currentWeekScheduleString)
+                                    HStack(alignment: .center, spacing: 2) {
+                                        Text(work.job?.name ?? "Unknown Job")
+                                            .font(.latoBold(size: 18))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.trailing, 4)
+
+                                        Text("project_title".localized.first.map { String($0) } ?? "")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.project?.isEmpty ?? true)
+
+                                        Text("|")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.project?.isEmpty ?? true || work.task?.isEmpty ?? true)
+
+                                        Text("task_title".localized.first.map { String($0) } ?? "")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.task?.isEmpty ?? true)
+
+                                        Text("|")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: (work.project?.isEmpty ?? true || work.note?.isEmpty ?? true) && (work.task?.isEmpty ?? true || work.note?.isEmpty ?? true))
+
+                                        Text("note_title".localized.first.map { String($0) } ?? "")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.note?.isEmpty ?? true)
+                                    }
+
+                                    Text(work.startDate.currentWeekScheduleString + ", \(work.startDate.currentYearString)")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.blackWhite)
-                                    
+
                                     Text("overtime_title".localized)
                                         .font(.latoBold(size: 14))
                                         .foregroundStyle(.blackWhite)
@@ -139,9 +196,9 @@ struct WorksDeletionView: View {
                                         .hide(if: !work.isOvertime)
                                 }
                                 .padding(.horizontal, 16)
-                                
+
                                 Spacer()
-                                
+
                                 VStack(alignment: .trailing, spacing: 2) {
                                     Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
                                         .font(.latoBold(size: 16))
@@ -151,19 +208,19 @@ struct WorksDeletionView: View {
                                         work.moneyEarnedHourRate.formatFloatToString() +
                                         " \(currencyIdentifier.uppercased())" + "/h")
                                         .font(.latoRegular(size: 12))
-                                        .foregroundColor(.gray)
+                                        .foregroundStyle(.gray)
                                         .padding(.bottom, 2)
-                                    
+
                                     Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
                                         .font(.latoBold(size: 14))
-                                        .foregroundColor(.blackWhite)
+                                        .foregroundStyle(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
-                                
+
                                 Image(systemName: "checkmark.circle.fill")
                                     .resizable()
-                                    .foregroundColor(.blackWhite)
+                                    .foregroundStyle(.blackWhite)
                                     .frame(width: 20, height: 20)
                                     .padding(.trailing, 16)
                             }
@@ -197,14 +254,42 @@ struct WorksDeletionView: View {
                         ForEach(selectedWorks.filter { $0.periodType == "month" }) { work in
                             HStack(spacing: 4) {
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text(work.jobName)
-                                        .font(.latoBold(size: 18))
-                                        .foregroundColor(.blackWhite)
-                                    
-                                    Text(work.startDate.currentMonthString)
+                                    HStack(alignment: .center, spacing: 2) {
+                                        Text(work.job?.name ?? "Unknown Job")
+                                            .font(.latoBold(size: 18))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.trailing, 4)
+
+                                        Text("project_title".localized.first.map { String($0) } ?? "")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.project?.isEmpty ?? true)
+
+                                        Text("|")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.project?.isEmpty ?? true || work.task?.isEmpty ?? true)
+
+                                        Text("task_title".localized.first.map { String($0) } ?? "")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.task?.isEmpty ?? true)
+
+                                        Text("|")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: (work.project?.isEmpty ?? true || work.note?.isEmpty ?? true) && (work.task?.isEmpty ?? true || work.note?.isEmpty ?? true))
+
+                                        Text("note_title".localized.first.map { String($0) } ?? "")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.note?.isEmpty ?? true)
+                                    }
+
+                                    Text(work.startDate.currentMonthString +  ", \(work.startDate.currentYearString)")
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.blackWhite)
-                                    
+
                                     Text("overtime_title".localized)
                                         .font(.latoBold(size: 14))
                                         .foregroundStyle(.blackWhite)
@@ -212,9 +297,9 @@ struct WorksDeletionView: View {
                                         .hide(if: !work.isOvertime)
                                 }
                                 .padding(.horizontal, 16)
-                                
+
                                 Spacer()
-                                
+
                                 VStack(alignment: .trailing, spacing: 2) {
                                     Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
                                         .font(.latoBold(size: 16))
@@ -226,17 +311,17 @@ struct WorksDeletionView: View {
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
-                                    
+
                                     Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
                                         .font(.latoBold(size: 14))
-                                        .foregroundColor(.blackWhite)
+                                        .foregroundStyle(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
-                                
+
                                 Image(systemName: "checkmark.circle.fill")
                                     .resizable()
-                                    .foregroundColor(.blackWhite)
+                                    .foregroundStyle(.blackWhite)
                                     .frame(width: 20, height: 20)
                                     .padding(.trailing, 16)
                             }
@@ -268,16 +353,44 @@ struct WorksDeletionView: View {
                     
                     VStack(spacing: 4) {
                         ForEach(selectedWorks.filter { $0.periodType == "year" }) { work in
-                            HStack(spacing: 0) {
+                            HStack(spacing: 4) {
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text(work.jobName)
-                                        .font(.latoBold(size: 18))
-                                        .foregroundColor(.blackWhite)
-                                    
+                                    HStack(alignment: .center, spacing: 2) {
+                                        Text(work.job?.name ?? "Unknown Job")
+                                            .font(.latoBold(size: 18))
+                                            .foregroundStyle(.blackWhite)
+                                            .padding(.trailing, 4)
+
+                                        Text("project_title".localized.first.map { String($0) } ?? "")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.project?.isEmpty ?? true)
+
+                                        Text("|")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.project?.isEmpty ?? true || work.task?.isEmpty ?? true)
+
+                                        Text("task_title".localized.first.map { String($0) } ?? "")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.task?.isEmpty ?? true)
+
+                                        Text("|")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: (work.project?.isEmpty ?? true || work.note?.isEmpty ?? true) && (work.task?.isEmpty ?? true || work.note?.isEmpty ?? true))
+
+                                        Text("note_title".localized.first.map { String($0) } ?? "")
+                                            .font(.latoBold(size: 12))
+                                            .foregroundColor(.gray)
+                                            .hide(if: work.note?.isEmpty ?? true)
+                                    }
+
                                     Text(work.startDate.currentYearString)
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.blackWhite)
-                                    
+
                                     Text("overtime_title".localized)
                                         .font(.latoBold(size: 14))
                                         .foregroundStyle(.blackWhite)
@@ -285,9 +398,9 @@ struct WorksDeletionView: View {
                                         .hide(if: !work.isOvertime)
                                 }
                                 .padding(.horizontal, 16)
-                                
+
                                 Spacer()
-                                
+
                                 VStack(alignment: .trailing, spacing: 2) {
                                     Text(work.moneyEarned.formatFloatToString() + " " + currencyIdentifier.uppercased())
                                         .font(.latoBold(size: 16))
@@ -299,17 +412,17 @@ struct WorksDeletionView: View {
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.gray)
                                         .padding(.bottom, 2)
-                                    
+
                                     Text(work.isPaid ? "paid_title".localized : "unpaid_title".localized)
                                         .font(.latoBold(size: 14))
-                                        .foregroundColor(.blackWhite)
+                                        .foregroundStyle(.blackWhite)
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
-                                
+
                                 Image(systemName: "checkmark.circle.fill")
                                     .resizable()
-                                    .foregroundColor(.blackWhite)
+                                    .foregroundStyle(.blackWhite)
                                     .frame(width: 20, height: 20)
                                     .padding(.trailing, 16)
                             }

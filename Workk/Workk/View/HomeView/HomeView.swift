@@ -201,6 +201,14 @@ struct HomeView: View {
             .reduce(0) { $0 + $1.hoursWorked }
     }
     
+    var updateProgressBarKey: String {
+        return "\(viewModel.selectedDay)\(viewModel.selectedWeek)\(viewModel.selectedMonth)\(viewModel.selectedYear)"
+    }
+    
+    var updateProgressBarInstantKey: String {
+        return "\(selectedFilter)\(dailyMoneyGoal)\(dailyHoursGoal)\(weeklyMoneyGoal)\(weeklyHoursGoal)\(monthlyMoneyGoal)\(monthlyHoursGoal)\(yearlyMoneyGoal)\(yearlyHoursGoal)"
+    }
+    
     var body: some View {
         NavigationStack(path: $appRouter.path) {
             VStack(spacing: 0) {
@@ -214,6 +222,7 @@ struct HomeView: View {
                         options: ["all_title".localized] + jobs.compactMap { $0.name },
                         backgroundColor: .wildSand,
                         maxWidth: 220)
+                    .popoverTip(DropdownPickerHomeTip(), arrowEdge: .top)
 
                     Spacer()
 
@@ -226,6 +235,7 @@ struct HomeView: View {
                             .foregroundStyle(.blackWhite)
                             .font(.title)
                     }
+                    .popoverTip(YourProfileTip(), arrowEdge: .bottom)
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
@@ -282,7 +292,7 @@ struct HomeView: View {
                     self.viewModel.updateCurrentTime()
                 }
             }
-            .onChange(of: selectedWorkName) { newValue in
+            .onChange(of: selectedWorkName) { _, newValue in
                 Task {
                     await updateProgressBar()
                 }
@@ -293,23 +303,12 @@ struct HomeView: View {
                 
                 selectedJob = jobs.first(where: { $0.name == newValue })
             }
-            .onChange(of: viewModel.selectedDay) { _ in Task { await updateProgressBar() } }
-            .onChange(of: viewModel.selectedWeek) { _ in Task { await updateProgressBar() } }
-            .onChange(of: viewModel.selectedMonth) { _ in Task { await updateProgressBar() } }
-            .onChange(of: viewModel.selectedYear) { _ in Task { await updateProgressBar() } }
-            .onChange(of: selectedFilter) { _ in updateProgressBarInstant() }
-            .onChange(of: dailyMoneyGoal) { _ in updateProgressBarInstant() }
-            .onChange(of: dailyHoursGoal) { _ in updateProgressBarInstant() }
-            .onChange(of: weeklyMoneyGoal) { _ in updateProgressBarInstant() }
-            .onChange(of: weeklyHoursGoal) { _ in updateProgressBarInstant() }
-            .onChange(of: monthlyMoneyGoal) { _ in updateProgressBarInstant() }
-            .onChange(of: monthlyHoursGoal) { _ in updateProgressBarInstant() }
-            .onChange(of: yearlyMoneyGoal) { _ in updateProgressBarInstant() }
-            .onChange(of: yearlyHoursGoal) { _ in updateProgressBarInstant() }
-            .onChange(of: overtimePercentage) { newValue in
+            .onChange(of: updateProgressBarKey) { Task { await updateProgressBar() } }
+            .onChange(of: updateProgressBarInstantKey) { updateProgressBarInstant() }
+            .onChange(of: overtimePercentage) { _, newValue in
                 overtimePercentage = newValue.formatNumberInput()
             }
-            .onChange(of: jobs.count) { _ in
+            .onChange(of: jobs.count) {
                 let isSelectedWorkNameMissing = jobs.allSatisfy { $0.name != selectedWorkName }
                     
                 if isSelectedWorkNameMissing {
@@ -319,7 +318,7 @@ struct HomeView: View {
                     selectedWorkName = "all_title".localized
                 }
             }
-            .onChange(of: works.count) { newValue in
+            .onChange(of: works.count) { _, newValue in
                 Task {
                     await updateProgressBar()
                 }
@@ -636,6 +635,7 @@ extension HomeView {
                 .padding(.top, 4)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 12)
+                .popoverTip(PeriodFilterHomeTip(), arrowEdge: .top)
 
             TabView(selection: $selectedFilter) {
                 dayDetailsView
