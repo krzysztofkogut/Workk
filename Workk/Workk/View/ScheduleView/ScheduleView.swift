@@ -90,6 +90,8 @@ struct ScheduleView: View {
     private let topPadding: CGFloat = 24.0
     private let bottomPadding: CGFloat = 24.0
     
+    private let isIPadIOS18 = (UIDevice.current.userInterfaceIdiom == .pad) && (ProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 18)
+    
     private var calendarRowHeight: CGFloat {
         screenSize.height < 700 ? 38 : 44
     }
@@ -1265,7 +1267,7 @@ struct ScheduleView: View {
         
         GeometryReader { geometry in
             let size = geometry.size
-            let minY = geometry.frame(in: .global).minY - safeAreaInsets.top - periodFilterSize.height
+            let minY = geometry.frame(in: .global).minY - safeAreaInsets.top - periodFilterSize.height - (isIPadIOS18 ? 64 : 0)
             /// Converting Scroll into Progress
             let maxHeight = size.height - (calendarTitleViewHeight + weekLabelHeight + calendarRowHeight + topPadding + bottomPadding - 4)
             @State var progress = max(min((-minY / maxHeight), 1), 0)
