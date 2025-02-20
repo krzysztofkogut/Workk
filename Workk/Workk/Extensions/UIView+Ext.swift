@@ -14,4 +14,12 @@ extension UIView {
             drawHierarchy(in: .init(origin: .zero, size: size), afterScreenUpdates: true)
         }
     }
+    
+    func allSubViews<T: UIView>(type: T.Type) -> [T] {
+        var resultViews = subviews.compactMap { $0 as? T }
+        for view in subviews {
+            resultViews.append(contentsOf: view.allSubViews(type: type))
+        }
+        return resultViews
+    }
 }

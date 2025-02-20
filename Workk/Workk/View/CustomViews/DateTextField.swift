@@ -82,16 +82,6 @@ private struct AddInputViewToTextField<Content: View>: UIViewRepresentable {
     func updateUIView(_ uiView: UIViewType, context: Context) {}
 }
 
-private extension UIView {
-    func allSubViews<T: UIView>(type: T.Type) -> [T] {
-        var resultViews = subviews.compactMap { $0 as? T }
-        for view in subviews {
-            resultViews.append(contentsOf: view.allSubViews(type: type))
-        }
-        return resultViews
-    }
-}
-
 #Preview {
     @State var date = Date()
 

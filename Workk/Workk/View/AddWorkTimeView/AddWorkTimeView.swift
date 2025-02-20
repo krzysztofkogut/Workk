@@ -235,6 +235,19 @@ struct AddWorkTimeView: View {
             if !works.isEmpty, works.count.isMultiple(of: 3), !userSubscriptionViewModel.subscriptionActive {
                 showAd()
             }
+            
+            if selectedWorkName == "all_title".localized {
+                withAnimation(.bouncy(duration: 0.4)) {
+                    selectedWorkName = nil
+                }
+            }
+        }
+        .onDisappear {
+            if selectedWorkName == nil {
+                withAnimation(.bouncy(duration: 0.4)) {
+                    selectedWorkName = "all_title".localized
+                }
+            }
         }
         .onChange(of: dayStartDate) { newValue in
             if newValue > dayEndDate {
@@ -305,7 +318,7 @@ struct AddWorkTimeView: View {
                 hourlyRateDay = jobs.first(where: { $0.name == selectedWorkName })?.hourlyRate.formatFloatToString() ?? ""
             }
             
-            isDropDownError = newValue == "all_title".localized
+            isDropDownError = newValue == "all_title".localized 
             
             updateSaveButtonState()
         }
@@ -515,8 +528,10 @@ struct AddWorkTimeView: View {
             VStack(spacing: 8) {
                 Button {
                     guard isDaySaveButtonEnabled else {
-                        isDayValidationError = true
-                        isDropDownError = selectedWorkName == "all_title".localized
+                        withAnimation(.spring(duration: 0.2)) {
+                            isDayValidationError = true
+                            isDropDownError = selectedWorkName == "all_title".localized || selectedWorkName == nil
+                        }
                         return
                     }
                     selectedWork == nil ? addItem() : updateItem()
@@ -721,8 +736,10 @@ struct AddWorkTimeView: View {
             VStack(spacing: 8) {
                 Button {
                     guard isWeekSaveButtonEnabled else {
-                        isWeekValidationError = true
-                        isDropDownError = selectedWorkName == "all_title".localized
+                        withAnimation(.spring(duration: 0.2)) {
+                            isWeekValidationError = true
+                            isDropDownError = selectedWorkName == "all_title".localized || selectedWorkName == nil
+                        }
                         return
                     }
                     
@@ -928,8 +945,10 @@ struct AddWorkTimeView: View {
             VStack(spacing: 8) {
                 Button {
                     guard isMonthSaveButtonEnabled else {
-                        isMonthValidationError = true
-                        isDropDownError = selectedWorkName == "all_title".localized
+                        withAnimation(.spring(duration: 0.2)) {
+                            isMonthValidationError = true
+                            isDropDownError = selectedWorkName == "all_title".localized || selectedWorkName == nil
+                        }
                         return
                     }
                     
@@ -1134,8 +1153,10 @@ struct AddWorkTimeView: View {
             VStack(spacing: 8) {
                 Button {
                     guard isYearSaveButtonEnabled else {
-                        isYearValidationError = true
-                        isDropDownError = selectedWorkName == "all_title".localized
+                        withAnimation(.spring(duration: 0.2)) {
+                            isYearValidationError = true
+                            isDropDownError = selectedWorkName == "all_title".localized || selectedWorkName == nil
+                        }
                         return
                     }
                     

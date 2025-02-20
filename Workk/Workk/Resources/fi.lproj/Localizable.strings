@@ -172,3 +172,44 @@
 
 "add_job_conditions_decription" = "Pakolliset kentät: työn nimi, tuntipalkka";
 "add_work_conditions_decription" = "Pakolliset kentät: työ, työaika, ansaitut rahat";
+
+"dropdown_picker_home_tip_title" = "Valitse työ";
+"dropdown_picker_home_tip_message" = "Valitse työ tästä luettelosta suodattaaksesi työmerkintäsi. Sinun on valittava työ ennen kuin voit aloittaa ajan seurannan ja tallentaa sen tietylle työlle.";
+
+"dropdown_picker_add_work_tip_title" = "Valitse työ";
+"dropdown_picker_add_work_tip_message" = "Ennen uuden merkinnän lisäämistä valitse työ avattavasta valikosta.";
+
+"period_filter_home_tip_title" = "Valitse ajanjakso";
+"period_filter_home_tip_message" = "Suodata työmerkinnät päivän, viikon, kuukauden tai vuoden mukaan.";
+
+"period_filter_add_work_tip_title" = "Aseta ajanjakso";
+"period_filter_add_work_tip_message" = "Kirjaa työaikasi ja ansiosi tietylle päivälle, viikolle, kuukaudelle tai vuodelle.";
+
+"period_filter_schedule_tip_title" = "Suodata työaikataulu";
+"period_filter_schedule_tip_message" = "Näytä työmerkintäsi suodatettuna päivän, viikon, kuukauden tai vuoden mukaan.";
+
+"your_profile_tip_title" = "Hallitse profiiliasi";
+"your_profile_tip_message" = "Profiilissasi voit muokata töitä, asettaa tavoitteita, valita valuutan, ottaa iCloud-synkronoinnin käyttöön ja hallita ilmoituksia.";
+
+"required_fields_add_work_tip_title" = "Täytä pakolliset kentät";
+"required_fields_add_work_tip_message" = "Lisätäksesi uuden merkinnän, täytä kaikki pakolliset kentät: työ, työaika ja ansiot. \nJos jokin kenttä jätetään tyhjäksi, merkintää ei tallenneta ja puuttuvat kentät korostetaan.";
+
+"edit_title" = "Muokkaa";
+"add_multiple_works_title" = "Lisää työaikoja";
+"days_of_week_title" = "VIIKEN PÄIVÄT";
+"add_multiple_title" = "Lisää useita";
+"mark_as_paid_title" = "Merkitse maksetuksi";
+"mark_as_unpaid_title" = "Merkitse maksamattomaksi";
+"add_work_time_long_title" = "Lisää yksittäinen merkintä";
+"add_multiple_long_title" = "Lisää useita merkintöjä";
+"mark_as_paid_long_title" = "Merkitse maksetuksi";
+"mark_as_unpaid_long_title" = "Merkitse maksamattomaksi";
+
+"monday_title" = "Maanantai";
+"tuesday_title" = "Tiistai";
+"wednesday_title" = "Keskiviikko";
+"thursday_title" = "Torstai";
+"friday_title" = "Perjantai";
+"saturday_title" = "Lauantai";
+"sunday_title" = "Sunnuntai";
+"add_title" = "Lisää";

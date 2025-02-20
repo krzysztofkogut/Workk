@@ -193,3 +193,23 @@
 
 "required_fields_add_work_tip_title" = "Udfyld de nødvendige felter";
 "required_fields_add_work_tip_message" = "For at tilføje en ny post skal du udfylde alle de nødvendige felter: job, arbejdstid og indtjening. \nHvis et felt er tomt, vil posten ikke blive gemt, og de manglende felter vil blive fremhævet.";
+
+"edit_title" = "Rediger";
+"add_multiple_works_title" = "Tilføj arbejdstider";
+"days_of_week_title" = "DAGE I UGEN";
+"add_multiple_title" = "Tilføj flere";
+"mark_as_paid_title" = "Marker som betalt";
+"mark_as_unpaid_title" = "Marker som ubetalt";
+"add_work_time_long_title" = "Tilføj enkelt post";
+"add_multiple_long_title" = "Tilføj flere poster";
+"mark_as_paid_long_title" = "Marker som betalt";
+"mark_as_unpaid_long_title" = "Marker som ubetalt";
+
+"monday_title" = "Mandag";
+"tuesday_title" = "Tirsdag";
+"wednesday_title" = "Onsdag";
+"thursday_title" = "Torsdag";
+"friday_title" = "Fredag";
+"saturday_title" = "Lørdag";
+"sunday_title" = "Søndag";
+"add_title" = "Tilføj";

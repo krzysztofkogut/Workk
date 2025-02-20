@@ -97,7 +97,7 @@ struct DropDownPicker: View {
             .overlay {
                 RoundedRectangle(cornerRadius: 6)
                     .stroke(.cranberry, lineWidth: 2)
-                    .hide(if: (hideStroke || selection != "all_title".localized) && !isError)
+                    .hide(if: (hideStroke || (selection != "all_title".localized && selection != nil)) && !isError)
             }
             .frame(height: size.height, alignment: .top)
             .offset(x: (state == .trailing && !showDropdown) ? maxWidth - (selection == nil ? hint : selection!).widthOfString(usingFont: .latoBlack(size: 18)) - 60 : 0)

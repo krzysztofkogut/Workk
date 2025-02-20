@@ -193,3 +193,23 @@
 
 "required_fields_add_work_tip_title" = "Fyll i obligatoriska fält";
 "required_fields_add_work_tip_message" = "För att lägga till en ny post, fyll i alla obligatoriska fält: jobb, arbetstid och intäkter. \nOm något fält lämnas tomt sparas inte posten, och de saknade fälten kommer att markeras.";
+
+"edit_title" = "Redigera";
+"add_multiple_works_title" = "Lägg till arbetstider";
+"days_of_week_title" = "VECKANS DAGAR";
+"add_multiple_title" = "Lägg till flera";
+"mark_as_paid_title" = "Markera som betald";
+"mark_as_unpaid_title" = "Markera som obetald";
+"add_work_time_long_title" = "Lägg till en enstaka post";
+"add_multiple_long_title" = "Lägg till flera poster";
+"mark_as_paid_long_title" = "Markera som betald";
+"mark_as_unpaid_long_title" = "Markera som obetald";
+
+"monday_title" = "Måndag";
+"tuesday_title" = "Tisdag";
+"wednesday_title" = "Onsdag";
+"thursday_title" = "Torsdag";
+"friday_title" = "Fredag";
+"saturday_title" = "Lördag";
+"sunday_title" = "Söndag";
+"add_title" = "Lägg till";

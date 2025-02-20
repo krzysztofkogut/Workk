@@ -50,6 +50,32 @@ extension Date {
         return formatter.string(from: self)
     }
     
+    var dayPickerOnlyDateString: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        let localeRegion = Locale.current.region?.identifier ?? ""
+        
+        if Constants.monthFirstLocales.contains(localeRegion) {
+            formatter.dateFormat = "MMM d yyyy"
+        } else {
+            formatter.dateFormat = "d MMM yyyy"
+        }
+        return formatter.string(from: self)
+    }
+    
+    var dayPickerOnlyHourString: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        let localeRegion = Locale.current.region?.identifier ?? ""
+        
+        if Constants.monthFirstLocales.contains(localeRegion) {
+            formatter.dateFormat = "h:mm a"
+        } else {
+            formatter.dateFormat = "HH:mm"
+        }
+        return formatter.string(from: self)
+    }
+    
     var currentHourString: String {
         
         let formatter = DateFormatter()

@@ -193,3 +193,23 @@
 
 "required_fields_add_work_tip_title" = "Заповніть обов'язкові поля";
 "required_fields_add_work_tip_message" = "Щоб додати новий запис, заповніть усі обов'язкові поля: робота, робочий час і заробіток. \nЯкщо будь-яке поле залишиться порожнім, запис не буде збережено, а відсутні поля будуть виділені.";
+
+"edit_title" = "Редагувати";
+"add_multiple_works_title" = "Додати робочі часи";
+"days_of_week_title" = "ДНІ ТИЖНЯ";
+"add_multiple_title" = "Додати декілька";
+"mark_as_paid_title" = "Позначити як оплачено";
+"mark_as_unpaid_title" = "Позначити як не оплачено";
+"add_work_time_long_title" = "Додати один запис";
+"add_multiple_long_title" = "Додати декілька записів";
+"mark_as_paid_long_title" = "Позначити як оплачено";
+"mark_as_unpaid_long_title" = "Позначити як не оплачено";
+
+"monday_title" = "Понеділок";
+"tuesday_title" = "Вівторок";
+"wednesday_title" = "Середа";
+"thursday_title" = "Четвер";
+"friday_title" = "П’ятниця";
+"saturday_title" = "Субота";
+"sunday_title" = "Неділя";
+"add_title" = "Додати";

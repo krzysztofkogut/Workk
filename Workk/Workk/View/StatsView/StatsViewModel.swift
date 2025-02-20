@@ -17,6 +17,7 @@ final class StatsViewModel: StatsViewModelProtocol {
     @Published var selectedPeriodFilter: PeriodFilter = .day
     @Published var selectedWorkName: String? = "all_title".localized
     @Published var selectedPaymentStatus: PaymentStatus = .paid
+    @Published var selectedWorkStatus: WorkStatus = .all
 
     @Published var selectedWeek: Date = .init()
     @Published var selectedMonth: Date = .init()

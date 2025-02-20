@@ -193,3 +193,23 @@
 
 "required_fields_add_work_tip_title" = "Vul de vereiste velden in";
 "required_fields_add_work_tip_message" = "Om een nieuwe invoer toe te voegen, vul alle vereiste velden in: baan, werktijd en verdiensten. \nAls een veld leeg blijft, wordt de invoer niet opgeslagen en worden de ontbrekende velden gemarkeerd.";
+
+"edit_title" = "Bewerken";
+"add_multiple_works_title" = "Voeg werktijden toe";
+"days_of_week_title" = "DAGEN VAN DE WEEK";
+"add_multiple_title" = "Voeg meerdere toe";
+"mark_as_paid_title" = "Markeer als betaald";
+"mark_as_unpaid_title" = "Markeer als niet betaald";
+"add_work_time_long_title" = "Voeg een enkele invoer toe";
+"add_multiple_long_title" = "Voeg meerdere invoeren toe";
+"mark_as_paid_long_title" = "Markeer als betaald";
+"mark_as_unpaid_long_title" = "Markeer als niet betaald";
+
+"monday_title" = "Maandag";
+"tuesday_title" = "Dinsdag";
+"wednesday_title" = "Woensdag";
+"thursday_title" = "Donderdag";
+"friday_title" = "Vrijdag";
+"saturday_title" = "Zaterdag";
+"sunday_title" = "Zondag";
+"add_title" = "Toevoegen";

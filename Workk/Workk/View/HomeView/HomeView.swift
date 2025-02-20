@@ -298,7 +298,9 @@ struct HomeView: View {
                 }
                 
                 if isDropDownError {
-                    isDropDownError = newValue == "all_title".localized
+                    withAnimation(.spring(duration: 0.2)) {
+                        isDropDownError = newValue == "all_title".localized
+                    }
                 }
                 
                 selectedJob = jobs.first(where: { $0.name == newValue })
@@ -532,8 +534,10 @@ extension HomeView {
                 }
                 
                 guard selectedWorkName != nil && selectedWorkName != "all_title".localized else {
-                    showAlertSheet = true
-                    isDropDownError = true
+                    withAnimation(.spring(duration: 0.2)) {
+                        showAlertSheet = true
+                        isDropDownError = true
+                    }
                     return
                 }
 

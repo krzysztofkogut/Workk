@@ -193,3 +193,23 @@
 
 "required_fields_add_work_tip_title" = "Vyplňte požadovaná pole";
 "required_fields_add_work_tip_message" = "Chcete-li přidat nový záznam, vyplňte všechna požadovaná pole: práce, pracovní doba a výdělky. \nPokud některé pole zůstane prázdné, záznam nebude uložen a chybějící pole budou zvýrazněna.";
+
+"edit_title" = "Upravit";
+"add_multiple_works_title" = "Přidat pracovní časy";
+"days_of_week_title" = "DNY TÝDNE";
+"add_multiple_title" = "Přidat více";
+"mark_as_paid_title" = "Označit jako zaplacené";
+"mark_as_unpaid_title" = "Označit jako nezaplacené";
+"add_work_time_long_title" = "Přidat jeden záznam";
+"add_multiple_long_title" = "Přidat více záznamů";
+"mark_as_paid_long_title" = "Označit jako zaplacené";
+"mark_as_unpaid_long_title" = "Označit jako nezaplacené";
+
+"monday_title" = "Pondělí";
+"tuesday_title" = "Úterý";
+"wednesday_title" = "Středa";
+"thursday_title" = "Čtvrtek";
+"friday_title" = "Pátek";
+"saturday_title" = "Sobota";
+"sunday_title" = "Neděle";
+"add_title" = "Přidat";

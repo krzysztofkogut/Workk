@@ -27,6 +27,11 @@ struct StatsView: View {
         
     @FetchRequest(
         entity: Work.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Work.id, ascending: true)])
+    private var allWorks: FetchedResults<Work>
+    
+    @FetchRequest(
+        entity: Work.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \Work.id, ascending: true)],
         predicate: NSPredicate(format: "isPaid == TRUE")
     ) private var paidWorks: FetchedResults<Work>
@@ -36,6 +41,12 @@ struct StatsView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Work.id, ascending: true)],
         predicate: NSPredicate(format: "isPaid == FALSE")
     ) private var unpaidWorks: FetchedResults<Work>
+    
+    @FetchRequest(
+        entity: Work.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Work.id, ascending: true)],
+        predicate: NSPredicate(format: "isOvertime == TRUE")
+    ) private var overtimeWorks: FetchedResults<Work>
     
     @State var selectedJob: Job? = nil
     
@@ -51,6 +62,19 @@ struct StatsView: View {
     @State private var isDropDownError: Bool = false
     
     @State private var stopAnimation: Bool = false
+    
+    var filteredWorks: FetchedResults<Work> {
+        switch viewModel.selectedWorkStatus {
+        case .all:
+            allWorks
+        case .paid:
+            paidWorks
+        case .unpaid:
+            unpaidWorks
+        case .overtime:
+            overtimeWorks
+        }
+    }
     
     private let calendar = Calendar(identifier: .iso8601)
     private let smallDeviceWidth: CGFloat = 375
@@ -160,7 +184,8 @@ struct StatsView: View {
             
             Spacer()
             
-            paymentStatusFilterBar
+//            paymentStatusFilterBar
+            workStatusFilterBar
                         
             HStack(spacing: 0) {
                 Button {
@@ -207,7 +232,7 @@ struct StatsView: View {
         .onAppear {
             currentActiveMoneyItem = nil
             currentActiveHoursItem = nil
-            viewModel.reloadSiteViews(works: viewModel.selectedPaymentStatus.isPaid ? paidWorks : unpaidWorks)
+            viewModel.reloadSiteViews(works: filteredWorks)
             moneyYScale = viewModel.maxForMoney()
             hoursYScale = viewModel.maxForHours()
         }
@@ -222,10 +247,18 @@ struct StatsView: View {
             moneyYScale = viewModel.maxForMoney()
             hoursYScale = viewModel.maxForHours()
         }
+        .onChange(of: viewModel.selectedWorkStatus) {
+            currentActiveMoneyItem = nil
+            currentActiveHoursItem = nil
+            viewModel.reloadSiteViews(works: filteredWorks)
+            moneyYScale = viewModel.maxForMoney()
+            hoursYScale = viewModel.maxForHours()
+            viewModel.animateChart(fromChange: true)
+        }
         .onChange(of: animateChartValueKey) {
             currentActiveMoneyItem = nil
             currentActiveHoursItem = nil
-            viewModel.reloadSiteViews(works: viewModel.selectedPaymentStatus.isPaid ? paidWorks : unpaidWorks)
+            viewModel.reloadSiteViews(works: filteredWorks)
             moneyYScale = viewModel.maxForMoney()
             hoursYScale = viewModel.maxForHours()
             viewModel.animateChart(fromChange: true)
@@ -301,6 +334,71 @@ struct StatsView: View {
                     .onTapGesture {
                         self.viewModel.selectedPaymentStatus = item
                     }
+            }
+            
+            Spacer()
+                .hide(if: viewModel.isToday())
+            
+            Button {
+                viewModel.showToday()
+            } label: {
+                Text("today_title".localized)
+                    .font(.latoBold(size: 14))
+                    .minimumScaleFactor(0.5)
+                    .foregroundStyle(.whiteBlack)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(.blackWhite, in: .rect(cornerRadius: 18))
+            }
+            .hide(if: viewModel.isToday())
+        }
+        .animation(.easeInOut, value: viewModel.isToday())
+        .padding(.horizontal, 16)
+    }
+    
+    var workStatusFilterBar: some View {
+        HStack(spacing: 8) {
+            Menu {
+                Button {
+                    withAnimation(.bouncy(duration: 0.4)) {
+                        viewModel.selectedWorkStatus  = .overtime
+                    }
+                } label: {
+                    Text(WorkStatus.overtime.title)
+                }
+                
+                Button {
+                    withAnimation(.bouncy(duration: 0.4)) {
+                        viewModel.selectedWorkStatus  = .unpaid
+                    }
+                } label: {
+                    Text(WorkStatus.unpaid.title)
+                }
+                
+                Button {
+                    withAnimation(.bouncy(duration: 0.4)) {
+                        viewModel.selectedWorkStatus  = .paid
+                    }
+                } label: {
+                    Text(WorkStatus.paid.title)
+                }
+                
+                Button {
+                    withAnimation(.bouncy(duration: 0.4)) {
+                        viewModel.selectedWorkStatus  = .all
+                    }
+                } label: {
+                    Text(WorkStatus.all.title)
+                }
+            } label: {
+                Text(viewModel.selectedWorkStatus.title)
+                    .font(.latoBold(size: 14))
+                    .minimumScaleFactor(0.01)
+                    .lineLimit(1)
+                    .foregroundColor(.whiteBlack)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(.blackWhite, in: .rect(cornerRadius: 18))
             }
             
             Spacer()

@@ -193,3 +193,23 @@
 
 "required_fields_add_work_tip_title" = "Füllen Sie die erforderlichen Felder aus";
 "required_fields_add_work_tip_message" = "Um einen neuen Eintrag hinzuzufügen, füllen Sie alle erforderlichen Felder aus: Job, Arbeitszeit und Einnahmen. \nWenn ein Feld leer bleibt, wird der Eintrag nicht gespeichert und die fehlenden Felder werden hervorgehoben.";
+
+"edit_title" = "Bearbeiten";
+"add_multiple_works_title" = "Arbeitszeiten hinzufügen";
+"days_of_week_title" = "TAGE DER WOCHE";
+"add_multiple_title" = "Mehrere hinzufügen";
+"mark_as_paid_title" = "Als bezahlt markieren";
+"mark_as_unpaid_title" = "Als unbezahlt markieren";
+"add_work_time_long_title" = "Einzelnen Eintrag hinzufügen";
+"add_multiple_long_title" = "Mehrere Einträge hinzufügen";
+"mark_as_paid_long_title" = "Als bezahlt markieren";
+"mark_as_unpaid_long_title" = "Als unbezahlt markieren";
+
+"monday_title" = "Montag";
+"tuesday_title" = "Dienstag";
+"wednesday_title" = "Mittwoch";
+"thursday_title" = "Donnerstag";
+"friday_title" = "Freitag";
+"saturday_title" = "Samstag";
+"sunday_title" = "Sonntag";
+"add_title" = "Hinzufügen";

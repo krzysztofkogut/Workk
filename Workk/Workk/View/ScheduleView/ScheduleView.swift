@@ -63,16 +63,24 @@ struct ScheduleView: View {
     @State private var filtersWidthDict: [PeriodFilter: CGFloat] = [:]
     @State private var deleteMode = false
     @State private var selectedWorkName: String? = "all_title".localized
+    
     @State private var showAddWorkTime = false
     @State private var showAddJobView: Bool = false
     @State private var showSubscriptionPlanView = false
     @State private var showDeletionView = false
+    @State private var showAddMultipleWorksView: Bool = false
+    
     @State private var isDropDownError: Bool = false
     
     @State private var isDayDetailsBannerAdLoaded: Bool = false
     @State private var isWeekDetailsBannerAdLoaded: Bool = false
     @State private var isMonthDetailsBannerAdLoaded: Bool = false
     @State private var isYearDetailsBannerAdLoaded: Bool = false
+    
+    @State var selectedDayEditAction: EditAction = .addSingle
+    @State var selectedWeekEditAction: EditAction = .addSingle
+    @State var selectedMonthEditAction: EditAction = .addSingle
+    @State var selectedYearEditAction: EditAction = .addSingle
     
     private let calendar: Calendar
     
@@ -171,6 +179,11 @@ struct ScheduleView: View {
         }
         .fullScreenCover(isPresented: $showSubscriptionPlanView) {
             SubscriptionPlanView()
+        }
+        .fullScreenCover(isPresented: $showAddMultipleWorksView) {
+            AddMultipleWorksView(
+                selectedJob: $selectedJob,
+                selectedWorkName: $selectedWorkName)
         }
         .sheet(isPresented: $showDeletionView) {
             WorksDeletionView(selectedWorks: $selectedWorks)
@@ -288,7 +301,7 @@ struct ScheduleView: View {
                                 .font(.latoBold(size: 16))
                                 .foregroundStyle(.blackWhite)
 
-                            Text(work.hoursWorkedString + " | " + work.hourlyRate.formatFloatToString() +
+                            Text(work.hoursWorkedTimeDifference + " | " + work.hourlyRate.formatFloatToString() +
                                 " \(currencyIdentifier.uppercased())" + "/h")
                                 .font(.latoRegular(size: 12))
                                 .foregroundColor(.gray)
@@ -333,21 +346,95 @@ struct ScheduleView: View {
             HStack {
                 Button {
                     if deleteMode {
-                        deleteSelectedWorks()
-                        deleteMode = false
+                        switch selectedDayEditAction {
+                        case .delete:
+                            deleteSelectedWorks()
+                        case .markAsPaid:
+                            markAsPaidSelectedWorks()
+                        case .markAsUnpaid:
+                            markAsUnpaidSelectedWorks()
+                        default:
+                            break
+                        }
+                        
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            deleteMode = false
+                            selectedWorks = []
+                            selectedDayEditAction = .addSingle
+                            selectedWeekEditAction = .addSingle
+                            selectedMonthEditAction = .addSingle
+                            selectedYearEditAction = .addSingle
+                        }
                     } else {
-                        if works.count < 500 || userSubscriptionViewModel.subscriptionActive {
-                            showAddWorkTimeView()
-                        } else {
-                            showSubscriptionPlanView = true
+                        switch selectedDayEditAction {
+                        case .addSingle:
+                            if works.count < 500 || userSubscriptionViewModel.subscriptionActive {
+                                showAddWorkTimeView()
+                            } else {
+                                showSubscriptionPlanView = true
+                            }
+                        case .addMultiple:
+                            showAddMultipleWorksView = true
+                        default:
+                            break
                         }
                     }
                 } label: {
-                    Text(deleteMode ? "delete_title".localized : "add_work_time_title".localized)
+                    Text(selectedDayEditAction.title)
                         .font(.latoBold(size: 16))
                         .foregroundStyle(.whiteBlack)
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
+                        .background(.blackWhite, in: .rect(cornerRadius: 18))
+                }
+                
+                Menu {
+                    if deleteMode {
+                        Button {
+                            withAnimation(.bouncy(duration: 0.4)) {
+                                selectedDayEditAction = .delete
+                            }
+                        } label: {
+                            Text(EditAction.delete.longTitle)
+                        }
+                        
+                        Button {
+                            withAnimation(.bouncy(duration: 0.4)) {
+                                selectedDayEditAction = .markAsPaid
+                            }
+                        } label: {
+                            Text(EditAction.markAsPaid.longTitle)
+                        }
+                        
+                        Button {
+                            withAnimation(.bouncy(duration: 0.4)) {
+                                selectedDayEditAction = .markAsUnpaid
+                            }
+                        } label: {
+                            Text(EditAction.markAsUnpaid.longTitle)
+                        }
+                    } else {
+                        Button {
+                            withAnimation(.bouncy(duration: 0.4)) {
+                                selectedDayEditAction = .addSingle
+                            }
+                        } label: {
+                            Text(EditAction.addSingle.longTitle)
+                        }
+                        
+                        Button {
+                            withAnimation(.bouncy(duration: 0.4)) {
+                                selectedDayEditAction = .addMultiple
+                            }
+                        } label: {
+                            Text(EditAction.addMultiple.longTitle)
+                        }
+                    }
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 12)
                         .background(.blackWhite, in: .rect(cornerRadius: 18))
                 }
                 
@@ -362,10 +449,11 @@ struct ScheduleView: View {
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
                         .background(.blackWhite, in: .rect(cornerRadius: 18))
-                        .hide(if: !deleteMode)
                 }
+                .hide(if: !deleteMode)
             }
             .padding(.bottom, 30)
+            .animation(.bouncy(duration: 0.4), value: selectedDayEditAction)
         }
     }
     
@@ -391,8 +479,23 @@ struct ScheduleView: View {
             HStack {
                 Button {
                     if deleteMode {
-                        deleteSelectedWorks()
+                        switch selectedWeekEditAction {
+                        case .delete:
+                            deleteSelectedWorks()
+                        case .markAsPaid:
+                            markAsPaidSelectedWorks()
+                        case .markAsUnpaid:
+                            markAsUnpaidSelectedWorks()
+                        default:
+                            break
+                        }
+                        
                         deleteMode = false
+                        selectedWorks = []
+                        selectedDayEditAction = .addSingle
+                        selectedWeekEditAction = .addSingle
+                        selectedMonthEditAction = .addSingle
+                        selectedYearEditAction = .addSingle
                     } else {
                         if works.count < 500 || userSubscriptionViewModel.subscriptionActive {
                             showAddWorkTimeView()
@@ -401,13 +504,46 @@ struct ScheduleView: View {
                         }
                     }
                 } label: {
-                    Text(deleteMode ? "delete_title".localized : "add_work_time_title".localized)
+                    Text(selectedWeekEditAction.title)
                         .font(.latoBold(size: 16))
                         .foregroundStyle(.whiteBlack)
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
                         .background(.blackWhite, in: .rect(cornerRadius: 18))
                 }
+                
+                Menu {
+                    Button {
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            selectedWeekEditAction = .delete
+                        }
+                    } label: {
+                        Text(EditAction.delete.longTitle)
+                    }
+                    
+                    Button {
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            selectedWeekEditAction = .markAsPaid
+                        }
+                    } label: {
+                        Text(EditAction.markAsPaid.longTitle)
+                    }
+                    
+                    Button {
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            selectedWeekEditAction = .markAsUnpaid
+                        }
+                    } label: {
+                        Text(EditAction.markAsUnpaid.longTitle)
+                    }
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 12)
+                        .background(.blackWhite, in: .rect(cornerRadius: 18))
+                }
+                .hide(if: !deleteMode)
                 
                 Button {
                     if selectedWorks.count > 0 {
@@ -420,10 +556,11 @@ struct ScheduleView: View {
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
                         .background(.blackWhite, in: .rect(cornerRadius: 18))
-                        .hide(if: !deleteMode)
                 }
+                .hide(if: !deleteMode)
             }
             .padding(.bottom, 30)
+            .animation(.bouncy(duration: 0.4), value: selectedWeekEditAction)
         }
     }
     
@@ -449,8 +586,25 @@ struct ScheduleView: View {
             HStack {
                 Button {
                     if deleteMode {
-                        deleteSelectedWorks()
-                        deleteMode = false
+                        switch selectedMonthEditAction {
+                        case .delete:
+                            deleteSelectedWorks()
+                        case .markAsPaid:
+                            markAsPaidSelectedWorks()
+                        case .markAsUnpaid:
+                            markAsUnpaidSelectedWorks()
+                        default:
+                            break
+                        }
+                        
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            deleteMode = false
+                            selectedWorks = []
+                            selectedDayEditAction = .addSingle
+                            selectedWeekEditAction = .addSingle
+                            selectedMonthEditAction = .addSingle
+                            selectedYearEditAction = .addSingle
+                        }
                     } else {
                         if works.count < 500 || userSubscriptionViewModel.subscriptionActive {
                             showAddWorkTimeView()
@@ -459,13 +613,46 @@ struct ScheduleView: View {
                         }
                     }
                 } label: {
-                    Text(deleteMode ? "delete_title".localized : "add_work_time_title".localized)
+                    Text(selectedMonthEditAction.title)
                         .font(.latoBold(size: 16))
                         .foregroundStyle(.whiteBlack)
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
                         .background(.blackWhite, in: .rect(cornerRadius: 18))
                 }
+                
+                Menu {
+                    Button {
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            selectedMonthEditAction = .delete
+                        }
+                    } label: {
+                        Text(EditAction.delete.longTitle)
+                    }
+                    
+                    Button {
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            selectedMonthEditAction = .markAsPaid
+                        }
+                    } label: {
+                        Text(EditAction.markAsPaid.longTitle)
+                    }
+                    
+                    Button {
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            selectedMonthEditAction = .markAsUnpaid
+                        }
+                    } label: {
+                        Text(EditAction.markAsUnpaid.longTitle)
+                    }
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 12)
+                        .background(.blackWhite, in: .rect(cornerRadius: 18))
+                }
+                .hide(if: !deleteMode)
                 
                 Button {
                     if selectedWorks.count > 0 {
@@ -478,10 +665,11 @@ struct ScheduleView: View {
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
                         .background(.blackWhite, in: .rect(cornerRadius: 18))
-                        .hide(if: !deleteMode)
                 }
+                .hide(if: !deleteMode)
             }
             .padding(.bottom, 30)
+            .animation(.bouncy(duration: 0.4), value: selectedMonthEditAction)
         }
     }
     
@@ -507,8 +695,25 @@ struct ScheduleView: View {
             HStack {
                 Button {
                     if deleteMode {
-                        deleteSelectedWorks()
-                        deleteMode = false
+                        switch selectedYearEditAction {
+                        case .delete:
+                            deleteSelectedWorks()
+                        case .markAsPaid:
+                            markAsPaidSelectedWorks()
+                        case .markAsUnpaid:
+                            markAsUnpaidSelectedWorks()
+                        default:
+                            break
+                        }
+                        
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            deleteMode = false
+                            selectedWorks = []
+                            selectedDayEditAction = .addSingle
+                            selectedWeekEditAction = .addSingle
+                            selectedMonthEditAction = .addSingle
+                            selectedYearEditAction = .addSingle
+                        }
                     } else {
                         if works.count < 500 || userSubscriptionViewModel.subscriptionActive {
                             showAddWorkTimeView()
@@ -517,13 +722,46 @@ struct ScheduleView: View {
                         }
                     }
                 } label: {
-                    Text(deleteMode ? "delete_title".localized : "add_work_time_title".localized)
+                    Text(selectedYearEditAction.title)
                         .font(.latoBold(size: 16))
                         .foregroundStyle(.whiteBlack)
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
                         .background(.blackWhite, in: .rect(cornerRadius: 18))
                 }
+                
+                Menu {
+                    Button {
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            selectedYearEditAction = .delete
+                        }
+                    } label: {
+                        Text(EditAction.delete.longTitle)
+                    }
+                    
+                    Button {
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            selectedYearEditAction = .markAsPaid
+                        }
+                    } label: {
+                        Text(EditAction.markAsPaid.longTitle)
+                    }
+                    
+                    Button {
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            selectedYearEditAction = .markAsUnpaid
+                        }
+                    } label: {
+                        Text(EditAction.markAsUnpaid.longTitle)
+                    }
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 12)
+                        .background(.blackWhite, in: .rect(cornerRadius: 18))
+                }
+                .hide(if: !deleteMode)
                 
                 Button {
                     if selectedWorks.count > 0 {
@@ -536,10 +774,11 @@ struct ScheduleView: View {
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
                         .background(.blackWhite, in: .rect(cornerRadius: 18))
-                        .hide(if: !deleteMode)
                 }
+                .hide(if: !deleteMode)
             }
             .padding(.bottom, 30)
+            .animation(.bouncy(duration: 0.4), value: selectedYearEditAction)
         }
     }
     
@@ -611,9 +850,13 @@ struct ScheduleView: View {
                     
                     withAnimation(.bouncy(duration: 0.4)) {
                         deleteMode.toggle()
+                        selectedDayEditAction = deleteMode ? .delete : .addSingle
+                        selectedWeekEditAction = deleteMode ? .delete : .addSingle
+                        selectedMonthEditAction = deleteMode ? .delete : .addSingle
+                        selectedYearEditAction = deleteMode ? .delete : .addSingle
                     }
                 } label: {
-                    Text(deleteMode ? "cancel_title".localized : "delete_title".localized)
+                    Text(deleteMode ? "cancel_title".localized : "edit_title".localized)
                         .font(.latoBold(size: 14))
                         .foregroundStyle(.blackWhite)
                         .padding(.vertical, 8)
@@ -839,9 +1082,13 @@ struct ScheduleView: View {
                     
                     withAnimation(.bouncy(duration: 0.4)) {
                         deleteMode.toggle()
+                        selectedDayEditAction = deleteMode ? .delete : .addSingle
+                        selectedWeekEditAction = deleteMode ? .delete : .addSingle
+                        selectedMonthEditAction = deleteMode ? .delete : .addSingle
+                        selectedYearEditAction = deleteMode ? .delete : .addSingle
                     }
                 } label: {
-                    Text(deleteMode ? "cancel_title".localized : "delete_title".localized)
+                    Text(deleteMode ? "cancel_title".localized : "edit_title".localized)
                         .font(.latoBold(size: 14))
                         .foregroundStyle(.blackWhite)
                         .padding(.vertical, 8)
@@ -1067,9 +1314,13 @@ struct ScheduleView: View {
                     
                     withAnimation(.bouncy(duration: 0.4)) {
                         deleteMode.toggle()
+                        selectedDayEditAction = deleteMode ? .delete : .addSingle
+                        selectedWeekEditAction = deleteMode ? .delete : .addSingle
+                        selectedMonthEditAction = deleteMode ? .delete : .addSingle
+                        selectedYearEditAction = deleteMode ? .delete : .addSingle
                     }
                 } label: {
-                    Text(deleteMode ? "cancel_title".localized : "delete_title".localized)
+                    Text(deleteMode ? "cancel_title".localized : "edit_title".localized)
                         .font(.latoBold(size: 14))
                         .foregroundStyle(.blackWhite)
                         .padding(.vertical, 8)
@@ -1477,9 +1728,13 @@ struct ScheduleView: View {
                         
                         withAnimation(.bouncy(duration: 0.4)) {
                             deleteMode.toggle()
+                            selectedDayEditAction = deleteMode ? .delete : .addSingle
+                            selectedWeekEditAction = deleteMode ? .delete : .addSingle
+                            selectedMonthEditAction = deleteMode ? .delete : .addSingle
+                            selectedYearEditAction = deleteMode ? .delete : .addSingle
                         }
                     } label: {
-                        Text(deleteMode ? "cancel_title".localized : "delete_title".localized)
+                        Text(deleteMode ? "cancel_title".localized : "edit_title".localized)
                             .font(.latoBold(size: 14))
                             .foregroundStyle(.blackWhite)
                             .padding(.vertical, 8)
@@ -1534,7 +1789,28 @@ extension ScheduleView {
             for item in selectedWorks {
                 viewContext.delete(item)
             }
+            
             selectedWorks.removeAll()
+            saveContext()
+        }
+    }
+    
+    private func markAsPaidSelectedWorks() {
+        withAnimation {
+            for item in selectedWorks {
+                item.isPaid = true
+            }
+
+            saveContext()
+        }
+    }
+    
+    private func markAsUnpaidSelectedWorks() {
+        withAnimation {
+            for item in selectedWorks {
+                item.isPaid = false
+            }
+            
             saveContext()
         }
     }

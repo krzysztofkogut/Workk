@@ -18,10 +18,12 @@ struct WorksDeletionView: View {
     
     @Binding var selectedWorks: Set<Work>
     
+    @State var selectedEditAction: EditAction = .delete
+    
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
-                Text("select_delete_title".localized)
+                Text("edit_title".localized)
                     .font(.latoBold(size: 18))
                     .foregroundColor(.blackWhite)
                 
@@ -84,7 +86,11 @@ struct WorksDeletionView: View {
                                             .hide(if: work.note?.isEmpty ?? true)
                                     }
 
-                                    Text(work.startDate.currentHourString + " - " + work.endDate.currentHourString + ", \(work.startDate.currentShortDateString)")
+                                    Text(work.startDate.currentHourString + " - " + work.endDate.currentHourString)
+                                        .font(.latoRegular(size: 12))
+                                        .foregroundColor(.blackWhite)
+                                    
+                                    Text(work.startDate.currentShortDateString)
                                         .font(.latoRegular(size: 12))
                                         .foregroundColor(.blackWhite)
 
@@ -451,14 +457,55 @@ struct WorksDeletionView: View {
         .safeAreaInset(edge: .bottom) {
             HStack {
                 Button {
-                    deleteSelectedWorks()
-                    dismiss()
+                    switch selectedEditAction {
+                    case .delete:
+                        deleteSelectedWorks()
+                        dismiss()
+                    case .markAsPaid:
+                        markAsPaidSelectedWorks()
+                    case .markAsUnpaid:
+                        markAsUnpaidSelectedWorks()
+                    default:
+                        break
+                    }
                 } label: {
-                    Text("delete_title".localized)
+                    Text(selectedEditAction.title)
                         .font(.latoBold(size: 16))
                         .foregroundStyle(.whiteBlack)
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
+                        .background(.blackWhite, in: .rect(cornerRadius: 18))
+                }
+                                
+                Menu {
+                    Button {
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            selectedEditAction = .markAsUnpaid
+                        }
+                    } label: {
+                        Text(EditAction.markAsUnpaid.longTitle)
+                    }
+                    
+                    Button {
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            selectedEditAction = .markAsPaid
+                        }
+                    } label: {
+                        Text(EditAction.markAsPaid.longTitle)
+                    }
+                    
+                    Button {
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            selectedEditAction = .delete
+                        }
+                    } label: {
+                        Text(EditAction.delete.longTitle)
+                    }
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .foregroundStyle(.whiteBlack)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 12)
                         .background(.blackWhite, in: .rect(cornerRadius: 18))
                 }
                 
@@ -478,7 +525,28 @@ struct WorksDeletionView: View {
             for item in selectedWorks {
                 viewContext.delete(item)
             }
+            
             selectedWorks.removeAll()
+            saveContext()
+        }
+    }
+    
+    private func markAsPaidSelectedWorks() {
+        withAnimation {
+            for item in selectedWorks {
+                item.isPaid = true
+            }
+
+            saveContext()
+        }
+    }
+    
+    private func markAsUnpaidSelectedWorks() {
+        withAnimation {
+            for item in selectedWorks {
+                item.isPaid = false
+            }
+            
             saveContext()
         }
     }

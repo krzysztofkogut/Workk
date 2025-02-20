@@ -181,3 +181,35 @@
 
 "period_filter_home_tip_title" = "Επιλέξτε χρονική περίοδο";
 "period_filter_home_tip_message" = "Φιλτράρετε τις καταχωρίσεις εργασίας σας ανά ημέρα, εβδομάδα, μήνα ή έτος.";
+
+"period_filter_add_work_tip_title" = "Ορίστε χρονική περίοδο";
+"period_filter_add_work_tip_message" = "Καταγράψτε τις ώρες εργασίας και τα έσοδά σας για μια συγκεκριμένη ημέρα, εβδομάδα, μήνα ή έτος.";
+
+"period_filter_schedule_tip_title" = "Φιλτράρετε το πρόγραμμα εργασίας";
+"period_filter_schedule_tip_message" = "Δείτε τις καταχωρίσεις εργασίας σας φιλτραρισμένες ανά ημέρα, εβδομάδα, μήνα ή έτος.";
+
+"your_profile_tip_title" = "Διαχειριστείτε το προφίλ σας";
+"your_profile_tip_message" = "Στο προφίλ σας, μπορείτε να επεξεργαστείτε εργασίες, να ορίσετε στόχους, να επιλέξετε νόμισμα, να ενεργοποιήσετε τον συγχρονισμό iCloud και να διαχειριστείτε ειδοποιήσεις.";
+
+"required_fields_add_work_tip_title" = "Συμπληρώστε τα απαιτούμενα πεδία";
+"required_fields_add_work_tip_message" = "Για να προσθέσετε μια νέα καταχώριση, συμπληρώστε όλα τα απαιτούμενα πεδία: εργασία, ώρες εργασίας και έσοδα. \nΑν κάποιο πεδίο μείνει κενό, η καταχώριση δεν θα αποθηκευτεί και τα κενά πεδία θα επισημανθούν.";
+
+"edit_title" = "Επεξεργασία";
+"add_multiple_works_title" = "Προσθήκη ωρών εργασίας";
+"days_of_week_title" = "ΜΕΡΕΣ ΤΗΣ ΕΒΔΟΜΑΔΑΣ";
+"add_multiple_title" = "Προσθήκη πολλών";
+"mark_as_paid_title" = "Σημειώστε ως πληρωμένο";
+"mark_as_unpaid_title" = "Σημειώστε ως μη πληρωμένο";
+"add_work_time_long_title" = "Προσθήκη μίας καταχώρισης";
+"add_multiple_long_title" = "Προσθήκη πολλών καταχωρίσεων";
+"mark_as_paid_long_title" = "Σημειώστε ως πληρωμένο";
+"mark_as_unpaid_long_title" = "Σημειώστε ως μη πληρωμένο";
+
+"monday_title" = "Δευτέρα";
+"tuesday_title" = "Τρίτη";
+"wednesday_title" = "Τετάρτη";
+"thursday_title" = "Πέμπτη";
+"friday_title" = "Παρασκευή";
+"saturday_title" = "Σάββατο";
+"sunday_title" = "Κυριακή";
+"add_title" = "Προσθήκη";

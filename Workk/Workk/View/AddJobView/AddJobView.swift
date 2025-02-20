@@ -16,6 +16,7 @@ struct AddJobView: View {
     @Binding var selectedJob: Job?
     
     @State private var isSaveButtonEnabled = false
+    @State private var isValidationError = false
     @State private var name: String = ""
     @State private var hourlyRate: String = ""
     
@@ -52,6 +53,11 @@ struct AddJobView: View {
                 .padding(.horizontal, 16)
                 .padding(.vertical, 16)
                 .background(.whiteTheme, in: .rect(cornerRadius: 12))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(.cranberry, lineWidth: 2)
+                        .hide(if: !isValidationError || isSaveButtonEnabled)
+                }
             
             HStack(spacing: 0) {
                 TextField("hourly_rate_title".localized, text: $hourlyRate)
@@ -69,6 +75,11 @@ struct AddJobView: View {
                     .padding(.trailing, 16)
             }
             .background(.whiteTheme, in: .rect(cornerRadius: 12))
+            .overlay {
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(.cranberry, lineWidth: 2)
+                    .hide(if: !isValidationError || isSaveButtonEnabled)
+            }
             
             Text("updating_hourly_rate_description".localized)
                 .font(.nunitoSemiBold(size: 12))
@@ -104,14 +115,21 @@ struct AddJobView: View {
         .onAppear {
             setupView()
         }
-        .onChange(of: name) { _ in updateSaveButtonState() }
-        .onChange(of: hourlyRate) { newValue in
+        .onChange(of: name) { updateSaveButtonState() }
+        .onChange(of: hourlyRate) { _, newValue in
             hourlyRate = newValue.formatNumberInput()
             updateSaveButtonState()
         }
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 8) {
                 Button {
+                    guard isSaveButtonEnabled else {
+                        withAnimation(.spring(duration: 0.2)) {
+                            isValidationError = true
+                        }
+                        return
+                    }
+                    
                     selectedJob == nil ? addItem() : updateItem()
                     dismiss()
                 } label: {
@@ -122,7 +140,6 @@ struct AddJobView: View {
                         .padding(.horizontal, 16)
                         .background(isSaveButtonEnabled ? .blackWhite : .gray, in: .rect(cornerRadius: 18))
                 }
-                .disabled(!isSaveButtonEnabled)
             
                 Text("add_job_conditions_decription".localized)
                     .font(.nunitoSemiBold(size: 12))

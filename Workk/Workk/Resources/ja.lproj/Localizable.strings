@@ -193,3 +193,23 @@
 
 "required_fields_add_work_tip_title" = "必須項目を入力";
 "required_fields_add_work_tip_message" = "新しいエントリーを追加するには、すべての必須項目（仕事、作業時間、収益）を入力してください。 \n項目が未入力の場合、エントリーは保存されず、不足している項目が強調表示されます。";
+
+"edit_title" = "編集する";
+"add_multiple_works_title" = "作業時間を追加";
+"days_of_week_title" = "曜日";
+"add_multiple_title" = "複数追加";
+"mark_as_paid_title" = "支払い済みとマーク";
+"mark_as_unpaid_title" = "未払いとマーク";
+"add_work_time_long_title" = "単一のエントリーを追加";
+"add_multiple_long_title" = "複数のエントリーを追加";
+"mark_as_paid_long_title" = "支払い済みとマーク";
+"mark_as_unpaid_long_title" = "未払いとマーク";
+
+"monday_title" = "月曜日";
+"tuesday_title" = "火曜日";
+"wednesday_title" = "水曜日";
+"thursday_title" = "木曜日";
+"friday_title" = "金曜日";
+"saturday_title" = "土曜日";
+"sunday_title" = "日曜日";
+"add_title" = "追加";

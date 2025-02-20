@@ -193,3 +193,23 @@
 
 "required_fields_add_work_tip_title" = "Rellena los campos obligatorios";
 "required_fields_add_work_tip_message" = "Para agregar una nueva entrada, completa todos los campos obligatorios: trabajo, tiempo de trabajo y ganancias. \nSi algún campo queda vacío, la entrada no se guardará y los campos faltantes se resaltarán.";
+
+"edit_title" = "Editar";
+"add_multiple_works_title" = "Añadir tiempos de trabajo";
+"days_of_week_title" = "DÍAS DE LA SEMANA";
+"add_multiple_title" = "Añadir múltiples";
+"mark_as_paid_title" = "Marcar como pagado";
+"mark_as_unpaid_title" = "Marcar como no pagado";
+"add_work_time_long_title" = "Añadir una entrada única";
+"add_multiple_long_title" = "Añadir varias entradas";
+"mark_as_paid_long_title" = "Marcar como pagado";
+"mark_as_unpaid_long_title" = "Marcar como no pagado";
+
+"monday_title" = "Lunes";
+"tuesday_title" = "Martes";
+"wednesday_title" = "Miércoles";
+"thursday_title" = "Jueves";
+"friday_title" = "Viernes";
+"saturday_title" = "Sábado";
+"sunday_title" = "Domingo";
+"add_title" = "Añadir";
