@@ -1589,7 +1589,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Workk/Workk.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = "\"Workk/Preview Content\"";
 				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				ENABLE_PREVIEWS = YES;
@@ -1607,7 +1607,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.Workk";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1626,7 +1626,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Workk/Workk.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = "\"Workk/Preview Content\"";
 				DEVELOPMENT_TEAM = REPLACE_DEVELOPMENT_TEAM;
 				ENABLE_PREVIEWS = YES;
@@ -1644,7 +1644,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "Krzysztof-Kogut.Workk";
 				PRODUCT_NAME = "$(TARGET_NAME)";

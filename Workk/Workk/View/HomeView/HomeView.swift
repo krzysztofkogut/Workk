@@ -111,8 +111,6 @@ struct HomeView: View {
     private let monthDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
     private let yearDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
     
-    private let reviewThresholds: Set<Int> = [30, 100, 300]
-    
     var overTimeMultiplier: Float {
         isOvertime ? (overtimePercentage.floatValue() / 100) : 1.0
     }
@@ -201,6 +199,70 @@ struct HomeView: View {
             .reduce(0) { $0 + $1.hoursWorked }
     }
     
+    var dayRegularHours: Float {
+        works
+            .filter { $0.startDate.isSameDay(date: viewModel.selectedDay) && $0.periodType == "day" }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .filter { $0.isOvertime == false }
+            .reduce(0) { $0 + $1.hoursWorked }
+    }
+    
+    var weekRegularHours: Float {
+        works
+            .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) && ($0.periodType == "day" || $0.periodType == "week") }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .filter { $0.isOvertime == false }
+            .reduce(0) { $0 + $1.hoursWorked }
+    }
+    
+    var monthRegularHours: Float {
+        works
+            .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) && ($0.periodType == "day" || $0.periodType == "week" || $0.periodType == "month") }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .filter { $0.isOvertime == false }
+            .reduce(0) { $0 + $1.hoursWorked }
+    }
+    
+    var yearRegularHours: Float {
+        works
+            .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .filter { $0.isOvertime == false }
+            .reduce(0) { $0 + $1.hoursWorked }
+    }
+    
+    var dayOvertimeHours: Float {
+        works
+            .filter { $0.startDate.isSameDay(date: viewModel.selectedDay) && $0.periodType == "day" }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .filter { $0.isOvertime == true }
+            .reduce(0) { $0 + $1.hoursWorked }
+    }
+    
+    var weekOvertimeHours: Float {
+        works
+            .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) && ($0.periodType == "day" || $0.periodType == "week") }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .filter { $0.isOvertime == true }
+            .reduce(0) { $0 + $1.hoursWorked }
+    }
+    
+    var monthOvertimeHours: Float {
+        works
+            .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) && ($0.periodType == "day" || $0.periodType == "week" || $0.periodType == "month") }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .filter { $0.isOvertime == true }
+            .reduce(0) { $0 + $1.hoursWorked }
+    }
+    
+    var yearOvertimeHours: Float {
+        works
+            .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .filter { $0.isOvertime == true }
+            .reduce(0) { $0 + $1.hoursWorked }
+    }
+    
     var updateProgressBarKey: String {
         return "\(viewModel.selectedDay)\(viewModel.selectedWeek)\(viewModel.selectedMonth)\(viewModel.selectedYear)"
     }
@@ -273,6 +335,11 @@ struct HomeView: View {
                     }
             )
             .onAppear {
+                if UserDefaults.canShowRequestReview() {
+                    requestReview()
+                    UserDefaults.updateRequestReviewDate()
+                }
+                
                 if !userSubscriptionViewModel.subscriptionActive {
                     Task {
                         await adManager.loadAd()
@@ -323,10 +390,6 @@ struct HomeView: View {
             .onChange(of: works.count) { _, newValue in
                 Task {
                     await updateProgressBar()
-                }
-                
-                if reviewThresholds.contains(newValue) {
-                    requestReview()
                 }
             }
             .withHomeRoutes()
@@ -845,6 +908,47 @@ extension HomeView {
                     .padding([.top, .horizontal], 12)
                     .padding(.bottom, 16)
                     
+                    VStack(spacing: 8) {
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("regular_hours_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(dayRegularHours.formatFloatToString() + "h")
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("overtime_hours_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(dayOvertimeHours.formatFloatToString() + "h")
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("total_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(dayHours.formatFloatToString() +
+                                "h")
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
+                    
                     Text(viewModel.goalTitle)
                         .foregroundStyle(.gray)
                         .padding(.horizontal, 16)
@@ -1119,6 +1223,47 @@ extension HomeView {
                         Spacer()
                     }
                     .padding([.top, .horizontal], 12)
+                    .padding(.bottom, 16)
+                    
+                    VStack(spacing: 8) {
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("regular_hours_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(weekRegularHours.formatFloatToString() + "h")
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("overtime_hours_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(weekOvertimeHours.formatFloatToString() + "h")
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("total_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(weekHours.formatFloatToString() +
+                                "h")
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                    }
+                    .padding(.horizontal, 16)
                     .padding(.bottom, 16)
                     
                     Text(viewModel.goalTitle)
@@ -1396,6 +1541,47 @@ extension HomeView {
                     .padding([.top, .horizontal], 12)
                     .padding(.bottom, 16)
                     
+                    VStack(spacing: 8) {
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("regular_hours_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(monthRegularHours.formatFloatToString() + "h")
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("overtime_hours_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(monthOvertimeHours.formatFloatToString() + "h")
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("total_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(monthHours.formatFloatToString() +
+                                "h")
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
+                    
                     Text(viewModel.goalTitle)
                         .foregroundStyle(.gray)
                         .padding(.horizontal, 16)
@@ -1662,6 +1848,47 @@ extension HomeView {
                         Spacer()
                     }
                     .padding([.top, .horizontal], 12)
+                    .padding(.bottom, 16)
+                    
+                    VStack(spacing: 8) {
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("regular_hours_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(yearRegularHours.formatFloatToString() + "h")
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("overtime_hours_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(yearOvertimeHours.formatFloatToString() + "h")
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("total_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(yearHours.formatFloatToString() +
+                                "h")
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                    }
+                    .padding(.horizontal, 16)
                     .padding(.bottom, 16)
                     
                     Text(viewModel.goalTitle)

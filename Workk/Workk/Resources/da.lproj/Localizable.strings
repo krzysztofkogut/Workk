@@ -213,3 +213,6 @@
 "saturday_title" = "Lørdag";
 "sunday_title" = "Søndag";
 "add_title" = "Tilføj";
+
+"regular_hours_title" = "Normale timer";
+"overtime_hours_title" = "Overarbejdstimer";

@@ -213,3 +213,6 @@
 "saturday_title" = "Σάββατο";
 "sunday_title" = "Κυριακή";
 "add_title" = "Προσθήκη";
+
+"regular_hours_title" = "Κανονικές ώρες";
+"overtime_hours_title" = "Υπερωρίες";

@@ -213,3 +213,6 @@
 "saturday_title" = "Sobota";
 "sunday_title" = "Neděle";
 "add_title" = "Přidat";
+
+"regular_hours_title" = "Pravidelné hodiny";
+"overtime_hours_title" = "Přesčasové hodiny";

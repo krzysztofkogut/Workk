@@ -213,3 +213,6 @@
 "saturday_title" = "Субота";
 "sunday_title" = "Неділя";
 "add_title" = "Додати";
+
+"regular_hours_title" = "Звичайні години";
+"overtime_hours_title" = "Понаднормові години";

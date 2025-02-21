@@ -61,6 +61,9 @@ struct OnboardingView: View {
         }
         .animation(.interactiveSpring(response: 1.1, dampingFraction: 0.85, blendDuration: 0.85), value: showWalkThroughScreens)
         .transition(.move(edge: .leading))
+        .onAppear {
+            UserDefaults.updateRequestReviewDate()
+        }
     }
     
     // MARK: WalkThrough Screens

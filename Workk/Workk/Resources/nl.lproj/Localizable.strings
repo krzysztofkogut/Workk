@@ -213,3 +213,6 @@
 "saturday_title" = "Zaterdag";
 "sunday_title" = "Zondag";
 "add_title" = "Toevoegen";
+
+"regular_hours_title" = "Reguliere uren";
+"overtime_hours_title" = "Overuren";

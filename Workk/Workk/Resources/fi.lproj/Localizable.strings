@@ -213,3 +213,6 @@
 "saturday_title" = "Lauantai";
 "sunday_title" = "Sunnuntai";
 "add_title" = "Lisää";
+
+"regular_hours_title" = "Säännölliset tunnit";
+"overtime_hours_title" = "Ylityötunnit";

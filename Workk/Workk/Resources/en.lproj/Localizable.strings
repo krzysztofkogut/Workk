@@ -213,3 +213,6 @@
 "saturday_title" = "Saturday";
 "sunday_title" = "Sunday";
 "add_title" = "Add";
+
+"regular_hours_title" = "Regular hours";
+"overtime_hours_title" = "Overtime hours";

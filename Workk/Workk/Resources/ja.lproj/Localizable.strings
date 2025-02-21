@@ -213,3 +213,6 @@
 "saturday_title" = "土曜日";
 "sunday_title" = "日曜日";
 "add_title" = "追加";
+
+"regular_hours_title" = "通常の勤務時間";
+"overtime_hours_title" = "残業時間";

@@ -11,7 +11,6 @@ import SwiftUI
 struct ScheduleView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.safeAreaInsets) private var safeAreaInsets
-    @Environment(\.requestReview) private var requestReview
     
     @Namespace var filterAnimation
     
@@ -89,8 +88,6 @@ struct ScheduleView: View {
     private let monthScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
     private let yearScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
     
-    private let reviewThresholds: Set<Int> = [30, 100, 300]
-    
     @State private var periodFilterSize: CGSize = .zero
     private let calendarTitleViewHeight: CGFloat = 56.0
     private let weekLabelHeight: CGFloat = 28.0
@@ -159,11 +156,6 @@ struct ScheduleView: View {
                 
             if isSelectedWorkNameMissing {
                 selectedWorkName = "all_title".localized
-            }
-        }
-        .onChange(of: works.count) { _, newValue in
-            if reviewThresholds.contains(newValue) {
-                requestReview()
             }
         }
         .fullScreenCover(isPresented: $showAddWorkTime) {
