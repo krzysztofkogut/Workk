@@ -11,6 +11,7 @@ enum WorkStatus: String, CaseIterable {
     case all
     case paid
     case unpaid
+    case regular
     case overtime
 
     var title: String {
@@ -21,6 +22,8 @@ enum WorkStatus: String, CaseIterable {
             return "unpaid_title".localized
         case .all:
             return "all_title".localized
+        case .regular:
+            return "regular_time_title".localized
         case .overtime:
             return "overtime_title".localized
         }

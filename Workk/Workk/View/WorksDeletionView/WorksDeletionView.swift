@@ -14,7 +14,7 @@ struct WorksDeletionView: View {
     
     @AppStorage("currencyIdentifier") private var currencyIdentifier: String = Locale.current.currency?.identifier ?? "USD"
     
-    @ObservedObject private var viewModel: WorksDeletionViewModel = Resolver.resolve()
+    @StateObject private var viewModel: WorksDeletionViewModel = Resolver.resolve()
     
     @Binding var selectedWorks: Set<Work>
     

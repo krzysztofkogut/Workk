@@ -24,7 +24,7 @@ struct DropDownPicker: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Job.name, ascending: true)]
     ) private var dropDownJobs: FetchedResults<Job>
     
-    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
+    @StateObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
     
     var hint: String
     var state: DropDownPickerState = .leading

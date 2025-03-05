@@ -12,7 +12,7 @@ struct StatsFilterView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
-    @ObservedObject private var viewModel: StatsFilterViewModel = Resolver.resolve()
+    @StateObject private var viewModel: StatsFilterViewModel = Resolver.resolve()
     
     @State var isDaysForWeekSelected: Bool = true
     @State var isWeekForWeekSelected: Bool = true

@@ -31,9 +31,9 @@ struct AddWorkTimeView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Work.startDate, ascending: true)]
     ) private var works: FetchedResults<Work>
     
-    @ObservedObject private var homeViewModel: HomeViewModel = Resolver.resolve()
-    @ObservedObject private var scheduleViewModel: ScheduleViewModel = Resolver.resolve()
-    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
+    @StateObject private var homeViewModel: HomeViewModel = Resolver.resolve()
+    @StateObject private var scheduleViewModel: ScheduleViewModel = Resolver.resolve()
+    @StateObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
     
     @StateObject private var adManager: InterstitialAdManager = Resolver.resolve()
     

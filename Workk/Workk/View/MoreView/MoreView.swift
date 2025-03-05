@@ -14,8 +14,8 @@ struct MoreView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.colorScheme) private var scheme
     
-    @ObservedObject private var viewModel: MoreViewModel = Resolver.resolve()
-    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
+    @StateObject private var viewModel: MoreViewModel = Resolver.resolve()
+    @StateObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
     
     @State private var showChangeThemeView: Bool = false
     @State private var showSubscriptionPlanView: Bool = false

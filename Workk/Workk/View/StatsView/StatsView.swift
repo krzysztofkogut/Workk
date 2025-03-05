@@ -16,9 +16,9 @@ struct StatsView: View {
     
     @AppStorage("currencyIdentifier") private var currencyIdentifier: String = Locale.current.currency?.identifier ?? "USD"
     
-    @ObservedObject private var appRouter: AppRouter = Resolver.resolve()
-    @ObservedObject private var viewModel: StatsViewModel = Resolver.resolve()
-    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
+    @StateObject private var appRouter: AppRouter = Resolver.resolve()
+    @StateObject private var viewModel: StatsViewModel = Resolver.resolve()
+    @StateObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
     
     @FetchRequest(
         entity: Job.entity(),
@@ -29,24 +29,6 @@ struct StatsView: View {
         entity: Work.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \Work.id, ascending: true)])
     private var allWorks: FetchedResults<Work>
-    
-    @FetchRequest(
-        entity: Work.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Work.id, ascending: true)],
-        predicate: NSPredicate(format: "isPaid == TRUE")
-    ) private var paidWorks: FetchedResults<Work>
-    
-    @FetchRequest(
-        entity: Work.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Work.id, ascending: true)],
-        predicate: NSPredicate(format: "isPaid == FALSE")
-    ) private var unpaidWorks: FetchedResults<Work>
-    
-    @FetchRequest(
-        entity: Work.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Work.id, ascending: true)],
-        predicate: NSPredicate(format: "isOvertime == TRUE")
-    ) private var overtimeWorks: FetchedResults<Work>
     
     @State var selectedJob: Job? = nil
     
@@ -63,30 +45,23 @@ struct StatsView: View {
     
     @State private var stopAnimation: Bool = false
     
-    var filteredWorks: FetchedResults<Work> {
+    var filteredWorks: [Work] {
         switch viewModel.selectedWorkStatus {
         case .all:
-            allWorks
+            return Array(allWorks)
         case .paid:
-            paidWorks
+            return allWorks.filter { $0.isPaid == true }
         case .unpaid:
-            unpaidWorks
+            return allWorks.filter { $0.isPaid == false }
+        case .regular:
+            return allWorks.filter { $0.isOvertime == false }
         case .overtime:
-            overtimeWorks
+            return allWorks.filter { $0.isOvertime == true }
         }
     }
     
     private let calendar = Calendar(identifier: .iso8601)
     private let smallDeviceWidth: CGFloat = 375
-    
-    private var datePropertiesHash: Int {
-        var hasher = Hasher()
-        hasher.combine(viewModel.daysOfWeek.map(\.hashValue).reduce(0, ^))
-        hasher.combine(viewModel.weeksOfMonth.map(\.hashValue).reduce(0, ^))
-        hasher.combine(viewModel.monthsOfYear.map(\.hashValue).reduce(0, ^))
-        hasher.combine(viewModel.periodOf5Years.map(\.hashValue).reduce(0, ^))
-        return hasher.finalize()
-    }
     
     var updateMaxValueKey: String {
         return "\(viewModel.selectedWeek)\(viewModel.selectedMonth)\(viewModel.selectedYearForMonths)\(viewModel.selectedYear)"
@@ -184,7 +159,6 @@ struct StatsView: View {
             
             Spacer()
             
-//            paymentStatusFilterBar
             workStatusFilterBar
                         
             HStack(spacing: 0) {
@@ -230,9 +204,10 @@ struct StatsView: View {
             .padding(.vertical, 16)
         }
         .onAppear {
+            viewModel.reloadSiteViews(works: filteredWorks)
+            viewModel.animateChart()
             currentActiveMoneyItem = nil
             currentActiveHoursItem = nil
-            viewModel.reloadSiteViews(works: filteredWorks)
             moneyYScale = viewModel.maxForMoney()
             hoursYScale = viewModel.maxForHours()
         }
@@ -253,7 +228,7 @@ struct StatsView: View {
             viewModel.reloadSiteViews(works: filteredWorks)
             moneyYScale = viewModel.maxForMoney()
             hoursYScale = viewModel.maxForHours()
-            viewModel.animateChart(fromChange: true)
+            viewModel.animateChart()
         }
         .onChange(of: animateChartValueKey) {
             currentActiveMoneyItem = nil
@@ -261,13 +236,7 @@ struct StatsView: View {
             viewModel.reloadSiteViews(works: filteredWorks)
             moneyYScale = viewModel.maxForMoney()
             hoursYScale = viewModel.maxForHours()
-            viewModel.animateChart(fromChange: true)
-        }
-        .onChange(of: datePropertiesHash) {
-            currentActiveMoneyItem = nil
-            currentActiveHoursItem = nil
-            moneyYScale = viewModel.maxForMoney()
-            hoursYScale = viewModel.maxForHours()
+            viewModel.animateChart()
         }
         .overlay(
             ZStack {
@@ -365,6 +334,14 @@ struct StatsView: View {
                     }
                 } label: {
                     Text(WorkStatus.overtime.title)
+                }
+                
+                Button {
+                    withAnimation(.bouncy(duration: 0.4)) {
+                        viewModel.selectedWorkStatus  = .regular
+                    }
+                } label: {
+                    Text(WorkStatus.regular.title)
                 }
                 
                 Button {
@@ -548,11 +525,6 @@ struct StatsView: View {
             .padding(.bottom, 16)
         })
         .frame(minWidth: 100, maxWidth: .infinity, minHeight: 70, maxHeight: .infinity)
-        .onAppear {
-            viewModel.animateChart()
-            moneyYScale = viewModel.maxForMoney()
-            hoursYScale = viewModel.maxForHours()
-        }
     }
     
     @ViewBuilder
@@ -715,11 +687,6 @@ struct StatsView: View {
             .padding(.bottom, 16)
         })
         .frame(minWidth: 100, maxWidth: .infinity, minHeight: 70, maxHeight: .infinity)
-        .onAppear {
-            viewModel.animateChart()
-            moneyYScale = viewModel.maxForMoney()
-            hoursYScale = viewModel.maxForHours()
-        }
     }
     
     private func createSelectedBarMark(for siteView: SiteView) -> BarMark {

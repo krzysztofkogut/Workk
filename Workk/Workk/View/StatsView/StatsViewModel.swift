@@ -140,12 +140,22 @@ final class StatsViewModel: StatsViewModelProtocol {
         switch selectedPeriodFilter {
         case .day:
             daySiteViews
+                .filter { $0.day.isSameWeek(date: selectedWeek) }
         case .week:
             weekSiteViews
+                .filter { weekSiteView in
+                    weeksOfMonth.contains { $0.isSameWeek(date: weekSiteView.day) }
+                }
         case .month:
             monthSiteViews
+                .filter { $0.day.isSameYear(date: selectedYearForMonths) }
         case .year:
             yearSiteViews
+                .filter { siteView in
+                    periodOf5Years.contains { periodDate in
+                        siteView.day.isSameYear(date: periodDate)
+                    }
+                }
         }
     }
     
@@ -204,7 +214,7 @@ final class StatsViewModel: StatsViewModelProtocol {
         }
     }
     
-    func reloadSiteViews(works: FetchedResults<Work>) {
+    func reloadSiteViews(works: [Work]) {
         daySiteViews = generateDaySiteViews(works: works)
         weekSiteViews = generateWeekSiteViews(works: works)
         monthSiteViews = generateMonthsOfYearSiteViews(works: works)
@@ -214,17 +224,17 @@ final class StatsViewModel: StatsViewModelProtocol {
     func chartData(for date: Date) -> SiteView? {
         switch selectedPeriodFilter {
         case .day:
-            daySiteViews.first { $0.day.isSameDay(date: date) }
+            daySiteViews.first { $0.day.isSameDay(date: date) && $0.day.isSameMonth(date: date) && $0.day.isSameYear(date: date) }
         case .week:
-            weekSiteViews.first { $0.day.isSameWeek(date: date) }
+            weekSiteViews.first { $0.day.isSameWeek(date: date) && $0.day.isSameMonth(date: date) && $0.day.isSameYear(date: date) }
         case .month:
-            monthSiteViews.first { $0.day.isSameMonth(date: date) }
+            monthSiteViews.first { $0.day.isSameMonth(date: date) && $0.day.isSameYear(date: date) }
         case .year:
             yearSiteViews.first { $0.day.isSameYear(date: date) }
         }
     }
     
-    func generateDaySiteViews(works: FetchedResults<Work>) -> [SiteView] {
+    func generateDaySiteViews(works: [Work]) -> [SiteView] {
         let filteredWorks = works
             .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
             .filter { $0.periodType == PeriodFilter.day.rawValue }
@@ -241,7 +251,7 @@ final class StatsViewModel: StatsViewModelProtocol {
         return siteViews.sorted { $0.day < $1.day }
     }
     
-    func generateWeekSiteViews(works: FetchedResults<Work>) -> [SiteView] {
+    func generateWeekSiteViews(works: [Work]) -> [SiteView] {
         let filteredWorks = works
             .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
             .filter { weekFilters.contains(PeriodFilter(rawValue: $0.periodType) ?? .week) }
@@ -258,7 +268,7 @@ final class StatsViewModel: StatsViewModelProtocol {
         return siteViews.sorted { $0.day < $1.day }
     }
     
-    func generateMonthsOfYearSiteViews(works: FetchedResults<Work>) -> [SiteView] {
+    func generateMonthsOfYearSiteViews(works: [Work]) -> [SiteView] {
         let filteredWorks = works
             .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
             .filter { monthFilters.contains(PeriodFilter(rawValue: $0.periodType) ?? .week) }
@@ -275,7 +285,7 @@ final class StatsViewModel: StatsViewModelProtocol {
         return siteViews.sorted { $0.day < $1.day }
     }
     
-    func generateYearSiteViews(works: FetchedResults<Work>) -> [SiteView] {
+    func generateYearSiteViews(works: [Work]) -> [SiteView] {
         let filteredWorks = works
             .filter { selectedWorkName != "all_title".localized ? $0.job?.name == selectedWorkName : true }
             .filter { yearFilters.contains(PeriodFilter(rawValue: $0.periodType) ?? .week) }
@@ -439,36 +449,36 @@ final class StatsViewModel: StatsViewModelProtocol {
         }
     }
     
-    func animateChart(fromChange: Bool = false) {
+    func animateChart() {
         switch selectedPeriodFilter {
         case .day:
             for (index, _) in daySiteViews.enumerated() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)) { [weak self] in
-                    withAnimation(fromChange ? .easeInOut(duration: 0.8).delay(Double(index) * 0.03) : .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8).delay(Double(index) * 0.05)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.015) { [weak self] in
+                    withAnimation(.easeInOut(duration: 0.2).delay(Double(index) * 0.015)) {
                         self?.daySiteViews[index].animate = true
                     }
                 }
             }
         case .week:
             for (index, _) in weekSiteViews.enumerated() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)) { [weak self] in
-                    withAnimation(fromChange ? .easeInOut(duration: 0.8).delay(Double(index) * 0.03) : .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8).delay(Double(index) * 0.05)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.015) { [weak self] in
+                    withAnimation(.easeInOut(duration: 0.2).delay(Double(index) * 0.015)) {
                         self?.weekSiteViews[index].animate = true
                     }
                 }
             }
         case .month:
             for (index, _) in monthSiteViews.enumerated() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)) { [weak self] in
-                    withAnimation(fromChange ? .easeInOut(duration: 0.8).delay(Double(index) * 0.03) : .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8).delay(Double(index) * 0.05)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.015) { [weak self] in
+                    withAnimation(.easeInOut(duration: 0.2).delay(Double(index) * 0.015)) {
                         self?.monthSiteViews[index].animate = true
                     }
                 }
             }
         case .year:
             for (index, _) in yearSiteViews.enumerated() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)) { [weak self] in
-                    withAnimation(fromChange ? .easeInOut(duration: 0.8).delay(Double(index) * 0.03) : .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8).delay(Double(index) * 0.05)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.015) { [weak self] in
+                    withAnimation(.easeInOut(duration: 0.2).delay(Double(index) * 0.015)) {
                         self?.yearSiteViews[index].animate = true
                     }
                 }

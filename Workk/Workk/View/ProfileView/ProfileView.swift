@@ -28,9 +28,9 @@ struct ProfileView: View {
     @AppStorage("monthlyHoursGoal") private var monthlyHoursGoal: String = ""
     @AppStorage("yearlyHoursGoal") private var yearlyHoursGoal: String = ""
     
-    @ObservedObject private var viewModel: ProfileViewModel = Resolver.resolve()
-    @ObservedObject private var appRouter: AppRouter = Resolver.resolve()
-    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
+    @StateObject private var viewModel: ProfileViewModel = Resolver.resolve()
+    @StateObject private var appRouter: AppRouter = Resolver.resolve()
+    @StateObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
     
     @State private var showJobsDeletionView = false
     @State private var showSubscriptionPlanView = false

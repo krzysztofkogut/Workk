@@ -16,7 +16,7 @@ struct MainTabView: View {
     @State var selectedTab: Int = 0
     
     @StateObject private var adManager: InterstitialAdManager = Resolver.resolve()
-    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
+    @StateObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
     
     @FetchRequest(
         entity: Work.entity(),

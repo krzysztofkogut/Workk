@@ -21,8 +21,8 @@ struct SubscriptionPlanView: View {
     @State private var error: NSError?
     @State private var displayError: Bool = false
     
-    @ObservedObject private var viewModel: SubscriptionPlanViewModel = Resolver.resolve()
-    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
+    @StateObject private var viewModel: SubscriptionPlanViewModel = Resolver.resolve()
+    @StateObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
     
     var selectedPlanString: String {
         guard let package = viewModel.selectedPackage else {

@@ -17,7 +17,7 @@ struct JobsDeletionView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Job.name, ascending: true)]
     ) private var jobs: FetchedResults<Job>
     
-    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
+    @StateObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
     
     @State var selectedJob: Job? = nil
     @State private var selectedJobs: Set<Job> = []

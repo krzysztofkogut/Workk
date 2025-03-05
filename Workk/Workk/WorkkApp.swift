@@ -30,6 +30,7 @@ struct WorkkApp: App {
     @StateObject private var persistenceManager: PersistenceManager = PersistenceManager.shared
 
     init() {
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = ["REDACTED_TEST_DEVICE"]
         GADMobileAds.sharedInstance().start(completionHandler: nil)
 
         try? Tips.configure([

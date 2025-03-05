@@ -28,11 +28,11 @@ struct HomeView: View {
     @AppStorage("monthlyHoursGoal") private var monthlyHoursGoal: String = ""
     @AppStorage("yearlyHoursGoal") private var yearlyHoursGoal: String = ""
 
-    @ObservedObject private var appRouter: AppRouter = Resolver.resolve()
-    @ObservedObject private var viewModel: HomeViewModel = Resolver.resolve()
+    @StateObject private var appRouter: AppRouter = Resolver.resolve()
+    @StateObject private var viewModel: HomeViewModel = Resolver.resolve()
     
     @StateObject private var adManager: InterstitialAdManager = Resolver.resolve()
-    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
+    @StateObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
 
     @StateObject private var nativeDayDetailsViewModel: NativeAdViewModel = .init(
         adUnitID: "REDACTED_SERVICE_CONFIGURATION",
@@ -129,6 +129,20 @@ struct HomeView: View {
             .reduce(0) { $0 + $1.moneyEarned }
     }
     
+    var dayRegularMoney: Float {
+        works
+            .filter { $0.startDate.isSameDay(date: viewModel.selectedDay) && !$0.isOvertime && $0.periodType == "day" }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .reduce(0) { $0 + $1.moneyEarned }
+    }
+    
+    var dayOvertimeMoney: Float {
+        works
+            .filter { $0.startDate.isSameDay(date: viewModel.selectedDay) && $0.isOvertime && $0.periodType == "day" }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .reduce(0) { $0 + $1.moneyEarned }
+    }
+    
     var weekPaidMoney: Float {
         works
             .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) && $0.isPaid && ($0.periodType == "day" || $0.periodType == "week") }
@@ -139,6 +153,20 @@ struct HomeView: View {
     var weekUnpaidMoney: Float {
         works
             .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) && !$0.isPaid && ($0.periodType == "day" || $0.periodType == "week") }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .reduce(0) { $0 + $1.moneyEarned }
+    }
+    
+    var weekRegularMoney: Float {
+        works
+            .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) && !$0.isOvertime && ($0.periodType == "day" || $0.periodType == "week") }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .reduce(0) { $0 + $1.moneyEarned }
+    }
+    
+    var weekOvertimeMoney: Float {
+        works
+            .filter { $0.startDate.isSameWeek(date: viewModel.selectedWeek) && $0.isOvertime && ($0.periodType == "day" || $0.periodType == "week") }
             .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
@@ -157,6 +185,20 @@ struct HomeView: View {
             .reduce(0) { $0 + $1.moneyEarned }
     }
     
+    var monthRegularMoney: Float {
+        works
+            .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) && !$0.isOvertime && ($0.periodType == "day" || $0.periodType == "week" || $0.periodType == "month") }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .reduce(0) { $0 + $1.moneyEarned }
+    }
+    
+    var monthOvertimeMoney: Float {
+        works
+            .filter { $0.startDate.isSameMonth(date: viewModel.selectedMonth) && $0.isOvertime && ($0.periodType == "day" || $0.periodType == "week" || $0.periodType == "month") }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .reduce(0) { $0 + $1.moneyEarned }
+    }
+    
     var yearPaidMoney: Float {
         works
             .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) && $0.isPaid }
@@ -167,6 +209,20 @@ struct HomeView: View {
     var yearUnpaidMoney: Float {
         works
             .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) && !$0.isPaid }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .reduce(0) { $0 + $1.moneyEarned }
+    }
+    
+    var yearRegularMoney: Float {
+        works
+            .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) && !$0.isOvertime }
+            .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
+            .reduce(0) { $0 + $1.moneyEarned }
+    }
+    
+    var yearOvertimeMoney: Float {
+        works
+            .filter { $0.startDate.isSameYear(date: viewModel.selectedYear) && $0.isOvertime }
             .filter { $0.jobName == selectedWorkName || selectedWorkName == "all_title".localized }
             .reduce(0) { $0 + $1.moneyEarned }
     }
@@ -801,6 +857,35 @@ extension HomeView {
                                         
                     VStack(spacing: 8) {
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("regular_time_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(dayRegularMoney.formatFloatToString() + " " + currencyIdentifier.uppercased())
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("overtime_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(dayOvertimeMoney.formatFloatToString() + " " + currencyIdentifier.uppercased())
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        Rectangle()
+                            .frame(height: 1)
+                            .cornerRadius(3)
+                            .foregroundColor(.wildSand)
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("paid_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
                                 .foregroundStyle(.blackWhite)
@@ -823,6 +908,11 @@ extension HomeView {
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
+                        
+                        Rectangle()
+                            .frame(height: 1)
+                            .cornerRadius(3)
+                            .foregroundColor(.wildSand)
                         
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("total_title".localized)
@@ -932,6 +1022,11 @@ extension HomeView {
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
+                        
+                        Rectangle()
+                            .frame(height: 1)
+                            .cornerRadius(3)
+                            .foregroundColor(.wildSand)
                         
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("total_title".localized)
@@ -1119,6 +1214,35 @@ extension HomeView {
                                         
                     VStack(spacing: 8) {
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("regular_time_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundColor(.blackWhite)
+                            Spacer()
+                            Text(weekRegularMoney.formatFloatToString() + " " + currencyIdentifier.uppercased())
+                                .font(.latoBold(size: 18))
+                                .foregroundColor(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("overtime_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundColor(.blackWhite)
+                            Spacer()
+                            Text(weekOvertimeMoney.formatFloatToString() + " " + currencyIdentifier.uppercased())
+                                .font(.latoBold(size: 18))
+                                .foregroundColor(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        Rectangle()
+                            .frame(height: 1)
+                            .cornerRadius(3)
+                            .foregroundColor(.wildSand)
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("paid_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
                                 .foregroundColor(.blackWhite)
@@ -1141,6 +1265,11 @@ extension HomeView {
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
+                        
+                        Rectangle()
+                            .frame(height: 1)
+                            .cornerRadius(3)
+                            .foregroundColor(.wildSand)
                         
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("total_title".localized)
@@ -1249,6 +1378,11 @@ extension HomeView {
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
+                        
+                        Rectangle()
+                            .frame(height: 1)
+                            .cornerRadius(3)
+                            .foregroundColor(.wildSand)
                         
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("total_title".localized)
@@ -1435,6 +1569,35 @@ extension HomeView {
                     
                     VStack(spacing: 8) {
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("regular_time_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(monthRegularMoney.formatFloatToString() + " " + currencyIdentifier.uppercased())
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("overtime_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(monthOvertimeMoney.formatFloatToString() + " " + currencyIdentifier.uppercased())
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        Rectangle()
+                            .frame(height: 1)
+                            .cornerRadius(3)
+                            .foregroundColor(.wildSand)
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("paid_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
                                 .foregroundColor(.blackWhite)
@@ -1457,6 +1620,11 @@ extension HomeView {
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
+                        
+                        Rectangle()
+                            .frame(height: 1)
+                            .cornerRadius(3)
+                            .foregroundColor(.wildSand)
                         
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("total_title".localized)
@@ -1565,6 +1733,11 @@ extension HomeView {
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
+                        
+                        Rectangle()
+                            .frame(height: 1)
+                            .cornerRadius(3)
+                            .foregroundColor(.wildSand)
                         
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("total_title".localized)
@@ -1750,6 +1923,35 @@ extension HomeView {
                     
                     VStack(spacing: 8) {
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("regular_time_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(monthRegularMoney.formatFloatToString() + " " + currencyIdentifier.uppercased())
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
+                            Text("overtime_title".localized)
+                                .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
+                            Spacer()
+                            Text(monthOvertimeMoney.formatFloatToString() + " " + currencyIdentifier.uppercased())
+                                .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
+                                .minimumScaleFactor(0.2)
+                                .lineLimit(1)
+                        }
+                        
+                        Rectangle()
+                            .frame(height: 1)
+                            .cornerRadius(3)
+                            .foregroundColor(.wildSand)
+                        
+                        HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("paid_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
                             Spacer()
@@ -1768,6 +1970,11 @@ extension HomeView {
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
+                        
+                        Rectangle()
+                            .frame(height: 1)
+                            .cornerRadius(3)
+                            .foregroundColor(.wildSand)
                         
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("total_title".localized)
@@ -1874,6 +2081,11 @@ extension HomeView {
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
+                        
+                        Rectangle()
+                            .frame(height: 1)
+                            .cornerRadius(3)
+                            .foregroundColor(.wildSand)
                         
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("total_title".localized)

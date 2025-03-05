@@ -16,9 +16,9 @@ struct ScheduleView: View {
     
     @AppStorage("currencyIdentifier") private var currencyIdentifier: String = Locale.current.currency?.identifier ?? "USD"
     
-    @ObservedObject private var appRouter: AppRouter = Resolver.resolve()
-    @ObservedObject private var viewModel: ScheduleViewModel = Resolver.resolve()
-    @ObservedObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
+    @StateObject private var appRouter: AppRouter = Resolver.resolve()
+    @StateObject private var viewModel: ScheduleViewModel = Resolver.resolve()
+    @StateObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
     
     @FetchRequest(
         entity: Job.entity(),
