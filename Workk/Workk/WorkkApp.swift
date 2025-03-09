@@ -30,8 +30,8 @@ struct WorkkApp: App {
     @StateObject private var persistenceManager: PersistenceManager = PersistenceManager.shared
 
     init() {
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = ["REDACTED_TEST_DEVICE"]
         GADMobileAds.sharedInstance().start(completionHandler: nil)
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = ["REDACTED_TEST_DEVICE"]
 
         try? Tips.configure([
             .displayFrequency(.immediate),

@@ -60,7 +60,7 @@ struct BannerAd: UIViewRepresentable {
         }
         
         func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-            print("bannerViewWillDIsmissScreen")
+            print("bannerViewWillDismissScreen")
         }
         
         func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {

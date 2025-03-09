@@ -39,10 +39,11 @@ struct SubscriptionPlanView: View {
     var workkPremiumTitle: AttributedString {
         var string = AttributedString("workk_premium_title".localized)
         string.font = .latoBlack(size: 28)
-        string.foregroundColor = .blackWhite
+        string.foregroundColor = .blueRibbon
         
         if let range = string.range(of: "workk_title".localized) {
             string[range].font = .nunitoBlack(size: 28)
+            string[range].foregroundColor = .blackWhite
         }
         
         return string
@@ -64,7 +65,6 @@ struct SubscriptionPlanView: View {
                 }
                 
                 Text(workkPremiumTitle)
-                    .foregroundStyle(.black)
             }
             .padding(16)
             

@@ -1910,6 +1910,7 @@ extension HomeView {
                         VStack(alignment: .leading, spacing: 2) {
                             Text("earned_title".localized)
                                 .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
                             
                             Text(viewModel.selectedYear.currentYearString)
                                 .font(.latoRegular(size: 12))
@@ -1927,7 +1928,7 @@ extension HomeView {
                                 .font(.nunitoSemiBold(size: 16))
                                 .foregroundStyle(.blackWhite)
                             Spacer()
-                            Text(monthRegularMoney.formatFloatToString() + " " + currencyIdentifier.uppercased())
+                            Text(yearRegularMoney.formatFloatToString() + " " + currencyIdentifier.uppercased())
                                 .font(.latoBold(size: 18))
                                 .foregroundStyle(.blackWhite)
                                 .minimumScaleFactor(0.2)
@@ -1939,7 +1940,7 @@ extension HomeView {
                                 .font(.nunitoSemiBold(size: 16))
                                 .foregroundStyle(.blackWhite)
                             Spacer()
-                            Text(monthOvertimeMoney.formatFloatToString() + " " + currencyIdentifier.uppercased())
+                            Text(yearOvertimeMoney.formatFloatToString() + " " + currencyIdentifier.uppercased())
                                 .font(.latoBold(size: 18))
                                 .foregroundStyle(.blackWhite)
                                 .minimumScaleFactor(0.2)
@@ -1954,9 +1955,11 @@ extension HomeView {
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("paid_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
                             Spacer()
                             Text(yearPaidMoney.formatFloatToString() + " " + currencyIdentifier.uppercased())
                                 .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
@@ -1964,9 +1967,11 @@ extension HomeView {
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("unpaid_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
                             Spacer()
                             Text(yearUnpaidMoney.formatFloatToString() + " " + currencyIdentifier.uppercased())
                                 .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
@@ -1979,10 +1984,12 @@ extension HomeView {
                         HStack(alignment: .lastTextBaseline, spacing: 8) {
                             Text("total_title".localized)
                                 .font(.nunitoSemiBold(size: 16))
+                                .foregroundStyle(.blackWhite)
                             Spacer()
                             Text((yearPaidMoney + yearUnpaidMoney).formatFloatToString() +
                                 " " + currencyIdentifier.uppercased())
                                 .font(.latoBold(size: 18))
+                                .foregroundStyle(.blackWhite)
                                 .minimumScaleFactor(0.2)
                                 .lineLimit(1)
                         }
