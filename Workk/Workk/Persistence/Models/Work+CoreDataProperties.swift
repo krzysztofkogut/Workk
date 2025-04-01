@@ -18,6 +18,7 @@ public extension Work {
     @NSManaged var startDate: Date
     @NSManaged var endDate: Date
     @NSManaged var hourlyRate: Float
+    @NSManaged var isHourlyRateDay: Bool
     @NSManaged var task: String?
     @NSManaged var project: String?
     @NSManaged var note: String?

@@ -81,10 +81,6 @@ struct MainTabView: View {
             
             showGoalsView = !hasShownGoalsView
             
-            if UserDefaults.canShowSubscriptionPlan(), !userSubscriptionViewModel.subscriptionActive, hasShownGoalsView {
-                showSubscriptionPlanView = true
-            }
-            
             let standardAppearance = UITabBarAppearance()
             standardAppearance.backgroundColor = UIColor(.wildSand)
             standardAppearance.shadowColor = UIColor(.clear)
@@ -100,7 +96,12 @@ struct MainTabView: View {
             
             UITabBar.appearance().standardAppearance = standardAppearance
         }
-        .onChange(of: selectedTab) { 
+        .onChange(of: userSubscriptionViewModel.offerings, { oldValue, newValue in
+            if oldValue == nil, newValue != nil, UserDefaults.canShowSubscriptionPlan(), !userSubscriptionViewModel.subscriptionActive, hasShownGoalsView {
+                showSubscriptionPlanView = true
+            }
+        })
+        .onChange(of: selectedTab) {
             if UserDefaults.canShowFullScreenAd(), !userSubscriptionViewModel.subscriptionActive {
                 showAd()
             }

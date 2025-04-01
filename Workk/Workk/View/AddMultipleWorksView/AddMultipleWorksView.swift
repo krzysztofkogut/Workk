@@ -526,6 +526,7 @@ extension AddMultipleWorksView {
                 newItem.startDate = combineDateWithTime(date: date, time: dayStartHour)
                 newItem.endDate = combineDateWithTime(date: date, time: dayEndHour)
                 newItem.isPaid = isPaidDay
+                newItem.isHourlyRateDay = isHourlyRateDay
                 newItem.isOvertime = isOvertimeDay
                 newItem.overtimePercentage = overtimePercentageDay.floatValue()
                 newItem.project = projectDay

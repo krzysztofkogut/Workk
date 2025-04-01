@@ -169,7 +169,7 @@ struct AddWorkTimeView: View {
                                options: jobs.compactMap { $0.name },
                                backgroundColor: .whiteTheme,
                                maxWidth: 220)
-                .popoverTip(DropdownPickerAddWorkTip(), arrowEdge: .bottom)
+                    .popoverTip(DropdownPickerAddWorkTip(), arrowEdge: .bottom)
                 
                 Spacer()
                 
@@ -318,12 +318,14 @@ struct AddWorkTimeView: View {
                 hourlyRateDay = jobs.first(where: { $0.name == selectedWorkName })?.hourlyRate.formatFloatToString() ?? ""
             }
             
-            isDropDownError = newValue == "all_title".localized 
+            isDropDownError = newValue == "all_title".localized
             
             updateSaveButtonState()
         }
         .onChange(of: isHourlyRateDay) { _, newValue in
-            if hourlyRateDay.isEmpty && newValue {
+            if hourlyRateDay.isEmpty, newValue, let work = selectedWork, work.jobName == selectedWorkName, work.isOvertime, !work.isHourlyRateDay {
+                hourlyRateDay = (work.hourlyRate / (work.overtimePercentage / 100)).formatFloatToString()
+            } else if hourlyRateDay.isEmpty, newValue {
                 hourlyRateDay = jobs.first(where: { $0.name == selectedWorkName })?.hourlyRate.formatFloatToString() ?? ""
             } else if !newValue {
                 hourlyRateDay = ""
@@ -1233,6 +1235,7 @@ extension AddWorkTimeView {
         case .day:
             newItem.startDate = dayStartDate
             newItem.endDate = dayEndDate
+            newItem.isHourlyRateDay = isHourlyRateDay
             newItem.isPaid = isPaidDay
             newItem.isOvertime = isOvertimeDay
             newItem.overtimePercentage = overtimePercentageDay.floatValue()
@@ -1340,6 +1343,7 @@ extension AddWorkTimeView {
         case PeriodFilter.day.rawValue:
             work.startDate = dayStartDate
             work.endDate = dayEndDate
+            work.isHourlyRateDay = isHourlyRateDay
             work.isPaid = isPaidDay
             work.project = projectDay
             work.task = taskDay
@@ -1357,7 +1361,7 @@ extension AddWorkTimeView {
                 work.moneyEarned = 0.0
             }
             
-            if isOvertimeDay, work.isOvertime != isOvertimeDay {
+            if isOvertimeDay && work.isOvertime != isOvertimeDay || isHourlyRateDay {
                 work.hourlyRate = work.hourlyRate * overTimeMultiplierDay
                 work.moneyEarned = work.moneyEarned * overTimeMultiplierDay
             } else if isOvertimeDay, work.overtimePercentage != overtimePercentageDay.floatValue() {
@@ -1497,14 +1501,22 @@ extension AddWorkTimeView {
         case PeriodFilter.day.rawValue:
             dayStartDate = work.startDate
             dayEndDate = work.endDate
+            isHourlyRateDay = work.isHourlyRateDay
             isPaidDay = work.isPaid
             isOvertimeDay = work.isOvertime
             overtimePercentageDay = work.overtimePercentage.formatFloatToString()
-            hourlyRateDay = work.hourlyRate.formatFloatToString()
             moneyEarnedDay = work.moneyEarned.formatFloatToString()
             projectDay = work.project ?? ""
             taskDay = work.task ?? ""
             noteDay = work.note ?? ""
+            
+            if work.isOvertime, work.isHourlyRateDay {
+                hourlyRateDay = (work.hourlyRate / (work.overtimePercentage / 100)).formatFloatToString()
+            } else if work.isHourlyRateDay {
+                hourlyRateDay = work.hourlyRate.formatFloatToString()
+            } else {
+                hourlyRateDay = (work.job?.hourlyRate ?? work.hourlyRate).formatFloatToString()
+            }
         case PeriodFilter.week.rawValue:
             weekDate = work.startDate
             isPaidWeek = work.isPaid

@@ -2244,6 +2244,7 @@ extension HomeView {
         newItem.startDate = .now.addingTimeInterval(-viewModel.stopwatch.elapsedTime)
         newItem.endDate = .now
         newItem.isPaid = false
+        newItem.isHourlyRateDay = true
         newItem.isOvertime = isOvertime
         newItem.hoursWorked = newItem.startDate.timeDifferenceInHours(to: newItem.endDate)
         
