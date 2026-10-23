@@ -21,4 +21,6 @@ Work records are stored with Core Data. Optional iCloud synchronization uses Clo
 
 ## License
 
-A license has not yet been selected. This repository is not ready for public submission until its owner adds the chosen license and completes the history and build checks.
+Copyright (c) 2023–2026 Krzysztof Kogut.
+
+Workk is licensed under the GNU Affero General Public License, version 3 only (`AGPL-3.0-only`). See [LICENSE](LICENSE) for the full terms. Third-party dependencies and assets retain their respective licenses.
