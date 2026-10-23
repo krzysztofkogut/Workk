@@ -1,0 +1,9 @@
+# Private backup and publication preparation (never commit)
+.private-backup/
+Workk/Configuration/Local.xcconfig
+# Per-user Xcode state
+xcuserdata/
+*.xcuserstate
+.DS_Store
+DerivedData/
+.build/

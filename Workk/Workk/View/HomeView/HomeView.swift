@@ -35,19 +35,19 @@ struct HomeView: View {
     @StateObject private var userSubscriptionViewModel: UserSubscriptionViewModel = Resolver.resolve()
 
     @StateObject private var nativeDayDetailsViewModel: NativeAdViewModel = .init(
-        adUnitID: "REDACTED_SERVICE_CONFIGURATION",
+        adUnitID: Constants.configuration("ADMOB_HOME_VIEW_1"),
         requestInterval: 300)
 
     @StateObject private var nativeWeekDetailsViewModel: NativeAdViewModel = .init(
-        adUnitID: "REDACTED_SERVICE_CONFIGURATION",
+        adUnitID: Constants.configuration("ADMOB_HOME_VIEW_2"),
         requestInterval: 300)
 
     @StateObject private var nativeMonthDetailsViewModel: NativeAdViewModel = .init(
-        adUnitID: "REDACTED_SERVICE_CONFIGURATION",
+        adUnitID: Constants.configuration("ADMOB_HOME_VIEW_3"),
         requestInterval: 300)
 
     @StateObject private var nativeYearDetailsViewModel: NativeAdViewModel = .init(
-        adUnitID: "REDACTED_SERVICE_CONFIGURATION",
+        adUnitID: Constants.configuration("ADMOB_HOME_VIEW_4"),
         requestInterval: 300)
 
     @FetchRequest(
@@ -106,10 +106,10 @@ struct HomeView: View {
     
     @State private var isDropDownError: Bool = false
     
-    private let dayDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
-    private let weekDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
-    private let monthDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
-    private let yearDetailsBannerId = "REDACTED_SERVICE_CONFIGURATION"
+    private let dayDetailsBannerId = Constants.configuration("ADMOB_HOME_VIEW_5")
+    private let weekDetailsBannerId = Constants.configuration("ADMOB_HOME_VIEW_6")
+    private let monthDetailsBannerId = Constants.configuration("ADMOB_HOME_VIEW_7")
+    private let yearDetailsBannerId = Constants.configuration("ADMOB_HOME_VIEW_8")
     
     var overTimeMultiplier: Float {
         isOvertime ? (overtimePercentage.floatValue() / 100) : 1.0

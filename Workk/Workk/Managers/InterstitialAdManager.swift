@@ -9,7 +9,7 @@ import GoogleMobileAds
 
 class InterstitialAdManager: NSObject, GADFullScreenContentDelegate, ObservableObject {
     private var interstitialAd: GADInterstitialAd?
-    private let adUnitID = "REDACTED_SERVICE_CONFIGURATION" //"REDACTED_SERVICE_CONFIGURATION"
+    private let adUnitID = Constants.configuration("ADMOB_INTERSTITIAL_AD_MANAGER_1")
 
     func loadAd() async {
         do {

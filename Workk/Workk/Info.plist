@@ -2,8 +2,39 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>REVENUECAT_API_KEY</key>
+	<string>$(REVENUECAT_API_KEY)</string>
+	<key>ADMOB_INTERSTITIAL_AD_MANAGER_1</key>
+	<string>$(ADMOB_INTERSTITIAL_AD_MANAGER_1)</string>
+	<key>ADMOB_HOME_VIEW_1</key>
+	<string>$(ADMOB_HOME_VIEW_1)</string>
+	<key>ADMOB_HOME_VIEW_2</key>
+	<string>$(ADMOB_HOME_VIEW_2)</string>
+	<key>ADMOB_HOME_VIEW_3</key>
+	<string>$(ADMOB_HOME_VIEW_3)</string>
+	<key>ADMOB_HOME_VIEW_4</key>
+	<string>$(ADMOB_HOME_VIEW_4)</string>
+	<key>ADMOB_HOME_VIEW_5</key>
+	<string>$(ADMOB_HOME_VIEW_5)</string>
+	<key>ADMOB_HOME_VIEW_6</key>
+	<string>$(ADMOB_HOME_VIEW_6)</string>
+	<key>ADMOB_HOME_VIEW_7</key>
+	<string>$(ADMOB_HOME_VIEW_7)</string>
+	<key>ADMOB_HOME_VIEW_8</key>
+	<string>$(ADMOB_HOME_VIEW_8)</string>
+	<key>ADMOB_SCHEDULE_VIEW_1</key>
+	<string>$(ADMOB_SCHEDULE_VIEW_1)</string>
+	<key>ADMOB_SCHEDULE_VIEW_2</key>
+	<string>$(ADMOB_SCHEDULE_VIEW_2)</string>
+	<key>ADMOB_SCHEDULE_VIEW_3</key>
+	<string>$(ADMOB_SCHEDULE_VIEW_3)</string>
+	<key>ADMOB_SCHEDULE_VIEW_4</key>
+	<string>$(ADMOB_SCHEDULE_VIEW_4)</string>
+	<key>ADMOB_TEST_DEVICE_ID</key>
+	<string>$(ADMOB_TEST_DEVICE_ID)</string>
+
 	<key>GADApplicationIdentifier</key>
-	<string>REDACTED_SERVICE_CONFIGURATION</string>
+	<string>$(ADMOB_APP_ID)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>instagram</string>

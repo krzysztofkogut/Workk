@@ -83,10 +83,10 @@ struct ScheduleView: View {
     
     private let calendar: Calendar
     
-    private let dayScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
-    private let weekScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
-    private let monthScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
-    private let yearScheduleBannerId = "REDACTED_SERVICE_CONFIGURATION"
+    private let dayScheduleBannerId = Constants.configuration("ADMOB_SCHEDULE_VIEW_1")
+    private let weekScheduleBannerId = Constants.configuration("ADMOB_SCHEDULE_VIEW_2")
+    private let monthScheduleBannerId = Constants.configuration("ADMOB_SCHEDULE_VIEW_3")
+    private let yearScheduleBannerId = Constants.configuration("ADMOB_SCHEDULE_VIEW_4")
     
     @State private var periodFilterSize: CGSize = .zero
     private let calendarTitleViewHeight: CGFloat = 56.0

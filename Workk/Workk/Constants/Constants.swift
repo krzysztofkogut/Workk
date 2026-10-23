@@ -8,11 +8,20 @@
 import Foundation
 
 struct Constants {
+    /// Values are supplied by Configuration/Local.xcconfig via the app Info.plist.
+    static func configuration(_ key: String) -> String {
+        guard let value = Bundle.main.object(forInfoDictionaryKey: key) as? String,
+              !value.isEmpty, !value.contains("$("), !value.hasPrefix("REPLACE_") else {
+            fatalError("Missing \(key). Configure Workk/Configuration/Local.xcconfig before running.")
+        }
+        return value
+    }
+
     
     /*
      The API key for your app from the RevenueCat dashboard: https://app.revenuecat.com
      */
-    static let revenueCatApiKey = "REDACTED_SERVICE_CONFIGURATION"
+    static let revenueCatApiKey = Constants.configuration("REVENUECAT_API_KEY")
     
     /*
      The entitlement ID from the RevenueCat dashboard that is activated upon successful in-app purchase for the duration of the purchase.

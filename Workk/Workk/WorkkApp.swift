@@ -31,7 +31,7 @@ struct WorkkApp: App {
 
     init() {
         GADMobileAds.sharedInstance().start(completionHandler: nil)
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = ["REDACTED_TEST_DEVICE"]
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [Constants.configuration("ADMOB_TEST_DEVICE_ID")]
 
         try? Tips.configure([
             .displayFrequency(.immediate),
