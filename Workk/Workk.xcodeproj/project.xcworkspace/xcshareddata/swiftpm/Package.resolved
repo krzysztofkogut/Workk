@@ -1,5 +1,5 @@
 {
-  "originHash" : "20d9497fe722ec1c7f036cd83234eb210b2af0989900430914bd567bc6fe4f5b",
+  "originHash" : "8a3df02b2c8ffeb253c663fb8291e9d77c2874f10fc0a812702e47ed5693439e",
   "pins" : [
     {
       "identity" : "admobswiftui",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/RevenueCat/purchases-ios",
       "state" : {
-        "revision" : "adde1eff5f88403a3527d812fccc26a08c7203fe",
-        "version" : "5.16.0"
+        "revision" : "629a56ecef190469914b8f0914bf0446363eb09f",
+        "version" : "5.78.0"
       }
     },
     {

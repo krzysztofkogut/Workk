@@ -9,7 +9,7 @@ import Foundation
 import RevenueCat
 import StoreKit
 
-extension SubscriptionPeriod {
+extension RevenueCat.SubscriptionPeriod {
     var durationTitle: String {
         switch self.unit {
         case .day: return "day"
