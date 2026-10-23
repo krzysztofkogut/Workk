@@ -89,7 +89,7 @@
 "icloud_title" = "iCloud-Synchronisation";
 "icloud_description" = "Synchronisieren Sie Ihre Daten auf allen Apple-Geräten mit iCloud";
 "export_data_title" = "Daten exportieren";
-"export_data_description" = "Exportieren Sie Ihre Daten als .cvs und nutzen Sie sie überall";
+"export_data_description" = "Exportieren Sie Ihre Daten als .csv und nutzen Sie sie überall";
 "ads_title" = "Keine Werbung mehr";
 "ads_description" = "Werden Sie nicht mehr von Werbung unterbrochen";
 "promo_description" = "50 % Rabatt im Einführungsmonat";
