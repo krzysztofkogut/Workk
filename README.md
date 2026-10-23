@@ -19,6 +19,10 @@ The configuration is injected into the app's Info.plist at build time. A missing
 
 Work records are stored with Core Data. Optional iCloud synchronization uses CloudKit. Do not commit exported user records, production databases or credentials.
 
+## Roadmap
+
+Planned features and improvements are listed in [ROADMAP.md](ROADMAP.md).
+
 ## License
 
 Copyright (c) 2023–2026 Krzysztof Kogut.

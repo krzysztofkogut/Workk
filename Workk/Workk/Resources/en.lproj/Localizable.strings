@@ -89,7 +89,7 @@
 "icloud_title" = "iCloud Sync";
 "icloud_description" = "Synchronize your data between all your Apple devices by iCloud";
 "export_data_title" = "Export data";
-"export_data_description" = "Export your data to .cvs format and use it anywhere";
+"export_data_description" = "Export your data to .csv format and use it anywhere";
 "ads_title" = "No more ads";
 "ads_description" = "Do not be disturbed by any ads";
 "promo_description" = "50% off in the premiere month";
